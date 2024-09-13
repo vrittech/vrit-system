@@ -29,11 +29,11 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="Vrit Technologies",
       default_version='v1',
       description="Vrit Tech",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      terms_of_service="https://vrittechnologies.com/",
+      contact=openapi.Contact(email="info@vrittechnologies.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
