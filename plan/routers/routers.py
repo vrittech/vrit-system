@@ -9,4 +9,4 @@ auto_api_routers = router
 
 router.register('features', featuresViewsets, basename="featuresViewsets")
 router.register('plan', planViewsets, basename="planViewsets")
-router.register('planhavefeatures', planhavefeaturesViewsets, basename="planhavefeaturesViewsets")
+router.register('plan-have-features', planhavefeaturesViewsets, basename="planhavefeaturesViewsets")

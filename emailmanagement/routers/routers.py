@@ -6,5 +6,5 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('emailsetup', emailsetupViewsets, basename="emailsetupViewsets")
-router.register('emailmanagement', emailmanagementViewsets, basename="emailmanagementViewsets")
+router.register('email-setup', emailsetupViewsets, basename="emailsetupViewsets")
+router.register('email-management', emailmanagementViewsets, basename="emailmanagementViewsets")

@@ -6,5 +6,5 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('expriencelevel', expriencelevelViewsets, basename="expriencelevelViewsets")
+router.register('exprience-level', expriencelevelViewsets, basename="expriencelevelViewsets")
 router.register('career', careerViewsets, basename="careerViewsets")

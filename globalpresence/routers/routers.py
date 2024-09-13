@@ -5,4 +5,4 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('globalpresence', globalpresenceViewsets, basename="globalpresenceViewsets")
+router.register('global-presence', globalpresenceViewsets, basename="globalpresenceViewsets")

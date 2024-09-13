@@ -7,4 +7,4 @@ auto_api_routers = router
 
 
 router.register('socialmedia', socialmediaViewsets, basename="socialmediaViewsets")
-router.register('staffhavesocialmedia', staffhavesocialmediaViewsets, basename="staffhavesocialmediaViewsets")
+router.register('staff-have-socialmedia', staffhavesocialmediaViewsets, basename="staffhavesocialmediaViewsets")
