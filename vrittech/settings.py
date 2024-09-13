@@ -67,6 +67,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'vrittech.urls'
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 TEMPLATES = [
     {

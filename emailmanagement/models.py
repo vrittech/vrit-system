@@ -20,6 +20,6 @@ class EmailManagement(models.Model):
     bcc = models.CharField(max_length = 5000)
     subject = models.CharField(max_length = 300)
     body = models.TextField()
-    purpose = models.CharField(choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))
-    frequency = models.CharField(choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))
+    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))
+    frequency = models.CharField(max_length = 50, choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))
 

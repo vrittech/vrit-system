@@ -18,8 +18,8 @@ class Blog(models.Model):
     meta_description = models.CharField(max_length = 1200)
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
-    tags = models.ManyToManyField(BlogCategory)
-    category = models.ForeignKey(BlogCategory,max_length = 300,null = True,on_delete = models.SET_NULL)
+    tags = models.ManyToManyField(BlogTags)
+    category = models.ForeignKey(BlogCategory,related_name="blogs",max_length = 300,null = True,on_delete = models.SET_NULL)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
