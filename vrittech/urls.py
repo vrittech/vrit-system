@@ -40,6 +40,7 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+from accounts.routers.routers import router as accounts_router
 from blog.routers.routers import router as blog_router
 from career.routers.routers import router as career_router
 from casestudy.routers.routers import router as casestudy_router
@@ -56,6 +57,7 @@ from projects.routers.routers import router as projects_router
 from socialmedia.routers.routers import router as socialmedia_router
 from testimonial.routers.routers import router as testimonial_router
 
+router.registry.extend(accounts_router.registry)
 router.registry.extend(blog_router.registry)
 router.registry.extend(career_router.registry)
 router.registry.extend(casestudy_router.registry)
