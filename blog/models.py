@@ -9,7 +9,7 @@ class BlogCategory(models.Model):
 
 # Create your models here.
 class Blog(models.Model):
-    user = models.ForeignKey(CustomUser,related_field = 'blogs')
+    user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
     title = models.CharField(max_length = 300)
     description = models.TextField()
     site_title = models.CharField(max_length = 300)
