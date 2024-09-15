@@ -1,6 +1,3 @@
-from rest_framework import viewsets
-from rest_framework import permissions
-from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
