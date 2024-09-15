@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
+import ast
 
 class BlogTags(models.Model):
     name = models.CharField(max_length = 155)
@@ -7,6 +8,14 @@ class BlogTags(models.Model):
 class BlogCategory(models.Model):
     name = models.CharField(max_length = 155)
 
+class TagManager(models.Manager):
+    def get_or_create_tags(self, tag_names):
+        # Create or retrieve Tag objects based on tag names
+        # tag_names = tag_names.split(',')
+        tag_names = ast.literal_eval(tag_names)
+        tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]
+        return tags
+    
 # Create your models here.
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
@@ -19,7 +28,11 @@ class Blog(models.Model):
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
     tags = models.ManyToManyField(BlogTags)
-    category = models.ForeignKey(BlogCategory,related_name="blogs",max_length = 300,null = True,on_delete = models.SET_NULL)
+
+    objects = models.Manager()
+    tag_manager = TagManager()
+
+    category = models.ManyToManyField(BlogCategory,related_name="blogs")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

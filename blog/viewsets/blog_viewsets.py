@@ -5,12 +5,12 @@ from ..models import Blog
 from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.response import Response
+from blog.utilities.permissions import blogPermission
 
 class blogViewsets(viewsets.ModelViewSet):
     serializer_class = BlogListSerializers
     # permission_classes = [blogPermission]
-    # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = Blog.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
@@ -33,15 +33,15 @@ class blogViewsets(viewsets.ModelViewSet):
         return super().get_serializer_class()
     
     def list(self, request, *args, **kwargs):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]  # Take the first IP in the list
-        else:
-            # Fallback to remote address if no proxy
-            ip = request.META.get('REMOTE_ADDR')
+        # if x_forwarded_for:
+        #     ip = x_forwarded_for.split(',')[0]  # Take the first IP in the list
+        # else:
+        #     # Fallback to remote address if no proxy
+        #     ip = request.META.get('REMOTE_ADDR')
         
-        return Response({"ip": ip})
+        # return Response({"ip": ip})
         return super().list(request, *args, **kwargs)
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")

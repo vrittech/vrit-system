@@ -22,7 +22,10 @@ def SuperAdminLevel(request):
     return bool(IsAuthenticated(request) and request.user.is_superuser)
 
 def AdminLevel(request):
-    return bool(IsAuthenticated(request) and request.user.role in [ADMIN,SUPER_ADMIN])
+    return bool(IsAuthenticated(request) and request.user.is_staff)
+
+def allAdminLevel(request):
+    return bool(SuperAdminLevel(request) or AdminLevel(request))
 
 def isOwner(request):
     if str(request.user.id) == str(request.data.get('user')):
@@ -45,12 +48,24 @@ class blogPermission(BasePermission):
         if view.action in ["list"]:
             return True
         elif view.action in ['retrieve']:
-            return isOwner(request)
+            return True
         elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
+            return SuperAdminLevel(request) or AdminLevel(request) or isOwner(request)            
         elif view.action == "partial_update":
             return view.get_object().user_id == request.user.id
         elif view.action == 'destroy':
             return isOwner(request)
 
+
+class blogCategoryPermission(BasePermission):
+    def has_permission(self, request, view):    
+        if view.action in ["list"]:
+            return request.user.has_perm('blog.view_blogcategory')
+        elif view.action in ['retrieve']:
+            return request.user.has_perm('blog.view_blogcategory')
+        elif view.action in ['create']:
+            return request.user.has_perm('blog.add_blogcategory') and allAdminLevel(request)
+        elif view.action in ['partial_update','update']:
+            return request.user.has_perm('blog.change_blogcategory') and allAdminLevel(request)
+        elif view.action == 'destroy':
+            return request.user.has_perm('blog.delete_blogcategory')
