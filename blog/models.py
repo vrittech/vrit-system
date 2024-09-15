@@ -33,7 +33,7 @@ class Blog(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    category = models.ManyToManyField(BlogCategory,related_name="blogs")
+    category = models.ManyToManyField(BlogCategory)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
