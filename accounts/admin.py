@@ -10,7 +10,7 @@ class UserAdmin(BaseUserAdmin):
     exclude = ('user_permissions',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email','avatar','department')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email','avatar','department','position')}),
         ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser','groups')}),
         # ('Social sites',{'fields':('facebook','twitter','tiktok','instagram','youtube')})
         # Add your custom fields here

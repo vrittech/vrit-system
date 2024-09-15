@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length = 250)
     position = models.CharField(max_length = 250,null = True)
     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)
+    position = models.CharField(max_length = 250)
     email = models.EmailField(max_length = 250,unique = True)
 
 
