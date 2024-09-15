@@ -9,3 +9,12 @@ class Clients(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class ClientSettings(models.Model):
+    client = models.ManyToManyField(Clients)
+    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)
+    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Fourth')),max_length = 20)
+    delay_time =  models.TimeField()
+
+
+
