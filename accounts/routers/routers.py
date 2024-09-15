@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from ..viewsets.custom_user_viewsets import CustomUserViewSet,LoginView
+from ..viewsets.custom_user_viewsets import CustomUserViewSet
 from ..viewsets.group_viewsets import GroupViewSet
 from ..viewsets.permission_viewsets import PermissionViewSet
 
