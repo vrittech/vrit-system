@@ -15,7 +15,8 @@ class TagManager(models.Manager):
         tag_names = ast.literal_eval(tag_names)
         tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]
         return tags
-    
+
+# 27.67304441065, 85.33306299012784
 # Create your models here.
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
@@ -32,7 +33,7 @@ class Blog(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    # category = models.ManyToManyField(BlogCategory,related_name="blogs")
+    category = models.ManyToManyField(BlogCategory,related_name="blogs")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
