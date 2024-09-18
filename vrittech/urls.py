@@ -56,6 +56,7 @@ from plan.routers.routers import router as plan_router
 from projects.routers.routers import router as projects_router
 from socialmedia.routers.routers import router as socialmedia_router
 from testimonial.routers.routers import router as testimonial_router
+from sitesetting.routers.routers import router as sitesetting_router
 
 router.registry.extend(accounts_router.registry)
 router.registry.extend(blog_router.registry)
@@ -73,6 +74,7 @@ router.registry.extend(plan_router.registry)
 router.registry.extend(projects_router.registry)
 router.registry.extend(socialmedia_router.registry)
 router.registry.extend(testimonial_router.registry)
+router.registry.extend(sitesetting_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -83,3 +85,4 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
