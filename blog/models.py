@@ -7,6 +7,8 @@ class BlogTags(models.Model):
 
 class BlogCategory(models.Model):
     name = models.CharField(max_length = 155)
+    image = models.ImageField(upload_to='blogcategory',null=True)
+
 
 class TagManager(models.Manager):
     def get_or_create_tags(self, tag_names):
@@ -17,14 +19,15 @@ class TagManager(models.Manager):
         return tags
 
 # 27.67304441065, 85.33306299012784
-# Create your models here.
+
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
     title = models.CharField(max_length = 300)
     description = models.TextField()
     site_title = models.CharField(max_length = 300)
     excerpt = models.CharField(max_length = 300)
-    is_publish = models.BooleanField(default = True)
+    status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')
+    publish_date = models.DateField()
     meta_description = models.CharField(max_length = 1200)
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
@@ -34,6 +37,7 @@ class Blog(models.Model):
     tag_manager = TagManager()
 
     category = models.ManyToManyField(BlogCategory)
+    featured_image = models.ImageField(upload_to='blog',null = True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
