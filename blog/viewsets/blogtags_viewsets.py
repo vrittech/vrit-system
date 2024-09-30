@@ -22,6 +22,7 @@ class blogtagsViewsets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        return queryset
         #return queryset.filter(user_id=self.request.user.id)
 
     def get_serializer_class(self):
