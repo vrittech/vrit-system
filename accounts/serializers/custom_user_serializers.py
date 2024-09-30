@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password, make_password
+
 
 User = get_user_model()
 
@@ -33,3 +35,22 @@ class CustomUserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name','department', 'is_active', 'is_staff', 'is_superuser']
+
+
+class CustomUserChangePasswordSerializers(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = self.context['request'].user
+        # Check if current password is correct
+        if not check_password(data['current_password'], user.password):
+            raise serializers.ValidationError({"current_password": "Current password is incorrect"})
+        return data
+
+    def validate_new_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long")
+        return value
+
+   
