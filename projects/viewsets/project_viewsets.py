@@ -55,3 +55,24 @@ class projectViewsets(viewsets.ModelViewSet):
         ]
 
         return Response(response_data)
+    
+    @action(detail=False, methods=['get'], name="count_as_group", url_path="project-count")
+    def count_as_services(self, request, *args, **kwargs):
+        # Group by project_service name and count the number of projects
+        groups_counts = (
+            Project.objects
+            .values('group__id','group__name')  # Group by the service name
+            .annotate(project_count=Count('id'))  # Count the number of projects per service
+        )
+
+        # Format the response data
+        response_data = [
+            {
+                'service_id': service['group__id'],
+                'service_name': service['group__name'],  # Include service name
+                'project_count': service['project_count']
+            }
+            for service in groups_counts
+        ]
+
+        return Response(response_data)
