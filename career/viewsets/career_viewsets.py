@@ -9,7 +9,7 @@ class careerViewsets(viewsets.ModelViewSet):
     serializer_class = CareerListSerializers
     # permission_classes = [careerPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = Career.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
@@ -22,7 +22,6 @@ class careerViewsets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset
         return queryset
         #return queryset.filter(user_id=self.request.user.id)
 

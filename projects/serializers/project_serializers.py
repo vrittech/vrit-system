@@ -13,6 +13,7 @@ class ProjectListSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProjectRetrieveSerializers(serializers.ModelSerializer):
+    project_service = ServicesSerializers_Project(many=True, read_only=True)
     class Meta:
         model = Project
         fields = '__all__'

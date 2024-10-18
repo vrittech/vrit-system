@@ -17,5 +17,8 @@ class Career(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    enable_auto_expiration = models.BooleanField(default = True)
+    expiration_date = models.DateTimeField()
+    
     
 
