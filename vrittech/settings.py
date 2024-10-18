@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'socialmedia',
     'testimonial',
     'sitesetting',
-    'drfapigenerator',
     'careergallery',
 ]
 
