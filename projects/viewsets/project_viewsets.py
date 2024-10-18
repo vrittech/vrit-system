@@ -40,7 +40,7 @@ class projectViewsets(viewsets.ModelViewSet):
         # Group by project_service name and count the number of projects
         service_counts = (
             Project.objects
-            .values('project_service__name')  # Group by the service name
+            .values('project_service__id','project_service__name')  # Group by the service name
             .annotate(project_count=Count('id'))  # Count the number of projects per service
         )
 
