@@ -57,7 +57,7 @@ class projectViewsets(viewsets.ModelViewSet):
         return Response(response_data)
     
     @action(detail=False, methods=['get'], name="count_as_group", url_path="project-count")
-    def count_as_services(self, request, *args, **kwargs):
+    def count_as_group(self, request, *args, **kwargs):
         # Group by project_service name and count the number of projects
         groups_counts = (
             Project.objects
