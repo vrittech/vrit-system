@@ -1,9 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import Project
+from ..models import Project,ProjectService
 from ..serializers.project_serializers import ProjectListSerializers, ProjectRetrieveSerializers, ProjectWriteSerializers
 from ..utilities.importbase import *
+from rest_framework.decorators import action
+from django.db.models import Count
+from rest_framework.response import Response
 
 class projectViewsets(viewsets.ModelViewSet):
     serializer_class = ProjectListSerializers
@@ -32,7 +35,22 @@ class projectViewsets(viewsets.ModelViewSet):
             return ProjectRetrieveSerializers
         return super().get_serializer_class()
 
-    # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
-    # def action_name(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    @action(detail=False, methods=['get'], name="count_as_services", url_path="services-count")
+    def count_as_services(self, request, *args, **kwargs):
+        # Group by project_service name and count the number of projects
+        service_counts = (
+            Project.objects
+            .values('project_service__name')  # Group by the service name
+            .annotate(project_count=Count('id'))  # Count the number of projects per service
+        )
 
+        # Format the response data
+        response_data = [
+            {
+                'service_name': service['project_service__name'],  # Include service name
+                'project_count': service['project_count']
+            }
+            for service in service_counts
+        ]
+
+        return Response(response_data)
