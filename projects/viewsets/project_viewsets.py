@@ -47,6 +47,7 @@ class projectViewsets(viewsets.ModelViewSet):
         # Format the response data
         response_data = [
             {
+                'service_id': service['project_service__id'],
                 'service_name': service['project_service__name'],  # Include service name
                 'project_count': service['project_count']
             }
