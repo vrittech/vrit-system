@@ -9,7 +9,7 @@ class expriencelevelViewsets(viewsets.ModelViewSet):
     serializer_class = ExprienceLevelListSerializers
     # permission_classes = [careerPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = ExprienceLevel.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

@@ -9,7 +9,7 @@ class newslettersubscriptionViewsets(viewsets.ModelViewSet):
     serializer_class = NewsLetterSubscriptionListSerializers
     # permission_classes = [newslettersubscriptionPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = NewsLetterSubscription.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

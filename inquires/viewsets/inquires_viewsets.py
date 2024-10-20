@@ -9,7 +9,7 @@ class inquiresViewsets(viewsets.ModelViewSet):
     serializer_class = InquiresListSerializers
     # permission_classes = [inquiresPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = Inquires.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

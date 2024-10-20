@@ -9,7 +9,7 @@ class departmentViewsets(viewsets.ModelViewSet):
     serializer_class = DepartmentListSerializers
     # permission_classes = [departmentPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = Department.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

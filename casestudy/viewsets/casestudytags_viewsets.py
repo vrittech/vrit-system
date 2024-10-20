@@ -9,7 +9,7 @@ class casestudytagsViewsets(viewsets.ModelViewSet):
     serializer_class = CaseStudyTagsListSerializers
     # permission_classes = [casestudyPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = CaseStudyTags.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

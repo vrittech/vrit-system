@@ -9,7 +9,7 @@ class projectlinkViewsets(viewsets.ModelViewSet):
     serializer_class = ProjectLinkListSerializers
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = ProjectLink.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

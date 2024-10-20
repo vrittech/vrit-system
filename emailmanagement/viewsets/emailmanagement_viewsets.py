@@ -9,7 +9,7 @@ class emailmanagementViewsets(viewsets.ModelViewSet):
     serializer_class = EmailManagementListSerializers
     # permission_classes = [emailmanagementPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = EmailManagement.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

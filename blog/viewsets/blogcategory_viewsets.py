@@ -10,7 +10,7 @@ class blogcategoryViewsets(viewsets.ModelViewSet):
     serializer_class = BlogCategoryListSerializers
     # permission_classes = [blogCategoryPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = BlogCategory.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

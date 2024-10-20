@@ -9,7 +9,7 @@ class planhavefeaturesViewsets(viewsets.ModelViewSet):
     serializer_class = PlanHaveFeaturesListSerializers
     # permission_classes = [planPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = PlanHaveFeatures.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

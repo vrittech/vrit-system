@@ -9,7 +9,7 @@ class blogtagsViewsets(viewsets.ModelViewSet):
     serializer_class = BlogTagsListSerializers
     # permission_classes = [blogPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = BlogTags.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

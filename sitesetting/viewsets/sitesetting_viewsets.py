@@ -9,7 +9,7 @@ class sitesettingViewsets(viewsets.ModelViewSet):
     serializer_class = SiteSettingListSerializers
     # permission_classes = [sitesettingPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = SiteSetting.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

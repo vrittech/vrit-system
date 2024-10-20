@@ -9,7 +9,7 @@ class projectgroupViewsets(viewsets.ModelViewSet):
     serializer_class = ProjectGroupListSerializers
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = ProjectGroup.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
