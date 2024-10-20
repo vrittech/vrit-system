@@ -3,3 +3,4 @@ djangorestframework==3.15.2
 drf-yasg
 django-filter==24.3
 djangorestframework-simplejwt==5.3.1
+django-cors-headers==4.1.0
