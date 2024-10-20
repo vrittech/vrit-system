@@ -9,7 +9,7 @@ class testimonialViewsets(viewsets.ModelViewSet):
     serializer_class = TestimonialListSerializers
     # permission_classes = [testimonialPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = Testimonial.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
