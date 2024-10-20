@@ -9,7 +9,7 @@ class socialmediaViewsets(viewsets.ModelViewSet):
     serializer_class = SocialMediaListSerializers
     # permission_classes = [socialmediaPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = SocialMedia.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

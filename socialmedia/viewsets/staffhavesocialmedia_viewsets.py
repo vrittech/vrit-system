@@ -9,7 +9,7 @@ class staffhavesocialmediaViewsets(viewsets.ModelViewSet):
     serializer_class = StaffHaveSocialMediaListSerializers
     # permission_classes = [socialmediaPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPagination
     queryset = StaffHaveSocialMedia.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
