@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'testimonial',
     'sitesetting',
     'careergallery',
+    'management',
 ]
 
 MIDDLEWARE = [

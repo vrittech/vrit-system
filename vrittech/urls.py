@@ -58,6 +58,8 @@ from socialmedia.routers.routers import router as socialmedia_router
 from testimonial.routers.routers import router as testimonial_router
 from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
+# from management.urls import router as management_router
+
 
 router.registry.extend(accounts_router.registry)
 router.registry.extend(blog_router.registry)
@@ -77,11 +79,13 @@ router.registry.extend(socialmedia_router.registry)
 router.registry.extend(testimonial_router.registry)
 router.registry.extend(sitesetting_router.registry)
 router.registry.extend(careergallery_router.registry)
+# router.registry.extend(management_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/auth/', include('accounts.urls')),
+    path('api/management/', include('management.urls')),
     path('api-auth/', include('rest_framework.urls')),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
