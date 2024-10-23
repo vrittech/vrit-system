@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'drf_yasg',
+    'django_filters',
     'accounts',
     'blog',
     'career',
