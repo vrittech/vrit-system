@@ -16,7 +16,7 @@ class projectViewsets(viewsets.ModelViewSet):
     queryset = Project.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['name','description']
     ordering_fields = ['id']
 
     filterset_fields = {
