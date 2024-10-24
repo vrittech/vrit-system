@@ -38,8 +38,8 @@ class ProjectRetrieveSerializers(serializers.ModelSerializer):
 class ProjectWriteSerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
-        if data.get('packages'):
-            data = str_to_list(data,'packages')
+        if data.get('project_service'):
+            data = str_to_list(data,'project_service')
         return super().to_internal_value(data)
 
     
@@ -49,6 +49,7 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         instance = super().create(validated_data)
+        return instance
         
     
 
