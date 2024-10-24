@@ -41,7 +41,6 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         if data.get('project_service'):
             data = str_to_list(data,'project_service')
         return super().to_internal_value(data)
-
     
     class Meta:
         model = Project
