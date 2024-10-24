@@ -7,22 +7,25 @@ from ..utilities.importbase import *
 from rest_framework.decorators import action
 from django.db.models import Count
 from rest_framework.response import Response
+from django.db.models import F
 
 class projectViewsets(viewsets.ModelViewSet):
     serializer_class = ProjectListSerializers
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Project.objects.all()
+    queryset = Project.objects.all().order_by("position")
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['name','description']
-    ordering_fields = ['id']
+    search_fields = ('id','name', 'position', 'description', 'group__name', 'project_service__name', 'project_link__label', 'case_study__title', 'created_at', 'updated_at', )
+    ordering_fields = ('id','name','created_at', )
+    # ('name', 'position', 'description', 'group', 'project_service', 'project_link', 'case_study', 'media', 'created_at', 'updated_at', )
 
     filterset_fields = {
         'id': ['exact'],
         'group': ['exact'],
         'project_service': ['exact'],
+        'created_at':['exact','gte','lte']
     }
 
     def get_queryset(self):
@@ -78,3 +81,52 @@ class projectViewsets(viewsets.ModelViewSet):
         ]
 
         return Response(response_data)
+
+
+    @action(detail=False, methods=['get'], name="draggableProject", url_path="drag-project")
+    def Draggable(self, request, *args, **kwargs):
+        target = request.GET.get('target')  # ID of the target object 
+        goal = request.GET.get('goal')  # ID of the goal object 
+
+        from rest_framework.response import Response
+
+        # Fetch the target and goal objects
+        try:
+            target_obj = Project.objects.get(id=target)
+            goal_obj = Project.objects.get(id=goal)
+        except Project.DoesNotExist:
+            return Response({"error": "Target or Goal object not found"}, status=400)
+
+        target_position = target_obj.position
+        goal_position = goal_obj.position
+
+        if target_position < goal_position:
+            # Moving target down (target goes after goal)
+            affected_objs = Project.objects.filter(position__gt=target_position, position__lte=goal_position).order_by('position')
+            
+            # Decrement position of all affected objects
+            for obj in affected_objs:
+                obj.position -= 1
+                obj.save()
+            
+            # Set target object's new position
+            target_obj.position = goal_position
+            target_obj.save()
+
+        else:
+          # Moving target up (target goes before goal)
+            affected_objs = Project.objects.filter(position__lt=target_position, position__gte=goal_position).order_by('-position')
+
+            # Increment position of all affected objects by 1
+            for obj in affected_objs:
+                obj.position += 1
+                obj.save()
+
+            # Set target object's new position (exact position of the goal)
+            target_obj.position = goal_position  # Place the target in the goal's position
+            target_obj.save()
+
+
+        return Response({"status": "success"})
+
+

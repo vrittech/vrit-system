@@ -84,7 +84,7 @@ router.registry.extend(careergallery_router.registry)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/auth/', include('accounts.urls')),
+    path('api/', include('accounts.urls')),
     path('api/management/', include('management.urls')),
     path('api-auth/', include('rest_framework.urls')),
 

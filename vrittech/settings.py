@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-z_v50#t3ksa39g*-$g_bj00(lw^st%@u68_xmcp!9wk*iuf*q$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.237.94.113','127.0.0.1','192.168.1.103']
+ALLOWED_HOSTS = ['13.237.94.113','127.0.0.1','192.168.1.103','192.168.1.94','0.0.0.0','*']
+# ALLOWED_HOSTS = ['13.237.94.113','127.0.0.1','192.168.1.103','192.168.1.94','0.0.0.0']
 
 
 # Application definition
@@ -67,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -156,5 +157,32 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False  # Set to False if you want to whitelist specific origins
 CORS_ALLOW_CREDENTIALS = True
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0", "192.168.1.10", "*"]
+
+# Corrected CORS_ORIGIN_WHITELIST
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:4200",
+    "http://192.168.1.122:5173",
+    "http://192.168.1.122",
+    "http://localhost:3000",
+    "http://192.168.1.93:3000",
+    "http://192.168.1.93:3001",
+]
+
+# # Corrected CSRF_TRUSTED_ORIGINS
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://127.0.0.1",
+#     "http://192.168.1.10",
+#     "http://192.168.1.103",
+#     "http://192.168.1.94",
+#     "http://192.168.1.94:8003",
+#     "http://192.168.1.93",
+#     "http://192.168.1.93:3000",
+# ]
+
+

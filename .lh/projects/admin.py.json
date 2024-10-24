@@ -1,0 +1,42 @@
+{
+    "sourceFile": "projects/admin.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1729762792274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729762810175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,7 @@\n     model = ProjectLink\n \n @admin.register(Project)\n class ProjectAdmin(admin.ModelAdmin):\n-    inlines = [ProjectHaveLink]\n+    inlines = [ProjectLink]\n     list_display = ['name']\n  \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729762847029,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.contrib import admin\n from .models import Project,ProjectGroup,ProjectLink,ProjectService\n # Register your models here.\n \n-admin.site.register([ProjectGroup,ProjectService])\n+admin.site.register([ProjectGroup,ProjectService,ProjectLink])\n \n \n class ProjectLink(admin.TabularInline):\n     model = ProjectLink\n"
+                },
+                {
+                    "date": 1729762852353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,15 @@\n+from django.contrib import admin\n+from .models import Project,ProjectGroup,ProjectLink,ProjectService\n+# Register your models here.\n+\n+admin.site.register([ProjectGroup,ProjectService,ProjectLink,ProjectService])\n+\n+\n+class ProjectLink(admin.TabularInline):\n+    model = ProjectLink\n+\n+@admin.register(Project)\n+class ProjectAdmin(admin.ModelAdmin):\n+    inlines = [ProjectLink]\n+    list_display = ['name']\n+ \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729762859920,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,27 +4,12 @@\n \n admin.site.register([ProjectGroup,ProjectService,ProjectLink,ProjectService])\n \n \n-class ProjectLink(admin.TabularInline):\n-    model = ProjectLink\n+# class ProjectLink(admin.TabularInline):\n+#     model = ProjectLink\n \n-@admin.register(Project)\n-class ProjectAdmin(admin.ModelAdmin):\n-    inlines = [ProjectLink]\n-    list_display = ['name']\n- \n-from django.contrib import admin\n-from .models import Project,ProjectGroup,ProjectLink,ProjectService\n-# Register your models here.\n-\n-admin.site.register([ProjectGroup,ProjectService,ProjectLink])\n-\n-\n-class ProjectLink(admin.TabularInline):\n-    model = ProjectLink\n-\n-@admin.register(Project)\n-class ProjectAdmin(admin.ModelAdmin):\n-    inlines = [ProjectLink]\n-    list_display = ['name']\n+# @admin.register(Project)\n+# class ProjectAdmin(admin.ModelAdmin):\n+#     inlines = [ProjectLink]\n+#     list_display = ['name']\n  \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729762877979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.contrib import admin\n from .models import Project,ProjectGroup,ProjectLink,ProjectService\n # Register your models here.\n \n-admin.site.register([ProjectGroup,ProjectService,ProjectLink,ProjectService])\n+admin.site.register([ProjectGroup,ProjectService,ProjectLink])\n \n \n # class ProjectLink(admin.TabularInline):\n #     model = ProjectLink\n"
+                },
+                {
+                    "date": 1729762884999,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,15 @@\n+from django.contrib import admin\n+from .models import Project,ProjectGroup,ProjectLink,ProjectService\n+# Register your models here.\n+\n+admin.site.register([ProjectGroup,ProjectService,ProjectLink,Project])\n+\n+\n+# class ProjectLink(admin.TabularInline):\n+#     model = ProjectLink\n+\n+# @admin.register(Project)\n+# class ProjectAdmin(admin.ModelAdmin):\n+#     inlines = [ProjectLink]\n+#     list_display = ['name']\n+ \n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1729762792274,
+            "name": "Commit-0",
+            "content": "from django.contrib import admin\nfrom .models import Project,ProjectGroup,ProjectLink,ProjectService\n# Register your models here.\n\nadmin.site.register([ProjectGroup,ProjectService])\n\n\nclass ProjectLink(admin.TabularInline):\n    model = ProjectLink\n\n@admin.register(Project)\nclass ProjectAdmin(admin.ModelAdmin):\n    inlines = [ProjectHaveLink]\n    list_display = ['name']\n "
+        }
+    ]
+}
