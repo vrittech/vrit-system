@@ -1,5 +1,5 @@
 from django.db import models
-
+from casestudy.models import CaseStudy
 
 class ProjectGroup(models.Model):
     name = models.CharField(max_length = 155)
@@ -23,12 +23,12 @@ class ProjectService(models.Model):
 
 # Create your models here.
 class Project(models.Model):
-    image = models.ImageField(upload_to='project',null=True,blank=True)
+
     name = models.CharField(max_length = 600)
     description = models.TextField()
     group = models.ForeignKey(ProjectGroup,on_delete = models.SET_NULL ,null = True,related_name="projects")
     project_service = models.ManyToManyField(ProjectService,related_name="projects")
-
+    case_study = models.ForeignKey(CaseStudy,related_name="projects",on_delete=models.CASCADE)
     media = models.ImageField(upload_to="project",null=True,blank=True)
  
     created_at = models.DateTimeField(auto_now_add=True)
