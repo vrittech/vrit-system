@@ -89,7 +89,7 @@ INSTALLED_APPS = [
     'sitesetting',
     'careergallery',
     'management',
-    'drfapigenerator',
+    # 'drfapigenerator',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

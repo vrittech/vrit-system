@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1729837175445,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729837350546,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,5 +34,12 @@\n                 delay_time=setting['delay_time']\n             )\n             for setting in settings_data\n         ]\n-        return ClientSettings.objects.bulk_create(client_settings_objects)\n\\ No newline at end of file\n+        return ClientSettings.objects.bulk_create(client_settings_objects)\n+    \n+    {\n+  \"settings\": [\n+    {\"section\": \"first\", \"loop_type\": \"reverse\", \"delay_time\": \"00:01:00\"},\n+    {\"section\": \"second\", \"loop_type\": \"forward\", \"delay_time\": \"00:00:30\"}\n+  ]\n+}\n"
                 }
             ],
             "date": 1729837175445,

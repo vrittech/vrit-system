@@ -36,3 +36,10 @@ class BulkClientSettingsSerializer(serializers.Serializer):
             for setting in settings_data
         ]
         return ClientSettings.objects.bulk_create(client_settings_objects)
+    
+#     {
+#   "settings": [
+#     {"section": "first", "loop_type": "reverse", "delay_time": "00:01:00"},
+#     {"section": "second", "loop_type": "forward", "delay_time": "00:00:30"}
+#   ]
+# }
