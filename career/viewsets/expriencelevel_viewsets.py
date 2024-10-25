@@ -1,16 +1,16 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import ExprienceLevel
-from ..serializers.expriencelevel_serializers import ExprienceLevelListSerializers, ExprienceLevelRetrieveSerializers, ExprienceLevelWriteSerializers
+from ..models import ExperienceLevel
+from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers
 from ..utilities.importbase import *
 
 class expriencelevelViewsets(viewsets.ModelViewSet):
-    serializer_class = ExprienceLevelListSerializers
+    serializer_class = ExperienceLevelListSerializers
     # permission_classes = [careerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = ExprienceLevel.objects.all()
+    queryset = ExperienceLevel.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
@@ -27,9 +27,9 @@ class expriencelevelViewsets(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
-            return ExprienceLevelWriteSerializers
+            return ExperienceLevelWriteSerializers
         elif self.action == 'retrieve':
-            return ExprienceLevelRetrieveSerializers
+            return ExperienceLevelRetrieveSerializers
         return super().get_serializer_class()
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")

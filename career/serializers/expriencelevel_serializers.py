@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from ..models import ExprienceLevel
+from ..models import ExperienceLevel
 
-class ExprienceLevelListSerializers(serializers.ModelSerializer):
+class ExperienceLevelListSerializers(serializers.ModelSerializer):
     class Meta:
-        model = ExprienceLevel
+        model = ExperienceLevel
         fields = '__all__'
 
-class ExprienceLevelRetrieveSerializers(serializers.ModelSerializer):
+class ExperienceLevelRetrieveSerializers(serializers.ModelSerializer):
     class Meta:
-        model = ExprienceLevel
+        model = ExperienceLevel
         fields = '__all__'
 
-class ExprienceLevelWriteSerializers(serializers.ModelSerializer):
+class ExperienceLevelWriteSerializers(serializers.ModelSerializer):
     class Meta:
-        model = ExprienceLevel
+        model = ExperienceLevel
         fields = '__all__'

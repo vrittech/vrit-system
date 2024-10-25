@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import ExprienceLevel,Career
+from .models import ExperienceLevel,Career
 # Register your models here.
 
-admin.site.register([ExprienceLevel,Career])
+admin.site.register([ExperienceLevel,Career])
 

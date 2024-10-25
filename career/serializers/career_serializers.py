@@ -1,19 +1,19 @@
 from rest_framework import serializers
-from ..models import Career,ExprienceLevel
+from ..models import Career,ExperienceLevel
 
-class ExprienceLevelSerializers_Career(serializers.ModelSerializer):
+class ExperienceLevelSerializers_Career(serializers.ModelSerializer):
     class Meta:
-        model = ExprienceLevel
+        model = ExperienceLevel
         fields = ['level_name']
 
 class CareerListSerializers(serializers.ModelSerializer):
-    experience_level = ExprienceLevelSerializers_Career()
+    experience_level = ExperienceLevelSerializers_Career()
     class Meta:
         model = Career
         fields = '__all__'
 
 class CareerRetrieveSerializers(serializers.ModelSerializer):
-    experience_level = ExprienceLevelSerializers_Career()
+    experience_level = ExperienceLevelSerializers_Career()
     class Meta:
         model = Career
         fields = '__all__'

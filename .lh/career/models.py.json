@@ -1,0 +1,42 @@
+{
+    "sourceFile": "career/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1729840567274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729840607703,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n-    experience_level = models.ForeignKey(ExprienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n+    experience_level = models.ForeignKey(ExpreienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     image = models.ImageField(upload_to='career')\n     apply_link = models.URLField(max_length = 500)\n"
+                },
+                {
+                    "date": 1729840613547,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n-    experience_level = models.ForeignKey(ExpreienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n+    experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     image = models.ImageField(upload_to='career')\n     apply_link = models.URLField(max_length = 500)\n"
+                },
+                {
+                    "date": 1729840648255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,10 +11,10 @@\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n+    apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n-    apply_link = models.URLField(max_length = 500)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     enable_auto_expiration = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1729840708660,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n+    pos\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n     \n"
+                },
+                {
+                    "date": 1729840731349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n-    pos\n+    position =  position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n     \n"
+                },
+                {
+                    "date": 1729840738859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n-    position =  position = models.PositiveIntegerField(default=9999)\n+    osition = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n     \n"
+                }
+            ],
+            "date": 1729840567274,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\n\nclass ExperienceLevel(models.Model):\n    level_name = models.CharField(max_length=255)\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\nclass Career(models.Model):\n    title = models.CharField(max_length = 400)\n    experience_level = models.ForeignKey(ExprienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n    description = models.TextField()\n    num_of_vacancy = models.PositiveIntegerField(default = 1)\n    image = models.ImageField(upload_to='career')\n    apply_link = models.URLField(max_length = 500)\n    \n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n    enable_auto_expiration = models.BooleanField(default = True)\n    expiration_date = models.DateTimeField()\n    \n    \n\n"
+        }
+    ]
+}

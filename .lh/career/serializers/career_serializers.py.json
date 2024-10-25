@@ -1,0 +1,26 @@
+{
+    "sourceFile": "career/serializers/career_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1729840894139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729840905015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,10 @@\n from rest_framework import serializers\n from ..models import Career,ExperienceLevel\n \n-class ExprienceLevelSerializers_Career(serializers.ModelSerializer):\n+class ExperienceLevelSerializers_Career(serializers.ModelSerializer):\n     class Meta:\n-        model = ExprienceLevel\n+        model = ExperienceLevel\n         fields = ['level_name']\n \n class CareerListSerializers(serializers.ModelSerializer):\n     experience_level = ExprienceLevelSerializers_Career()\n"
+                },
+                {
+                    "date": 1729840911061,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         model = ExperienceLevel\n         fields = ['level_name']\n \n class CareerListSerializers(serializers.ModelSerializer):\n-    experience_level = ExprienceLevelSerializers_Career()\n+    experience_level = ExperienceLevelSerializers_Career()\n     class Meta:\n         model = Career\n         fields = '__all__'\n \n"
+                }
+            ],
+            "date": 1729840894139,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Career,ExperienceLevel\n\nclass ExprienceLevelSerializers_Career(serializers.ModelSerializer):\n    class Meta:\n        model = ExprienceLevel\n        fields = ['level_name']\n\nclass CareerListSerializers(serializers.ModelSerializer):\n    experience_level = ExprienceLevelSerializers_Career()\n    class Meta:\n        model = Career\n        fields = '__all__'\n\nclass CareerRetrieveSerializers(serializers.ModelSerializer):\n    experience_level = ExprienceLevelSerializers_Career()\n    class Meta:\n        model = Career\n        fields = '__all__'\n\nclass CareerWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Career\n        fields = '__all__'"
+        }
+    ]
+}
