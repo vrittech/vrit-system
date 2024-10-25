@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1729840842640,
@@ -16,6 +16,10 @@
                 {
                     "date": 1729840855884,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,16 +2,16 @@\n from ..models import ExprienceLevel\n \n class ExperienceLevelListSerializers(serializers.ModelSerializer):\n     class Meta:\n-        model = ExprienceLevel\n+        model = ExperienceLevel\n         fields = '__all__'\n \n class ExperienceLevelRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n-        model = ExprienceLevel\n+        model = ExperienceLevel\n         fields = '__all__'\n \n class ExperienceLevelWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n-        model = ExprienceLevel\n+        model = ExperienceLevel\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729841479754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from ..models import ExprienceLevel\n+from ..models import ExperienceLevel\n \n class ExperienceLevelListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = ExperienceLevel\n@@ -13,5 +13,22 @@\n \n class ExperienceLevelWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = ExperienceLevel\n-        fields = '__all__'\n\\ No newline at end of file\n+        fields = '__all__'\n+\n+\n+class BulkExperienceLevelSerializer(serializers.Serializer):\n+    experience_levels = ExperienceLevelWriteSerializers(many=True)\n+\n+    def create(self, validated_data):\n+        experience_levels_data = validated_data['experience_levels']\n+        experience_levels_objects = [\n+            ExperienceLevel(level_name=exp['level_name'])\n+            for exp in experience_levels_data\n+        ]\n+        return ExperienceLevel.objects.bulk_create(experience_levels_objects)\n+\n+    def validate_experience_levels(self, value):\n+        if not isinstance(value, list):\n+            raise serializers.ValidationError(\"Expected a list of experience levels\")\n+        return value\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729840842640,

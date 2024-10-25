@@ -1,25 +1,51 @@
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
 
 class ExperienceLevel(models.Model):
     level_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.level_name
+
+
 class Career(models.Model):
-    title = models.CharField(max_length = 400)
-    experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)
+    title = models.CharField(max_length=400)
+    experience_level = models.ForeignKey(
+        ExperienceLevel,
+        on_delete=models.SET_NULL,
+        related_name='careers',
+        null=True
+    )
     description = models.TextField()
     position = models.PositiveIntegerField(default=9999)
-    num_of_vacancy = models.PositiveIntegerField(default = 1)
-    apply_link = models.URLField(max_length = 500)
+    num_of_vacancy = models.PositiveIntegerField(default=1)
+    apply_link = models.URLField(max_length=500)
     image = models.ImageField(upload_to='career')
-    
+    is_show = models.BooleanField(default=True)
+    enable_auto_expiration = models.BooleanField(default=True)
+    expiration_date = models.DateTimeField()
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    enable_auto_expiration = models.BooleanField(default = True)
-    expiration_date = models.DateTimeField()
-    
-    
 
+    def __str__(self):
+        return self.title
+
+    def has_expired(self):
+        """
+        Check if the career has expired based on the expiration date.
+        """
+        if self.enable_auto_expiration and self.expiration_date:
+            return timezone.now() > self.expiration_date
+        return False
+
+    def deactivate_if_expired(self):
+        """
+        Deactivate the career if it has expired.
+        """
+        if self.has_expired():
+            self.is_show = False
+            self.save()

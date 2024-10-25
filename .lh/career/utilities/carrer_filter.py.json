@@ -1,0 +1,46 @@
+{
+    "sourceFile": "career/utilities/carrer_filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1729841905220,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729842096484,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n     experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n     job_title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     toggle = filters.BooleanFilter(field_name='is_show')\n     auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n+    created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration']\n+        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729842117067,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration', 'created_at']\n+        fields = ['experience_level', 'job_title', 'is_show', 'auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729842122709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'job_title', 'is_show', 'auto_expiration', 'created_at']\n+        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729842168447,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n \n \n class CareerFilter(filters.FilterSet):\n     experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n-    job_title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n+    title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     toggle = filters.BooleanFilter(field_name='is_show')\n     auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n"
+                },
+                {
+                    "date": 1729842175291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'toggle', 'auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729842181585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,11 +5,11 @@\n \n class CareerFilter(filters.FilterSet):\n     experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n     title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n-    toggle = filters.BooleanFilter(field_name='is_show')\n+    is_show = filters.BooleanFilter(field_name='is_show')\n     auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'title', 'toggle', 'auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'is_show', 'auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729842187394,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n class CareerFilter(filters.FilterSet):\n     experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n     title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     is_show = filters.BooleanFilter(field_name='is_show')\n-    auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n+    enable_auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n"
+                }
+            ],
+            "date": 1729841905220,
+            "name": "Commit-0",
+            "content": "import django_filters\nfrom django_filters import rest_framework as filters\nfrom ..models import Career\n\n\nclass CareerFilter(filters.FilterSet):\n    experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n    job_title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n    toggle = filters.BooleanFilter(field_name='is_show')\n    auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n\n    class Meta:\n        model = Career\n        fields = ['experience_level', 'job_title', 'toggle', 'auto_expiration']\n"
+        }
+    ]
+}

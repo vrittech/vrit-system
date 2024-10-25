@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1729840771815,
@@ -28,6 +28,58 @@
                 {
                     "date": 1729840821291,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return ExprienceLevelWriteSerializers\n         elif self.action == 'retrieve':\n-            return ExprienceLevelRetrieveSerializers\n+            return ExperienceLevelRetrieveSerializers\n         return super().get_serializer_class()\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n"
+                },
+                {
+                    "date": 1729841515486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,13 +26,14 @@\n         #return queryset.filter(user_id=self.request.user.id)\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n-            return ExprienceLevelWriteSerializers\n+            return ExperienceLevelWriteSerializers\n         elif self.action == 'retrieve':\n             return ExperienceLevelRetrieveSerializers\n         return super().get_serializer_class()\n \n+\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n \n"
+                },
+                {
+                    "date": 1729841544583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = ExperienceLevel.objects.all()\n+    queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n@@ -31,8 +31,17 @@\n         elif self.action == 'retrieve':\n             return ExperienceLevelRetrieveSerializers\n         return super().get_serializer_class()\n \n+    def create(self, request, *args, **kwargs):\n+        \"\"\"\n+        Override the default create method to handle bulk creation of experience levels.\n+        \"\"\"\n+        serializer = self.get_serializer(data=request.data)\n+        if serializer.is_valid():\n+            serializer.save()\n+            return Response({'status': 'success', 'message': 'Experience levels saved successfully'}, status=status.HTTP_201_CREATED)\n+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n"
+                },
+                {
+                    "date": 1729841572906,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,5 +44,5 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n-\n+cle\n"
+                },
+                {
+                    "date": 1729841927951,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+   filterset_class = CareerFilter\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n@@ -44,5 +42,5 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n-cle\n+\n"
+                },
+                {
+                    "date": 1729841935233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import ExperienceLevel\n from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers\n from ..utilities.importbase import *\n+from car\n \n class expriencelevelViewsets(viewsets.ModelViewSet):\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n@@ -15,9 +16,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n \n-   filterset_class = CareerFilter\n+    filterset_class = CareerFilter\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1729841944691,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import ExperienceLevel\n from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers\n from ..utilities.importbase import *\n-from car\n+from utilities.carrer_filter import Ca\n \n class expriencelevelViewsets(viewsets.ModelViewSet):\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n"
+                },
+                {
+                    "date": 1729841969506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import ExperienceLevel\n from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers\n from ..utilities.importbase import *\n-from utilities.carrer_filter import Ca\n+from utilities.carrer_filter import CareerFilter\n \n class expriencelevelViewsets(viewsets.ModelViewSet):\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n@@ -15,8 +15,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n+    filterset_class = CareerFilter\n \n     filterset_class = CareerFilter\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1729841974823,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-    filterset_class = CareerFilter\n+    \n \n     filterset_class = CareerFilter\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1729842002238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id']\n-    \n+    ordering_fields = ['id',title]\n+    # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1729842010287,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id',title]\n+    ordering_fields = ['id','title',]\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n"
+                },
+                {
+                    "date": 1729842022486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','title',]\n+    ordering_fields = ['id','title','expiration_date']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n"
+                },
+                {
+                    "date": 1729842037476,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','title','expiration_date']\n+    ordering_fields = ['id','title','expiration_date','created_at',]\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n"
+                },
+                {
+                    "date": 1729842210436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import ExperienceLevel\n from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers\n from ..utilities.importbase import *\n-from utilities.carrer_filter import CareerFilter\n+from ..utilities.carrer_filter import CareerFilter\n \n class expriencelevelViewsets(viewsets.ModelViewSet):\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n@@ -14,9 +14,9 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','title','expiration_date','created_at',]\n+    ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n"
                 }
             ],
             "date": 1729840771815,

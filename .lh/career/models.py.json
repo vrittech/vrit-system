@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1729840567274,
@@ -32,6 +32,26 @@
                 {
                     "date": 1729840738859,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n-    position =  position = models.PositiveIntegerField(default=9999)\n+    osition = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n     \n"
+                },
+                {
+                    "date": 1729841060897,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,12 +10,13 @@\n class Career(models.Model):\n     title = models.CharField(max_length = 400)\n     experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n     description = models.TextField()\n-    osition = models.PositiveIntegerField(default=9999)\n+    position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n+    is_show = \n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     enable_auto_expiration = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1729841065928,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n-    is_show = \n+    is_show = models\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     enable_auto_expiration = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1729841072006,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n-    is_show = models\n+    is_show = models.BooleanField(default=)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     enable_auto_expiration = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1729841077156,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default = 1)\n     apply_link = models.URLField(max_length = 500)\n     image = models.ImageField(upload_to='career')\n-    is_show = models.BooleanField(default=)\n+    is_show = models.BooleanField(default=True)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     enable_auto_expiration = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1729841347435,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,26 +1,51 @@\n from django.db import models\n+from django.utils import timezone\n \n-# Create your models here.\n \n class ExperienceLevel(models.Model):\n     level_name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n+    def __str__(self):\n+        return self.level_name\n+\n+\n class Career(models.Model):\n-    title = models.CharField(max_length = 400)\n-    experience_level = models.ForeignKey(ExperienceLevel,on_delete = models.SET_NULL,related_name = 'careers',null = True)\n+    title = models.CharField(max_length=400)\n+    experience_level = models.ForeignKey(\n+        ExperienceLevel,\n+        on_delete=models.SET_NULL,\n+        related_name='careers',\n+        null=True\n+    )\n     description = models.TextField()\n     position = models.PositiveIntegerField(default=9999)\n-    num_of_vacancy = models.PositiveIntegerField(default = 1)\n-    apply_link = models.URLField(max_length = 500)\n+    num_of_vacancy = models.PositiveIntegerField(default=1)\n+    apply_link = models.URLField(max_length=500)\n     image = models.ImageField(upload_to='career')\n     is_show = models.BooleanField(default=True)\n-    \n+    enable_auto_expiration = models.BooleanField(default=True)\n+    expiration_date = models.DateTimeField()\n+\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    enable_auto_expiration = models.BooleanField(default = True)\n-    expiration_date = models.DateTimeField()\n-    \n-    \n \n+    def __str__(self):\n+        return self.title\n+\n+    def has_expired(self):\n+        \"\"\"\n+        Check if the career has expired based on the expiration date.\n+        \"\"\"\n+        if self.enable_auto_expiration and self.expiration_date:\n+            return timezone.now() > self.expiration_date\n+        return False\n+\n+    def deactivate_if_expired(self):\n+        \"\"\"\n+        Deactivate the career if it has expired.\n+        \"\"\"\n+        if self.has_expired():\n+            self.is_show = False\n+            self.save()\n"
                 }
             ],
             "date": 1729840567274,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1729840894139,
@@ -16,6 +16,10 @@
                 {
                     "date": 1729840911061,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         model = ExperienceLevel\n         fields = ['level_name']\n \n class CareerListSerializers(serializers.ModelSerializer):\n-    experience_level = ExprienceLevelSerializers_Career()\n+    experience_level = ExperienceLevelSerializers_Career()\n     class Meta:\n         model = Career\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1729841603264,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = Career\n         fields = '__all__'\n \n class CareerRetrieveSerializers(serializers.ModelSerializer):\n-    experience_level = ExprienceLevelSerializers_Career()\n+    experience_level = ExperienceLevelSerializers_Career()\n     class Meta:\n         model = Career\n         fields = '__all__'\n \n"
                 }
             ],
             "date": 1729840894139,
