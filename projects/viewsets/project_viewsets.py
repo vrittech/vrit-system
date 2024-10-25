@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from django.db.models import F
 
 class projectViewsets(viewsets.ModelViewSet):
+    # http_method_names = ['get', 'post', 'put', 'patch', 'delete']
     serializer_class = ProjectListSerializers
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
@@ -39,6 +40,7 @@ class projectViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return ProjectRetrieveSerializers
         return super().get_serializer_class()
+
 
     @action(detail=False, methods=['get'], name="count_as_services", url_path="services-count")
     def count_as_services(self, request, *args, **kwargs):

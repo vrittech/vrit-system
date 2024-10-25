@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 22,
+            "activePatchIndex": 27,
             "patches": [
                 {
                     "date": 1729762139180,
@@ -96,6 +96,26 @@
                 {
                     "date": 1729847345222,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,8 +52,9 @@\n         fields = '__all__'\n \n # Retrieve serializer for Project model\n class ProjectRetrieveSerializers(serializers.ModelSerializer):\n+    group = ProjectGroupSerializers(read_only=True)\n     project_service = ServicesSerializers_Project(many=True, read_only=True)\n     project_link = ProjectLinkSerializer(many=True, read_only=True)\n \n     class Meta:\n"
+                },
+                {
+                    "date": 1729850427426,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -125,8 +125,12 @@\n         instance.save()\n \n         if project_service_data:\n             instance.project_service.set(project_service_data)\n+        \n+         Update media data if present\n+    if media_data:\n+        instance.media.set(media_data)\n \n         if project_link_data:\n             instance.project_link.clear()\n             for link_data in project_link_data:\n"
+                },
+                {
+                    "date": 1729850436163,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -126,11 +126,11 @@\n \n         if project_service_data:\n             instance.project_service.set(project_service_data)\n         \n-         Update media data if present\n-    if media_data:\n-        instance.media.set(media_data)\n+         #Update media data if present\n+        if media_data:\n+            instance.media.set(media_data)\n \n         if project_link_data:\n             instance.project_link.clear()\n             for link_data in project_link_data:\n"
+                },
+                {
+                    "date": 1729850444562,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -127,9 +127,9 @@\n         if project_service_data:\n             instance.project_service.set(project_service_data)\n         \n          #Update media data if present\n-        if media_data:\n+        if media:\n             instance.media.set(media_data)\n \n         if project_link_data:\n             instance.project_link.clear()\n"
+                },
+                {
+                    "date": 1729850456924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -127,9 +127,9 @@\n         if project_service_data:\n             instance.project_service.set(project_service_data)\n         \n          #Update media data if present\n-        if media:\n+        if media_data:\n             instance.media.set(media_data)\n \n         if project_link_data:\n             instance.project_link.clear()\n"
+                },
+                {
+                    "date": 1729850462444,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -118,9 +118,11 @@\n \n     def update(self, instance, validated_data):\n         project_service_data = validated_data.pop('project_service', [])\n         project_link_data = validated_data.pop('project_link', [])\n+        media_data = validated_data.pop('media', None)  # Pop media data if present\n \n+\n         for attr, value in validated_data.items():\n             setattr(instance, attr, value)\n         instance.save()\n \n"
                 }
             ],
             "date": 1729762139180,

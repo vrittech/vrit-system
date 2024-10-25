@@ -9,6 +9,10 @@ from ..serializers.careergallery_serializers import (
     CareerGalleryWriteSerializers
 )
 from ..utilities.importbase import *
+from rest_framework.decorators import action
+from rest_framework import status
+from django.db.models import Count
+from rest_framework.response import Response
 
 class careergalleryViewsets(viewsets.ModelViewSet):
     serializer_class = CareerGalleryListSerializers
@@ -38,17 +42,19 @@ class careergalleryViewsets(viewsets.ModelViewSet):
             return CareerGalleryRetrieveSerializers
         return super().get_serializer_class()
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+    @action(detail=False, methods=['get'], url_path='album-image-counts')
+    def album_image_counts(self, request, *args, **kwargs):
+            """
+            Custom action to return the count of images in each album.
+            """
+            # Calculate image count for each album
+            albums_with_image_count = Album.objects.annotate(
+                image_count=Count('career_galleries')
+            ).values('id', 'title', 'image_count')
 
-        # Aggregating image count for each album
-        albums_with_image_count = Album.objects.annotate(
-            image_count=Count('career_galleries')
-        ).values('id', 'title', 'image_count')
+            # Prepare the response data
+            response_data = {
+                'albums': list(albums_with_image_count)
+            }
 
-        response_data = {
-            "albums": list(albums_with_image_count),
-            "career_galleries": self.get_serializer(queryset, many=True).data
-        }
-
-        return Response(response_data)
+            return Response(response_data, status=status.HTTP_200_OK)

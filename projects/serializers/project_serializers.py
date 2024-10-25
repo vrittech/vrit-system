@@ -119,6 +119,8 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         project_service_data = validated_data.pop('project_service', [])
         project_link_data = validated_data.pop('project_link', [])
+        media_data = validated_data.pop('media', None)  # Pop media data if present
+
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -126,6 +128,10 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
         if project_service_data:
             instance.project_service.set(project_service_data)
+        
+         #Update media data if present
+        if media_data:
+            instance.media.set(media_data)
 
         if project_link_data:
             instance.project_link.clear()

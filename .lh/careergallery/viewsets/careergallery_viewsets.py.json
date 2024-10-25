@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1729846430152,
@@ -28,6 +28,22 @@
                 {
                     "date": 1729846694290,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','name','created_at','album_']\n+    ordering_fields = ['id','name','created_at','album__title','']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729847591023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,11 @@\n     CareerGalleryRetrieveSerializers, \n     CareerGalleryWriteSerializers\n )\n from ..utilities.importbase import *\n+from rest_framework.response import Response\n \n+\n class careergalleryViewsets(viewsets.ModelViewSet):\n     serializer_class = CareerGalleryListSerializers\n     # permission_classes = [careergalleryPermission]\n     # authentication_classes = [JWTAuthentication]\n@@ -18,9 +20,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','name','created_at','album__title','']\n+    ordering_fields = ['id','name','created_at','album__title','name']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729847744007,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,18 +39,20 @@\n         elif self.action == 'retrieve':\n             return CareerGalleryRetrieveSerializers\n         return super().get_serializer_class()\n \n-    def list(self, request, *args, **kwargs):\n-        queryset = self.get_queryset()\n-\n-        # Aggregating image count for each album\n+   @action(detail=False, methods=['get'], url_path='album-image-counts')\n+    def album_image_counts(self, request, *args, **kwargs):\n+        \"\"\"\n+        Custom action to return the count of images in each album.\n+        \"\"\"\n+        # Calculate image count for each album\n         albums_with_image_count = Album.objects.annotate(\n             image_count=Count('career_galleries')\n         ).values('id', 'title', 'image_count')\n \n+        # Prepare the response data\n         response_data = {\n-            \"albums\": list(albums_with_image_count),\n-            \"career_galleries\": self.get_serializer(queryset, many=True).data\n+            'albums': list(albums_with_image_count)\n         }\n \n-        return Response(response_data)\n+        return Response(response_data, status=status.HTTP_200_OK)\n"
+                },
+                {
+                    "date": 1729847750082,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,20 +39,20 @@\n         elif self.action == 'retrieve':\n             return CareerGalleryRetrieveSerializers\n         return super().get_serializer_class()\n \n-   @action(detail=False, methods=['get'], url_path='album-image-counts')\n+    @action(detail=False, methods=['get'], url_path='album-image-counts')\n     def album_image_counts(self, request, *args, **kwargs):\n-        \"\"\"\n-        Custom action to return the count of images in each album.\n-        \"\"\"\n-        # Calculate image count for each album\n-        albums_with_image_count = Album.objects.annotate(\n-            image_count=Count('career_galleries')\n-        ).values('id', 'title', 'image_count')\n+            \"\"\"\n+            Custom action to return the count of images in each album.\n+            \"\"\"\n+            # Calculate image count for each album\n+            albums_with_image_count = Album.objects.annotate(\n+                image_count=Count('career_galleries')\n+            ).values('id', 'title', 'image_count')\n \n-        # Prepare the response data\n-        response_data = {\n-            'albums': list(albums_with_image_count)\n-        }\n+            # Prepare the response data\n+            response_data = {\n+                'albums': list(albums_with_image_count)\n+            }\n \n-        return Response(response_data, status=status.HTTP_200_OK)\n+            return Response(response_data, status=status.HTTP_200_OK)\n"
+                },
+                {
+                    "date": 1729847761554,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,11 +8,13 @@\n     CareerGalleryRetrieveSerializers, \n     CareerGalleryWriteSerializers\n )\n from ..utilities.importbase import *\n+from rest_framework.decorators import action\n+from rest_framework import status\n+from django.db.models import Count\n from rest_framework.response import Response\n \n-\n class careergalleryViewsets(viewsets.ModelViewSet):\n     serializer_class = CareerGalleryListSerializers\n     # permission_classes = [careergalleryPermission]\n     # authentication_classes = [JWTAuthentication]\n"
                 }
             ],
             "date": 1729846430152,
