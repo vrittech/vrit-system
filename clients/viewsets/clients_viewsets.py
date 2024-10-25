@@ -2,8 +2,13 @@ from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Clients
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers
 from ..utilities.importbase import *
+from django.db.models import Count
 
 class clientsViewsets(viewsets.ModelViewSet):
     serializer_class = ClientsListSerializers
@@ -39,4 +44,30 @@ class clientsViewsets(viewsets.ModelViewSet):
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
+    @action(detail=False, methods=['get'], url_path='section-counts')
+    def section_counts(self, request, *args, **kwargs):
+        """
+        Custom action to return the count of clients in each section
+        along with the total count of all clients.
+        """
+        queryset = self.get_queryset()
+        
+        # Calculate section-wise counts
+        section_counts = (
+            queryset
+            .values('section')
+            .annotate(count=Count('section'))
+            .order_by('section')
+        )
+        
+        # Calculate total count of all clients
+        total_count = queryset.count()
+
+        # Combine the results
+        response_data = {
+            'section_counts': section_counts,
+            'total_count': total_count
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
 

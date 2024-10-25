@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1729835896321,
@@ -84,6 +84,22 @@
                 {
                     "date": 1729836176368,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().order_by(-''created_at')\n+    queryset = Clients.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n"
+                },
+                {
+                    "date": 1729837911603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,5 +38,6 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n+    \n \n"
+                },
+                {
+                    "date": 1729837930868,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n from rest_framework import viewsets\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Clients\n+from rest_framework.decorators import action\n+\n from ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers\n from ..utilities.importbase import *\n \n class clientsViewsets(viewsets.ModelViewSet):\n@@ -38,6 +40,31 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n-    \n+    @action(detail=False, methods=['get'], url_path='section-counts')\n+    def section_counts(self, request, *args, **kwargs):\n+        \"\"\"\n+        Custom action to return the count of clients in each section\n+        along with the total count of all clients.\n+        \"\"\"\n+        queryset = self.get_queryset()\n+        \n+        # Calculate section-wise counts\n+        section_counts = (\n+            queryset\n+            .values('section')\n+            .annotate(count=Count('section'))\n+            .order_by('section')\n+        )\n+        \n+        # Calculate total count of all clients\n+        total_count = queryset.count()\n \n+        # Combine the results\n+        response_data = {\n+            'section_counts': section_counts,\n+            'total_count': total_count\n+        }\n+\n+        return Response(response_data, status=status.HTTP_200_OK)\n+\n"
+                },
+                {
+                    "date": 1729837977445,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,11 +2,11 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Clients\n from rest_framework.decorators import action\n-\n from ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers\n from ..utilities.importbase import *\n+from django.db.models import Count\n \n class clientsViewsets(viewsets.ModelViewSet):\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n"
+                },
+                {
+                    "date": 1729838001628,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,12 @@\n from rest_framework import viewsets\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Clients\n+from rest_framework import viewsets, status\n from rest_framework.decorators import action\n+from rest_framework.response import Response\n+from rest_framework.decorators import action\n from ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers\n from ..utilities.importbase import *\n from django.db.models import Count\n \n"
                 }
             ],
             "date": 1729835896321,
