@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1729847095899,
@@ -16,6 +16,58 @@
                 {
                     "date": 1729847108096,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Career\n from ..serializers.career_serializers import CareerListSerializers, CareerRetrieveSerializers, CareerWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities\n+from ..utilities.carrer_filter import Car\n \n class careerViewsets(viewsets.ModelViewSet):\n     serializer_class = CareerListSerializers\n     # permission_classes = [careerPermission]\n"
+                },
+                {
+                    "date": 1729853366248,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Career\n from ..serializers.career_serializers import CareerListSerializers, CareerRetrieveSerializers, CareerWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.carrer_filter import Car\n+from ..utilities.carrer_filter import CareerFilter\n \n class careerViewsets(viewsets.ModelViewSet):\n     serializer_class = CareerListSerializers\n     # permission_classes = [careerPermission]\n@@ -36,5 +36,7 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n+    \n+    \n \n"
+                },
+                {
+                    "date": 1729853400296,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,6 +37,60 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    \n+    @action(detail=False, methods=['get'], name=\"draggableClient\", url_path=\"drag-client\")\n+    def Draggable(self, request, *args, **kwargs):\n+        target_position = request.GET.get('target')  # Position of the target object\n+        goal_position = request.GET.get('goal')  # Position of the goal object\n \n+        from rest_framework.response import Response\n+\n+        if not target_position or not goal_position:\n+            return Response({\"error\": \"Target or Goal position not provided\"}, status=400)\n+\n+        # Convert to integers\n+        try:\n+            target_position = int(target_position)\n+            goal_position = int(goal_position)\n+        except ValueError:\n+            return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n+\n+        # Fetch the target and goal objects based on position\n+        try:\n+            target_obj = Clients.objects.get(position=target_position)\n+            goal_obj = Clients.objects.get(position=goal_position)\n+        except Clients.DoesNotExist:\n+            return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n+\n+        if target_position < goal_position:\n+            # Moving target down (target goes after goal)\n+            affected_objs = Clients.objects.filter(\n+                position__gt=target_position, position__lte=goal_position\n+            ).order_by('position')\n+            \n+            # Decrement position of all affected objects\n+            for obj in affected_objs:\n+                obj.position -= 1\n+                obj.save()\n+\n+            # Set target object's new position\n+            target_obj.position = goal_position\n+            target_obj.save()\n+\n+        else:\n+            # Moving target up (target goes before goal)\n+            affected_objs = Clients.objects.filter(\n+                position__lt=target_position, position__gte=goal_position\n+            ).order_by('-position')\n+\n+            # Increment position of all affected objects by 1\n+            for obj in affected_objs:\n+                obj.position += 1\n+                obj.save()\n+\n+            # Set target object's new position (exact position of the goal)\n+            target_obj.position = goal_position\n+            target_obj.save()\n+\n+        return Response({\"status\": \"success\"})\n+\n"
+                },
+                {
+                    "date": 1729853415510,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,10 @@\n from ..models import Career\n from ..serializers.career_serializers import CareerListSerializers, CareerRetrieveSerializers, CareerWriteSerializers\n from ..utilities.importbase import *\n from ..utilities.carrer_filter import CareerFilter\n+from rest_framework.response import Response\n+from rest_framework.decorators import action\n \n class careerViewsets(viewsets.ModelViewSet):\n     serializer_class = CareerListSerializers\n     # permission_classes = [careerPermission]\n"
+                },
+                {
+                    "date": 1729853421693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n             return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n \n         # Fetch the target and goal objects based on position\n         try:\n-            target_obj = Clients.objects.get(position=target_position)\n+            target_obj = Career.objects.get(position=target_position)\n             goal_obj = Clients.objects.get(position=goal_position)\n         except Clients.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n"
+                },
+                {
+                    "date": 1729853427361,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,15 +59,15 @@\n \n         # Fetch the target and goal objects based on position\n         try:\n             target_obj = Career.objects.get(position=target_position)\n-            goal_obj = Clients.objects.get(position=goal_position)\n-        except Clients.DoesNotExist:\n+            goal_obj = Career.objects.get(position=goal_position)\n+        except Career.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n         if target_position < goal_position:\n             # Moving target down (target goes after goal)\n-            affected_objs = Clients.objects.filter(\n+            affected_objs = Career.objects.filter(\n                 position__gt=target_position, position__lte=goal_position\n             ).order_by('position')\n             \n             # Decrement position of all affected objects\n"
+                },
+                {
+                    "date": 1729853433742,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,9 +80,9 @@\n             target_obj.save()\n \n         else:\n             # Moving target up (target goes before goal)\n-            affected_objs = Clients.objects.filter(\n+            affected_objs = Career.objects.filter(\n                 position__lt=target_position, position__gte=goal_position\n             ).order_by('-position')\n \n             # Increment position of all affected objects by 1\n"
+                },
+                {
+                    "date": 1729853501507,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,10 @@\n     queryset = Career.objects.all()\n     filterset_class = CareerFilter\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n-    ordering_fields = ['id']\n-\n+     search_fields = ['id']\n+    ordering_fields = ['id','title','expiration_date','created_at']\n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n \n"
+                },
+                {
+                    "date": 1729853509254,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,14 +16,12 @@\n     queryset = Career.objects.all()\n     filterset_class = CareerFilter\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-     search_fields = ['id']\n+    search_fields = ['id']\n     ordering_fields = ['id','title','expiration_date','created_at']\n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n \n+\n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n         #return queryset.filter(user_id=self.request.user.id)\n"
+                },
+                {
+                    "date": 1729853526406,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,10 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id','title','expiration_date','created_at']\n+     search_fields = ['id']\n+    ordering_fields = ['id','title','expiration_date','created_at']\n \n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729853532159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id','title','expiration_date','created_at']\n-     search_fields = ['id']\n-    ordering_fields = ['id','title','expiration_date','created_at']\n+    # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729853552450,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     queryset = Career.objects.all()\n     filterset_class = CareerFilter\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['id','title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at',]\n     ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n \n"
+                },
+                {
+                    "date": 1729853594539,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,10 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at',]\n     ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n+    \n \n-\n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n         #return queryset.filter(user_id=self.request.user.id)\n"
+                },
+                {
+                    "date": 1729853639980,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     search_fields = ['id','title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at',]\n     ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n     \n+    filterset_class = CareerFilter\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
                 }
             ],
             "date": 1729847095899,

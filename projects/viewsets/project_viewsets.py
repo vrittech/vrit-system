@@ -87,37 +87,48 @@ class projectViewsets(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], name="draggableProject", url_path="drag-project")
     def Draggable(self, request, *args, **kwargs):
-        target = request.GET.get('target')  # ID of the target object 
-        goal = request.GET.get('goal')  # ID of the goal object 
+        target_position = request.GET.get('target')  # Position of the target object
+        goal_position = request.GET.get('goal')  # Position of the goal object
 
         from rest_framework.response import Response
 
-        # Fetch the target and goal objects
+        if not target_position or not goal_position:
+            return Response({"error": "Target or Goal position not provided"}, status=400)
+
+        # Convert to integers
         try:
-            target_obj = Project.objects.get(id=target)
-            goal_obj = Project.objects.get(id=goal)
+            target_position = int(target_position)
+            goal_position = int(goal_position)
+        except ValueError:
+            return Response({"error": "Invalid target or goal position"}, status=400)
+
+        # Fetch the target and goal objects based on position
+        try:
+            target_obj = Project.objects.get(position=target_position)
+            goal_obj = Project.objects.get(position=goal_position)
         except Project.DoesNotExist:
             return Response({"error": "Target or Goal object not found"}, status=400)
 
-        target_position = target_obj.position
-        goal_position = goal_obj.position
-
         if target_position < goal_position:
             # Moving target down (target goes after goal)
-            affected_objs = Project.objects.filter(position__gt=target_position, position__lte=goal_position).order_by('position')
+            affected_objs = Project.objects.filter(
+                position__gt=target_position, position__lte=goal_position
+            ).order_by('position')
             
             # Decrement position of all affected objects
             for obj in affected_objs:
                 obj.position -= 1
                 obj.save()
-            
+
             # Set target object's new position
             target_obj.position = goal_position
             target_obj.save()
 
         else:
-          # Moving target up (target goes before goal)
-            affected_objs = Project.objects.filter(position__lt=target_position, position__gte=goal_position).order_by('-position')
+            # Moving target up (target goes before goal)
+            affected_objs = Project.objects.filter(
+                position__lt=target_position, position__gte=goal_position
+            ).order_by('-position')
 
             # Increment position of all affected objects by 1
             for obj in affected_objs:
@@ -125,10 +136,10 @@ class projectViewsets(viewsets.ModelViewSet):
                 obj.save()
 
             # Set target object's new position (exact position of the goal)
-            target_obj.position = goal_position  # Place the target in the goal's position
+            target_obj.position = goal_position
             target_obj.save()
 
-
         return Response({"status": "success"})
+
 
 

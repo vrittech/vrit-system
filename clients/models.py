@@ -11,6 +11,7 @@ class Clients(models.Model):
     name = models.CharField(max_length=100)
     section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')
     media = models.ImageField(upload_to="clients")
+    position= models.PositiveIntegerField(default = 9999)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

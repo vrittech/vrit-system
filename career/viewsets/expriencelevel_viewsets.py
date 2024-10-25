@@ -4,7 +4,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import ExperienceLevel
 from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers
 from ..utilities.importbase import *
-from ..utilities.carrer_filter import CareerFilter
 
 class expriencelevelViewsets(viewsets.ModelViewSet):
     serializer_class = ExperienceLevelListSerializers
@@ -15,10 +14,7 @@ class expriencelevelViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
-    ordering_fields = ['id','title','expiration_date','created_at']
-    # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )
-
-    
+    ordering_fields = ['id']
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -75,12 +75,14 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         # Convert 'project_service' from string to list if necessary
-        data = str_to_list(data, 'project_service')
+        if 'project_service' in data:
+            data = str_to_list(data, 'project_service')
         
         # Convert 'project_link' from string to list if necessary
-        data = str_to_list(data, 'project_link')
+        if 'project_link' in data:
+            data = str_to_list(data, 'project_link')
 
-        # Ensure project_service contains integers
+        # Ensure project_service contains integers if present
         project_service_data = data.get('project_service', [])
         if isinstance(project_service_data, list):
             try:
@@ -117,23 +119,21 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         return project
 
     def update(self, instance, validated_data):
-        project_service_data = validated_data.pop('project_service', [])
-        project_link_data = validated_data.pop('project_link', [])
-        media_data = validated_data.pop('media', None)  # Pop media data if present
-
+        # Update only the fields that are present in validated_data
+        project_service_data = validated_data.pop('project_service', None)
+        project_link_data = validated_data.pop('project_link', None)
+        media_data = validated_data.pop('media', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
-        if project_service_data:
+        # Update project_service only if provided in the request data
+        if project_service_data is not None:
             instance.project_service.set(project_service_data)
-        
-         #Update media data if present
-        if media_data:
-            instance.media.set(media_data)
 
-        if project_link_data:
+        # Update project_link only if provided in the request data
+        if project_link_data is not None:
             instance.project_link.clear()
             for link_data in project_link_data:
                 link_id = link_data.pop('id', None)
@@ -142,14 +142,19 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
                     project_link = ProjectLink.objects.get(id=link_id)
                 else:
                     project_link = ProjectLink.objects.create(**link_data)
-
                 instance.project_link.add(project_link)
 
+        # Update media data if provided
+        if media_data is not None:
+            instance.media.set(media_data)
+
         return instance
-    
+
     def validate(self, data):
-        # Check if the position already exists in another collection
-        position = data.get('position')
-        if Project.objects.filter(position=position).exists():
-            raise serializers.ValidationError({"A collection with this position already exists."})
+        # Validate 'position' only if it is provided in the request data
+        position = data.get('position', None)
+        if position is not None and Project.objects.filter(position=position).exists():
+            raise serializers.ValidationError({"position": "A project with this position already exists."})
+
+        # Ensure that the validate() method returns the validated data
         return data

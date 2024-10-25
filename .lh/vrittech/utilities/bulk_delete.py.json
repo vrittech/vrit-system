@@ -1,0 +1,118 @@
+{
+    "sourceFile": "vrittech/utilities/bulk_delete.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 25,
+            "patches": [
+                {
+                    "date": 1729855529837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729855535427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,10 @@\n from drf_yasg import openapi\n from drf_yasg.utils import swagger_auto_schema\n \n from blog.models import Blog\n+from projects\n \n-\n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n     \"package\": Package,\n"
+                },
+                {
+                    "date": 1729855541630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n from drf_yasg import openapi\n from drf_yasg.utils import swagger_auto_schema\n \n from blog.models import Blog\n-from projects\n+from projects.models import Project\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855548818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n from drf_yasg import openapi\n from drf_yasg.utils import swagger_auto_schema\n \n from blog.models import Blog\n-from projects.models import Project\n+from projects.models import Project,ProjectService\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855557319,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n from drf_yasg.utils import swagger_auto_schema\n \n from blog.models import Blog\n from projects.models import Project,ProjectService\n+from care\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855565884,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,70 @@\n+from django.shortcuts import render\n+from django.http import HttpResponse\n+from rest_framework.response import Response\n+from rest_framework.views import APIView\n+from rest_framework import status\n+\n+from drf_yasg import openapi\n+from drf_yasg.utils import swagger_auto_schema\n+\n+from blog.models import Blog\n+from projects.models import Project,ProjectService\n+from career.models import Career\n+\n+\n+VALID_TYPES = {\n+    \"blog\": Blog,\n+    \"destination\": Destination,\n+    \"package\": Package,\n+    \"queries\": Queries,\n+    \"booking\": DestinationBook,\n+    \"activities\": Activity,\n+    \"collection\": Collection,\n+    \"review\": Review,\n+}\n+\n+class BulkDelete(APIView):\n+    @swagger_auto_schema(\n+        request_body=openapi.Schema(\n+            type=openapi.TYPE_OBJECT,\n+            properties={\n+                'delete_ids': openapi.Schema(\n+                    type=openapi.TYPE_ARRAY,\n+                    items=openapi.Items(type=openapi.TYPE_INTEGER),\n+                    description='List of IDs to be deleted'\n+                ),\n+                'type': openapi.Schema(\n+                    type=openapi.TYPE_STRING,\n+                    description='Type of model to delete from. Options: blog, destination, package, queries, booking, activities, collection.'\n+                ),\n+            },\n+            required=['delete_ids', 'type'],\n+        ),\n+        operation_summary=\"Bulk Delete records\",\n+        operation_description=\"Deletes records in bulk based on the provided IDs and type.\",\n+        responses={\n+            200: openapi.Response(description=\"Data successfully deleted in bulk\"),\n+            400: openapi.Response(description=\"Invalid request parameters or unknown data type\"),\n+        }\n+    )\n+    def post(self, request, *args, **kwargs):\n+        delete_ids = request.data.get('delete_ids')\n+        delete_type = request.data.get('type')\n+\n+        if not delete_ids or not delete_type:\n+            return Response({\"error\": \"Missing delete_ids or type in the request\"}, status=status.HTTP_400_BAD_REQUEST)\n+\n+        if delete_type not in VALID_TYPES:\n+            return Response({\"error\": 'Unknown data type'}, status=status.HTTP_400_BAD_REQUEST)\n+        \n+        model = VALID_TYPES[delete_type]\n+        query = model.objects.filter(id__in=delete_ids)\n+\n+        # Check if any of the delete_ids do not exist\n+        if query.count() != len(delete_ids):\n+            return Response({\"error\": \"Some IDs do not exist\"}, status=status.HTTP_400_BAD_REQUEST)\n+\n+        # Perform the deletion\n+        query.delete()\n+\n+        return Response({\"message\": \"Data successfully deleted in bulk\"}, status=status.HTTP_200_OK)\n"
+                },
+                {
+                    "date": 1729855571797,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,10 +9,10 @@\n \n from blog.models import Blog\n from projects.models import Project,ProjectService\n from career.models import Career\n+from \n \n-\n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n     \"package\": Package,\n@@ -67,73 +67,4 @@\n         # Perform the deletion\n         query.delete()\n \n         return Response({\"message\": \"Data successfully deleted in bulk\"}, status=status.HTTP_200_OK)\n-from django.shortcuts import render\n-from django.http import HttpResponse\n-from rest_framework.response import Response\n-from rest_framework.views import APIView\n-from rest_framework import status\n-\n-from drf_yasg import openapi\n-from drf_yasg.utils import swagger_auto_schema\n-\n-from blog.models import Blog\n-from projects.models import Project,ProjectService\n-from care\n-\n-VALID_TYPES = {\n-    \"blog\": Blog,\n-    \"destination\": Destination,\n-    \"package\": Package,\n-    \"queries\": Queries,\n-    \"booking\": DestinationBook,\n-    \"activities\": Activity,\n-    \"collection\": Collection,\n-    \"review\": Review,\n-}\n-\n-class BulkDelete(APIView):\n-    @swagger_auto_schema(\n-        request_body=openapi.Schema(\n-            type=openapi.TYPE_OBJECT,\n-            properties={\n-                'delete_ids': openapi.Schema(\n-                    type=openapi.TYPE_ARRAY,\n-                    items=openapi.Items(type=openapi.TYPE_INTEGER),\n-                    description='List of IDs to be deleted'\n-                ),\n-                'type': openapi.Schema(\n-                    type=openapi.TYPE_STRING,\n-                    description='Type of model to delete from. Options: blog, destination, package, queries, booking, activities, collection.'\n-                ),\n-            },\n-            required=['delete_ids', 'type'],\n-        ),\n-        operation_summary=\"Bulk Delete records\",\n-        operation_description=\"Deletes records in bulk based on the provided IDs and type.\",\n-        responses={\n-            200: openapi.Response(description=\"Data successfully deleted in bulk\"),\n-            400: openapi.Response(description=\"Invalid request parameters or unknown data type\"),\n-        }\n-    )\n-    def post(self, request, *args, **kwargs):\n-        delete_ids = request.data.get('delete_ids')\n-        delete_type = request.data.get('type')\n-\n-        if not delete_ids or not delete_type:\n-            return Response({\"error\": \"Missing delete_ids or type in the request\"}, status=status.HTTP_400_BAD_REQUEST)\n-\n-        if delete_type not in VALID_TYPES:\n-            return Response({\"error\": 'Unknown data type'}, status=status.HTTP_400_BAD_REQUEST)\n-        \n-        model = VALID_TYPES[delete_type]\n-        query = model.objects.filter(id__in=delete_ids)\n-\n-        # Check if any of the delete_ids do not exist\n-        if query.count() != len(delete_ids):\n-            return Response({\"error\": \"Some IDs do not exist\"}, status=status.HTTP_400_BAD_REQUEST)\n-\n-        # Perform the deletion\n-        query.delete()\n-\n-        return Response({\"message\": \"Data successfully deleted in bulk\"}, status=status.HTTP_200_OK)\n"
+                },
+                {
+                    "date": 1729855588334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n \n from blog.models import Blog\n from projects.models import Project,ProjectService\n from career.models import Career\n+from clients.models import Clients\n from \n \n VALID_TYPES = {\n     \"blog\": Blog,\n"
+                },
+                {
+                    "date": 1729855600728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n from blog.models import Blog\n from projects.models import Project,ProjectService\n from career.models import Career\n from clients.models import Clients\n+from faqs.models import Faqs\n from \n \n VALID_TYPES = {\n     \"blog\": Blog,\n"
+                },
+                {
+                    "date": 1729855610269,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from projects.models import Project,ProjectService\n from career.models import Career\n from clients.models import Clients\n from faqs.models import Faqs\n-from \n+from test\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855616124,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from projects.models import Project,ProjectService\n from career.models import Career\n from clients.models import Clients\n from faqs.models import Faqs\n-from test\n+from testimonial.models import \n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855655666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,10 @@\n from projects.models import Project,ProjectService\n from career.models import Career\n from clients.models import Clients\n from faqs.models import Faqs\n-from testimonial.models import \n+from testimonial.models import Testimonial\n+from casestudy.models import CaseStudy\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"destination\": Destination,\n"
+                },
+                {
+                    "date": 1729855661436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n from casestudy.models import CaseStudy\n \n VALID_TYPES = {\n     \"blog\": Blog,\n-    \"destination\": Destination,\n+    \"projects\": Destination,\n     \"package\": Package,\n     \"queries\": Queries,\n     \"booking\": DestinationBook,\n     \"activities\": Activity,\n"
+                },
+                {
+                    "date": 1729855666513,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n from casestudy.models import CaseStudy\n \n VALID_TYPES = {\n     \"blog\": Blog,\n-    \"projects\": Destination,\n+    \"project\": Destination,\n     \"package\": Package,\n     \"queries\": Queries,\n     \"booking\": DestinationBook,\n     \"activities\": Activity,\n"
+                },
+                {
+                    "date": 1729855672038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n VALID_TYPES = {\n     \"blog\": Blog,\n     \"project\": Destination,\n     \"package\": Package,\n-    \"queries\": Queries,\n+    \"career\": Queries,\n     \"booking\": DestinationBook,\n     \"activities\": Activity,\n     \"collection\": Collection,\n     \"review\": Review,\n"
+                },
+                {
+                    "date": 1729855677218,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"project\": Destination,\n-    \"package\": Package,\n+    \"ProjectService\": Package,\n     \"career\": Queries,\n     \"booking\": DestinationBook,\n     \"activities\": Activity,\n     \"collection\": Collection,\n"
+                },
+                {
+                    "date": 1729855683111,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"project\": Destination,\n-    \"ProjectService\": Package,\n+    \"projectservice\": Package,\n     \"career\": Queries,\n     \"booking\": DestinationBook,\n     \"activities\": Activity,\n     \"collection\": Collection,\n"
+                },
+                {
+                    "date": 1729855696780,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,11 +17,11 @@\n \n VALID_TYPES = {\n     \"blog\": Blog,\n     \"project\": Destination,\n-    \"projectservice\": Package,\n+    \"project_service\": Package,\n     \"career\": Queries,\n-    \"booking\": DestinationBook,\n+    \"clients\": DestinationBook,\n     \"activities\": Activity,\n     \"collection\": Collection,\n     \"review\": Review,\n }\n"
+                },
+                {
+                    "date": 1729855702559,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     \"blog\": Blog,\n     \"project\": Destination,\n     \"project_service\": Package,\n     \"career\": Queries,\n-    \"clients\": DestinationBook,\n+    \"clients\": Clients,\n     \"activities\": Activity,\n     \"collection\": Collection,\n     \"review\": Review,\n }\n"
+                },
+                {
+                    "date": 1729855708056,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     \"project\": Destination,\n     \"project_service\": Package,\n     \"career\": Queries,\n     \"clients\": Clients,\n-    \"activities\": Activity,\n+    \"faqs\": Activity,\n     \"collection\": Collection,\n     \"review\": Review,\n }\n \n"
+                },
+                {
+                    "date": 1729855716019,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,10 +20,10 @@\n     \"project\": Destination,\n     \"project_service\": Package,\n     \"career\": Queries,\n     \"clients\": Clients,\n-    \"faqs\": Activity,\n-    \"collection\": Collection,\n+    \"faqs\": Faqs,\n+    \"testimonial\": Collection,\n     \"review\": Review,\n }\n \n class BulkDelete(APIView):\n"
+                },
+                {
+                    "date": 1729855729395,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,12 +18,12 @@\n VALID_TYPES = {\n     \"blog\": Blog,\n     \"project\": Destination,\n     \"project_service\": Package,\n-    \"career\": Queries,\n+    \"career\": Career,\n     \"clients\": Clients,\n     \"faqs\": Faqs,\n-    \"testimonial\": Collection,\n+    \"testimonial\": Testimonial,\n     \"review\": Review,\n }\n \n class BulkDelete(APIView):\n"
+                },
+                {
+                    "date": 1729855736956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,10 +16,10 @@\n from casestudy.models import CaseStudy\n \n VALID_TYPES = {\n     \"blog\": Blog,\n-    \"project\": Destination,\n-    \"project_service\": Package,\n+    \"project\": Proje,\n+    \"project_service\": ProjectService,\n     \"career\": Career,\n     \"clients\": Clients,\n     \"faqs\": Faqs,\n     \"testimonial\": Testimonial,\n"
+                },
+                {
+                    "date": 1729855744306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,15 +16,15 @@\n from casestudy.models import CaseStudy\n \n VALID_TYPES = {\n     \"blog\": Blog,\n-    \"project\": Proje,\n+    \"project\": Project,\n     \"project_service\": ProjectService,\n     \"career\": Career,\n     \"clients\": Clients,\n     \"faqs\": Faqs,\n     \"testimonial\": Testimonial,\n-    \"review\": Review,\n+    \"casestudy\": Review,\n }\n \n class BulkDelete(APIView):\n     @swagger_auto_schema(\n"
+                },
+                {
+                    "date": 1729855749592,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     \"career\": Career,\n     \"clients\": Clients,\n     \"faqs\": Faqs,\n     \"testimonial\": Testimonial,\n-    \"casestudy\": Review,\n+    \"casestudy\": CaseStudy,\n }\n \n class BulkDelete(APIView):\n     @swagger_auto_schema(\n"
+                },
+                {
+                    "date": 1729855755618,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     \"career\": Career,\n     \"clients\": Clients,\n     \"faqs\": Faqs,\n     \"testimonial\": Testimonial,\n-    \"casestudy\": CaseStudy,\n+    \"case_study\": CaseStudy,\n }\n \n class BulkDelete(APIView):\n     @swagger_auto_schema(\n"
+                }
+            ],
+            "date": 1729855529837,
+            "name": "Commit-0",
+            "content": "from django.shortcuts import render\nfrom django.http import HttpResponse\nfrom rest_framework.response import Response\nfrom rest_framework.views import APIView\nfrom rest_framework import status\n\nfrom drf_yasg import openapi\nfrom drf_yasg.utils import swagger_auto_schema\n\nfrom blog.models import Blog\n\n\nVALID_TYPES = {\n    \"blog\": Blog,\n    \"destination\": Destination,\n    \"package\": Package,\n    \"queries\": Queries,\n    \"booking\": DestinationBook,\n    \"activities\": Activity,\n    \"collection\": Collection,\n    \"review\": Review,\n}\n\nclass BulkDelete(APIView):\n    @swagger_auto_schema(\n        request_body=openapi.Schema(\n            type=openapi.TYPE_OBJECT,\n            properties={\n                'delete_ids': openapi.Schema(\n                    type=openapi.TYPE_ARRAY,\n                    items=openapi.Items(type=openapi.TYPE_INTEGER),\n                    description='List of IDs to be deleted'\n                ),\n                'type': openapi.Schema(\n                    type=openapi.TYPE_STRING,\n                    description='Type of model to delete from. Options: blog, destination, package, queries, booking, activities, collection.'\n                ),\n            },\n            required=['delete_ids', 'type'],\n        ),\n        operation_summary=\"Bulk Delete records\",\n        operation_description=\"Deletes records in bulk based on the provided IDs and type.\",\n        responses={\n            200: openapi.Response(description=\"Data successfully deleted in bulk\"),\n            400: openapi.Response(description=\"Invalid request parameters or unknown data type\"),\n        }\n    )\n    def post(self, request, *args, **kwargs):\n        delete_ids = request.data.get('delete_ids')\n        delete_type = request.data.get('type')\n\n        if not delete_ids or not delete_type:\n            return Response({\"error\": \"Missing delete_ids or type in the request\"}, status=status.HTTP_400_BAD_REQUEST)\n\n        if delete_type not in VALID_TYPES:\n            return Response({\"error\": 'Unknown data type'}, status=status.HTTP_400_BAD_REQUEST)\n        \n        model = VALID_TYPES[delete_type]\n        query = model.objects.filter(id__in=delete_ids)\n\n        # Check if any of the delete_ids do not exist\n        if query.count() != len(delete_ids):\n            return Response({\"error\": \"Some IDs do not exist\"}, status=status.HTTP_400_BAD_REQUEST)\n\n        # Perform the deletion\n        query.delete()\n\n        return Response({\"message\": \"Data successfully deleted in bulk\"}, status=status.HTTP_200_OK)\n"
+        }
+    ]
+}

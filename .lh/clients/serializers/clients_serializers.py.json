@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1729835822662,
@@ -72,6 +72,18 @@
                 {
                     "date": 1729836618381,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from ..models import Clients, ClientSettings\n+from ..models import Clients\n \n class ClientsListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n@@ -13,52 +13,5 @@\n \n class ClientsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n-        fields = '__all__'\n-\n-class ClientsSettingListSerializers(serializers.ModelSerializer):\n-    clients = ClientsListSerializers(many=True, read_only=True)\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = '__all__'\n-\n-class ClientSettingRetrieveSerializers(serializers.ModelSerializer):\n-    clients = ClientRetrieveSerializers(many=True, read_only=True)\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = '__all__'\n-\n-class ClientSettingWriteSerializers(serializers.ModelSerializer):\n-    client_ids = serializers.ListField(\n-        child=serializers.IntegerField(), write_only=True\n-    )\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = ['client_ids', 'section', 'loop_type', 'delay_time']\n-\n-    def create(self, validated_data):\n-        client_ids = validated_data.pop('client_ids', [])\n-        client_setting = ClientSettings.objects.create(**validated_data)\n-\n-        # Add multiple clients to the ManyToManyField\n-        clients = Clients.objects.filter(id__in=client_ids)\n-        client_setting.client.set(clients)\n-\n-        return client_setting\n-\n-    def update(self, instance, validated_data):\n-        client_ids = validated_data.pop('client_ids', [])\n-        instance.section = validated_data.get('section', instance.section)\n-        instance.loop_type = validated_data.get('loop_type', instance.loop_type)\n-        instance.delay_time = validated_data.get('delay_time', instance.delay_time)\n-        instance.save()\n-\n-        # Update clients in the ManyToManyField\n-        if client_ids:\n-            clients = Clients.objects.filter(id__in=client_ids)\n-            instance.client.set(clients)\n-\n-        return instance\n+        fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853140981,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,19 @@\n+from rest_framework import serializers\n+from ..models import Clients\n+\n+class ClientsListSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Clients\n+        fields = '__all__'\n+\n+class ClientsRetrieveSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Clients\n+        fields = '__all__'\n+\n+class ClientsWriteSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Clients\n+        fields = '__all__'\n+        \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853167756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,23 +14,7 @@\n class ClientsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n+\n         \n-    \n-from rest_framework import serializers\n-from ..models import Clients\n-\n-class ClientsListSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Clients\n-        fields = '__all__'\n-\n-class ClientsRetrieveSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Clients\n-        fields = '__all__'\n-\n-class ClientsWriteSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Clients\n\\ No newline at end of file\n-        fields = '__all__'\n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853175788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,6 +15,12 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n+    def validate(self, data):\n+        # Check if the position already exists in another collection\n+        position = data.get('position')\n+        if Clients.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n+        return data\n         \n     \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729835822662,

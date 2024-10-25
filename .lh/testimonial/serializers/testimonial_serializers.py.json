@@ -1,0 +1,30 @@
+{
+    "sourceFile": "testimonial/serializers/testimonial_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1729853769423,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729853782628,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,6 @@\n class TestimonialWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Testimonial\n         fields = '__all__'\n-        \n+    projects/serializers/projectservice_serializers.py    \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853795196,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,11 @@\n class TestimonialWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Testimonial\n         fields = '__all__'\n-    projects/serializers/projectservice_serializers.py    \n-    \n\\ No newline at end of file\n+        \n+     def validate(self, data):\n+        # Check if the position already exists in another collection\n+        position = data.get('position')\n+        if ProjectService.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853803587,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n     class Meta:\n         model = Testimonial\n         fields = '__all__'\n         \n-     def validate(self, data):\n+    def validate(self, data):\n         # Check if the position already exists in another collection\n         position = data.get('position')\n-        if ProjectService.objects.filter(position=position).exists():\n+        if Testimonial.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"A collection with this position already exists.\"})\n         return data\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1729853769423,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Testimonial\n\nclass TestimonialListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Testimonial\n        fields = '__all__'\n\nclass TestimonialRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Testimonial\n        fields = '__all__'\n\nclass TestimonialWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Testimonial\n        fields = '__all__'\n        \n    "
+        }
+    ]
+}

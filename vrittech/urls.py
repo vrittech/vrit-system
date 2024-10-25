@@ -58,6 +58,8 @@ from socialmedia.routers.routers import router as socialmedia_router
 from testimonial.routers.routers import router as testimonial_router
 from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
+
+from vrittech.utilities.bulk_delete import BulkDelete
 # from management.urls import router as management_router
 
 
@@ -86,8 +88,9 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/', include('accounts.urls')),
      path('api/',include('accountsmanagement.urls')),
-    path('api/management/', include('management.urls')),
+    # path('api/management/', include('management.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('api/bulk-delete/<str:delete_type>/',BulkDelete.as_view(),name="bulk_delete"),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

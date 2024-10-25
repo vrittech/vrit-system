@@ -1,0 +1,54 @@
+{
+    "sourceFile": "testimonial/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 9,
+            "patches": [
+                {
+                    "date": 1729851110741,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729851117498,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class Testimonial(models.Model):\n     full_name = models.CharField(max_length = 155)\n     role =  models.CharField(max_length = 155)\n-    position = models,por\n+    position = models.positi\n     ratings = models.PositiveIntegerField(\n         default=1,\n         validators=[MinValueValidator(1), MaxValueValidator(5)]\n     )\n"
+                },
+                {
+                    "date": 1729851125841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class Testimonial(models.Model):\n     full_name = models.CharField(max_length = 155)\n     role =  models.CharField(max_length = 155)\n-    position = models.positi\n+    position = models.PositiveIntegerField(defualt = 9999)\n     ratings = models.PositiveIntegerField(\n         default=1,\n         validators=[MinValueValidator(1), MaxValueValidator(5)]\n     )\n"
+                },
+                {
+                    "date": 1729851131255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class Testimonial(models.Model):\n     full_name = models.CharField(max_length = 155)\n     role =  models.CharField(max_length = 155)\n-    position = models.PositiveIntegerField(defualt = 9999)\n+    position = models.PositiveIntegerField(defalt = 9999)\n     ratings = models.PositiveIntegerField(\n         default=1,\n         validators=[MinValueValidator(1), MaxValueValidator(5)]\n     )\n"
+                },
+                {
+                    "date": 1729851162176,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,14 +5,14 @@\n \n class Testimonial(models.Model):\n     full_name = models.CharField(max_length = 155)\n     role =  models.CharField(max_length = 155)\n-    position = models.PositiveIntegerField(defalt = 9999)\n+    position = models.PositiveIntegerField(default = 9999)\n     ratings = models.PositiveIntegerField(\n         default=1,\n         validators=[MinValueValidator(1), MaxValueValidator(5)]\n     )\n-    description = models.TextField()\n+    testimonial = models.TextField()\n     image = models.ImageField(upload_to=\"testimonial\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1729851216586,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,4 +15,6 @@\n     image = models.ImageField(upload_to=\"testimonial\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+\n+def __self\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729851222111,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,5 +16,4 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-def __self\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729851253997,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,5 +15,6 @@\n     image = models.ImageField(upload_to=\"testimonial\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+    \n \n"
+                },
+                {
+                    "date": 1729851263980,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,5 +16,8 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n+    def __str__(self):\n+        return f\"{self.full_name} - {self.section}: {self.loop_type} ({self.delay_time})\"\n \n+\n"
+                },
+                {
+                    "date": 1729851271098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,7 +17,7 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return f\"{self.full_name} - {self.section}: {self.loop_type} ({self.delay_time})\"\n+        return f\"{self.full_name})\"\n \n \n"
+                }
+            ],
+            "date": 1729851110741,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom django.core.validators import MaxValueValidator, MinValueValidator\n\n# Create your models here.\n\nclass Testimonial(models.Model):\n    full_name = models.CharField(max_length = 155)\n    role =  models.CharField(max_length = 155)\n    position = models,por\n    ratings = models.PositiveIntegerField(\n        default=1,\n        validators=[MinValueValidator(1), MaxValueValidator(5)]\n    )\n    description = models.TextField()\n    image = models.ImageField(upload_to=\"testimonial\")\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n"
+        }
+    ]
+}

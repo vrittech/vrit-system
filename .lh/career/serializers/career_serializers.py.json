@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1729840894139,
@@ -20,6 +20,14 @@
                 {
                     "date": 1729841603264,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = Career\n         fields = '__all__'\n \n class CareerRetrieveSerializers(serializers.ModelSerializer):\n-    experience_level = ExprienceLevelSerializers_Career()\n+    experience_level = ExperienceLevelSerializers_Career()\n     class Meta:\n         model = Career\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1729853373979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,5 +20,12 @@\n \n class CareerWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Career\n-        fields = '__all__'\n\\ No newline at end of file\n+        fields = '__all__'\n+    \n+     def validate(self, data):\n+        # Check if the position already exists in another collection\n+        position = data.get('position')\n+        if Clients.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1729853381114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,10 +22,10 @@\n     class Meta:\n         model = Career\n         fields = '__all__'\n     \n-     def validate(self, data):\n+    def validate(self, data):\n         # Check if the position already exists in another collection\n         position = data.get('position')\n-        if Clients.objects.filter(position=position).exists():\n+        if Career.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"A collection with this position already exists.\"})\n         return data\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729840894139,
