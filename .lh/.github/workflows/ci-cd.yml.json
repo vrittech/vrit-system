@@ -1,0 +1,18 @@
+{
+    "sourceFile": ".github/workflows/ci-cd.yml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1729832569257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1729832569257,
+            "name": "Commit-0",
+            "content": "name: CI/CD Pipeline\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  build-and-deploy:\n    runs-on: ubuntu-latest\n\n    steps:\n    - name: Checkout code\n      uses: actions/checkout@v2\n\n    - name: Set up Python\n      uses: actions/setup-python@v2\n      with:\n        python-version: 3.10.12\n\n    - name: Upgrade pip and install setuptools\n      run: |\n        python -m pip install --upgrade pip==21.2.4\n        # pip install setuptools<72.0.0\n        # pip install autobahn\n        # pip install autobahn==23.6.1\n\n    - name: Install dependencies\n      run: |\n        # python -m pip install --upgrade pip\n        pip install -r requirements.txt --use-deprecated=legacy-resolver\n\n    - name: Run tests\n      run: |\n        python manage.py test\n\n    - name: Deploy to Lightsail\n      env:\n        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}\n        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}\n        AWS_DEFAULT_REGION: ap-southeast-2\n        BACKEND_USER: backend\n        BACKEND_PASSWORD: backend\n        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}\n        SERVER_IP: \"13.237.94.113\"\n        PORT: \"8003\"\n        SCREEN_NAME: \"vrit_tech_system\"\n        PROJECT_FOLDER: \"/home/ubuntu/vrit_tech_system\"\n\n      run: |\n        mkdir -p ~/.ssh\n        echo \"${{ secrets.SSH_PRIVATE_KEY }}\" > ~/.ssh/id_rsa\n        chmod 600 ~/.ssh/id_rsa\n\n        # Install rsync\n        #sudo apt-get install -y rsync\n\n        # Create necessary directories on the server\n        echo \"Create necessary directories on the server\"\n        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"sudo apt-get install -y python3-venv\"\n        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"mkdir -p $PROJECT_FOLDER\"\n\n        # Use rsync to copy only changed files\n        echo \"Use rsync to copy only changed files\"\n        rsync -avz --delete --exclude='__pycache__/' --exclude='venv/' --exclude='db.sqlite3' --exclude='env/' --exclude='staticfiles/' --exclude='media/' --exclude='.git/' -e \"ssh -o StrictHostKeyChecking=no\" ./ ubuntu@$SERVER_IP:$PROJECT_FOLDER/\n\n        #copy and replace all files to cicd folder\n        #scp -r -o StrictHostKeyChecking=no ./* ubuntu@$SERVER_IP:$PROJECT_FOLDER/\n\n        # Run deployment commands on the server\n        echo \"Running deployment commands on the server\"\n        # ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput\"\n        \n        #echo \"Running deployment commands on the server\" &&\n        #ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP \"cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'\"\n\n#AmazonEC2FullAccess"
+        }
+    ]
+}
