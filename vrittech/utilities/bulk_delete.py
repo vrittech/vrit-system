@@ -1,14 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework import status
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
-from projects.models import Project,ProjectService
+from projects.models import Project, ProjectService
 from career.models import Career
 from clients.models import Clients
 from faqs.models import Faqs
@@ -38,12 +37,12 @@ class BulkDelete(APIView):
                 ),
                 'type': openapi.Schema(
                     type=openapi.TYPE_STRING,
-                    description='Type of model to delete from. Options: blog, destination, package, queries, booking, activities, collection.'
+                    description='Type of model to delete from. Options: blog, project, project_service, career, clients, faqs, testimonial, case_study.'
                 ),
             },
             required=['delete_ids', 'type'],
         ),
-        operation_summary="Bulk Delete records",
+        operation_summary="Bulk Delete Records",
         operation_description="Deletes records in bulk based on the provided IDs and type.",
         responses={
             200: openapi.Response(description="Data successfully deleted in bulk"),
@@ -51,23 +50,43 @@ class BulkDelete(APIView):
         }
     )
     def post(self, request, *args, **kwargs):
+        # Extract 'delete_ids' and 'type' from request data
         delete_ids = request.data.get('delete_ids')
         delete_type = request.data.get('type')
 
-        if not delete_ids or not delete_type:
-            return Response({"error": "Missing delete_ids or type in the request"}, status=status.HTTP_400_BAD_REQUEST)
+        # Validate input: Check for missing or invalid input
+        if not delete_ids or not isinstance(delete_ids, list) or not all(isinstance(id, int) for id in delete_ids):
+            return Response(
+                {"error": "Invalid 'delete_ids'. Provide a list of integers."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if delete_type not in VALID_TYPES:
-            return Response({"error": 'Unknown data type'}, status=status.HTTP_400_BAD_REQUEST)
-        
+        if not delete_type or delete_type not in VALID_TYPES:
+            return Response(
+                {"error": "Invalid or missing 'type'. Provide a valid type."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Get the model based on delete_type
         model = VALID_TYPES[delete_type]
-        query = model.objects.filter(id__in=delete_ids)
+        
+        # Fetch the queryset based on the provided IDs
+        queryset = model.objects.filter(id__in=delete_ids)
 
         # Check if any of the delete_ids do not exist
-        if query.count() != len(delete_ids):
-            return Response({"error": "Some IDs do not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        existing_ids = list(queryset.values_list('id', flat=True))
+        missing_ids = set(delete_ids) - set(existing_ids)
 
-        # Perform the deletion
-        query.delete()
+        if missing_ids:
+            return Response(
+                {"error": f"IDs not found: {list(missing_ids)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        return Response({"message": "Data successfully deleted in bulk"}, status=status.HTTP_200_OK)
+        # Perform the bulk deletion
+        deleted_count, _ = queryset.delete()
+
+        return Response(
+            {"message": f"Successfully deleted {deleted_count} items of type '{delete_type}'."},
+            status=status.HTTP_200_OK
+        )
