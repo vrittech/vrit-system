@@ -1,0 +1,94 @@
+{
+    "sourceFile": "clients/viewsets/clients_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1729835896321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729835903638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-    \n+    # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1729835915191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Clients.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id']\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n     # filterset_fields = {\n"
+                },
+                {
+                    "date": 1729835920437,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     queryset = Clients.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n-    ordering_fields = ['id']\n+    ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n"
+                },
+                {
+                    "date": 1729835935304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,11 @@\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1729835973132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'loop_type': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729835978213,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'loop_type': ['exact'],\n+        'delay_time': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729835985027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all()\n+    queryset = Clients.objects.all().\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n"
+                },
+                {
+                    "date": 1729835992800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().\n+    queryset = Clients.objects.all().order_by(-id)\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n"
+                },
+                {
+                    "date": 1729836083428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n-    # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n+    ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n \n     filterset_fields = {\n         'id': ['exact'],\n         'loop_type': ['exact'],\n"
+                },
+                {
+                    "date": 1729836092051,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n-    ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n-\n+    # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n+('name', 'section', )\n     filterset_fields = {\n         'id': ['exact'],\n         'loop_type': ['exact'],\n         'delay_time': ['exact'],\n"
+                },
+                {
+                    "date": 1729836101778,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,12 +15,12 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n-('name', 'section', )\n+# ('name', 'section', )\n     filterset_fields = {\n         'id': ['exact'],\n-        'loop_type': ['exact'],\n+        'name': ['exact'],\n         'delay_time': ['exact'],\n     }\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1729836126506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,16 +12,16 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Clients.objects.all().order_by(-id)\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n+    search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n # ('name', 'section', )\n     filterset_fields = {\n         'id': ['exact'],\n         'name': ['exact'],\n-        'delay_time': ['exact'],\n+        'section': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729836132658,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     queryset = Clients.objects.all().order_by(-id)\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n-    ordering_fields = ['id','client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at',]\n+    ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )\n # ('name', 'section', )\n     filterset_fields = {\n         'id': ['exact'],\n"
+                },
+                {
+                    "date": 1729836141752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'name': ['exact'],\n         'section': ['exact'],\n+        'section': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729836146886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'name': ['exact'],\n         'section': ['exact'],\n-        'section': ['exact'],\n+        'created_at'': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729836154154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'name': ['exact'],\n         'section': ['exact'],\n-        'created_at'': ['exact'],\n+        'created_at': ['exact','gte'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729836164497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().order_by(-id)\n+    queryset = Clients.objects.all().order_by(-created_at)\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n@@ -20,9 +20,9 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'name': ['exact'],\n         'section': ['exact'],\n-        'created_at': ['exact','gte'],\n+        'created_at': ['exact','gte','lte'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1729836170593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().order_by(-created_at)\n+    queryset = Clients.objects.all().order_by(-''created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n"
+                },
+                {
+                    "date": 1729836176368,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().order_by(-''created_at')\n+    queryset = Clients.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n"
+                }
+            ],
+            "date": 1729835896321,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import Clients\nfrom ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers\nfrom ..utilities.importbase import *\n\nclass clientsViewsets(viewsets.ModelViewSet):\n    serializer_class = ClientsListSerializers\n    # permission_classes = [clientsPermission]\n    # authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = Clients.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n    \n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return ClientsWriteSerializers\n        elif self.action == 'retrieve':\n            return ClientsRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

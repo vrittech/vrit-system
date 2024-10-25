@@ -1,0 +1,18 @@
+{
+    "sourceFile": "clients/serializers/clientsettings_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1729837175445,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1729837175445,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import ClientSettings\n\nclass ClientSettingsListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = ClientSettings\n        fields = '__all__'\n\nclass ClientSettingsRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = ClientSettings\n        fields = '__all__'\n\nclass ClientSettingsWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = ClientSettings\n        fields = '__all__'\n\nclass ClientSettingsArraySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = ClientSettings\n        fields = '__all__'\n\n\nclass BulkClientSettingsSerializer(serializers.Serializer):\n    settings = ClientSettingsArraySerializer(many=True)\n\n    def create(self, validated_data):\n        settings_data = validated_data['settings']\n        client_settings_objects = [\n            ClientSettings(\n                section=setting['section'],\n                loop_type=setting['loop_type'],\n                delay_time=setting['delay_time']\n            )\n            for setting in settings_data\n        ]\n        return ClientSettings.objects.bulk_create(client_settings_objects)"
+        }
+    ]
+}

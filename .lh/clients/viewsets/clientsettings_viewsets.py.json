@@ -1,0 +1,22 @@
+{
+    "sourceFile": "clients/viewsets/clientsettings_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1729837221201,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729837246614,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n )\n from ..utilities.importbase import *\n \n \n-class ClientSettingsViewsets(viewsets.ModelViewSet):\n+class clientsettingsViewsets(viewsets.ModelViewSet):\n     queryset = ClientSettings.objects.all()\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                }
+            ],
+            "date": 1729837221201,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets, status\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom rest_framework.response import Response\nfrom ..models import ClientSettings\nfrom ..serializers.clientsettings_serializers import (\n    ClientSettingsListSerializers, \n    ClientSettingsRetrieveSerializers, \n    ClientSettingsWriteSerializers, \n    BulkClientSettingsSerializer\n)\nfrom ..utilities.importbase import *\n\n\nclass ClientSettingsViewsets(viewsets.ModelViewSet):\n    queryset = ClientSettings.objects.all()\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n    \n    def get_queryset(self):\n        queryset = super().get_queryset()\n        # Add any custom filtering logic here if needed\n        return queryset\n\n    def get_serializer_class(self):\n        if self.action == 'create':\n            return BulkClientSettingsSerializer\n        elif self.action in ['update', 'partial_update']:\n            return ClientSettingsWriteSerializers\n        elif self.action == 'retrieve':\n            return ClientSettingsRetrieveSerializers\n        return ClientSettingsListSerializers\n\n    def create(self, request, *args, **kwargs):\n        \"\"\"\n        Override the default create method to handle bulk creation of client settings.\n        \"\"\"\n        serializer = self.get_serializer(data=request.data)\n        if serializer.is_valid():\n            serializer.save()\n            return Response({'status': 'success', 'message': 'Settings saved successfully'}, status=status.HTTP_201_CREATED)\n        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n"
+        }
+    ]
+}

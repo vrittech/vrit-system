@@ -1,0 +1,82 @@
+{
+    "sourceFile": "clients/serializers/clients_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 16,
+            "patches": [
+                {
+                    "date": 1729835822662,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729836331047,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         fields = '__all__'\n \n class ClientRetrieveSerializer(serializers.ModelSerializer):\n     class Meta:\n-        model = Client\n+        model = Clients\n         fields = '__all__'\n \n class ClientWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n"
+                },
+                {
+                    "date": 1729836337443,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,10 @@\n from rest_framework import serializers\n-from ..models import Client, ClientSetting\n+from ..models import Clients, ClientSetting\n \n class ClientListSerializer(serializers.ModelSerializer):\n     class Meta:\n-        model = Client\n+        model = Clients\n         fields = '__all__'\n \n class ClientRetrieveSerializer(serializers.ModelSerializer):\n     class Meta:\n@@ -12,9 +12,9 @@\n         fields = '__all__'\n \n class ClientWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n-        model = Client\n+        model = Clients\n         fields = '__all__'\n \n class ClientSettingListSerializer(serializers.ModelSerializer):\n     clients = ClientListSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1729836342629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from ..models import Clients, ClientSetting\n+from ..models import Clients, ClientSettings\n \n class ClientListSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n"
+                },
+                {
+                    "date": 1729836349308,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n class ClientSettingListSerializer(serializers.ModelSerializer):\n     clients = ClientListSerializer(many=True, read_only=True)\n \n     class Meta:\n-        model = ClientSetting\n+        model = ClientSettings\n         fields = '__all__'\n \n class ClientSettingRetrieveSerializer(serializers.ModelSerializer):\n     clients = ClientRetrieveSerializer(many=True, read_only=True)\n"
+                },
+                {
+                    "date": 1729836355202,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n         child=serializers.IntegerField(), write_only=True\n     )\n \n     class Meta:\n-        model = ClientSetting\n+        model = ClientSettings\n         fields = ['client_ids', 'section', 'loop_type', 'delay_time']\n \n     def create(self, validated_data):\n         client_ids = validated_data.pop('client_ids', [])\n"
+                },
+                {
+                    "date": 1729836360538,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n class ClientSettingRetrieveSerializer(serializers.ModelSerializer):\n     clients = ClientRetrieveSerializer(many=True, read_only=True)\n \n     class Meta:\n-        model = ClientSetting\n+        model = ClientSettings\n         fields = '__all__'\n \n class ClientSettingWriteSerializer(serializers.ModelSerializer):\n     client_ids = serializers.ListField(\n@@ -40,9 +40,9 @@\n         fields = ['client_ids', 'section', 'loop_type', 'delay_time']\n \n     def create(self, validated_data):\n         client_ids = validated_data.pop('client_ids', [])\n-        client_setting = ClientSetting.objects.create(**validated_data)\n+        client_setting = ClientSettings.objects.create(**validated_data)\n \n         # Add multiple clients to the ManyToManyField\n         clients = Client.objects.filter(id__in=client_ids)\n         client_setting.client.set(clients)\n"
+                },
+                {
+                    "date": 1729836368316,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n         client_ids = validated_data.pop('client_ids', [])\n         client_setting = ClientSettings.objects.create(**validated_data)\n \n         # Add multiple clients to the ManyToManyField\n-        clients = Client.objects.filter(id__in=client_ids)\n+        clients = Clients.objects.filter(id__in=client_ids)\n         client_setting.client.set(clients)\n \n         return client_setting\n \n@@ -57,8 +57,8 @@\n         instance.save()\n \n         # Update clients in the ManyToManyField\n         if client_ids:\n-            clients = Client.objects.filter(id__in=client_ids)\n+            clients = Clients.objects.filter(id__in=client_ids)\n             instance.client.set(clients)\n \n         return instance\n"
+                },
+                {
+                    "date": 1729836401481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientRetrieveSerializer(serializers.ModelSerializer):\n+class ClientRetrieveSerializes(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1729836409863,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,14 +10,14 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientWriteSerializer(serializers.ModelSerializer):\n+class ClientWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientSettingListSerializer(serializers.ModelSerializer):\n+class ClientSettingListSerializers(serializers.ModelSerializer):\n     clients = ClientListSerializer(many=True, read_only=True)\n \n     class Meta:\n         model = ClientSettings\n"
+                },
+                {
+                    "date": 1729836421181,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,16 +22,16 @@\n     class Meta:\n         model = ClientSettings\n         fields = '__all__'\n \n-class ClientSettingRetrieveSerializer(serializers.ModelSerializer):\n-    clients = ClientRetrieveSerializer(many=True, read_only=True)\n+class ClientSettingRetrieveSerializers(serializers.ModelSerializer):\n+    clients = ClientRetrieveSerializers(many=True, read_only=True)\n \n     class Meta:\n         model = ClientSettings\n         fields = '__all__'\n \n-class ClientSettingWriteSerializer(serializers.ModelSerializer):\n+class ClientSettingWriteSerializers(serializers.ModelSerializer):\n     client_ids = serializers.ListField(\n         child=serializers.IntegerField(), write_only=True\n     )\n \n"
+                },
+                {
+                    "date": 1729836427074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientRetrieveSerializes(serializers.ModelSerializer):\n+class ClientRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1729836435172,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from rest_framework import serializers\n from ..models import Clients, ClientSettings\n \n-class ClientListSerializer(serializers.ModelSerializer):\n+class ClientListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n@@ -16,9 +16,9 @@\n         model = Clients\n         fields = '__all__'\n \n class ClientSettingListSerializers(serializers.ModelSerializer):\n-    clients = ClientListSerializer(many=True, read_only=True)\n+    clients = ClientListSerializers(many=True, read_only=True)\n \n     class Meta:\n         model = ClientSettings\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1729836460374,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from rest_framework import serializers\n from ..models import Clients, ClientSettings\n \n-class ClientListSerializers(serializers.ModelSerializer):\n+class ClientsListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1729836466966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,19 +5,19 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientRetrieveSerializers(serializers.ModelSerializer):\n+class ClientsRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientWriteSerializers(serializers.ModelSerializer):\n+class ClientsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-class ClientSettingListSerializers(serializers.ModelSerializer):\n+class ClientsSettingListSerializers(serializers.ModelSerializer):\n     clients = ClientListSerializers(many=True, read_only=True)\n \n     class Meta:\n         model = ClientSettings\n"
+                },
+                {
+                    "date": 1729836475597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         model = Clients\n         fields = '__all__'\n \n class ClientsSettingListSerializers(serializers.ModelSerializer):\n-    clients = ClientListSerializers(many=True, read_only=True)\n+    clients = ClientsListSerializers(many=True, read_only=True)\n \n     class Meta:\n         model = ClientSettings\n         fields = '__all__'\n"
+                },
+                {
+                    "date": 1729836618381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from ..models import Clients, ClientSettings\n+from ..models import Clients\n \n class ClientsListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n@@ -13,52 +13,5 @@\n \n class ClientsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Clients\n-        fields = '__all__'\n-\n-class ClientsSettingListSerializers(serializers.ModelSerializer):\n-    clients = ClientsListSerializers(many=True, read_only=True)\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = '__all__'\n-\n-class ClientSettingRetrieveSerializers(serializers.ModelSerializer):\n-    clients = ClientRetrieveSerializers(many=True, read_only=True)\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = '__all__'\n-\n-class ClientSettingWriteSerializers(serializers.ModelSerializer):\n-    client_ids = serializers.ListField(\n-        child=serializers.IntegerField(), write_only=True\n-    )\n-\n-    class Meta:\n-        model = ClientSettings\n-        fields = ['client_ids', 'section', 'loop_type', 'delay_time']\n-\n-    def create(self, validated_data):\n-        client_ids = validated_data.pop('client_ids', [])\n-        client_setting = ClientSettings.objects.create(**validated_data)\n-\n-        # Add multiple clients to the ManyToManyField\n-        clients = Clients.objects.filter(id__in=client_ids)\n-        client_setting.client.set(clients)\n-\n-        return client_setting\n-\n-    def update(self, instance, validated_data):\n-        client_ids = validated_data.pop('client_ids', [])\n-        instance.section = validated_data.get('section', instance.section)\n-        instance.loop_type = validated_data.get('loop_type', instance.loop_type)\n-        instance.delay_time = validated_data.get('delay_time', instance.delay_time)\n-        instance.save()\n-\n-        # Update clients in the ManyToManyField\n-        if client_ids:\n-            clients = Clients.objects.filter(id__in=client_ids)\n-            instance.client.set(clients)\n-\n-        return instance\n+        fields = '__all__'\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1729835822662,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Client, ClientSetting\n\nclass ClientListSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Client\n        fields = '__all__'\n\nclass ClientRetrieveSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Client\n        fields = '__all__'\n\nclass ClientWriteSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Client\n        fields = '__all__'\n\nclass ClientSettingListSerializer(serializers.ModelSerializer):\n    clients = ClientListSerializer(many=True, read_only=True)\n\n    class Meta:\n        model = ClientSetting\n        fields = '__all__'\n\nclass ClientSettingRetrieveSerializer(serializers.ModelSerializer):\n    clients = ClientRetrieveSerializer(many=True, read_only=True)\n\n    class Meta:\n        model = ClientSetting\n        fields = '__all__'\n\nclass ClientSettingWriteSerializer(serializers.ModelSerializer):\n    client_ids = serializers.ListField(\n        child=serializers.IntegerField(), write_only=True\n    )\n\n    class Meta:\n        model = ClientSetting\n        fields = ['client_ids', 'section', 'loop_type', 'delay_time']\n\n    def create(self, validated_data):\n        client_ids = validated_data.pop('client_ids', [])\n        client_setting = ClientSetting.objects.create(**validated_data)\n\n        # Add multiple clients to the ManyToManyField\n        clients = Client.objects.filter(id__in=client_ids)\n        client_setting.client.set(clients)\n\n        return client_setting\n\n    def update(self, instance, validated_data):\n        client_ids = validated_data.pop('client_ids', [])\n        instance.section = validated_data.get('section', instance.section)\n        instance.loop_type = validated_data.get('loop_type', instance.loop_type)\n        instance.delay_time = validated_data.get('delay_time', instance.delay_time)\n        instance.save()\n\n        # Update clients in the ManyToManyField\n        if client_ids:\n            clients = Client.objects.filter(id__in=client_ids)\n            instance.client.set(clients)\n\n        return instance\n"
+        }
+    ]
+}

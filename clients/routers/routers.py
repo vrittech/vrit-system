@@ -1,8 +1,9 @@
 from rest_framework.routers import DefaultRouter
 from ..viewsets.clients_viewsets import clientsViewsets
+from ..viewsets.clientsettings_viewsets import clientsettingsViewsets
 
 router = DefaultRouter()
-auto_api_routers = router
 
 
 router.register('clients', clientsViewsets, basename="clientsViewsets")
+router.register('clientsettings', clientsettingsViewsets, basename="clientsettingsViewsets")

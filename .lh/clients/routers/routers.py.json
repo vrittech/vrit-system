@@ -1,0 +1,18 @@
+{
+    "sourceFile": "clients/routers/routers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1729837320444,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1729837320444,
+            "name": "Commit-0",
+            "content": "from rest_framework.routers import DefaultRouter\nfrom ..viewsets.clients_viewsets import clientsViewsets\nfrom ..viewsets.clientsettings_viewsets import clientsettingsViewsets\n\nrouter = DefaultRouter()\n\n\nrouter.register('clients', clientsViewsets, basename=\"clientsViewsets\")\nrouter.register('clientsettings', clientsettingsViewsets, basename=\"clientsettingsViewsets\")\n"
+        }
+    ]
+}

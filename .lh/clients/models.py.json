@@ -1,0 +1,110 @@
+{
+    "sourceFile": "clients/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 23,
+            "patches": [
+                {
+                    "date": 1729835006074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729835212532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n # Create your models here.\n \n class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    position = models.PositiveIntegerField(default = 33)\n+    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1729835233907,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n \n class ClientSettings(models.Model):\n     client = models.ManyToManyField(Clients)\n     section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n-    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Fourth')),max_length = 20)\n+    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','FourReth')),max_length = 20)\n     delay_time =  models.TimeField()\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n"
+                },
+                {
+                    "date": 1729835239140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n \n class ClientSettings(models.Model):\n     client = models.ManyToManyField(Clients)\n     section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n-    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','FourReth')),max_length = 20)\n+    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Reverse')),max_length = 20)\n     delay_time =  models.TimeField()\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n"
+                },
+                {
+                    "date": 1729835359669,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n # Create your models here.\n \n class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n+    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20,default=)\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1729835365849,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n # Create your models here.\n \n class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20,default=)\n+    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20,default='first')\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1729835427497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,22 +1,36 @@\n from django.db import models\n \n-# Create your models here.\n+class Client(models.Model):\n+    SECTION_CHOICES = [\n+        ('first', 'First'),\n+        ('second', 'Second'),\n+        ('third', 'Third'),\n+        ('fourth', 'Fourth'),\n+    ]\n \n-class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20,default='first')\n+    section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-class ClientSettings(models.Model):\n-    client = models.ManyToManyField(Clients)\n-    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n-    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Reverse')),max_length = 20)\n-    delay_time =  models.TimeField()\n+    def __str__(self):\n+        return self.name\n+\n+class ClientSetting(models.Model):\n+    LOOP_TYPE_CHOICES = [\n+        ('forward', 'Forward'),\n+        ('reverse', 'Reverse'),\n+    ]\n+\n+    client = models.ManyToManyField(Client, related_name='settings')\n+    section = models.CharField(choices=Client.SECTION_CHOICES, max_length=20)\n+    loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n+    delay_time = models.TimeField()\n+\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-\n-\n+    def __str__(self):\n+        return f\"Settings for section: {self.section}\"\n"
+                },
+                {
+                    "date": 1729835528931,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n from django.db import models\n+from clients.models import Client\n \n+\n class Client(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n"
+                },
+                {
+                    "date": 1729835537943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,6 @@\n from django.db import models\n-from clients.models import Client\n \n-\n class Client(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n"
+                },
+                {
+                    "date": 1729835548034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,15 @@\n     def __str__(self):\n         return self.name\n \n class ClientSetting(models.Model):\n+     SECTION_CHOICES = [\n+        ('first', 'First'),\n+        ('second', 'Second'),\n+        ('third', 'Third'),\n+        ('fourth', 'Fourth'),\n+    ]\n+     \n     LOOP_TYPE_CHOICES = [\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n"
+                },
+                {
+                    "date": 1729835557359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,14 +18,14 @@\n     def __str__(self):\n         return self.name\n \n class ClientSetting(models.Model):\n-     SECTION_CHOICES = [\n+    SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n         ('fourth', 'Fourth'),\n-    ]\n+    ],\n      \n     LOOP_TYPE_CHOICES = [\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n"
+                },
+                {
+                    "date": 1729835568428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,17 +23,17 @@\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n         ('fourth', 'Fourth'),\n-    ],\n+    ]\n      \n     LOOP_TYPE_CHOICES = [\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n \n     client = models.ManyToManyField(Client, related_name='settings')\n-    section = models.CharField(choices=Client.SECTION_CHOICES, max_length=20)\n+    section = models.CharField(choices=SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1729835625094,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n         ('reverse', 'Reverse'),\n     ]\n \n     client = models.ManyToManyField(Client, related_name='settings')\n-    section = models.CharField(choices=SECTION_CHOICES, max_length=20)\n+    section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1729835632010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n \n-    client = models.ManyToManyField(Client, related_name='settings')\n+    client = models.ManyToManyField(Client, related_name='client_settings')\n     section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n"
+                },
+                {
+                    "date": 1729835638701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,43 +1,20 @@\n from django.db import models\n \n-class Client(models.Model):\n-    SECTION_CHOICES = [\n-        ('first', 'First'),\n-        ('second', 'Second'),\n-        ('third', 'Third'),\n-        ('fourth', 'Fourth'),\n-    ]\n+# Create your models here.\n \n+class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')\n+    position = models.PositiveIntegerField(default = 33)\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-    def __str__(self):\n-        return self.name\n+class ClientSettings(models.Model):\n+    client = models.ManyToManyField(Clients)\n+    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n+    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Fourth')),max_length = 20)\n+    delay_time =  models.TimeField()\n \n-class ClientSetting(models.Model):\n-    SECTION_CHOICES = [\n-        ('first', 'First'),\n-        ('second', 'Second'),\n-        ('third', 'Third'),\n-        ('fourth', 'Fourth'),\n-    ]\n-     \n-    LOOP_TYPE_CHOICES = [\n-        ('forward', 'Forward'),\n-        ('reverse', 'Reverse'),\n-    ]\n \n-    client = models.ManyToManyField(Client, related_name='client_settings')\n-    section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n-    loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n-    delay_time = models.TimeField()\n \n-    created_at = models.DateTimeField(auto_now_add=True)\n-    updated_at = models.DateTimeField(auto_now=True)\n-\n-    def __str__(self):\n-        return f\"Settings for section: {self.section}\"\n"
+                },
+                {
+                    "date": 1729835647894,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,20 +1,43 @@\n from django.db import models\n \n-# Create your models here.\n+class Client(models.Model):\n+    SECTION_CHOICES = [\n+        ('first', 'First'),\n+        ('second', 'Second'),\n+        ('third', 'Third'),\n+        ('fourth', 'Fourth'),\n+    ]\n \n-class Clients(models.Model):\n     name = models.CharField(max_length=100)\n-    position = models.PositiveIntegerField(default = 33)\n+    section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')\n     media = models.ImageField(upload_to=\"clients\")\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-class ClientSettings(models.Model):\n-    client = models.ManyToManyField(Clients)\n-    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n-    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Fourth')),max_length = 20)\n-    delay_time =  models.TimeField()\n+    def __str__(self):\n+        return self.name\n \n+class ClientSetting(models.Model):\n+    SECTION_CHOICES = [\n+        ('first', 'First'),\n+        ('second', 'Second'),\n+        ('third', 'Third'),\n+        ('fourth', 'Fourth'),\n+    ]\n+     \n+    LOOP_TYPE_CHOICES = [\n+        ('forward', 'Forward'),\n+        ('reverse', 'Reverse'),\n+    ]\n \n+    client = models.ManyToManyField(Client, related_name='client_settings')\n+    section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n+    loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n+    delay_time = models.TimeField()\n \n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+\n+    def __str__(self):\n+        return f\"Settings for section: {self.section}\"\n"
+                },
+                {
+                    "date": 1729835653627,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.db import models\n \n-class Client(models.Model):\n+class Clients(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n"
+                },
+                {
+                    "date": 1729835685682,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n \n-    client = models.ManyToManyField(Client, related_name='client_settings')\n+    client = models.ManyToManyField(Clients, related_name='ClientSetting')\n     section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n"
+                },
+                {
+                    "date": 1729835697568,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n \n-    client = models.ManyToManyField(Clients, related_name='ClientSetting')\n+    client = models.ManyToManyField(Clients, related_name='ClientSettings')\n     section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n"
+                },
+                {
+                    "date": 1729836291067,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.db import models\n \n-class Clients(models.Model):\n+class Client(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n@@ -17,9 +17,9 @@\n \n     def __str__(self):\n         return self.name\n \n-class ClientSetting(models.Model):\n+class ClientSettings(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n"
+                },
+                {
+                    "date": 1729836571138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.db import models\n \n-class Client(models.Model):\n+class Clients(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n@@ -17,9 +17,9 @@\n \n     def __str__(self):\n         return self.name\n \n-class ClientSettings(models.Model):\n+class ClientSetting(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n"
+                },
+                {
+                    "date": 1729836624571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         ('forward', 'Forward'),\n         ('reverse', 'Reverse'),\n     ]\n \n-    client = models.ManyToManyField(Clients, related_name='ClientSettings')\n+    # client = models.ManyToManyField(Clients, related_name='ClientSettings')\n     section = models.CharField(choices= SECTION_CHOICES, max_length=20)\n     loop_type = models.CharField(choices=LOOP_TYPE_CHOICES, max_length=20)\n     delay_time = models.TimeField()\n \n"
+                },
+                {
+                    "date": 1729836646543,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n \n     def __str__(self):\n         return self.name\n \n-class ClientSetting(models.Model):\n+class ClientSettings(models.Model):\n     SECTION_CHOICES = [\n         ('first', 'First'),\n         ('second', 'Second'),\n         ('third', 'Third'),\n"
+                },
+                {
+                    "date": 1729836764343,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,6 +38,7 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n-    def __str__(self):\n-        return f\"Settings for section: {self.section}\"\n+     def __str__(self):\n+        return f\"{self.client} - {self.section}: {self.loop_type} ({self.delay_time})\"\n+\n"
+                }
+            ],
+            "date": 1729835006074,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\n\nclass Clients(models.Model):\n    name = models.CharField(max_length=100)\n    position = models.PositiveIntegerField(default = 33)\n    media = models.ImageField(upload_to=\"clients\")\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\nclass ClientSettings(models.Model):\n    client = models.ManyToManyField(Clients)\n    section = models.CharField(choices = (('first','First'),('second','Second'),('third','Third'),('fourth','Fourth')),max_length = 20)\n    loop_type = models.CharField(choices = (('forward','Forward'),('reverse','Fourth')),max_length = 20)\n    delay_time =  models.TimeField()\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n\n\n"
+        }
+    ]
+}
