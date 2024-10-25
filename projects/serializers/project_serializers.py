@@ -29,6 +29,12 @@ class ServicesSerializers_Project(serializers.ModelSerializer):
         model = ProjectService
         fields = ['id', 'name', 'description', 'image']
 
+class ProjectGroupSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectGroup
+        # fields = ['id', 'name', 'description', 'image']
+        fields = ['id', 'name','created_at']
+
 # Serializer for ProjectLink model
 class ProjectLinkSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,6 +43,7 @@ class ProjectLinkSerializer(serializers.ModelSerializer):
 
 # List serializer for Project model
 class ProjectListSerializers(serializers.ModelSerializer):
+    group = ProjectGroupSerializers(read_only=True)
     project_service = ServicesSerializers_Project(many=True, read_only=True)
     project_link = ProjectLinkSerializer(many=True, read_only=True)
 
@@ -46,6 +53,7 @@ class ProjectListSerializers(serializers.ModelSerializer):
 
 # Retrieve serializer for Project model
 class ProjectRetrieveSerializers(serializers.ModelSerializer):
+    group = ProjectGroupSerializers(read_only=True)
     project_service = ServicesSerializers_Project(many=True, read_only=True)
     project_link = ProjectLinkSerializer(many=True, read_only=True)
 

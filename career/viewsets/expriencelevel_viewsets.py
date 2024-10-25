@@ -18,7 +18,7 @@ class expriencelevelViewsets(viewsets.ModelViewSet):
     ordering_fields = ['id','title','expiration_date','created_at']
     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )
 
-    filterset_class = CareerFilter
+    
 
     def get_queryset(self):
         queryset = super().get_queryset()

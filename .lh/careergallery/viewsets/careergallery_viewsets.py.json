@@ -1,0 +1,38 @@
+{
+    "sourceFile": "careergallery/viewsets/careergallery_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1729846430152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729846519935,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id']\n+    ordering_fields = ['id,'na']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729846527805,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id,'na']\n+    ordering_fields = ['id','name']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729846632192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','name']\n+    ordering_fields = ['id','name','created_at']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729846688928,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','name','created_at']\n+    ordering_fields = ['id','name','created_at','album_']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                },
+                {
+                    "date": 1729846694290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     queryset = CareerGallery.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','name','created_at','album_']\n+    ordering_fields = ['id','name','created_at','album__title','']\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n \n"
+                }
+            ],
+            "date": 1729846430152,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom django.db.models import Count\nfrom ..models import CareerGallery, Album\nfrom ..serializers.careergallery_serializers import (\n    CareerGalleryListSerializers, \n    CareerGalleryRetrieveSerializers, \n    CareerGalleryWriteSerializers\n)\nfrom ..utilities.importbase import *\n\nclass careergalleryViewsets(viewsets.ModelViewSet):\n    serializer_class = CareerGalleryListSerializers\n    # permission_classes = [careergalleryPermission]\n    # authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = CareerGallery.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n\n        # Annotate queryset with image count for each album\n        queryset = queryset.select_related('album').annotate(\n            image_count=Count('album__career_galleries')\n        )\n\n        return queryset\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return CareerGalleryWriteSerializers\n        elif self.action == 'retrieve':\n            return CareerGalleryRetrieveSerializers\n        return super().get_serializer_class()\n\n    def list(self, request, *args, **kwargs):\n        queryset = self.get_queryset()\n\n        # Aggregating image count for each album\n        albums_with_image_count = Album.objects.annotate(\n            image_count=Count('career_galleries')\n        ).values('id', 'title', 'image_count')\n\n        response_data = {\n            \"albums\": list(albums_with_image_count),\n            \"career_galleries\": self.get_serializer(queryset, many=True).data\n        }\n\n        return Response(response_data)\n"
+        }
+    ]
+}

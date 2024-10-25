@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 18,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1729840771815,
@@ -80,6 +80,10 @@
                 {
                     "date": 1729842210436,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import ExperienceLevel\n from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers\n from ..utilities.importbase import *\n-from utilities.carrer_filter import CareerFilter\n+from ..utilities.carrer_filter import CareerFilter\n \n class expriencelevelViewsets(viewsets.ModelViewSet):\n     serializer_class = ExperienceLevelListSerializers\n     # permission_classes = [careerPermission]\n@@ -14,9 +14,9 @@\n     queryset = ExperienceLevel.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n-    ordering_fields = ['id','title','expiration_date','created_at',]\n+    ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n     filterset_class = CareerFilter\n \n"
+                },
+                {
+                    "date": 1729847091690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     search_fields = ['id']\n     ordering_fields = ['id','title','expiration_date','created_at']\n     # ('title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at', )\n \n-    filterset_class = CareerFilter\n+    \n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
                 }
             ],
             "date": 1729840771815,

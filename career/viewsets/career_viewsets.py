@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Career
 from ..serializers.career_serializers import CareerListSerializers, CareerRetrieveSerializers, CareerWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.carrer_filter import CareerFilter
 
 class careerViewsets(viewsets.ModelViewSet):
     serializer_class = CareerListSerializers
@@ -11,6 +12,7 @@ class careerViewsets(viewsets.ModelViewSet):
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = Career.objects.all()
+    filterset_class = CareerFilter
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']

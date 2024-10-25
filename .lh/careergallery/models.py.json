@@ -1,0 +1,34 @@
+{
+    "sourceFile": "careergallery/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1729846131497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1729846139491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         blank=True, \n         on_delete=models.SET_NULL, \n         related_name=\"career_galleries\"\n     )\n-    position = models.PositiveIntegerField(default=0)\n+    position = models.PositiveIntegerField(default=9999)\n     image = models.ImageField(upload_to='career_gallery')\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n"
+                },
+                {
+                    "date": 1729846176983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,9 @@\n \n     def __str__(self):\n         return self.title\n \n-    class Meta:\n-        verbose_name = \"Album\"\n-        verbose_name_plural = \"Albums\"\n-        ordering = ['title']\n+    \n \n # Create your models here.\n class CareerGallery(models.Model):\n     name = models.CharField(max_length=255)\n"
+                },
+                {
+                    "date": 1729846197353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,10 +5,8 @@\n \n     def __str__(self):\n         return self.title\n \n-    \n-\n # Create your models here.\n class CareerGallery(models.Model):\n     name = models.CharField(max_length=255)\n     album = models.ForeignKey(\n@@ -24,9 +22,4 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f\"{self.name} - {self.album}\"\n-\n-    class Meta:\n-        verbose_name = \"Career Gallery\"\n-        verbose_name_plural = \"Career Galleries\"\n-        ordering = ['position', 'created_at']\n"
+                },
+                {
+                    "date": 1729846206494,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,13 @@\n \n     def __str__(self):\n         return self.title\n \n+    class Meta:\n+        verbose_name = \"Album\"\n+        verbose_name_plural = \"Albums\"\n+        ordering = ['title']\n+\n # Create your models here.\n class CareerGallery(models.Model):\n     name = models.CharField(max_length=255)\n     album = models.ForeignKey(\n@@ -15,11 +20,16 @@\n         blank=True, \n         on_delete=models.SET_NULL, \n         related_name=\"career_galleries\"\n     )\n-    position = models.PositiveIntegerField(default=9999)\n+    position = models.PositiveIntegerField(default=0)\n     image = models.ImageField(upload_to='career_gallery')\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f\"{self.name} - {self.album}\"\n+\n+    class Meta:\n+        verbose_name = \"Career Gallery\"\n+        verbose_name_plural = \"Career Galleries\"\n+        ordering = ['position', 'created_at']\n"
+                }
+            ],
+            "date": 1729846131497,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\nclass Album(models.Model):\n    title = models.CharField(max_length=200)\n\n    def __str__(self):\n        return self.title\n\n    class Meta:\n        verbose_name = \"Album\"\n        verbose_name_plural = \"Albums\"\n        ordering = ['title']\n\n# Create your models here.\nclass CareerGallery(models.Model):\n    name = models.CharField(max_length=255)\n    album = models.ForeignKey(\n        Album, \n        null=True, \n        blank=True, \n        on_delete=models.SET_NULL, \n        related_name=\"career_galleries\"\n    )\n    position = models.PositiveIntegerField(default=0)\n    image = models.ImageField(upload_to='career_gallery')\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n    def __str__(self):\n        return f\"{self.name} - {self.album}\"\n\n    class Meta:\n        verbose_name = \"Career Gallery\"\n        verbose_name_plural = \"Career Galleries\"\n        ordering = ['position', 'created_at']\n"
+        }
+    ]
+}

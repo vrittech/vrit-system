@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1729841905220,
@@ -36,6 +36,26 @@
                 {
                     "date": 1729842187394,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n class CareerFilter(filters.FilterSet):\n     experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n     title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     is_show = filters.BooleanFilter(field_name='is_show')\n-    auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n+    enable_auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n"
+                },
+                {
+                    "date": 1729846937501,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'title', 'is_show', 'auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729846950346,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n+        fields = ['experience_levelexperience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729846967923,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,13 +3,13 @@\n from ..models import Career\n \n \n class CareerFilter(filters.FilterSet):\n-    experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n+    # experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n     title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     is_show = filters.BooleanFilter(field_name='is_show')\n     enable_auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_levelexperience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729846973243,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n+        fields = [ 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1729846992425,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = [ 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
                 }
             ],
             "date": 1729841905220,

@@ -1,8 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import CareerGallery
-from ..serializers.careergallery_serializers import CareerGalleryListSerializers, CareerGalleryRetrieveSerializers, CareerGalleryWriteSerializers
+from django.db.models import Count
+from ..models import CareerGallery, Album
+from ..serializers.careergallery_serializers import (
+    CareerGalleryListSerializers, 
+    CareerGalleryRetrieveSerializers, 
+    CareerGalleryWriteSerializers
+)
 from ..utilities.importbase import *
 
 class careergalleryViewsets(viewsets.ModelViewSet):
@@ -14,16 +19,17 @@ class careergalleryViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
-    ordering_fields = ['id']
-
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    ordering_fields = ['id','name','created_at','album__title','name']
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # Annotate queryset with image count for each album
+        queryset = queryset.select_related('album').annotate(
+            image_count=Count('album__career_galleries')
+        )
+
         return queryset
-        #return queryset.filter(user_id=self.request.user.id)
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -32,7 +38,17 @@ class careergalleryViewsets(viewsets.ModelViewSet):
             return CareerGalleryRetrieveSerializers
         return super().get_serializer_class()
 
-    # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
-    # def action_name(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
 
+        # Aggregating image count for each album
+        albums_with_image_count = Album.objects.annotate(
+            image_count=Count('career_galleries')
+        ).values('id', 'title', 'image_count')
+
+        response_data = {
+            "albums": list(albums_with_image_count),
+            "career_galleries": self.get_serializer(queryset, many=True).data
+        }
+
+        return Response(response_data)
