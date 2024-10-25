@@ -19,7 +19,7 @@ class projectViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ('id','name', 'position', 'description', 'group__name', 'project_service__name', 'project_link__label', 'case_study__title', 'created_at', 'updated_at', )
-    ordering_fields = ('id','name','created_at', )
+    ordering_fields = ('id','name','created_at','position' )
     # ('name', 'position', 'description', 'group', 'project_service', 'project_link', 'case_study', 'media', 'created_at', 'updated_at', )
 
     filterset_fields = {
