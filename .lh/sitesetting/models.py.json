@@ -1,0 +1,34 @@
+{
+    "sourceFile": "sitesetting/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1730111431318,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730112133995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,5 +7,7 @@\n     team_member_number = models.PositiveIntegerField()\n     project_completed_number = models.PositiveIntegerField()\n     privacy_policy = models.TextField()\n     terms_and_condition = models.TextField()\n+    \n+\n         \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112148944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,6 +8,16 @@\n     project_completed_number = models.PositiveIntegerField()\n     privacy_policy = models.TextField()\n     terms_and_condition = models.TextField()\n     \n-\n+class TermAndCondition(models.Model):\n+    description = models.TextField()\n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+class PrivacyPolicy(models.Model):\n+    description = models.TextField()\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n         \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112172370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,10 +5,8 @@\n     experience_number = models.PositiveIntegerField()\n     success_stories_number =  models.PositiveIntegerField()\n     team_member_number = models.PositiveIntegerField()\n     project_completed_number = models.PositiveIntegerField()\n-    privacy_policy = models.TextField()\n-    terms_and_condition = models.TextField()\n     \n class TermAndCondition(models.Model):\n     description = models.TextField()\n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730112190535,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,11 @@\n     success_stories_number =  models.PositiveIntegerField()\n     team_member_number = models.PositiveIntegerField()\n     project_completed_number = models.PositiveIntegerField()\n     \n+        created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n class TermAndCondition(models.Model):\n     description = models.TextField()\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n"
+                }
+            ],
+            "date": 1730111431318,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\nclass SiteSetting(models.Model):\n    experience_number = models.PositiveIntegerField()\n    success_stories_number =  models.PositiveIntegerField()\n    team_member_number = models.PositiveIntegerField()\n    project_completed_number = models.PositiveIntegerField()\n    privacy_policy = models.TextField()\n    terms_and_condition = models.TextField()\n        "
+        }
+    ]
+}

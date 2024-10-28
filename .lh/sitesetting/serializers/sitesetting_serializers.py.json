@@ -1,0 +1,46 @@
+{
+    "sourceFile": "sitesetting/serializers/sitesetting_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1730112834374,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730112841349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,8 @@\n     class Meta:\n         model = SiteSetting\n         fields = '__all__'\n \n-class SiteSettingRetrieveSerializers(serializers.ModelSerializer):\n+class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = SiteSetting\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112850912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework import serializers\n-from ..models import SiteSetting\n+from ..models import *\n \n class SiteSettingListSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = SiteSetting\n@@ -17,6 +17,6 @@\n         fields = '__all__'\n \n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n-        model = SiteSetting\n+        model = P\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112856216,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,6 +17,6 @@\n         fields = '__all__'\n \n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n-        model = P\n+        model = PrivacyPolicy\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112911012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,5 +18,9 @@\n \n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n+        fields = '__all__'\n+class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = PrivacyPolicy\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112916283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,8 @@\n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n-class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n+class TerRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112922526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,8 @@\n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n-class TerRetrieveSerializers(serializers.ModelSerializer):\n+class TermsAndConditionRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730112930210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,8 @@\n class PrivacyPolicyRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n-class TermsAndConditionRetrieveSerializers(serializers.ModelSerializer):\n+class TermAndConditionRetrieveSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = PrivacyPolicy\n         fields = '__all__'\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730112834374,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import SiteSetting\n\nclass SiteSettingListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = SiteSetting\n        fields = '__all__'\n\nclass SiteSettingRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = SiteSetting\n        fields = '__all__'\n\nclass SiteSettingWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = SiteSetting\n        fields = '__all__'\n\nclass SiteSettingRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = SiteSetting\n        fields = '__all__'"
+        }
+    ]
+}

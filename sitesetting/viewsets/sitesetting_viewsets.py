@@ -1,38 +1,67 @@
-from rest_framework import viewsets
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from ..models import SiteSetting
-from ..serializers.sitesetting_serializers import SiteSettingListSerializers, SiteSettingRetrieveSerializers, SiteSettingWriteSerializers
-from ..utilities.importbase import *
+from ..serializers.sitesetting_serializers import (
+    SiteSettingListSerializers,
+    SiteSettingRetrieveSerializers,
+    SiteSettingWriteSerializers
+)
+from django_filters.rest_framework import DjangoFilterBackend
 
-class sitesettingViewsets(viewsets.ModelViewSet):
-    serializer_class = SiteSettingListSerializers
-    # permission_classes = [sitesettingPermission]
-    # authentication_classes = [JWTAuthentication]
-    pagination_class = MyPageNumberPagination
-    queryset = SiteSetting.objects.all()
+class sitesettingViewsets(viewsets.ViewSet):
+    """
+    This ViewSet is designed to manage a single instance of SiteSetting.
+    """
+    def get_object(self):
+        # Retrieve the single SiteSetting instance or return 404 if not found
+        obj = SiteSetting.objects.first()
+        if obj is None:
+            self.create_initial_object()
+            obj = SiteSetting.objects.first()
+        return obj
 
-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    def create_initial_object(self):
+        # Create an initial object if none exists
+        if SiteSetting.objects.count() == 0:
+            SiteSetting.objects.create(
+                experience_number=0,
+                success_stories_number=0,
+                team_member_number=0,
+                project_completed_number=0
+            )
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    def list(self, request):
+        obj = self.get_object()
+        serializer = SiteSettingListSerializers(obj)
+        return Response(serializer.data)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
-        #return queryset.filter(user_id=self.request.user.id)
+    def retrieve(self, request, pk=None):
+        obj = self.get_object()
+        serializer = SiteSettingRetrieveSerializers(obj)
+        return Response(serializer.data)
 
-    def get_serializer_class(self):
-        if self.action in ['create', 'update', 'partial_update']:
-            return SiteSettingWriteSerializers
-        elif self.action == 'retrieve':
-            return SiteSettingRetrieveSerializers
-        return super().get_serializer_class()
+    def create(self, request):
+        if SiteSetting.objects.exists():
+            return Response(
+                {"detail": "SiteSetting already exists. Use PUT or PATCH to update."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = SiteSettingWriteSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
-    # def action_name(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+    def update(self, request, pk=None):
+        obj = self.get_object()
+        serializer = SiteSettingWriteSerializers(obj, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def partial_update(self, request, pk=None):
+        obj = self.get_object()
+        serializer = SiteSettingWriteSerializers(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,0 +1,38 @@
+{
+    "sourceFile": "emailmanagement/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1730109174264,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730109199604,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,5 +27,7 @@\n     number_of_blog_based_on_user = models.IntegerField(default=1)\n     number_of_blog = models.IntegerField(default=1)\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n-    featured_image = models.ImageField(upload_to='emailtemplate')\n\\ No newline at end of file\n+    featured_image = models.ImageField(upload_to='emailtemplate')\n+    \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730109206305,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,5 +29,6 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-    \n\\ No newline at end of file\n+      def __str__(self):\n+        return self.company_name\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730109213364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,6 +29,6 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-      def __str__(self):\n-        return self.company_name\n\\ No newline at end of file\n+    def __str__(self):\n+        return self.template_name\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730110024514,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,11 @@\n     required_authentication = models.BooleanField(default = True)\n     security = models.CharField(max_length = 200,choices = (('None','None'),('SSL','SSL'),('TSL','TSL')),default = 'None')\n     smtp_username = models.CharField(max_length = 100,null = True,blank = True)\n     verify_smtp_certificate = models.BooleanField(default = False)\n+    \n+    def __str__(self):\n+        return self.template_name\n \n \n # Create your models here.\n class EmailManagement(models.Model):\n"
+                },
+                {
+                    "date": 1730110029610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     smtp_username = models.CharField(max_length = 100,null = True,blank = True)\n     verify_smtp_certificate = models.BooleanField(default = False)\n     \n     def __str__(self):\n-        return self.template_name\n+        return self.email_address\n \n \n # Create your models here.\n class EmailManagement(models.Model):\n"
+                }
+            ],
+            "date": 1730109174264,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom blog.models import BlogCategory,Blog\n\nclass EmailSetup(models.Model):\n    smtp_server_address = models.CharField(max_length = 300)  #EMAIL_HOST\n    email_address = models.EmailField(max_length = 300)\n    password = models.CharField(max_length = 2000) #app password\n    port = models.PositiveIntegerField()\n    required_authentication = models.BooleanField(default = True)\n    security = models.CharField(max_length = 200,choices = (('None','None'),('SSL','SSL'),('TSL','TSL')),default = 'None')\n    smtp_username = models.CharField(max_length = 100,null = True,blank = True)\n    verify_smtp_certificate = models.BooleanField(default = False)\n\n\n# Create your models here.\nclass EmailManagement(models.Model):\n    template_name = models.CharField(max_length = 255)\n    from_name = models.CharField(max_length = 155)\n    cc = models.CharField(max_length = 5000)\n    bcc = models.CharField(max_length = 5000)\n    subject = models.CharField(max_length = 300)\n    body = models.TextField()\n    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n    frequency = models.CharField(max_length = 50, choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))\n    frequency_per = models.IntegerField()\n    blog_category = models.ForeignKey(BlogCategory,on_delete = models.CASCADE)\n    number_of_blog_based_on_user = models.IntegerField(default=1)\n    number_of_blog = models.IntegerField(default=1)\n    additional_blog = models.ManyToManyField(Blog)\n    excerpt = models.CharField(max_length = 2000)\n    featured_image = models.ImageField(upload_to='emailtemplate')"
+        }
+    ]
+}

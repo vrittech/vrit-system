@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 36,
+            "activePatchIndex": 38,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -152,6 +152,14 @@
                 {
                     "date": 1730092343976,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -276,9 +276,10 @@\n CELERY_BROKER_URL = 'redis://localhost:6379/0'\n CELERY_ACCEPT_CONTENT = ['json']\n CELERY_TASK_SERIALIZER = 'json'\n CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n-CELERY_TIMEZONE = 'UTC'\n+CELERY_TIMEZONE = 'Asia/Kathmandu'\n+CELERY_ENABLE_UTC = False\n \n CELERY_BEAT_SCHEDULE = {\n     'publish-scheduled-blogs-every-hour': {\n         'task': 'your_app.tasks.publish_scheduled_blogs_task',\n"
+                },
+                {
+                    "date": 1730113333075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,9 +88,9 @@\n     'testimonial',\n     'sitesetting',\n     'careergallery',\n     'management',\n-    # 'drfapigenerator',\n+    'drfapigenerator',\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
+                },
+                {
+                    "date": 1730113386762,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -88,9 +88,9 @@\n     'testimonial',\n     'sitesetting',\n     'careergallery',\n     'management',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
                 }
             ],
             "date": 1729763322697,
