@@ -1,0 +1,50 @@
+{
+    "sourceFile": "globalpresence/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1730108572729,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730108597943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,4 +8,6 @@\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n     \n+    def __str__(self):\n+        return self.name\n"
+                },
+                {
+                    "date": 1730108636469,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,13 @@\n from django.db import models\n \n # Create your models here.\n class GlobalPresence(models.Model):\n-    world_location = models.URLField(max_length = 2000)\n+    global = models.URLField(max_length = 2000)\n     company_name = models.CharField(max_length = 350)\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n     \n     def __str__(self):\n-        return self.name\n+        return self.company_name\n"
+                },
+                {
+                    "date": 1730108647048,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.db import models\n \n # Create your models here.\n class GlobalPresence(models.Model):\n-    global = models.URLField(max_length = 2000)\n+    global_presence = models.CharField(max_length = 350)\n     company_name = models.CharField(max_length = 350)\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n"
+                },
+                {
+                    "date": 1730109040107,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,6 +8,8 @@\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n     \n+    \n+    \n     def __str__(self):\n         return self.company_name\n"
+                },
+                {
+                    "date": 1730109055139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,10 @@\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n     \n     \n     \n     def __str__(self):\n"
+                },
+                {
+                    "date": 1730109060286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,6 @@\n     image = models.ImageField(upload_to=\"globalpresence\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    \n-    \n     def __str__(self):\n         return self.company_name\n"
+                },
+                {
+                    "date": 1730109085448,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n-    created_at = models.DateTimeField(auto_now_add=True)\n+    created_at = models.DateTimeField(auto_now=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.company_name\n"
+                },
+                {
+                    "date": 1730109104240,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length = 150)\n     image = models.ImageField(upload_to=\"globalpresence\")\n-    created_at = models.DateTimeField(auto_now=True)\n+    created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.company_name\n"
+                }
+            ],
+            "date": 1730108572729,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\nclass GlobalPresence(models.Model):\n    world_location = models.URLField(max_length = 2000)\n    company_name = models.CharField(max_length = 350)\n    company_address = models.CharField(max_length=500)\n    email_address = models.EmailField(max_length=50)\n    phone_number = models.CharField(max_length = 150)\n    image = models.ImageField(upload_to=\"globalpresence\")\n    \n"
+        }
+    ]
+}

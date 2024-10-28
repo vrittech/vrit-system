@@ -1,0 +1,74 @@
+{
+    "sourceFile": "globalpresence/viewsets/globalpresence_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1730108710563,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730108723405,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,11 @@\n     pagination_class = MyPageNumberPagination\n     queryset = GlobalPresence.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image','id']\n     ordering_fields = ['id']\n-    \n+    # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730108732097,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     queryset = GlobalPresence.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image','id']\n-    ordering_fields = ['id']\n+    ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n"
+                },
+                {
+                    "date": 1730108742004,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,15 +12,15 @@\n     pagination_class = MyPageNumberPagination\n     queryset = GlobalPresence.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image','id']\n+    search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730108753328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,11 +16,11 @@\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n \n-    filterset_fields = {\n-        'id': ['exact'],\n-    }\n+    # filterset_fields = {\n+    #     'id': ['exact'],\n+    # }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730108940433,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n+from ..utilities.mod\n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730108950350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.mod\n+from ..utilities.models import \n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730108960199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.models import \n+from ..utilities.models import F\n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730108970011,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.models import F\n+from ..utilities.fil import \n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730108975070,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.fil import \n+from ..utilities.filters import Fil\n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730108982020,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import GlobalPresence\n from ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.filters import Fil\n+from ..utilities.filters import GlobalPresenceFilter\n \n class globalpresenceViewsets(viewsets.ModelViewSet):\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n"
+                },
+                {
+                    "date": 1730109001160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n+     filterset_class = NewsLetterSubscriptionFilter\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730109008071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     # ('global_presence', 'company_name', 'company_address', 'email_address', 'phone_number', 'image', )\n-     filterset_class = NewsLetterSubscriptionFilter\n+    filterset_class = GlobalPresenceFilter\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730109013306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = GlobalPresence.objects.all()\n+    queryset = GlobalPresence.objects.all().order_by\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n"
+                },
+                {
+                    "date": 1730109018345,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     serializer_class = GlobalPresenceListSerializers\n     # permission_classes = [globalpresencePermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = GlobalPresence.objects.all().order_by\n+    queryset = GlobalPresence.objects.all().order_by('created_at')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n     ordering_fields = ['global_presence', 'company_name', 'company_address', 'email_address', 'phone_number','id']\n"
+                }
+            ],
+            "date": 1730108710563,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import GlobalPresence\nfrom ..serializers.globalpresence_serializers import GlobalPresenceListSerializers, GlobalPresenceRetrieveSerializers, GlobalPresenceWriteSerializers\nfrom ..utilities.importbase import *\n\nclass globalpresenceViewsets(viewsets.ModelViewSet):\n    serializer_class = GlobalPresenceListSerializers\n    # permission_classes = [globalpresencePermission]\n    # authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = GlobalPresence.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n    \n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return GlobalPresenceWriteSerializers\n        elif self.action == 'retrieve':\n            return GlobalPresenceRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

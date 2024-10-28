@@ -1,0 +1,22 @@
+{
+    "sourceFile": "globalpresence/utilities/filters.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730108866043,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730108871147,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django_filters import rest_framework as filters\n-from .models import GlobalPresence\n+from ..models import GlobalPresence\n \n # Custom filter to allow multiple values\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n"
+                }
+            ],
+            "date": 1730108866043,
+            "name": "Commit-0",
+            "content": "from django_filters import rest_framework as filters\nfrom .models import GlobalPresence\n\n# Custom filter to allow multiple values\nclass CharInFilter(filters.BaseInFilter, filters.CharFilter):\n    pass\n\nclass GlobalPresenceFilter(filters.FilterSet):\n    global_presence = CharInFilter(field_name='global_presence', lookup_expr='in')\n\n    class Meta:\n        model = GlobalPresence\n        fields = ['global_presence']\n"
+        }
+    ]
+}

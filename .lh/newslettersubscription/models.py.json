@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1730106451568,
@@ -72,6 +72,10 @@
                 {
                     "date": 1730108277072,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,13 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter'e)\n+    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n     \n     date = models.DateField()\n     \n-    created_at = models.DateTimeField(auto_now_add=True)\n+   created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.status\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730108587966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n     \n     date = models.DateField()\n     \n-   created_at = models.DateTimeField(auto_now_add=True)\n+    created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n\\ No newline at end of file\n-        return self.status\n+        return self.name\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730106451567,
