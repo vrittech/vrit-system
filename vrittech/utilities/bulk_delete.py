@@ -7,22 +7,32 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
-from projects.models import Project, ProjectService
+from projects.models import Project, ProjectService, ProjectGroup
 from career.models import Career
+from careergallery.models import CareerGallery, Album
 from clients.models import Clients
 from faqs.models import Faqs
 from testimonial.models import Testimonial
 from casestudy.models import CaseStudy
+from newslettersubscription.models import NewsLetterSubscription
+from inquires.models import Inquires
+from plan.models import Plan
 
 VALID_TYPES = {
     "blog": Blog,
     "projects": Project,
     "service": ProjectService,
     "career": Career,
+    "career-gallery": CareerGallery,
+    "career-gallery-album": Album,
     "clients": Clients,
     "faqs": Faqs,
     "testimonial": Testimonial,
     "case_study": CaseStudy,
+    "project-group": ProjectGroup,
+    "newsletter-subscription": NewsLetterSubscription,
+    "inquiries": Inquires,
+    "plan": Plan,
 }
 
 class BulkDelete(APIView):

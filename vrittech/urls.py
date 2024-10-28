@@ -98,3 +98,7 @@ urlpatterns = [
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
+
+#*********This is forms router registered by autoapi*********
+from forms.routers.routers import router as forms_router
+urlpatterns.append(path('api/',include(forms_router.urls)))
