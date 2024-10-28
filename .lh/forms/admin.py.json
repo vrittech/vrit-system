@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1730115454046,
@@ -16,6 +16,10 @@
                 {
                     "date": 1730115466121,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n from django.contrib import admin\n \n # Register your models here.\n from .models import *\n-admin.site.register(Forms)\n\\ No newline at end of file\n+admin.site.register(Forms)\n+admin.site.register(Category)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730115526027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n \n # Register your models here.\n-from .models import *\n+from .models import Forms\n admin.site.register(Forms)\n admin.site.register(Category)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730115454046,
