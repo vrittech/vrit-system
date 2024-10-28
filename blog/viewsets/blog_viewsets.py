@@ -25,6 +25,7 @@ class blogViewsets(viewsets.ModelViewSet):
         'status':['exact'],
         'publish_date':['exact','gte','lte'],
         'category':['exact'],
+        'is_deleted':['exact'],
         'user':['exact']
     }
 

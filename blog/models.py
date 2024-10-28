@@ -41,7 +41,7 @@ class Blog(models.Model):
     meta_author = models.CharField(max_length = 300)
     tags = models.ManyToManyField(BlogTags)
     position = models.PositiveIntegerField(default= 9999)
-    # is_categorized = models.BooleanField(default= True)
+    
     
     header_code =  models.TextField(default = "")
     embedded_code =  models.TextField(default = "")
@@ -51,6 +51,8 @@ class Blog(models.Model):
 
     category = models.ManyToManyField(BlogCategory)
     featured_image = models.ImageField(upload_to='blog',null = True)
+    
+    is_deleted = models.BooleanField(default= False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
