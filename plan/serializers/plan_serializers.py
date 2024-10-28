@@ -42,23 +42,42 @@ class PlanRetrieveSerializers(serializers.ModelSerializer):
         ]
 
 # Serializer for Plan (Create & Update)
+
 class PlanWriteSerializers(serializers.ModelSerializer):
     features = serializers.PrimaryKeyRelatedField(queryset=Features.objects.all(), many=True)
 
     class Meta:
         model = Plan
-        fields = [
-            'id', 'title', 'pricing', 'duration', 'description',
-            'features', 'is_show', 'position'
-        ]
+        fields = '__all__'
 
-    def validate_is_show(self, value):
-        # Validate that at least 3 plans remain visible
-        if not value:
-            visible_plans_count = Plan.objects.filter(is_show=True).count()
-            if visible_plans_count <= 3:
-                raise serializers.ValidationError("At least 3 plans must be visible at all times.")
-        return value
+    def validate(self, data):
+        is_show = data.get('is_show', False)  
+        is_popular = data.get('is_popular', False)
+
+        # Count the number of visible plans
+        visible_plans_count = Plan.objects.filter(is_show=True).count()
+
+        # If creating a new plan, increment the count
+        if not self.instance and is_show:
+            visible_plans_count += 1
+
+        # Validation: At least 1 plan must be visible
+        if not is_show and visible_plans_count <= 1:
+            raise serializers.ValidationError("At least 1 plan must be visible at all times.")
+
+        # Validation: No more than 3 plans can be visible
+        if is_show and visible_plans_count > 3:
+            raise serializers.ValidationError("No more than 3 plans can be visible at the same time.")
+
+        # Validation: Only a visible plan can be popular
+        if is_popular and not is_show:
+            raise serializers.ValidationError("Only a visible plan can be marked as popular.")
+
+        # Validation: If only one visible plan, it must be marked as popular
+        if visible_plans_count == 1 and is_show and not is_popular:
+            raise serializers.ValidationError("The only visible plan must be marked as popular.")
+
+        return data
 
     def create(self, validated_data):
         features_data = validated_data.pop('features', [])
@@ -72,14 +91,6 @@ class PlanWriteSerializers(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         features_data = validated_data.pop('features', [])
-
-        # Validate the `is_show` field when updating
-        if 'is_show' in validated_data:
-            new_is_show = validated_data['is_show']
-            if not new_is_show and Plan.objects.filter(is_show=True).count() <= 3:
-                raise serializers.ValidationError(
-                    "At least 3 plans must be visible at all times."
-                )
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

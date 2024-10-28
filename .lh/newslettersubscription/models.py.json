@@ -1,0 +1,82 @@
+{
+    "sourceFile": "newslettersubscription/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 16,
+            "patches": [
+                {
+                    "date": 1730106451568,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730106462815,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,5 +8,9 @@\n     email = models.EmailField(max_length = 255)\n     service = models.ManyToManyField(ProjectService,related_name=\"newslettersubscription\")\n     date = models.DateField()\n     \n-    \n\\ No newline at end of file\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n+    def __str__(self):\n+        return self.status\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730106612647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n-    service = models.ManyToManyField(ProjectService,related_name=\"newslettersubscription\")\n+    \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1730106623366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n \n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n+    is_subscribed = models\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106632705,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n-    is_subscribed = models\n+    is_subscribed = models.BooleanField(default = False)\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106665720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from django.db import models\n-from projects.models import ProjectService\n+# from projects.models import ProjectService\n+from blog.\n \n # Create your models here.\n \n class NewsLetterSubscription(models.Model):\n"
+                },
+                {
+                    "date": 1730106671605,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.db import models\n # from projects.models import ProjectService\n-from blog.\n+from blog.models import b\n \n # Create your models here.\n \n class NewsLetterSubscription(models.Model):\n"
+                },
+                {
+                    "date": 1730106685509,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,15 @@\n from django.db import models\n # from projects.models import ProjectService\n-from blog.models import b\n+from blog.models import BlogCategory\n \n # Create your models here.\n \n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n+    category = mod\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106707968,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = mod\n+    category = features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans')mod\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106713842,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans')mod\n+    category = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans')mod\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106734064,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans')mod\n+    category = models.ManyToManyField(BlogCategory', related_name='plans')mod\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106740511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory', related_name='plans')mod\n+    category = models.ManyToManyField(BlogCategory,related_name='plans')mod\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106749389,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory,related_name='plans')mod\n+    category = models.ManyToManyField(BlogCategory,related_name='')\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106761706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory,related_name='')\n+    category = models.ManyToManyField(BlogCategory,related_name='blogcategory_newsletter')\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730106779311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory,related_name='blogcategory_newsletter')\n+    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter',null=True,blank=True)\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730108188491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter',null=True,blank=True)\n+    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter'e)\n     \n     date = models.DateField()\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730108277072,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,13 +7,13 @@\n class NewsLetterSubscription(models.Model):\n     name = models.CharField(max_length = 255)\n     email = models.EmailField(max_length = 255)\n     is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter'e)\n+    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n     \n     date = models.DateField()\n     \n-    created_at = models.DateTimeField(auto_now_add=True)\n+   created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.status\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730106451567,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom projects.models import ProjectService\n\n# Create your models here.\n\nclass NewsLetterSubscription(models.Model):\n    name = models.CharField(max_length = 255)\n    email = models.EmailField(max_length = 255)\n    service = models.ManyToManyField(ProjectService,related_name=\"newslettersubscription\")\n    date = models.DateField()\n    \n    "
+        }
+    ]
+}

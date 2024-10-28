@@ -1,0 +1,42 @@
+{
+    "sourceFile": "newslettersubscription/viewsets/newslettersubscription_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1730107933313,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730107988740,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = NewsLetterSubscriptionListSerializers\n     # permission_classes = [newslettersubscriptionPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = NewsLetterSubscription.objects.all().\n+    queryset = NewsLetterSubscription.objects.all().order_by\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730108008682,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,10 @@\n     serializer_class = NewsLetterSubscriptionListSerializers\n     # permission_classes = [newslettersubscriptionPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = NewsLetterSubscription.objects.all().order_by\n+    queryset = NewsLetterSubscription.objects.all().order_by('created_at')\n+    \n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730108016327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     # permission_classes = [newslettersubscriptionPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n     queryset = NewsLetterSubscription.objects.all().order_by('created_at')\n-    \n+    # ('name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at', )\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730108028612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     queryset = NewsLetterSubscription.objects.all().order_by('created_at')\n     # ('name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at', )\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n     ordering_fields = ['id']\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n"
+                },
+                {
+                    "date": 1730108035078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,13 +14,13 @@\n     # ('name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at', )\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n-    ordering_fields = ['id']\n+    ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730108061726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n     ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'category': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                }
+            ],
+            "date": 1730107933313,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import NewsLetterSubscription\nfrom ..serializers.newslettersubscription_serializers import NewsLetterSubscriptionListSerializers, NewsLetterSubscriptionRetrieveSerializers, NewsLetterSubscriptionWriteSerializers\nfrom ..utilities.importbase import *\n\nclass newslettersubscriptionViewsets(viewsets.ModelViewSet):\n    serializer_class = NewsLetterSubscriptionListSerializers\n    # permission_classes = [newslettersubscriptionPermission]\n    # authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = NewsLetterSubscription.objects.all().\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return NewsLetterSubscriptionWriteSerializers\n        elif self.action == 'retrieve':\n            return NewsLetterSubscriptionRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

@@ -10,15 +10,17 @@ class newslettersubscriptionViewsets(viewsets.ModelViewSet):
     # permission_classes = [newslettersubscriptionPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = NewsLetterSubscription.objects.all()
+    queryset = NewsLetterSubscription.objects.all().order_by('created_at')
+    # ('name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at', )
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']
+    ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'category': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()

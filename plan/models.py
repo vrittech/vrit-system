@@ -22,7 +22,6 @@ class Plan(models.Model):
     is_popular = models.BooleanField(default = True)
     position = models.PositiveIntegerField(default = 9999)
     
-   
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -30,12 +29,27 @@ class Plan(models.Model):
         return self.title
     
     def clean(self):
-        # Ensure at least 3 plans remain visible when trying to set `is_show` to False
-        if not self.is_show and Plan.objects.filter(is_show=True).count() <= 3:
-            raise ValidationError("At least 3 plans must be visible at all times.")
+        visible_plans_count = Plan.objects.filter(is_show=True).count()
+
+        # Validation: At least 1 plan must be visible
+        if not self.is_show and visible_plans_count <= 1:
+            raise ValidationError("At least 1 plan must be visible at all times.")
+
+        # Validation: No more than 3 plans can be visible
+        if self.is_show and visible_plans_count >= 3 and not self.pk:
+            raise ValidationError("No more than 3 plans can be visible at the same time.")
+
+        # Validation: Only a visible plan can be popular
+        if self.is_popular and not self.is_show:
+            raise ValidationError("Only a visible plan can be marked as popular.")
+
+        # Validation: If there is only one visible plan, it must be marked as popular
+        if visible_plans_count == 1 and self.is_show:
+            if not self.is_popular:
+                raise ValidationError("The only visible plan must be marked as popular.")
 
     def save(self, *args, **kwargs):
-        self.clean()  # Call the clean method for validation
+        self.clean()  # Call clean to validate before saving
         super().save(*args, **kwargs)
 
 

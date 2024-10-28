@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1730100667672,
@@ -100,6 +100,30 @@
                 {
                     "date": 1730101618695,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n     pricing = models.PositiveIntegerField()\n-    duration = models.CharField() #in month\n+    duration = models.CharField()\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n     is_popular = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1730106310347,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         return self.title\n     \n     def clean(self):\n         # Ensure at least 3 plans remain visible when trying to set `is_show` to False\n-        if not self.is_show and Plan.objects.filter(is_show=True).count() <= 3:\n+        if not self.is_show and Plan.objects.filter(is_show=True).count() <= 1:\n             raise ValidationError(\"At least 3 plans must be visible at all times.\")\n \n     def save(self, *args, **kwargs):\n         self.clean()  # Call the clean method for validation\n"
+                },
+                {
+                    "date": 1730106360991,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,8 @@\n     is_show = models.BooleanField(default = True)\n     is_popular = models.BooleanField(default = True)\n     position = models.PositiveIntegerField(default = 9999)\n     \n-   \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n@@ -31,9 +30,9 @@\n     \n     def clean(self):\n         # Ensure at least 3 plans remain visible when trying to set `is_show` to False\n         if not self.is_show and Plan.objects.filter(is_show=True).count() <= 1:\n-            raise ValidationError(\"At least 3 plans must be visible at all times.\")\n+            raise ValidationError(\"At least 1 plans must be visible at all times.\")\n \n     def save(self, *args, **kwargs):\n         self.clean()  # Call the clean method for validation\n         super().save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1730106406528,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     def __str__(self):\n         return self.title\n     \n     def clean(self):\n-        # Ensure at least 3 plans remain visible when trying to set `is_show` to False\n+        # Ensure at least 1 plans remain visible when trying to set `is_show` to False\n         if not self.is_show and Plan.objects.filter(is_show=True).count() <= 1:\n             raise ValidationError(\"At least 1 plans must be visible at all times.\")\n \n     def save(self, *args, **kwargs):\n"
+                },
+                {
+                    "date": 1730106445874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,6 +43,5 @@\n     feature = models.ForeignKey(Features, on_delete=models.CASCADE)\n     status = models.BooleanField(default = True)\n     \n     \n-    def __str__(self):\n-        return self.status\n\\ No newline at end of file\n+    x\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730106993397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,21 +27,37 @@\n     \n     def __str__(self):\n         return self.title\n     \n-    def clean(self):\n-        # Ensure at least 1 plans remain visible when trying to set `is_show` to False\n-        if not self.is_show and Plan.objects.filter(is_show=True).count() <= 1:\n-            raise ValidationError(\"At least 1 plans must be visible at all times.\")\n+       def clean(self):\n+        visible_plans_count = Plan.objects.filter(is_show=True).count()\n \n+        # Validation: At least 1 plan must be visible\n+        if not self.is_show and visible_plans_count <= 1:\n+            raise ValidationError(\"At least 1 plan must be visible at all times.\")\n+\n+        # Validation: No more than 3 plans can be visible\n+        if self.is_show and visible_plans_count >= 3 and not self.pk:\n+            raise ValidationError(\"No more than 3 plans can be visible at the same time.\")\n+\n+        # Validation: Only a visible plan can be popular\n+        if self.is_popular and not self.is_show:\n\\ No newline at end of file\n+            raise ValidationError(\"Only a visible plan can be marked as popular.\")\n+\n+        # Validation: If there is only one visible plan, it must be marked as popular\n+        if visible_plans_count == 1 and self.is_show:\n+            if not self.is_popular:\n+                raise ValidationError(\"The only visible plan must be marked as popular.\")\n+\n     def save(self, *args, **kwargs):\n-        self.clean()  # Call the clean method for validation\n-        super().save(*args, **kwargs)\n+        self.clean()  # Call clean to validate before saving\n+        super().save(*args, **kwargs))\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n     feature = models.ForeignKey(Features, on_delete=models.CASCADE)\n     status = models.BooleanField(default = True)\n     \n     \n-    x\n+    def __str__(self):\n+        return self.status\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730107058124,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     \n     def __str__(self):\n         return self.title\n     \n-       def clean(self):\n+    def clean(self):\n         visible_plans_count = Plan.objects.filter(is_show=True).count()\n \n         # Validation: At least 1 plan must be visible\n         if not self.is_show and visible_plans_count <= 1:\n@@ -49,9 +49,9 @@\n                 raise ValidationError(\"The only visible plan must be marked as popular.\")\n \n     def save(self, *args, **kwargs):\n         self.clean()  # Call clean to validate before saving\n-        super().save(*args, **kwargs))\n+        super().save(*args, **kwargs)\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n"
                 }
             ],
             "date": 1730100667672,
