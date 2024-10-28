@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 import ast
-
+from django.utils import timezone
 class BlogTags(models.Model):
     name = models.CharField(max_length = 155)
     
