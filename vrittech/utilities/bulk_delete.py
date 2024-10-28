@@ -16,8 +16,8 @@ from casestudy.models import CaseStudy
 
 VALID_TYPES = {
     "blog": Blog,
-    "project": Project,
-    "project_service": ProjectService,
+    "projects": Project,
+    "service": ProjectService,
     "career": Career,
     "clients": Clients,
     "faqs": Faqs,

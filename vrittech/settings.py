@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'sitesetting',
     'careergallery',
     'management',
+    'forms',
     # 'drfapigenerator',
 ]
 

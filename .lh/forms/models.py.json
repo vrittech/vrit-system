@@ -1,0 +1,94 @@
+{
+    "sourceFile": "forms/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 19,
+            "patches": [
+                {
+                    "date": 1730114962486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730114971000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n from django.db import models\n \n # Create your models here.\n-title\n\\ No newline at end of file\n+title\n+category\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730114979842,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n from django.db import models\n \n # Create your models here.\n title\n-category\n\\ No newline at end of file\n+category--> \n"
+                },
+                {
+                    "date": 1730115022690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,8 @@\n from django.db import models\n \n # Create your models here.\n title\n-category--> \n+category--> foreignkey\n+description\n+header\n+\n"
+                },
+                {
+                    "date": 1730115032621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,6 +3,8 @@\n # Create your models here.\n title\n category--> foreignkey\n description\n-header\n+header_code\n+embedded_code\n \n+\n"
+                },
+                {
+                    "date": 1730115038669,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,6 @@\n category--> foreignkey\n description\n header_code\n embedded_code\n+from django.contrib import messages\n \n-\n"
+                },
+                {
+                    "date": 1730115045646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,6 +5,7 @@\n category--> foreignkey\n description\n header_code\n embedded_code\n-from django.contrib import messages\n+image\n \n+\n"
+                },
+                {
+                    "date": 1730115051916,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,6 +6,6 @@\n description\n header_code\n embedded_code\n image\n+excerpt\n \n-\n"
+                },
+                {
+                    "date": 1730115062181,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,5 +7,6 @@\n header_code\n embedded_code\n image\n excerpt\n+auto expiration\n \n"
+                },
+                {
+                    "date": 1730115070802,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,5 +8,6 @@\n embedded_code\n image\n excerpt\n auto expiration\n+auto expiration\n \n"
+                },
+                {
+                    "date": 1730115083641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,6 +8,7 @@\n embedded_code\n image\n excerpt\n auto expiration\n-auto expiration\n+auto expiration date\n+position \n \n"
+                },
+                {
+                    "date": 1730115190142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,14 @@\n from django.db import models\n \n-# Create your models here.\n-title\n-category--> foreignkey\n-description\n-header_code\n-embedded_code\n-image\n-excerpt\n-auto expiration\n-auto expiration date\n-position \n+# # Create your models here.\n+# title\n+# category--> foreignkey\n+# description\n+# header_code\n+# embedded_code\n+# image\n+# excerpt\n+# auto expiration\n+# auto expiration date\n+# position \n \n"
+                },
+                {
+                    "date": 1730115275801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,5 +10,26 @@\n # excerpt\n # auto expiration\n # auto expiration date\n # position \n+from django.db import models\n+from blog.models import BlogCategory  # Assuming you are using BlogCategory as the category model\n \n+class Forms(models.Model):\n+    title = models.CharField(max_length=255)\n+    category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='forms')\n+    description = models.TextField()\n+    header_code = models.TextField(blank=True, null=True)\n+    embedded_code = models.TextField(blank=True, null=True)\n+    image = models.ImageField(upload_to='forms', blank=True, null=True)\n+    excerpt = models.CharField(max_length=500, blank=True, null=True)\n+    auto_expiration = models.BooleanField(default=False)\n+    auto_expiration_date = models.DateField(blank=True, null=True)\n+    position = models.PositiveIntegerField(default=0)\n+\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+\n+    def __str__(self):\n+        return self.title\n+\n+\n"
+                },
+                {
+                    "date": 1730115283395,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n from blog.models import BlogCategory  # Assuming you are using BlogCategory as the category model\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n-    category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='forms')\n+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n     description = models.TextField()\n     header_code = models.TextField(blank=True, null=True)\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n"
+                },
+                {
+                    "date": 1730115293748,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,11 +11,12 @@\n # auto expiration\n # auto expiration date\n # position \n from django.db import models\n-from blog.models import BlogCategory  # Assuming you are using BlogCategory as the category model\n \n class Forms(models.Model):\n+\n+class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n     description = models.TextField()\n     header_code = models.TextField(blank=True, null=True)\n"
+                },
+                {
+                    "date": 1730115302041,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,10 @@\n # auto expiration date\n # position \n from django.db import models\n \n-class Forms(models.Model):\n+class Category(models.Model):\n+    pass\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                },
+                {
+                    "date": 1730115307274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n # position \n from django.db import models\n \n class Category(models.Model):\n-    pass\n+    title = models.CharField(max_length=255)\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                },
+                {
+                    "date": 1730115317915,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,11 @@\n # position \n from django.db import models\n \n class Category(models.Model):\n-    title = models.CharField(max_length=255)\n+    name = models.CharField(max_length=255)\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                },
+                {
+                    "date": 1730115323239,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n class Category(models.Model):\n     name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+    \n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                },
+                {
+                    "date": 1730115328502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,10 @@\n     name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n+    def __str__(self):\n+        return self.title\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                }
+            ],
+            "date": 1730114962486,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\ntitle"
+        }
+    ]
+}
