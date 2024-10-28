@@ -1,0 +1,46 @@
+{
+    "sourceFile": "casestudy/tasks.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1730098364898,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730098378194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n from celery import shared_task\n-from .models import Blog\n+from .models import CaseStudy\n from django.utils import timezone\n \n @shared_task\n def publish_scheduled_blogs_task():\n-    scheduled_blogs = Blog.objects.filter(\n+    scheduled_blogs = CaseStudy.objects.filter(\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n     for blog in scheduled_blogs:\n"
+                },
+                {
+                    "date": 1730098394613,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     scheduled_blogs = CaseStudy.objects.filter(\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n-    for blog in scheduled_blogs:\n+    for blog in scheduled_case_:\n         blog.publish_if_scheduled()\n \n     return f\"Published {scheduled_blogs.count()} scheduled case_study\"\n"
+                },
+                {
+                    "date": 1730098404896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,12 +3,12 @@\n from django.utils import timezone\n \n @shared_task\n def publish_scheduled_blogs_task():\n-    scheduled_blogs = CaseStudy.objects.filter(\n+    scheduled_case_study = CaseStudy.objects.filter(\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n-    for blog in scheduled_case_:\n+    for blog in scheduled_case_study:\n         blog.publish_if_scheduled()\n \n     return f\"Published {scheduled_blogs.count()} scheduled case_study\"\n"
+                },
+                {
+                    "date": 1730098413268,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n from .models import CaseStudy\n from django.utils import timezone\n \n @shared_task\n-def publish_scheduled_blogs_task():\n+def publish_scheduled_case_study_task():\n     scheduled_case_study = CaseStudy.objects.filter(\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n"
+                },
+                {
+                    "date": 1730098422767,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,5 +10,5 @@\n     )\n     for blog in scheduled_case_study:\n         blog.publish_if_scheduled()\n \n-    return f\"Published {scheduled_blogs.count()} scheduled case_study\"\n+    return f\"Published {scheduled_case_study.count()} scheduled case_study\"\n"
+                },
+                {
+                    "date": 1730098431738,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,8 @@\n     scheduled_case_study = CaseStudy.objects.filter(\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n-    for blog in scheduled_case_study:\n+    for case_study in scheduled_case_study:\n         blog.publish_if_scheduled()\n \n     return f\"Published {scheduled_case_study.count()} scheduled case_study\"\n"
+                },
+                {
+                    "date": 1730098436893,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,7 +8,7 @@\n         status='scheduled',\n         publish_date__lte=timezone.now().date()\n     )\n     for case_study in scheduled_case_study:\n-        blog.publish_if_scheduled()\n+        case_study.publish_if_scheduled()\n \n     return f\"Published {scheduled_case_study.count()} scheduled case_study\"\n"
+                }
+            ],
+            "date": 1730098364898,
+            "name": "Commit-0",
+            "content": "from celery import shared_task\nfrom .models import Blog\nfrom django.utils import timezone\n\n@shared_task\ndef publish_scheduled_blogs_task():\n    scheduled_blogs = Blog.objects.filter(\n        status='scheduled',\n        publish_date__lte=timezone.now().date()\n    )\n    for blog in scheduled_blogs:\n        blog.publish_if_scheduled()\n\n    return f\"Published {scheduled_blogs.count()} scheduled case_study\"\n"
+        }
+    ]
+}

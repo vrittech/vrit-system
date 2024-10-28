@@ -1,0 +1,90 @@
+{
+    "sourceFile": "casestudy/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 18,
+            "patches": [
+                {
+                    "date": 1730097620926,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730097635291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,4 +26,78 @@\n \n #     created_at = models.DateTimeField(auto_now_add=True)\n #     updated_at = models.DateTimeField(auto_now=True)\n \n+from django.db import models\n+from accounts.models import CustomUser\n+import ast\n+from django.utils import timezone\n+class BlogTags(models.Model):\n+    name = models.CharField(max_length = 155)\n+    \n+    def __str__(self):\n+        return self.name\n+\n+    \n+\n+class BlogCategory(models.Model):\n+    name = models.CharField(max_length = 155)\n+    image = models.ImageField(upload_to='blogcategory',null=True)\n+    is_show = models.BooleanField(default = True)\n+    \n+    def __str__(self):\n+        return self.name\n+\n+\n+class TagManager(models.Manager):\n+    def get_or_create_tags(self, tag_names):\n+        # Create or retrieve Tag objects based on tag names\n+        # tag_names = tag_names.split(',')\n+        tag_names = ast.literal_eval(tag_names)\n+        tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]\n+        return tags\n+\n+# 27.67304441065, 85.33306299012784\n+\n+class CaseStudy(models.Model):\n+    user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)\n+    title = models.CharField(max_length = 300)\n+    description = models.TextField()\n+    site_title = models.CharField(max_length = 300)\n+    excerpt = models.CharField(max_length = 300)\n+    status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')\n+    publish_date = models.DateField()\n+    meta_description = models.CharField(max_length = 1200)\n+    meta_keywords = models.CharField(max_length = 800)\n+    meta_author = models.CharField(max_length = 300)\n+    tags = models.ManyToManyField(BlogTags)\n+    position = models.PositiveIntegerField(default= 9999)\n+    \n+    \n+    header_code =  models.TextField(default = \"\")\n+    embedded_code =  models.TextField(default = \"\")\n+\n+    objects = models.Manager()\n+    tag_manager = TagManager()\n+\n+    category = models.ManyToManyField(BlogCategory)\n+    featured_image = models.ImageField(upload_to='blog',null = True)\n+    \n+    is_deleted = models.BooleanField(default= False)\n+\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+\n+    def __str__(self):\n+        return self.title\n+    \n+    def publish_if_scheduled(self):\n+        if self.status == 'scheduled' and self.publish_date <= timezone.now().date():\n+            self.status = 'published'\n+            self.save()\n+\n+    @classmethod\n+    def publish_scheduled_blogs(cls):\n+        scheduled_blogs = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n+        for blog in scheduled_blogs:\n+            blog.publish_if_scheduled()\n+\n"
+                },
+                {
+                    "date": 1730097642189,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n         return self.name\n \n     \n \n-class BlogCategory(models.Model):\n+class CaseStudyCategory(models.Model):\n     name = models.CharField(max_length = 155)\n     image = models.ImageField(upload_to='blogcategory',null=True)\n     is_show = models.BooleanField(default = True)\n     \n"
+                },
+                {
+                    "date": 1730097745430,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n from django.db import models\n from accounts.models import CustomUser\n import ast\n from django.utils import timezone\n-class BlogTags(models.Model):\n+class CaseStudyTags(models.Model):\n     name = models.CharField(max_length = 155)\n     \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1730097783457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n     def get_or_create_tags(self, tag_names):\n         # Create or retrieve Tag objects based on tag names\n         # tag_names = tag_names.split(',')\n         tag_names = ast.literal_eval(tag_names)\n-        tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]\n+        tags = [CaseStudyTags.objects.get_or_create(name=tag)[0] for tag in tag_names]\n         return tags\n \n # 27.67304441065, 85.33306299012784\n \n"
+                },
+                {
+                    "date": 1730097789131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,9 +68,9 @@\n     publish_date = models.DateField()\n     meta_description = models.CharField(max_length = 1200)\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n-    tags = models.ManyToManyField(BlogTags)\n+    tags = models.ManyToManyField(CaseStudy)\n     position = models.PositiveIntegerField(default= 9999)\n     \n     \n     header_code =  models.TextField(default = \"\")\n"
+                },
+                {
+                    "date": 1730097795322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,9 +68,9 @@\n     publish_date = models.DateField()\n     meta_description = models.CharField(max_length = 1200)\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n-    tags = models.ManyToManyField(CaseStudy)\n+    tags = models.ManyToManyField(CaseStudyTags)\n     position = models.PositiveIntegerField(default= 9999)\n     \n     \n     header_code =  models.TextField(default = \"\")\n"
+                },
+                {
+                    "date": 1730097815420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n     \n \n class CaseStudyCategory(models.Model):\n     name = models.CharField(max_length = 155)\n-    image = models.ImageField(upload_to='blogcategory',null=True)\n+    image = models.ImageField(upload_to='caestudycategory',null=True)\n     is_show = models.BooleanField(default = True)\n     \n     def __str__(self):\n         return self.name\n@@ -78,9 +78,9 @@\n \n     objects = models.Manager()\n     tag_manager = TagManager()\n \n-    category = models.ManyToManyField(BlogCategory)\n+    category = models.ManyToManyField(CaseStudyCategory)\n     featured_image = models.ImageField(upload_to='blog',null = True)\n     \n     is_deleted = models.BooleanField(default= False)\n \n"
+                },
+                {
+                    "date": 1730097828190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n \n # 27.67304441065, 85.33306299012784\n \n class CaseStudy(models.Model):\n-    user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)\n+    user = models.ForeignKey(CustomUser,related_name = 'casestudy',on_delete=models.CASCADE)\n     title = models.CharField(max_length = 300)\n     description = models.TextField()\n     site_title = models.CharField(max_length = 300)\n     excerpt = models.CharField(max_length = 300)\n"
+                },
+                {
+                    "date": 1730097836186,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,9 +79,9 @@\n     objects = models.Manager()\n     tag_manager = TagManager()\n \n     category = models.ManyToManyField(CaseStudyCategory)\n-    featured_image = models.ImageField(upload_to='blog',null = True)\n+    featured_image = models.ImageField(upload_to='casestudy',null = True)\n     \n     is_deleted = models.BooleanField(default= False)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730097861411,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,33 +1,5 @@\n-# from django.db import models\n \n-# class CaseStudyTags(models.Model):\n-#     name = models.CharField(max_length = 155)\n-\n-# class CaseStudyCategory(models.Model):\n-#     name = models.CharField(max_length = 155)\n-#     image = models.ImageField(upload_to='blogcategory',null=True)\n-\n-# # Create your models here.\n-# class CaseStudy(models.Model):\n-#     title = models.CharField(max_length = 500)\n-#     description = models.TextField()\n-#     featured_image = models.ImageField(upload_to = 'casestudy/') \n-\n-#     excerpt = models.CharField(max_length = 300)\n-#     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')\n-#     publish_date = models.DateField()\n-#     is_publish = models.BooleanField(default = True)\n-#     meta_description = models.CharField(max_length = 1200)\n-#     meta_keywords = models.CharField(max_length = 800)\n-#     meta_author = models.CharField(max_length = 300)\n-#     tags = models.ManyToManyField(CaseStudyTags)\n-#     category = models.ForeignKey(CaseStudyCategory,max_length = 300,null = True,on_delete = models.SET_NULL)\n-#     featured_image = models.ImageField(upload_to='blog',null=True)\n-\n-#     created_at = models.DateTimeField(auto_now_add=True)\n-#     updated_at = models.DateTimeField(auto_now=True)\n-\n from django.db import models\n from accounts.models import CustomUser\n import ast\n from django.utils import timezone\n"
+                },
+                {
+                    "date": 1730098453317,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-\n from django.db import models\n from accounts.models import CustomUser\n import ast\n from django.utils import timezone\n@@ -12,9 +11,9 @@\n     \n \n class CaseStudyCategory(models.Model):\n     name = models.CharField(max_length = 155)\n-    image = models.ImageField(upload_to='caestudycategory',null=True)\n+    image = models.ImageField(upload_to='casetudycategory',null=True)\n     is_show = models.BooleanField(default = True)\n     \n     def __str__(self):\n         return self.name\n"
+                },
+                {
+                    "date": 1730098514207,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     \n \n class CaseStudyCategory(models.Model):\n     name = models.CharField(max_length = 155)\n-    image = models.ImageField(upload_to='casetudycategory',null=True)\n+    image = models.ImageField(upload_to='case_studycategory',null=True)\n     is_show = models.BooleanField(default = True)\n     \n     def __str__(self):\n         return self.name\n@@ -29,9 +29,9 @@\n \n # 27.67304441065, 85.33306299012784\n \n class CaseStudy(models.Model):\n-    user = models.ForeignKey(CustomUser,related_name = 'casestudy',on_delete=models.CASCADE)\n+    user = models.ForeignKey(CustomUser,related_name = 'case_study',on_delete=models.CASCADE)\n     title = models.CharField(max_length = 300)\n     description = models.TextField()\n     site_title = models.CharField(max_length = 300)\n     excerpt = models.CharField(max_length = 300)\n@@ -50,9 +50,9 @@\n     objects = models.Manager()\n     tag_manager = TagManager()\n \n     category = models.ManyToManyField(CaseStudyCategory)\n-    featured_image = models.ImageField(upload_to='casestudy',null = True)\n+    featured_image = models.ImageField(upload_to='case_study',null = True)\n     \n     is_deleted = models.BooleanField(default= False)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730098709233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.status = 'published'\n             self.save()\n \n     @classmethod\n-    def publish_scheduled_blogs(cls):\n+    def publish_scheduled_case_study_task(cls):\n         scheduled_blogs = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n         for blog in scheduled_blogs:\n             blog.publish_if_scheduled()\n \n"
+                },
+                {
+                    "date": 1730098716623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -66,9 +66,9 @@\n             self.status = 'published'\n             self.save()\n \n     @classmethod\n-    def publish_scheduled_case_study_task(cls):\n-        scheduled_blogs = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n+    def publish_scheduled_case_study(cls):\n+ = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n         for blog in scheduled_blogs:\n             blog.publish_if_scheduled()\n \n"
+                },
+                {
+                    "date": 1730098727161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,8 +67,8 @@\n             self.save()\n \n     @classmethod\n     def publish_scheduled_case_study(cls):\n- = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n+        scheduled_case_study = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n         for blog in scheduled_blogs:\n             blog.publish_if_scheduled()\n \n"
+                },
+                {
+                    "date": 1730098732359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,7 +68,7 @@\n \n     @classmethod\n     def publish_scheduled_case_study(cls):\n         scheduled_case_study = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n-        for blog in scheduled_blogs:\n+        for blog in scheduled_case_study:\n             blog.publish_if_scheduled()\n \n"
+                },
+                {
+                    "date": 1730098739754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,7 +68,7 @@\n \n     @classmethod\n     def publish_scheduled_case_study(cls):\n         scheduled_case_study = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n-        for blog in scheduled_case_study:\n+        for case in scheduled_case_study:\n             blog.publish_if_scheduled()\n \n"
+                },
+                {
+                    "date": 1730098745569,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,6 +69,6 @@\n     @classmethod\n     def publish_scheduled_case_study(cls):\n         scheduled_case_study = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())\n         for case_study in scheduled_case_study:\n-            blog.publish_if_scheduled()\n+            case_study.publish_if_scheduled()\n \n"
+                }
+            ],
+            "date": 1730097620926,
+            "name": "Commit-0",
+            "content": "# from django.db import models\n\n# class CaseStudyTags(models.Model):\n#     name = models.CharField(max_length = 155)\n\n# class CaseStudyCategory(models.Model):\n#     name = models.CharField(max_length = 155)\n#     image = models.ImageField(upload_to='blogcategory',null=True)\n\n# # Create your models here.\n# class CaseStudy(models.Model):\n#     title = models.CharField(max_length = 500)\n#     description = models.TextField()\n#     featured_image = models.ImageField(upload_to = 'casestudy/') \n\n#     excerpt = models.CharField(max_length = 300)\n#     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')\n#     publish_date = models.DateField()\n#     is_publish = models.BooleanField(default = True)\n#     meta_description = models.CharField(max_length = 1200)\n#     meta_keywords = models.CharField(max_length = 800)\n#     meta_author = models.CharField(max_length = 300)\n#     tags = models.ManyToManyField(CaseStudyTags)\n#     category = models.ForeignKey(CaseStudyCategory,max_length = 300,null = True,on_delete = models.SET_NULL)\n#     featured_image = models.ImageField(upload_to='blog',null=True)\n\n#     created_at = models.DateTimeField(auto_now_add=True)\n#     updated_at = models.DateTimeField(auto_now=True)\n\n"
+        }
+    ]
+}

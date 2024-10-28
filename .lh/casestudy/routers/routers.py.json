@@ -1,0 +1,22 @@
+{
+    "sourceFile": "casestudy/routers/routers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730098570006,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730098765259,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from rest_framework.routers import DefaultRouter\n from ..viewsets.casestudytags_viewsets import casestudytagsViewsets\n-from ..viewsets.casestudy_viewsets import case_studyViewsets\n+from ..viewsets.casestudy_viewsets import casestudyViewsets\n from ..viewsets.casestudycategory_viewsets import casestudycategoryViewsets\n \n router = DefaultRouter()\n auto_api_routers = router\n"
+                }
+            ],
+            "date": 1730098570006,
+            "name": "Commit-0",
+            "content": "from rest_framework.routers import DefaultRouter\nfrom ..viewsets.casestudytags_viewsets import casestudytagsViewsets\nfrom ..viewsets.casestudy_viewsets import case_studyViewsets\nfrom ..viewsets.casestudycategory_viewsets import casestudycategoryViewsets\n\nrouter = DefaultRouter()\nauto_api_routers = router\n\n\nrouter.register('casestudy-tags', casestudytagsViewsets, basename=\"casestudytagsViewsets\")\nrouter.register('casestudy-category', casestudycategoryViewsets, basename=\"casestudycategoryViewsets\")\nrouter.register('casestudy', casestudyViewsets, basename=\"casestudyViewsets\")\n"
+        }
+    ]
+}
