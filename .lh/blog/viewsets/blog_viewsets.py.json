@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 8,
+            "activePatchIndex": 24,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -40,6 +40,70 @@
                 {
                     "date": 1730094736027,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n+        'status':['exact'],\n         'publish_date':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1730094996782,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,11 +18,12 @@\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n+        'title':['exact'],\n         'status':['exact'],\n-        'status':['exact'],\n         'publish_date':['exact','gte','lte']\n+        'publish_date':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730095001965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte']\n-        'publish_date':['exact','gte','lte']\n+        'categories':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730095012559,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n-        'publish_date':['exact','gte','lte']\n+        'publish_date':['exact','gte','lte'],\n         'categories':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1730095060589,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,5 +42,7 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n+    \n+    \n \n"
+                },
+                {
+                    "date": 1730095108734,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,6 +43,60 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    \n+    @action(detail=False, methods=['get'], name=\"draggableProject\", url_path=\"drag-project\")\n+    def Draggable(self, request, *args, **kwargs):\n+        target_position = request.GET.get('target')  # Position of the target object\n+        goal_position = request.GET.get('goal')  # Position of the goal object\n \n+        from rest_framework.response import Response\n+\n+        if not target_position or not goal_position:\n+            return Response({\"error\": \"Target or Goal position not provided\"}, status=400)\n+\n+        # Convert to integers\n+        try:\n+            target_position = int(target_position)\n+            goal_position = int(goal_position)\n+        except ValueError:\n+            return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n+\n+        # Fetch the target and goal objects based on position\n+        try:\n+            target_obj = Project.objects.get(position=target_position)\n+            goal_obj = Project.objects.get(position=goal_position)\n+        except Project.DoesNotExist:\n+            return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n+\n+        if target_position < goal_position:\n+            # Moving target down (target goes after goal)\n+            affected_objs = Project.objects.filter(\n+                position__gt=target_position, position__lte=goal_position\n+            ).order_by('position')\n+            \n+            # Decrement position of all affected objects\n+            for obj in affected_objs:\n+                obj.position -= 1\n+                obj.save()\n+\n+            # Set target object's new position\n+            target_obj.position = goal_position\n+            target_obj.save()\n+\n+        else:\n+            # Moving target up (target goes before goal)\n+            affected_objs = Project.objects.filter(\n+                position__lt=target_position, position__gte=goal_position\n+            ).order_by('-position')\n+\n+            # Increment position of all affected objects by 1\n+            for obj in affected_objs:\n+                obj.position += 1\n+                obj.save()\n+\n+            # Set target object's new position (exact position of the goal)\n+            target_obj.position = goal_position\n+            target_obj.save()\n+\n+        return Response({\"status\": \"success\"})\n+\n"
+                },
+                {
+                    "date": 1730095148655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,11 @@\n from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n+from rest_framework.decorators import action\n \n+\n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n"
+                },
+                {
+                    "date": 1730095154622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,9 @@\n             return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n \n         # Fetch the target and goal objects based on position\n         try:\n-            target_obj = Project.objects.get(position=target_position)\n+            target_obj = Blo.objects.get(position=target_position)\n             goal_obj = Project.objects.get(position=goal_position)\n         except Project.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n"
+                },
+                {
+                    "date": 1730095162297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,10 +64,10 @@\n             return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n \n         # Fetch the target and goal objects based on position\n         try:\n-            target_obj = Blo.objects.get(position=target_position)\n-            goal_obj = Project.objects.get(position=goal_position)\n+            target_obj = Blog.objects.get(position=target_position)\n+            goal_obj = Blog.objects.get(position=goal_position)\n         except Project.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n         if target_position < goal_position:\n"
+                },
+                {
+                    "date": 1730095177327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], name=\"draggableProject\", url_path=\"drag-project\")\n+    @action(detail=False, methods=['get'], name=\"draggableProject\", url_path=\"drag-blog\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n         goal_position = request.GET.get('goal')  # Position of the goal object\n \n@@ -66,14 +66,14 @@\n         # Fetch the target and goal objects based on position\n         try:\n             target_obj = Blog.objects.get(position=target_position)\n             goal_obj = Blog.objects.get(position=goal_position)\n-        except Project.DoesNotExist:\n+        except Blog.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n         if target_position < goal_position:\n             # Moving target down (target goes after goal)\n-            affected_objs = Project.objects.filter(\n+            affected_objs = Blog.objects.filter(\n                 position__gt=target_position, position__lte=goal_position\n             ).order_by('position')\n             \n             # Decrement position of all affected objects\n@@ -86,9 +86,9 @@\n             target_obj.save()\n \n         else:\n             # Moving target up (target goes before goal)\n-            affected_objs = Project.objects.filter(\n+            affected_objs = Blog.objects.filter(\n                 position__lt=target_position, position__gte=goal_position\n             ).order_by('-position')\n \n             # Increment position of all affected objects by 1\n"
+                },
+                {
+                    "date": 1730095187277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], name=\"draggableProject\", url_path=\"drag-blog\")\n+    @action(detail=False, methods=['get'], name=\"draggableBlog\", url_path=\"drag-blog\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n         goal_position = request.GET.get('goal')  # Position of the goal object\n \n"
+                },
+                {
+                    "date": 1730095197031,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all()\n+    queryset = Blog.objects.all().orge\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
+                },
+                {
+                    "date": 1730095204309,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all().orge\n+    queryset = Blog.objects.all().order_by('positiojn')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
+                },
+                {
+                    "date": 1730095247467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all().order_by('positiojn')\n+    queryset = Blog.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n@@ -23,9 +23,9 @@\n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n-        'categories':['exact','gte','lte']\n+        'categories':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730095279597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,9 +23,9 @@\n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n-        'categories':['exact']\n+        'category':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730095293478,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,9 @@\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n         'category':['exact']\n+        'category':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730095301026,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,10 @@\n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n-        'category':['exact']\n-        'category':['exact']\n+        'category':['exact'],\n+        'author':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
                 }
             ],
             "date": 1730094601329,
