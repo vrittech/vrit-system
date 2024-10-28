@@ -3,11 +3,39 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1730092272104,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730094181153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-# your_project/celery.py\n import os\n from celery import Celery\n from django.conf import settings\n \n@@ -8,4 +7,7 @@\n app = Celery('your_project')\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n app.autodiscover_tasks()\n+\n+\n+celery -A your_project worker --loglevel=info\n"
+                },
+                {
+                    "date": 1730094198404,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,6 +8,6 @@\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n app.autodiscover_tasks()\n \n-\n-celery -A your_project worker --loglevel=info\n+# Run the Celery worker:\n+# celery -A your_project worker --loglevel=info\n"
+                },
+                {
+                    "date": 1730094209203,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,4 +10,6 @@\n app.autodiscover_tasks()\n \n # Run the Celery worker:\n # celery -A your_project worker --loglevel=info\n+\n+Run Celery Beat (to enable periodic tasks):\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730094216394,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,6 @@\n \n # Run the Celery worker:\n # celery -A your_project worker --loglevel=info\n \n-Run Celery Beat (to enable periodic tasks):\n\\ No newline at end of file\n+# Run Celery Beat (to enable periodic tasks):\n+celery -A your_project beat --loglevel=info\n"
+                },
+                {
+                    "date": 1730094236829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import os\n from celery import Celery\n from django.conf import settings\n \n-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\n+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '.settings')\n \n app = Celery('your_project')\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n@@ -12,5 +12,5 @@\n # Run the Celery worker:\n # celery -A your_project worker --loglevel=info\n \n # Run Celery Beat (to enable periodic tasks):\n-celery -A your_project beat --loglevel=info\n+# celery -A your_project beat --loglevel=info\n"
+                },
+                {
+                    "date": 1730094269148,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import os\n from celery import Celery\n from django.conf import settings\n \n-os.environ.setdefault('DJANGO_SETTINGS_MODULE', '.settings')\n+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vrittech.settings')\n \n app = Celery('your_project')\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n"
+                },
+                {
+                    "date": 1730094285302,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django.conf import settings\n \n os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vrittech.settings')\n \n-app = Celery('your_project')\n+app = Celery('vrittech')\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n app.autodiscover_tasks()\n \n"
                 }
             ],
             "date": 1730092272104,
