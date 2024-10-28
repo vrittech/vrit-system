@@ -7,16 +7,15 @@ from plan.models import Plan
 class ProjectServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectService
-        fields = ['id', 'name']  # Adjust fields as per your model
-
+        fields = '__all__' 
 # Serializer for Plan
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
-        fields = ['id', 'name']  # Adjust fields as per your model
+        fields = '__all__' 
 
 # List Serializer
-class InquiresListSerializer(serializers.ModelSerializer):
+class InquiresListSerializers(serializers.ModelSerializer):
     project_service = ProjectServiceSerializer(many=True, read_only=True)
     project_plan = PlanSerializer(read_only=True)
 
@@ -29,7 +28,7 @@ class InquiresListSerializer(serializers.ModelSerializer):
         ]
 
 # Retrieve Serializer
-class InquiresRetrieveSerializer(serializers.ModelSerializer):
+class InquiresRetrieveSerializers(serializers.ModelSerializer):
     project_service = ProjectServiceSerializer(many=True, read_only=True)
     project_plan = PlanSerializer(read_only=True)
 
@@ -42,7 +41,7 @@ class InquiresRetrieveSerializer(serializers.ModelSerializer):
         ]
 
 # Write Serializer
-class InquiresWriteSerializer(serializers.ModelSerializer):
+class InquiresWriteSerializers(serializers.ModelSerializer):
     project_service = serializers.PrimaryKeyRelatedField(
         queryset=ProjectService.objects.all(), many=True
     )
