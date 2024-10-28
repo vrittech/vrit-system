@@ -1,0 +1,58 @@
+{
+    "sourceFile": "blog/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 10,
+            "patches": [
+                {
+                    "date": 1730091819015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730091824810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,9 @@\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n     tags = models.ManyToManyField(BlogTags)\n     \n+    header_code \n \n     objects = models.Manager()\n     tag_manager = TagManager()\n \n"
+                },
+                {
+                    "date": 1730091836882,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n     tags = models.ManyToManyField(BlogTags)\n     \n-    header_code \n+    header_code =  models.TextField()\n \n     objects = models.Manager()\n     tag_manager = TagManager()\n \n"
+                },
+                {
+                    "date": 1730091842353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n     tags = models.ManyToManyField(BlogTags)\n     \n-    header_code =  models.TextField()\n+    header_code =  models.TextField(default = \"\")\n \n     objects = models.Manager()\n     tag_manager = TagManager()\n \n"
+                },
+                {
+                    "date": 1730091855168,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,8 +33,9 @@\n     meta_author = models.CharField(max_length = 300)\n     tags = models.ManyToManyField(BlogTags)\n     \n     header_code =  models.TextField(default = \"\")\n+    embedded_code =  models.TextField(default = \"\")\n \n     objects = models.Manager()\n     tag_manager = TagManager()\n \n"
+                },
+                {
+                    "date": 1730091903547,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n import ast\n \n class BlogTags(models.Model):\n     name = models.CharField(max_length = 155)\n+    \n \n class BlogCategory(models.Model):\n     name = models.CharField(max_length = 155)\n     image = models.ImageField(upload_to='blogcategory',null=True)\n"
+                },
+                {
+                    "date": 1730091908900,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n import ast\n \n class BlogTags(models.Model):\n     name = models.CharField(max_length = 155)\n+\n     \n \n class BlogCategory(models.Model):\n     name = models.CharField(max_length = 155)\n"
+                },
+                {
+                    "date": 1730091918770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,10 @@\n import ast\n \n class BlogTags(models.Model):\n     name = models.CharField(max_length = 155)\n+    def __str__(self):\n+        return self.title\n \n     \n \n class BlogCategory(models.Model):\n"
+                },
+                {
+                    "date": 1730091926544,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,11 @@\n import ast\n \n class BlogTags(models.Model):\n     name = models.CharField(max_length = 155)\n+    \n     def __str__(self):\n-        return self.title\n+        return self.name\n \n     \n \n class BlogCategory(models.Model):\n"
+                },
+                {
+                    "date": 1730091934367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n class BlogCategory(models.Model):\n     name = models.CharField(max_length = 155)\n     image = models.ImageField(upload_to='blogcategory',null=True)\n     \n-    \n+    def __str__(self):\n+        return self.name\n \n \n class TagManager(models.Manager):\n     def get_or_create_tags(self, tag_names):\n"
+                },
+                {
+                    "date": 1730092024727,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n     meta_description = models.CharField(max_length = 1200)\n     meta_keywords = models.CharField(max_length = 800)\n     meta_author = models.CharField(max_length = 300)\n     tags = models.ManyToManyField(BlogTags)\n-    is_categorized = models.BooleanField(default= True)\n+    # is_categorized = models.BooleanField(default= True)\n     \n     header_code =  models.TextField(default = \"\")\n     embedded_code =  models.TextField(default = \"\")\n \n"
+                }
+            ],
+            "date": 1730091819015,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom accounts.models import CustomUser\nimport ast\n\nclass BlogTags(models.Model):\n    name = models.CharField(max_length = 155)\n\nclass BlogCategory(models.Model):\n    name = models.CharField(max_length = 155)\n    image = models.ImageField(upload_to='blogcategory',null=True)\n\n\nclass TagManager(models.Manager):\n    def get_or_create_tags(self, tag_names):\n        # Create or retrieve Tag objects based on tag names\n        # tag_names = tag_names.split(',')\n        tag_names = ast.literal_eval(tag_names)\n        tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]\n        return tags\n\n# 27.67304441065, 85.33306299012784\n\nclass Blog(models.Model):\n    user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)\n    title = models.CharField(max_length = 300)\n    description = models.TextField()\n    site_title = models.CharField(max_length = 300)\n    excerpt = models.CharField(max_length = 300)\n    status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')\n    publish_date = models.DateField()\n    meta_description = models.CharField(max_length = 1200)\n    meta_keywords = models.CharField(max_length = 800)\n    meta_author = models.CharField(max_length = 300)\n    tags = models.ManyToManyField(BlogTags)\n    \n\n    objects = models.Manager()\n    tag_manager = TagManager()\n\n    category = models.ManyToManyField(BlogCategory)\n    featured_image = models.ImageField(upload_to='blog',null = True)\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n    def __str__(self):\n        return self.title\n\n"
+        }
+    ]
+}

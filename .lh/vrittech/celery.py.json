@@ -1,0 +1,18 @@
+{
+    "sourceFile": "vrittech/celery.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730092272104,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730092272104,
+            "name": "Commit-0",
+            "content": "# your_project/celery.py\nimport os\nfrom celery import Celery\nfrom django.conf import settings\n\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\n\napp = Celery('your_project')\napp.config_from_object('django.conf:settings', namespace='CELERY')\n\napp.autodiscover_tasks()\n"
+        }
+    ]
+}

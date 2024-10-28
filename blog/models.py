@@ -4,10 +4,18 @@ import ast
 
 class BlogTags(models.Model):
     name = models.CharField(max_length = 155)
+    
+    def __str__(self):
+        return self.name
+
+    
 
 class BlogCategory(models.Model):
     name = models.CharField(max_length = 155)
     image = models.ImageField(upload_to='blogcategory',null=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class TagManager(models.Manager):
@@ -32,6 +40,10 @@ class Blog(models.Model):
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
     tags = models.ManyToManyField(BlogTags)
+    # is_categorized = models.BooleanField(default= True)
+    
+    header_code =  models.TextField(default = "")
+    embedded_code =  models.TextField(default = "")
 
     objects = models.Manager()
     tag_manager = TagManager()
@@ -44,4 +56,15 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def publish_if_scheduled(self):
+        if self.status == 'scheduled' and self.publish_date <= timezone.now().date():
+            self.status = 'published'
+            self.save()
+
+    @classmethod
+    def publish_scheduled_blogs(cls):
+        scheduled_blogs = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())
+        for blog in scheduled_blogs:
+            blog.publish_if_scheduled()
 

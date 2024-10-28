@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 42,
+            "activePatchIndex": 43,
             "patches": [
                 {
                     "date": 1729762252492,
@@ -176,6 +176,10 @@
                 {
                     "date": 1729840748057,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n class ProjectService(models.Model):\n     name = models.CharField(max_length = 155)\n     description = models.TextField()\n     image = models.ImageField(upload_to=\"service\",null=True,blank=True)\n-    position =  position = models.PositiveIntegerField(default=9999)\n+    position = models.PositiveIntegerField(default=9999)\n     is_feature= models.BooleanField(default=False)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n"
+                },
+                {
+                    "date": 1730092531626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n \n \n class ProjectGroup(models.Model):\n     name = models.CharField(max_length = 155)\n+    position = \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n"
                 }
             ],
             "date": 1729762252492,

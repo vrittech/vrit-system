@@ -1,0 +1,22 @@
+{
+    "sourceFile": "blog/tasks.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730092395381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730092401355,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-# your_app/tasks.py\n from celery import shared_task\n from .models import Blog\n from django.utils import timezone\n \n"
+                }
+            ],
+            "date": 1730092395381,
+            "name": "Commit-0",
+            "content": "# your_app/tasks.py\nfrom celery import shared_task\nfrom .models import Blog\nfrom django.utils import timezone\n\n@shared_task\ndef publish_scheduled_blogs_task():\n    scheduled_blogs = Blog.objects.filter(\n        status='scheduled',\n        publish_date__lte=timezone.now().date()\n    )\n    for blog in scheduled_blogs:\n        blog.publish_if_scheduled()\n\n    return f\"Published {scheduled_blogs.count()} scheduled blogs\"\n"
+        }
+    ]
+}

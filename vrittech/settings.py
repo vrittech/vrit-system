@@ -272,3 +272,17 @@ DATABASES = {
         'PORT': os.getenv('DATABASE_PORT'),
     }
 }
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = 'Asia/Kathmandu'
+CELERY_ENABLE_UTC = False
+
+CELERY_BEAT_SCHEDULE = {
+    'publish-scheduled-blogs-every-hour': {
+        'task': 'your_app.tasks.publish_scheduled_blogs_task',
+        'schedule': 3600,  # Runs every hour
+    },
+}

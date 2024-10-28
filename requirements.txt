@@ -25,3 +25,6 @@ whitenoise==6.7.0
 
 gunicorn==23.0.0
 gevent==24.2.1
+celery 
+redis
+
