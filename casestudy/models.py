@@ -30,10 +30,10 @@ class TagManager(models.Manager):
 # 27.67304441065, 85.33306299012784
 
 class CaseStudy(models.Model):
-    user = models.ForeignKey(CustomUser,related_name = 'case_study',on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,related_name = 'case_study',on_delete=models.CASCADE,null=True)
     title = models.CharField(max_length = 300)
     description = models.TextField()
-    site_title = models.CharField(max_length = 300)
+    site_title = models.CharField(max_length = 300,null=True,blank=True)
     excerpt = models.CharField(max_length = 300)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'published')
     publish_date = models.DateField()
