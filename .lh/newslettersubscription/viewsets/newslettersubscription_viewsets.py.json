@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1730107933313,
@@ -32,6 +32,22 @@
                 {
                     "date": 1730108061726,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n     ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'category': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730108477622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,12 +16,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n     ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']\n \n-    filterset_fields = {\n-        'id': ['exact'],\n-        'category': ['exact'],\n-    }\n+    filterset_class = NewsLetterSubscriptionFilter\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730108483238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import NewsLetterSubscription\n from ..serializers.newslettersubscription_serializers import NewsLetterSubscriptionListSerializers, NewsLetterSubscriptionRetrieveSerializers, NewsLetterSubscriptionWriteSerializers\n from ..utilities.importbase import *\n+from \n \n class newslettersubscriptionViewsets(viewsets.ModelViewSet):\n     serializer_class = NewsLetterSubscriptionListSerializers\n     # permission_classes = [newslettersubscriptionPermission]\n"
+                },
+                {
+                    "date": 1730108489016,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import NewsLetterSubscription\n from ..serializers.newslettersubscription_serializers import NewsLetterSubscriptionListSerializers, NewsLetterSubscriptionRetrieveSerializers, NewsLetterSubscriptionWriteSerializers\n from ..utilities.importbase import *\n-from \n+from ..utilities\n \n class newslettersubscriptionViewsets(viewsets.ModelViewSet):\n     serializer_class = NewsLetterSubscriptionListSerializers\n     # permission_classes = [newslettersubscriptionPermission]\n"
+                },
+                {
+                    "date": 1730108494542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import NewsLetterSubscription\n from ..serializers.newslettersubscription_serializers import NewsLetterSubscriptionListSerializers, NewsLetterSubscriptionRetrieveSerializers, NewsLetterSubscriptionWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities\n+from ..utilities.filters import \n \n class newslettersubscriptionViewsets(viewsets.ModelViewSet):\n     serializer_class = NewsLetterSubscriptionListSerializers\n     # permission_classes = [newslettersubscriptionPermission]\n"
                 }
             ],
             "date": 1730107933313,

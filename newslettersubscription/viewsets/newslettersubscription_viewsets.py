@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import NewsLetterSubscription
 from ..serializers.newslettersubscription_serializers import NewsLetterSubscriptionListSerializers, NewsLetterSubscriptionRetrieveSerializers, NewsLetterSubscriptionWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.filters import NewsLetterSubscriptionFilter
 
 class newslettersubscriptionViewsets(viewsets.ModelViewSet):
     serializer_class = NewsLetterSubscriptionListSerializers
@@ -17,10 +18,7 @@ class newslettersubscriptionViewsets(viewsets.ModelViewSet):
     search_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']
     ordering_fields = ['name', 'email', 'is_subscribed', 'category', 'date', 'created_at', 'updated_at','id']
 
-    filterset_fields = {
-        'id': ['exact'],
-        'category': ['exact'],
-    }
+    filterset_class = NewsLetterSubscriptionFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
