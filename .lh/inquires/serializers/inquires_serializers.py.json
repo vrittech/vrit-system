@@ -1,0 +1,18 @@
+{
+    "sourceFile": "inquires/serializers/inquires_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730099597450,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730099597450,
+            "name": "Commit-0",
+            "content": "# from rest_framework import serializers\n# from ..models import Inquires\n\n# class InquiresListSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Inquires\n#         fields = '__all__'\n\n# class InquiresRetrieveSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Inquires\n#         fields = '__all__'\n\n# class InquiresWriteSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Inquires\n#         fields = '__all__'"
+        }
+    ]
+}

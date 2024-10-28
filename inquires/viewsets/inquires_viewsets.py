@@ -4,21 +4,20 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Inquires
 from ..serializers.inquires_serializers import InquiresListSerializers, InquiresRetrieveSerializers, InquiresWriteSerializers
 from ..utilities.importbase import *
+from ..utilities.inquires_filter import InquiresFilter
 
 class inquiresViewsets(viewsets.ModelViewSet):
     serializer_class = InquiresListSerializers
     # permission_classes = [inquiresPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Inquires.objects.all()
+    queryset = Inquires.objects.all().order_by('created_at')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
-
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    search_fields = ['id','project_service__name', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'project_detail', 'created_at', 'updated_at',]
+    ordering_fields = ['id', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'created_at', 'updated_at',]
+    # ('project_service', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'project_detail', 'created_at', 'updated_at', )
+    filterset_class = InquiresFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

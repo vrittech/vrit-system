@@ -1,0 +1,26 @@
+{
+    "sourceFile": "inquires/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1730099410961,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730099420999,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,4 +15,7 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n+    def __str__(self):\n+        return self.title\n+    \n"
+                },
+                {
+                    "date": 1730099428000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,6 +16,6 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.title\n+        return self.first_name\n     \n"
+                }
+            ],
+            "date": 1730099410961,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom projects.models import ProjectService\nfrom plan.models import Plan\n# Create your models here.\n\nclass Inquires(models.Model):\n    project_service = models.ManyToManyField(ProjectService,related_name=\"inquires\")\n    project_plan = models.ForeignKey(Plan,related_name = \"inquires\",on_delete=models.SET_NULL,null=True)\n    first_name = models.CharField(max_length = 250)\n    last_name = models.CharField(max_length = 250)\n    email_address = models.EmailField(max_length = 255)\n    phone_number = models.CharField(max_length = 15)\n    company_name = models.CharField(max_length = 300)\n    project_detail = models.TextField()\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n    \n"
+        }
+    ]
+}
