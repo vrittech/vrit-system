@@ -1,0 +1,58 @@
+{
+    "sourceFile": "plan/viewsets/plan_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 10,
+            "patches": [
+                {
+                    "date": 1730101142053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730101149891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = PlanListSerializers\n     # permission_classes = [planPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Plan.objects.all().order_by(\"\")\n+    queryset = Plan.objects.all().order_by)\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730101155489,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = PlanListSerializers\n     # permission_classes = [planPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Plan.objects.all().order_by)\n+    queryset = Plan.objects.all().order_by('')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730101165016,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = PlanListSerializers\n     # permission_classes = [planPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Plan.objects.all().order_by('')\n+    queryset = Plan.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1730101649393,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,11 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730101676755,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,9 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'id': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730101688576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,10 @@\n     ordering_fields = ['id']\n \n     filterset_fields = {\n         'id': ['exact'],\n-        'id': ['exact'],\n+        'is_show': ['exact'],\n+        'is_show': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730101693837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'is_show': ['exact'],\n-        'is_show': ['exact'],\n+        'is_popular': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730101715171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n+    \n \n     filterset_fields = {\n         'id': ['exact'],\n         'is_show': ['exact'],\n"
+                },
+                {
+                    "date": 1730101728963,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,11 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Plan.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['id','title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at',]\n     ordering_fields = ['id']\n-    \n+    # ('title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at', )\n \n     filterset_fields = {\n         'id': ['exact'],\n         'is_show': ['exact'],\n"
+                },
+                {
+                    "date": 1730101739229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     queryset = Plan.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at',]\n-    ordering_fields = ['id']\n+    ordering_fields = ['id','title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at',]\n     # ('title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at', )\n \n     filterset_fields = {\n         'id': ['exact'],\n"
+                }
+            ],
+            "date": 1730101142053,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import Plan\nfrom ..serializers.plan_serializers import PlanListSerializers, PlanRetrieveSerializers, PlanWriteSerializers\nfrom ..utilities.importbase import *\n\nclass planViewsets(viewsets.ModelViewSet):\n    serializer_class = PlanListSerializers\n    # permission_classes = [planPermission]\n    # authentication_classes = [JWTAuthentication]\n    pagination_class = MyPageNumberPagination\n    queryset = Plan.objects.all().order_by(\"\")\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return PlanWriteSerializers\n        elif self.action == 'retrieve':\n            return PlanRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

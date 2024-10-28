@@ -1,0 +1,110 @@
+{
+    "sourceFile": "plan/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 23,
+            "patches": [
+                {
+                    "date": 1730100667672,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730100687964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    \n+    def __str__(self):\n+        return self.title\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730100693420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,5 +20,7 @@\n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n     feature = models.ForeignKey(Features, on_delete=models.CASCADE)\n-    status = models.BooleanField(default = True)\n\\ No newline at end of file\n+    status = models.BooleanField(default = True)\n+    \n+    \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730100701690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,5 +22,7 @@\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n     feature = models.ForeignKey(Features, on_delete=models.CASCADE)\n     status = models.BooleanField(default = True)\n     \n-    \n\\ No newline at end of file\n+    \n+    def __str__(self):\n+        return self.status\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730100707140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n from django.db import models\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n+    \n+    status\n \n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n"
+                },
+                {
+                    "date": 1730100714673,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,12 @@\n from django.db import models\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n+     def __str__(self):\n+        return self.title\n     \n-    status\n+    \n \n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n"
+                },
+                {
+                    "date": 1730100776249,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,10 @@\n from django.db import models\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n-     def __str__(self):\n+    \n+    def __str__(self):\n         return self.title\n     \n     \n \n@@ -12,8 +13,9 @@\n     title = models.CharField(max_length = 250)\n     pricing = models.PositiveIntegerField()\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n+    is_show\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1730100784270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,10 @@\n     title = models.CharField(max_length = 250)\n     pricing = models.PositiveIntegerField()\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n-    is_show\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n+    is_show = models.\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730100790719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     pricing = models.PositiveIntegerField()\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n-    is_show = models.\n+    is_show = models.BooleanField(default = True)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730100860026,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,10 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n+    is_show = models.BooleanField(default = True)\n+    \n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730100868323,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n-    is_show = models.BooleanField(default = True)\n+    is_feature_checked = models.BooleanField(default = True)\n     \n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1730100880907,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,8 @@\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n     is_feature_checked = models.BooleanField(default = True)\n     \n-\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n"
+                },
+                {
+                    "date": 1730100892958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,9 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n-    is_feature_checked = models.BooleanField(default = True)\n-    \n+   \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n"
+                },
+                {
+                    "date": 1730100905286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,11 @@\n from django.db import models\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n+     is_feature_checked = models.BooleanField(default = True)\n     \n+    \n     def __str__(self):\n         return self.title\n     \n     \n"
+                },
+                {
+                    "date": 1730100924063,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.db import models\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n-     is_feature_checked = models.BooleanField(default = True)\n+    is_feature_checked = models.BooleanField(default = True)\n     \n     \n     def __str__(self):\n         return self.title\n@@ -17,8 +17,9 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n+    position \n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730100930465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n-    position \n+    position = models.Pos\n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730100937759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n-    position = models.Pos\n+    position = models.PositiveIntegerField(default = )\n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730101373192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,15 +17,21 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n-    position = models.PositiveIntegerField(default = )\n+    position = models.PositiveIntegerField(default = 9999)\n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.title\n+    \n+    def save(self, *args, **kwargs):\n+        # Check if this is an update and `is_show` is being set to False\n+        if not self.is_show and Plan.objects.filter(is_show=True).count() <= 3:\n+            raise ValidationError(\"At least 3 plans must be visible at all times.\")\n+        super().save(*args, **kwargs)\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730101384293,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n from django.db import models\n+from django.core.exceptions import ValidationError\n \n class Features(models.Model):\n     title = models.CharField(max_length = 250)\n     is_feature_checked = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1730101467505,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,12 +26,15 @@\n     \n     def __str__(self):\n         return self.title\n     \n-    def save(self, *args, **kwargs):\n-        # Check if this is an update and `is_show` is being set to False\n+    def clean(self):\n+        # Ensure at least 3 plans remain visible when trying to set `is_show` to False\n         if not self.is_show and Plan.objects.filter(is_show=True).count() <= 3:\n             raise ValidationError(\"At least 3 plans must be visible at all times.\")\n+\n+    def save(self, *args, **kwargs):\n+        self.clean()  # Call the clean method for validation\n         super().save(*args, **kwargs)\n \n \n class PlanHaveFeatures(models.Model):\n"
+                },
+                {
+                    "date": 1730101592211,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n     position = models.PositiveIntegerField(default = 9999)\n+    is\n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730101601487,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,10 +18,11 @@\n     duration = models.PositiveIntegerField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n+    is_popular = models.BooleanField(default = True)\n     position = models.PositiveIntegerField(default = 9999)\n-    is\n+    \n    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1730101612957,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n     pricing = models.PositiveIntegerField()\n-    duration = models.PositiveIntegerField() #in month\n+    duration = models.CharField() #in month\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n     is_popular = models.BooleanField(default = True)\n"
+                },
+                {
+                    "date": 1730101618695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n     pricing = models.PositiveIntegerField()\n-    duration = models.CharField() #in month\n+    duration = models.CharField()\n     description = models.TextField()\n     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n     is_show = models.BooleanField(default = True)\n     is_popular = models.BooleanField(default = True)\n"
+                }
+            ],
+            "date": 1730100667672,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\nclass Features(models.Model):\n    title = models.CharField(max_length = 250)\n\n# Create your models here.\nclass Plan(models.Model):\n    title = models.CharField(max_length = 250)\n    pricing = models.PositiveIntegerField()\n    duration = models.PositiveIntegerField() #in month\n    description = models.TextField()\n    features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n    \n    \n\n\nclass PlanHaveFeatures(models.Model):\n    plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n    feature = models.ForeignKey(Features, on_delete=models.CASCADE)\n    status = models.BooleanField(default = True)"
+        }
+    ]
+}

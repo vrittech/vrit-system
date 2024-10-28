@@ -10,15 +10,18 @@ class planViewsets(viewsets.ModelViewSet):
     # permission_classes = [planPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Plan.objects.all()
+    queryset = Plan.objects.all().order_by('position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['id','title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at',]
+    ordering_fields = ['id','title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at',]
+    # ('title', 'pricing', 'duration', 'description', 'features', 'is_show', 'is_popular', 'position', 'created_at', 'updated_at', )
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'is_show': ['exact'],
+        'is_popular': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
