@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -104,6 +104,10 @@
                 {
                     "date": 1730095301026,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,10 @@\n     filterset_fields = {\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n-        'category':['exact']\n-        'category':['exact']\n+        'category':['exact'],\n+        'author':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730096324340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n         'title':['exact'],\n         'status':['exact'],\n         'publish_date':['exact','gte','lte'],\n         'category':['exact'],\n-        'author':['exact']\n+        'user':['exact']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
                 }
             ],
             "date": 1730094601329,

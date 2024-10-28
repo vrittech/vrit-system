@@ -25,7 +25,7 @@ class blogViewsets(viewsets.ModelViewSet):
         'status':['exact'],
         'publish_date':['exact','gte','lte'],
         'category':['exact'],
-        'author':['exact']
+        'user':['exact']
     }
 
     def get_queryset(self):

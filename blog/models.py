@@ -40,6 +40,7 @@ class Blog(models.Model):
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
     tags = models.ManyToManyField(BlogTags)
+    position = models.PositiveIntegerField(default= 9999)
     # is_categorized = models.BooleanField(default= True)
     
     header_code =  models.TextField(default = "")

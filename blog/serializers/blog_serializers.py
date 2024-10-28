@@ -2,6 +2,12 @@ from rest_framework import serializers
 from ..models import Blog, BlogTags, BlogCategory
 from django.utils import timezone
 
+
+class BlogTagsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogTags
+        fields = ['id', 'name']
+        
 class BlogListSerializers(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
