@@ -30,6 +30,7 @@ class Forms(models.Model):
     image = models.ImageField(upload_to='forms', blank=True, null=True)
     excerpt = models.CharField(max_length=500, blank=True, null=True)
     auto_expiration = models.BooleanField(default=False)
+    is_expired = models.BooleanField(default=False)
     auto_expiration_date = models.DateField(blank=True, null=True)
     position = models.PositiveIntegerField(default=0)
 

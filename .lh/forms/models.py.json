@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1730114962486,
@@ -84,6 +84,22 @@
                 {
                     "date": 1730115328502,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,8 +17,10 @@\n     name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n+    def __str__(self):\n+        return self.title\n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n"
+                },
+                {
+                    "date": 1730116826160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,9 @@\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n+    is\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730116836205,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,8 @@\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n-    is\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730116842807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,9 @@\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n+    is = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730116851191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n-    is = models.BooleanField(default=False)\n+    is_expired = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
                 }
             ],
             "date": 1730114962486,
