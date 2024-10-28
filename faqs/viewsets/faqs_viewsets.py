@@ -12,15 +12,19 @@ class faqsViewsets(viewsets.ModelViewSet):
     # permission_classes = [faqsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Faqs.objects.all()
+    queryset = Faqs.objects.all().order_by('position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']
+    ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']
+    # ('title', 'description', 'position', 'created_at', 'updated_at', )
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'title': ['exact'],
+        'created_at': ['exact','gte','lte'],
+        'position': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()

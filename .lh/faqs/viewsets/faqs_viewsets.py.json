@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1729853223915,
@@ -28,6 +28,58 @@
                 {
                     "date": 1729853278435,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], name=\"draggableFaq\", url_path=\"drag-client\")\n+    @action(detail=False, methods=['get'], name=\"draggableFaqs\", url_path=\"drag-faq\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n         goal_position = request.GET.get('goal')  # Position of the goal object\n \n"
+                },
+                {
+                    "date": 1730099156854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n+    \n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730099162040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-    \n+    # ('title', 'description', 'position=models.BigIntegerField(default', 'updated_at', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730099187390,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-    # ('title', 'description', 'position=models.BigIntegerField(default', 'updated_at', )\n+    # ('title', 'description', 'position 'updated_at', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730099205880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-    # ('title', 'description', 'position 'updated_at', )\n+   \n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730099212491,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-   \n+    # ('title', 'description', 'position', 'created_at', 'updated_at', )\n \n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1730099221996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Faqs.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     ordering_fields = ['id']\n     # ('title', 'description', 'position', 'created_at', 'updated_at', )\n \n     # filterset_fields = {\n"
+                },
+                {
+                    "date": 1730099230382,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,14 +15,14 @@\n     queryset = Faqs.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n-    ordering_fields = ['id']\n+    ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     # ('title', 'description', 'position', 'created_at', 'updated_at', )\n \n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1730099239038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,10 @@\n     # ('title', 'description', 'position', 'created_at', 'updated_at', )\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'title': ['exact'],\n+        'id': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730099244573,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'title': ['exact'],\n-        'id': ['exact'],\n+        'created_at': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730099251336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,9 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'title': ['exact'],\n         'created_at': ['exact'],\n+        'created_at': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730099258075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,10 +21,10 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'title': ['exact'],\n-        'created_at': ['exact'],\n-        'created_at': ['exact'],\n+        'created_at': ['exact','gte'],\n+        'position': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730099276650,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     serializer_class = FaqsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all()\n+    queryset = Faqs.objects.all().order_by\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n@@ -21,9 +21,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'title': ['exact'],\n-        'created_at': ['exact','gte'],\n+        'created_at': ['exact','gte','lte'],\n         'position': ['exact'],\n     }\n \n     def get_queryset(self):\n"
+                },
+                {
+                    "date": 1730099284622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     serializer_class = FaqsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by\n+    queryset = Faqs.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n"
                 }
             ],
             "date": 1729853223915,
