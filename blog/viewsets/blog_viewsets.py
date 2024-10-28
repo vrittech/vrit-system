@@ -14,12 +14,14 @@ class blogViewsets(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']
-    ordering_fields = ['id']
+    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']
+    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']
+    # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )
 
     filterset_fields = {
+        'title':['exact'],
         'status':['exact'],
-        'publish_date':['gte','lte']
+        'publish_date':['exact','gte','lte']
     }
 
     def get_queryset(self):

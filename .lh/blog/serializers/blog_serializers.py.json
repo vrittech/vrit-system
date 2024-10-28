@@ -1,0 +1,18 @@
+{
+    "sourceFile": "blog/serializers/blog_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730094573253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730094573253,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Blog, BlogTags, BlogCategory\nfrom django.utils import timezone\n\nclass BlogListSerializers(serializers.ModelSerializer):\n    category = serializers.StringRelatedField(many=True)\n    tags = serializers.StringRelatedField(many=True)\n\n    class Meta:\n        model = Blog\n        fields = [\n            'id', 'title', 'excerpt', 'status', 'publish_date', \n            'created_at', 'updated_at', 'category', 'tags'\n        ]\n\n\nclass BlogRetrieveSerializers(serializers.ModelSerializer):\n    category = serializers.StringRelatedField(many=True)\n    tags = serializers.StringRelatedField(many=True)\n\n    class Meta:\n        model = Blog\n        fields = [\n            'id', 'title', 'description', 'status', 'publish_date', \n            'meta_description', 'meta_keywords', 'meta_author',\n            'created_at', 'updated_at', 'category', 'tags', \n            'header_code', 'embedded_code', 'featured_image'\n        ]\n\n\nclass BlogWriteSerializers(serializers.ModelSerializer):\n    tags = serializers.ListField(\n        child=serializers.CharField(max_length=155), write_only=True\n    )\n    category = serializers.ListField(\n        child=serializers.IntegerField(), write_only=True\n    )\n\n    class Meta:\n        model = Blog\n        fields = [\n            'id', 'title', 'description', 'site_title', 'excerpt', \n            'status', 'publish_date', 'meta_description', 'meta_keywords', \n            'meta_author', 'tags', 'category', 'header_code', 'embedded_code', \n            'featured_image'\n        ]\n\n    def validate_publish_date(self, value):\n        \"\"\"\n        Ensure that publish_date is in the future for scheduled blogs.\n        \"\"\"\n        if self.initial_data.get('status') == 'scheduled' and value <= timezone.now().date():\n            raise serializers.ValidationError(\"Publish date must be in the future for scheduled blogs.\")\n        return value\n\n    def create(self, validated_data):\n        tags_data = validated_data.pop('tags', [])\n        category_data = validated_data.pop('category', [])\n        \n        blog = Blog.objects.create(**validated_data)\n        blog.tags.set(Blog.tag_manager.get_or_create_tags(tags_data))\n        blog.category.set(category_data)\n\n        return blog\n\n    def update(self, instance, validated_data):\n        tags_data = validated_data.pop('tags', [])\n        category_data = validated_data.pop('category', [])\n\n        for attr, value in validated_data.items():\n            setattr(instance, attr, value)\n\n        if tags_data:\n            instance.tags.set(Blog.tag_manager.get_or_create_tags(tags_data))\n        \n        if category_data:\n            instance.category.set(category_data)\n\n        instance.save()\n        return instance\n"
+        }
+    ]
+}

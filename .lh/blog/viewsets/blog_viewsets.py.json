@@ -1,0 +1,50 @@
+{
+    "sourceFile": "blog/viewsets/blog_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1730094601329,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730094639474,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,12 +15,13 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n     ordering_fields = ['id']\n+    \n \n     filterset_fields = {\n         'status':['exact'],\n-        'publish_date':['exact'gte','lte']\n+        'publish_date':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1730094658197,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n     ordering_fields = ['id']\n-    \n+    ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n         'publish_date':['exact','gte','lte']\n"
+                },
+                {
+                    "date": 1730094670224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     queryset = Blog.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n-    ordering_fields = ['id']\n+    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status',]\n     ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n"
+                },
+                {
+                    "date": 1730094687724,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status',]\n-    ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n+    # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n         'publish_date':['exact','gte','lte']\n"
+                },
+                {
+                    "date": 1730094692890,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Blog.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n+    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status',]\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n"
+                },
+                {
+                    "date": 1730094722048,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = Blog.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__']\n+    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status',]\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n"
+                },
+                {
+                    "date": 1730094729066,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     queryset = Blog.objects.all()\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n-    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status',]\n+    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n"
+                },
+                {
+                    "date": 1730094736027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n \n     filterset_fields = {\n         'status':['exact'],\n+        'status':['exact'],\n         'publish_date':['exact','gte','lte']\n     }\n \n     def get_queryset(self):\n"
+                }
+            ],
+            "date": 1730094601329,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import Blog\nfrom ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers\nfrom ..utilities.importbase import *\nfrom rest_framework.response import Response\nfrom blog.utilities.permissions import blogPermission\n\nclass blogViewsets(viewsets.ModelViewSet):\n    serializer_class = BlogListSerializers\n    # permission_classes = [blogPermission]\n    pagination_class = MyPageNumberPagination\n    queryset = Blog.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags']\n    ordering_fields = ['id']\n\n    filterset_fields = {\n        'status':['exact'],\n        'publish_date':['exact'gte','lte']\n    }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return BlogWriteSerializers\n        elif self.action == 'retrieve':\n            return BlogRetrieveSerializers\n        return super().get_serializer_class()\n    \n    def list(self, request, *args, **kwargs):\n        return super().list(request, *args, **kwargs)\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}
