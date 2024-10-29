@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 27,
             "patches": [
                 {
                     "date": 1730114962486,
@@ -100,6 +100,22 @@
                 {
                     "date": 1730116851191,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n     embedded_code = models.TextField(blank=True, null=True)\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n-    is = models.BooleanField(default=False)\n+    is_expired = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730176671548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,27 +1,15 @@\n from django.db import models\n \n-# # Create your models here.\n-# title\n-# category--> foreignkey\n-# description\n-# header_code\n-# embedded_code\n-# image\n-# excerpt\n-# auto expiration\n-# auto expiration date\n-# position \n-from django.db import models\n-\n class Category(models.Model):\n     name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.title\n+        return self.name  # Fixed 'self.title' to 'self.name' to match the field name\n \n+\n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n     description = models.TextField()\n@@ -39,5 +27,11 @@\n \n     def __str__(self):\n         return self.title\n \n-\n+    def save(self, *args, **kwargs):\n+        # Automatically mark as expired if the expiration date has passed\n+        if self.auto_expiration and self.auto_expiration_date:\n+            from datetime import date\n+            if date.today() > self.auto_expiration_date:\n+                self.is_expired = True\n+        super().save(*args, **kwargs)\n"
+                },
+                {
+                    "date": 1730176690174,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.name  # Fixed 'self.title' to 'self.name' to match the field name\n+        return self.name  \n \n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n"
+                },
+                {
+                    "date": 1730176934449,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.name  \n+        return self.name\n \n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n@@ -18,8 +18,9 @@\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n     is_expired = models.BooleanField(default=False)\n+    is_expired = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730176940191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n     is_expired = models.BooleanField(default=False)\n-    is_expired = models.BooleanField(default=False)\n+    is_show = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
                 }
             ],
             "date": 1730114962486,

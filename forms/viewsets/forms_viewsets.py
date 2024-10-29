@@ -13,12 +13,15 @@ class formsViewsets(viewsets.ModelViewSet):
     queryset = Forms.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]
+    ordering_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code','excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]
+    # ('title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position', )
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'id': ['exact'],
+        'auto_expiration_date': ['exact'],
+        'is_show': ['exact'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()

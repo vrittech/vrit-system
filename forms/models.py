@@ -1,25 +1,13 @@
 from django.db import models
 
-# # Create your models here.
-# title
-# category--> foreignkey
-# description
-# header_code
-# embedded_code
-# image
-# excerpt
-# auto expiration
-# auto expiration date
-# position 
-from django.db import models
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.title
+        return self.name
+
 
 class Forms(models.Model):
     title = models.CharField(max_length=255)
@@ -31,6 +19,7 @@ class Forms(models.Model):
     excerpt = models.CharField(max_length=500, blank=True, null=True)
     auto_expiration = models.BooleanField(default=False)
     is_expired = models.BooleanField(default=False)
+    is_show = models.BooleanField(default=False)
     auto_expiration_date = models.DateField(blank=True, null=True)
     position = models.PositiveIntegerField(default=0)
 
@@ -40,4 +29,10 @@ class Forms(models.Model):
     def __str__(self):
         return self.title
 
-
+    def save(self, *args, **kwargs):
+        # Automatically mark as expired if the expiration date has passed
+        if self.auto_expiration and self.auto_expiration_date:
+            from datetime import date
+            if date.today() > self.auto_expiration_date:
+                self.is_expired = True
+        super().save(*args, **kwargs)

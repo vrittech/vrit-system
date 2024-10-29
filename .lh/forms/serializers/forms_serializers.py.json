@@ -1,0 +1,34 @@
+{
+    "sourceFile": "forms/serializers/forms_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1730176709027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730176971144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         model = Category\n         fields = ['id', 'name', 'created_at', 'updated_at']\n \n \n-class FormsListSerializer(serializers.ModelSerializer):\n+class FormsListSerializers(serializers.ModelSerializer):\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n"
+                },
+                {
+                    "date": 1730176977003,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n             'updated_at',\n         ]\n \n \n-class FormsRetrieveSerializer(serializers.ModelSerializer):\n+class FormsRetrieveSerializers(serializers.ModelSerializer):\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n@@ -49,9 +49,9 @@\n             'updated_at',\n         ]\n \n \n-class FormsWriteSerializer(serializers.ModelSerializer):\n+class FormsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Forms\n         fields = [\n             'title',\n"
+                },
+                {
+                    "date": 1730176984912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,20 +12,9 @@\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n-        fields = [\n-            'id',\n-            'title',\n-            'category',\n-            'description',\n-            'excerpt',\n-            'auto_expiration',\n-            'is_expired',\n-            'position',\n-            'created_at',\n-            'updated_at',\n-        ]\n+        fields = \n \n \n class FormsRetrieveSerializers(serializers.ModelSerializer):\n     category = CategorySerializer(read_only=True)\n"
+                },
+                {
+                    "date": 1730176990625,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n-        fields = \n+        fields = '__all__'\n \n \n class FormsRetrieveSerializers(serializers.ModelSerializer):\n     category = CategorySerializer(read_only=True)\n"
+                }
+            ],
+            "date": 1730176709027,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Forms, Category\n\n\nclass CategorySerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Category\n        fields = ['id', 'name', 'created_at', 'updated_at']\n\n\nclass FormsListSerializer(serializers.ModelSerializer):\n    category = CategorySerializer(read_only=True)\n\n    class Meta:\n        model = Forms\n        fields = [\n            'id',\n            'title',\n            'category',\n            'description',\n            'excerpt',\n            'auto_expiration',\n            'is_expired',\n            'position',\n            'created_at',\n            'updated_at',\n        ]\n\n\nclass FormsRetrieveSerializer(serializers.ModelSerializer):\n    category = CategorySerializer(read_only=True)\n\n    class Meta:\n        model = Forms\n        fields = [\n            'id',\n            'title',\n            'category',\n            'description',\n            'header_code',\n            'embedded_code',\n            'image',\n            'excerpt',\n            'auto_expiration',\n            'is_expired',\n            'auto_expiration_date',\n            'position',\n            'created_at',\n            'updated_at',\n        ]\n\n\nclass FormsWriteSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = Forms\n        fields = [\n            'title',\n            'category',\n            'description',\n            'header_code',\n            'embedded_code',\n            'image',\n            'excerpt',\n            'auto_expiration',\n            'auto_expiration_date',\n            'position',\n        ]\n\n    def validate(self, data):\n        # Ensure that if 'auto_expiration' is True, 'auto_expiration_date' is provided\n        if data.get('auto_expiration') and not data.get('auto_expiration_date'):\n            raise serializers.ValidationError(\n                \"Auto expiration date is required when auto expiration is enabled.\"\n            )\n        return data\n"
+        }
+    ]
+}
