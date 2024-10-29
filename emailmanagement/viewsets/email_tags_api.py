@@ -28,4 +28,4 @@ class EmailTags(APIView):
             return Response("newsletter_subscription_tags")
         
         else:
-            return Response("tags type doesnot match")
+            return Response("Tags type does not match")

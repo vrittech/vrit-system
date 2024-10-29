@@ -27,11 +27,14 @@ class EmailManagement(models.Model):
     frequency = models.CharField(max_length = 50, choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))
     frequency_per = models.IntegerField()
     blog_category = models.ForeignKey(BlogCategory,on_delete = models.CASCADE)
-    number_of_blog_based_on_user = models.IntegerField(default=1)
+    number_of_blog_attachments_based_on_user = models.IntegerField(default=1)
     number_of_blog = models.IntegerField(default=1)
     additional_blog = models.ManyToManyField(Blog)
     excerpt = models.CharField(max_length = 2000)
     featured_image = models.ImageField(upload_to='emailtemplate')
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.template_name

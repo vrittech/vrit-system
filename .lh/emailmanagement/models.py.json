@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -28,6 +28,14 @@
                 {
                     "date": 1730110029610,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     smtp_username = models.CharField(max_length = 100,null = True,blank = True)\n     verify_smtp_certificate = models.BooleanField(default = False)\n     \n     def __str__(self):\n-        return self.template_name\n+        return self.email_address\n \n \n # Create your models here.\n class EmailManagement(models.Model):\n"
+                },
+                {
+                    "date": 1730187316066,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,6 +32,9 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n     def __str__(self):\n         return self.template_name\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730187417934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n     frequency = models.CharField(max_length = 50, choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))\n     frequency_per = models.IntegerField()\n     blog_category = models.ForeignKey(BlogCategory,on_delete = models.CASCADE)\n-    number_of_blog_based_on_user = models.IntegerField(default=1)\n+    number_of_blog_attachments_based_on_user = models.IntegerField(default=1)\n     number_of_blog = models.IntegerField(default=1)\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n"
                 }
             ],
             "date": 1730109174264,
