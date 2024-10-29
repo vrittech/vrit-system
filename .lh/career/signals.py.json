@@ -1,0 +1,22 @@
+{
+    "sourceFile": "career/signals.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730186280754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730186286913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n # signals.py\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n-from .models import Clients\n+from .models import Career\n \n @receiver(post_save, sender=C)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n"
+                }
+            ],
+            "date": 1730186280754,
+            "name": "Commit-0",
+            "content": "# signals.py\n\nfrom django.db.models.signals import post_save\nfrom django.dispatch import receiver\nfrom .models import Clients\n\n@receiver(post_save, sender=C)\ndef set_position_same_as_id(sender, instance, created, **kwargs):\n    if created and instance.position != instance.id:\n        instance.position = instance.id\n        instance.save()\n"
+        }
+    ]
+}

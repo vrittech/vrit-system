@@ -1,0 +1,22 @@
+{
+    "sourceFile": "faqs/__init__.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730186507325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730186514127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-default_app_config = 'your_app.apps.YourAppConfig'\n+default_app_config = 'faqs.apps.YourAppConfig'\n"
+                }
+            ],
+            "date": 1730186507325,
+            "name": "Commit-0",
+            "content": "default_app_config = 'your_app.apps.YourAppConfig'\n"
+        }
+    ]
+}

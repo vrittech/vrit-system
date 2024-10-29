@@ -1,0 +1,22 @@
+{
+    "sourceFile": "casestudy/apps.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730186127419,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730186132718,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,5 +5,5 @@\n     default_auto_field = 'django.db.models.BigAutoField'\n     name = 'casestudy'\n     \n     def ready(self):\n-        import your_app.signals\n+        import casestudy.signals\n"
+                }
+            ],
+            "date": 1730186127419,
+            "name": "Commit-0",
+            "content": "from django.apps import AppConfig\n\n\nclass CasestudyConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'casestudy'\n    \n    def ready(self):\n        import your_app.signals\n"
+        }
+    ]
+}

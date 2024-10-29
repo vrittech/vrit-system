@@ -18,6 +18,7 @@ class Clients(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class ClientSettings(models.Model):
     SECTION_CHOICES = [
