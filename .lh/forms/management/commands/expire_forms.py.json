@@ -1,0 +1,38 @@
+{
+    "sourceFile": "forms/management/commands/expire_forms.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1730178775334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730178780830,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.core.management.base import BaseCommand\n-from your_app.models import Forms\n+from form.models import Forms\n from datetime import date\n \n class Command(BaseCommand):\n     help = 'Mark forms as expired if the auto expiration date has passed'\n"
+                },
+                {
+                    "date": 1730178800796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.core.management.base import BaseCommand\n-from form.models import Forms\n+from forms.models import Forms\n from datetime import date\n \n class Command(BaseCommand):\n     help = 'Mark forms as expired if the auto expiration date has passed'\n@@ -14,4 +14,6 @@\n         )\n \n         forms_to_expire.update(is_expired=True)\n         self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n+\n+crontab -e\n"
+                },
+                {
+                    "date": 1730178806226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,4 +16,5 @@\n         forms_to_expire.update(is_expired=True)\n         self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n \n crontab -e\n+0 0 * * * /path/to/your/virtualenv/bin/python /path/to/your/project/manage.py expire_forms\n"
+                },
+                {
+                    "date": 1730178817223,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,4 +17,5 @@\n         self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n \n crontab -e\n 0 0 * * * /path/to/your/virtualenv/bin/python /path/to/your/project/manage.py expire_forms\n+python manage.py expire_forms\n"
+                },
+                {
+                    "date": 1730178823966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,7 +15,8 @@\n \n         forms_to_expire.update(is_expired=True)\n         self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n \n-crontab -e\n-0 0 * * * /path/to/your/virtualenv/bin/python /path/to/your/project/manage.py expire_forms\n-python manage.py expire_forms\n+# crontab -e\n+# 0 0 * * * /path/to/your/virtualenv/bin/python /path/to/your/project/manage.py expire_forms\n+# python manage.py expire_forms\n+# grep CRON /var/log/syslog\n"
+                }
+            ],
+            "date": 1730178775334,
+            "name": "Commit-0",
+            "content": "from django.core.management.base import BaseCommand\nfrom your_app.models import Forms\nfrom datetime import date\n\nclass Command(BaseCommand):\n    help = 'Mark forms as expired if the auto expiration date has passed'\n\n    def handle(self, *args, **kwargs):\n        today = date.today()\n        forms_to_expire = Forms.objects.filter(\n            auto_expiration=True,\n            auto_expiration_date__lt=today,\n            is_expired=False\n        )\n\n        forms_to_expire.update(is_expired=True)\n        self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "sourceFile": "career/management/commands/expire_career.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1730179256384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730179261759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,7 @@\n from django.core.management.base import BaseCommand\n from career.models import Career\n from datetime import date\n-\n-from django.core.management.base import BaseCommand\n-from django.utils import timezone\n-from career.models import Career\n-\n class Command(BaseCommand):\n     help = 'Mark careers as expired if the expiration date has passed'\n \n     def handle(self, *args, **kwargs):\n"
+                },
+                {
+                    "date": 1730179267653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,11 @@\n from django.core.management.base import BaseCommand\n from career.models import Career\n from datetime import date\n+\n+from django.core.management.base import BaseCommand\n+from django.utils import timezone\n+\n class Command(BaseCommand):\n     help = 'Mark careers as expired if the expiration date has passed'\n \n     def handle(self, *args, **kwargs):\n"
+                }
+            ],
+            "date": 1730179256384,
+            "name": "Commit-0",
+            "content": "from django.core.management.base import BaseCommand\nfrom career.models import Career\nfrom datetime import date\n\nfrom django.core.management.base import BaseCommand\nfrom django.utils import timezone\nfrom career.models import Career\n\nclass Command(BaseCommand):\n    help = 'Mark careers as expired if the expiration date has passed'\n\n    def handle(self, *args, **kwargs):\n        now = timezone.now()\n        careers_to_expire = Career.objects.filter(\n            enable_auto_expiration=True,\n            expiration_date__lt=now,\n            is_expired=False\n        )\n\n        careers_to_expire.update(is_expired=True, is_show=False)\n        self.stdout.write(self.style.SUCCESS(f'{careers_to_expire.count()} careers marked as expired.'))\n\n        today = date.today()\n        forms_to_expire = Career.objects.filter(\n            auto_expiration=True,\n            auto_expiration_date__lt=today,\n            is_expired=False\n        )\n\n        forms_to_expire.update(is_expired=True)\n        self.stdout.write(self.style.SUCCESS(f'{forms_to_expire.count()} forms marked as expired.'))\n\n# crontab -e\n# 0 0 * * * /path/to/your/virtualenv/bin/python /path/to/your/project/manage.py expire_forms\n# python manage.py expire_forms\n# grep CRON /var/log/syslog\n"
+        }
+    ]
+}

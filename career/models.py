@@ -27,6 +27,7 @@ class Career(models.Model):
     is_show = models.BooleanField(default=True)
     enable_auto_expiration = models.BooleanField(default=True)
     expiration_date = models.DateTimeField()
+    is_expired = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -47,5 +48,6 @@ class Career(models.Model):
         Deactivate the career if it has expired.
         """
         if self.has_expired():
+            self.is_expired = True
             self.is_show = False
             self.save()
