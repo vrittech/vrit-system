@@ -1,0 +1,22 @@
+{
+    "sourceFile": "emailmanagement/routers/routers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730193383674,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730193395074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,5 +8,5 @@\n \n \n router.register('email-setup', emailsetupViewsets, basename=\"emailsetupViewsets\")\n router.register('email-management', emailmanagementViewsets, basename=\"emailmanagementViewsets\")\n-router.register('email-log', emaillogViewsets, basename=\"emaillogViewsets\")\n+router.register('email-logs', emaillogViewsets, basename=\"emaillogViewsets\")\n"
+                }
+            ],
+            "date": 1730193383674,
+            "name": "Commit-0",
+            "content": "from rest_framework.routers import DefaultRouter\nfrom ..viewsets.emailsetup_viewsets import emailsetupViewsets\nfrom ..viewsets.emaillog_viewsets import emaillogViewsets\nfrom ..viewsets.emailmanagement_viewsets import emailmanagementViewsets\n\nrouter = DefaultRouter()\nauto_api_routers = router\n\n\nrouter.register('email-setup', emailsetupViewsets, basename=\"emailsetupViewsets\")\nrouter.register('email-management', emailmanagementViewsets, basename=\"emailmanagementViewsets\")\nrouter.register('email-log', emaillogViewsets, basename=\"emaillogViewsets\")\n"
+        }
+    ]
+}

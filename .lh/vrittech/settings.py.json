@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 41,
+            "activePatchIndex": 43,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -171,6 +171,14 @@
                 },
                 {
                     "date": 1730115674862,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,9 +89,9 @@\n     'sitesetting',\n     'careergallery',\n     'management',\n     'forms',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
+                },
+                {
+                    "date": 1730193301976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,9 +89,9 @@\n     'sitesetting',\n     'careergallery',\n     'management',\n     'forms',\n-    # 'drfapigenerator',\n+    'drfapigenerator',\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
+                },
+                {
+                    "date": 1730193326398,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,9 +89,9 @@\n     'sitesetting',\n     'careergallery',\n     'management',\n     'forms',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
                 }
             ],

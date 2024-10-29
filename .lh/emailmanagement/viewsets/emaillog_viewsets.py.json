@@ -1,0 +1,30 @@
+{
+    "sourceFile": "emailmanagement/viewsets/emaillog_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1730193557980,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730193566607,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,10 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import EmailLog\n from ..serializers.emaillog_serializers import EmailLogListSerializers, EmailLogRetrieveSerializers, EmailLogWriteSerializers\n from ..utilities.importbase import *\n+from ..\n \n-\n class emaillogViewsets(viewsets.ModelViewSet):\n     serializer_class = EmailLogListSerializers\n     # permission_classes = [emailmanagementPermission]\n     # authentication_classes = [JWTAuthentication]\n"
+                },
+                {
+                    "date": 1730193577735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import EmailLog\n from ..serializers.emaillog_serializers import EmailLogListSerializers, EmailLogRetrieveSerializers, EmailLogWriteSerializers\n from ..utilities.importbase import *\n-from ..utilities.\n+from ..utilities.filters\n \n class emaillogViewsets(viewsets.ModelViewSet):\n     serializer_class = EmailLogListSerializers\n     # permission_classes = [emailmanagementPermission]\n"
+                },
+                {
+                    "date": 1730193590403,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,38 @@\n+from rest_framework import viewsets\n+from rest_framework.filters import SearchFilter, OrderingFilter\n+from django_filters.rest_framework import DjangoFilterBackend\n+from ..models import EmailLog\n+from ..serializers.emaillog_serializers import EmailLogListSerializers, EmailLogRetrieveSerializers, EmailLogWriteSerializers\n+from ..utilities.importbase import *\n+from ..utilities.filters import \n+\n+class emaillogViewsets(viewsets.ModelViewSet):\n+    serializer_class = EmailLogListSerializers\n+    # permission_classes = [emailmanagementPermission]\n+    # authentication_classes = [JWTAuthentication]\n+    #pagination_class = MyPageNumberPagination\n+    queryset = EmailLog.objects.all()\n+\n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    search_fields = ['id']\n+    ordering_fields = ['id']\n+\n+    # filterset_fields = {\n+    #     'id': ['exact'],\n+    # }\n+\n+    def get_queryset(self):\n+        queryset = super().get_queryset()\n+        #return queryset.filter(user_id=self.request.user.id)\n+\n+    def get_serializer_class(self):\n+        if self.action in ['create', 'update', 'partial_update']:\n+            return EmailLogWriteSerializers\n+        elif self.action == 'retrieve':\n+            return EmailLogRetrieveSerializers\n+        return super().get_serializer_class()\n+\n+    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n+    # def action_name(self, request, *args, **kwargs):\n+    #     return super().list(request, *args, **kwargs)\n+\n"
+                }
+            ],
+            "date": 1730193557980,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import EmailLog\nfrom ..serializers.emaillog_serializers import EmailLogListSerializers, EmailLogRetrieveSerializers, EmailLogWriteSerializers\nfrom ..utilities.importbase import *\n\n\nclass emaillogViewsets(viewsets.ModelViewSet):\n    serializer_class = EmailLogListSerializers\n    # permission_classes = [emailmanagementPermission]\n    # authentication_classes = [JWTAuthentication]\n    #pagination_class = MyPageNumberPagination\n    queryset = EmailLog.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        #return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return EmailLogWriteSerializers\n        elif self.action == 'retrieve':\n            return EmailLogRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}

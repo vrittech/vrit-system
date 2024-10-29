@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'management',
     'forms',
     # 'drfapigenerator',
+    
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
