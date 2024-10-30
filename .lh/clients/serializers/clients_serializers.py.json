@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 22,
             "patches": [
                 {
                     "date": 1729835822662,
@@ -84,6 +84,18 @@
                 {
                     "date": 1729853175788,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,6 +15,12 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n+    def validate(self, data):\n+        # Check if the position already exists in another collection\n+        position = data.get('position')\n+        if Clients.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n+        return data\n         \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730266511321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,6 +21,38 @@\n         position = data.get('position')\n         if Clients.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"A collection with this position already exists.\"})\n         return data\n+    \n+    class ClientsWriteSerializers(serializers.ModelSerializer):\n+    class Meta:\n+        model = Clients\n+        fields = '__all__'\n+\n+    def validate(self, data):\n+        # Check if the position already exists in another client\n+        position = data.get('position')\n+        if position and Clients.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"position\": \"A client with this position already exists.\"})\n+        return data\n+\n+    def update(self, instance, validated_data):\n+        media = validated_data.pop('media', None)\n+\n+        # Update instance fields if data is provided\n+        for attr, value in validated_data.items():\n+            setattr(instance, attr, value)\n+\n+        # Handle the media field specifically\n+        if media is not None:\n+            if media == \"null\":\n+                # If media is set to 'null', delete the current image\n+                instance.media.delete(save=False)\n+                instance.media = None\n+            else:\n+                # If media data is sent, update it\n+                instance.media = media\n+\n+        instance.save()\n+        return instance\n         \n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730266535027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,19 +15,8 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-    def validate(self, data):\n-        # Check if the position already exists in another collection\n-        position = data.get('position')\n-        if Clients.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n-        return data\n-    \n-    class ClientsWriteSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Clients\n-        fields = '__all__'\n \n     def validate(self, data):\n         # Check if the position already exists in another client\n         position = data.get('position')\n"
+                },
+                {
+                    "date": 1730266541202,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,8 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-\n     def validate(self, data):\n         # Check if the position already exists in another client\n         position = data.get('position')\n         if position and Clients.objects.filter(position=position).exists():\n"
                 }
             ],
             "date": 1729835822662,
