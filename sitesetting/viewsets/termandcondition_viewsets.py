@@ -39,53 +39,33 @@ class termandconditionViewsets(viewsets.ModelViewSet):
     #     return super().list(request, *args, **kwargs)
     
             
-    @action(detail=False, methods=['post'], name="create-update", url_path="create-terms-and-conditions")
-    def action_name(self, request, *args, **kwargs):
-            description = request.data.get('description', None)
-            
-            if description is None:
+    @action(detail=False, methods=['get', 'post', 'put', 'patch'], name="manage-terms-and-conditions", url_path="terms-and-conditions")
+    def manage_terms_and_conditions(self, request, *args, **kwargs):
+        """
+        Handles creating, retrieving, updating, and partially updating the Terms and Conditions.
+        """
+        # Fetch the first terms and conditions, assuming there's only one
+        term_and_condition = TermAndCondition.objects.first()
+
+        if request.method == 'GET':
+            # Retrieve the existing terms and conditions
+            if not term_and_condition:
                 return Response({"data": None}, status=status.HTTP_200_OK)
-            
-            term_and_condition = TermAndCondition.objects.all()
-            
-            if term_and_condition.exists():
-                # Update the existing term and condition
-                term_and_condition = term_and_condition.first()
+            serializer = TermAndConditionRetrieveSerializers(term_and_condition)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        elif request.method in ['POST', 'PUT', 'PATCH']:
+            description = request.data.get('description', None)
+
+            if description is None:
+                return Response({"error": "Description is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if term_and_condition:
+                # Update the existing terms and conditions
                 term_and_condition.description = description
                 term_and_condition.save()
                 return Response({"message": "Terms and conditions updated successfully."}, status=status.HTTP_200_OK)
             else:
-                # Create a new term and condition
+                # Create new terms and conditions
                 new_term_and_condition = TermAndCondition.objects.create(description=description)
                 return Response({"message": "Terms and conditions created successfully.", "id": new_term_and_condition.id}, status=status.HTTP_201_CREATED)
-            
-    @action(detail=False, methods=['get', 'put'], name="retrieve-update", url_path="detail-terms-and-conditions")
-    def retrieve_update_term_and_condition(self, request, *args, **kwargs):
-            try:
-                # Assuming there's only one term and condition, get the first one.
-                term_and_condition = TermAndCondition.objects.first()
-                
-                if not term_and_condition:
-                    return Response({"error": "Term and Condition not found."}, status=status.HTTP_404_NOT_FOUND)
-            
-            except TermAndCondition.DoesNotExist:
-                return Response({"error": "Term and Condition not found."}, status=status.HTTP_404_NOT_FOUND)
-
-            if request.method == 'GET':
-                # Retrieve the term and condition
-                serializer = TermAndConditionRetrieveSerializers(term_and_condition)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            
-            elif request.method == 'PUT':
-                # Update the term and condition
-                description = request.data.get('description', None)
-                
-                if description is None:
-                    return Response({"error": "Description is required."}, status=status.HTTP_400_BAD_REQUEST)
-                
-                term_and_condition.description = description
-                term_and_condition.save()
-                return Response({"message": "Term and Condition updated successfully."}, status=status.HTTP_200_OK)
-
-
-
