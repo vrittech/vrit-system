@@ -1,0 +1,18 @@
+{
+    "sourceFile": "globalpresence/serializers/globalpresence_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730266790277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730266790277,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import GlobalPresence\n\nclass GlobalPresenceListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n\nclass GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n\nclass GlobalPresenceWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n        \n"
+        }
+    ]
+}
