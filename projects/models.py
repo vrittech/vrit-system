@@ -15,7 +15,7 @@ class ProjectGroup(models.Model):
 class ProjectService(models.Model):
     name = models.CharField(max_length = 155)
     description = models.TextField()
-    image = models.ImageField(upload_to="service",null=True,blank=True)
+    media = models.ImageField(upload_to="service",null=True,blank=True)
     position = models.PositiveIntegerField(default=9999)
     is_feature= models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

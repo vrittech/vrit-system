@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1729852922608,
@@ -12,6 +12,14 @@
                 {
                     "date": 1729852928674,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,5 +14,11 @@\n class ProjectServiceWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = ProjectService\n         fields = '__all__'\n-    \n\\ No newline at end of file\n+    \n+    def validate(self, data):\n+        # Check if the position already exists in another collection\n+        position = data.get('position')\n+        if ProjectS.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n+        return data\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730272832479,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,7 +18,7 @@\n     \n     def validate(self, data):\n         # Check if the position already exists in another collection\n         position = data.get('position')\n-        if ProjectS.objects.filter(position=position).exists():\n+        if ProjectService.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"A collection with this position already exists.\"})\n\\ No newline at end of file\n-        return data\n+        return data\n"
+                },
+                {
+                    "date": 1730272844332,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,26 @@\n     def validate(self, data):\n         # Check if the position already exists in another collection\n         position = data.get('position')\n         if ProjectService.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"A collection with this position already exists.\"})\n-        return data\n\\ No newline at end of file\n+            raise serializers.ValidationError({\"A Service with this position already exists.\"})\n+        return data\n+\n+    def update(self, instance, validated_data):\n+        # Handle the media field separately\n+        media = validated_data.pop('media', None)\n+\n+        if media is not None:\n+            if media == \"null\":\n+                # If media is set to 'null', delete the current media\n+                instance.media.delete(save=False)\n+                instance.media = None\n+            else:\n+                # If media data is sent, update it\n+                instance.media = media\n+\n+        # Update other fields\n+        for attr, value in validated_data.items():\n+            setattr(instance, attr, value)\n+\n+        instance.save()\n+        return instance\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729852922608,

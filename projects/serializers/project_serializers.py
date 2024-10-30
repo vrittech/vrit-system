@@ -27,7 +27,7 @@ def str_to_list(data, value_to_convert):
 class ServicesSerializers_Project(serializers.ModelSerializer):
     class Meta:
         model = ProjectService
-        fields = ['id', 'name', 'description', 'image']
+        fields = ['id', 'name', 'description', 'media']
 
 class ProjectGroupSerializers(serializers.ModelSerializer):
     class Meta:

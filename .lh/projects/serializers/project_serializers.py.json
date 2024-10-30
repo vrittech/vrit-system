@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 30,
+            "activePatchIndex": 31,
             "patches": [
                 {
                     "date": 1729762139180,
@@ -128,6 +128,10 @@
                 {
                     "date": 1729855128516,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -153,8 +153,8 @@\n     def validate(self, data):\n         # Validate 'position' only if it is provided in the request data\n         position = data.get('position', None)\n         if position is not None and Project.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"position\": \"A collection with this position already exists.\"})\n+            raise serializers.ValidationError({\"position\": \"A project with this position already exists.\"})\n \n         # Ensure that the validate() method returns the validated data\n         return data\n"
+                },
+                {
+                    "date": 1730273054619,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n # Serializer for ProjectService model\n class ServicesSerializers_Project(serializers.ModelSerializer):\n     class Meta:\n         model = ProjectService\n-        fields = ['id', 'name', 'description', 'image']\n+        fields = ['id', 'name', 'description', 'media']\n \n class ProjectGroupSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = ProjectGroup\n"
                 }
             ],
             "date": 1729762139180,

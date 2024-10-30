@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1730114962486,
@@ -116,6 +116,10 @@
                 {
                     "date": 1730176940191,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     image = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n     is_expired = models.BooleanField(default=False)\n-    is_expired = models.BooleanField(default=False)\n+    is_show = models.BooleanField(default=False)\n     auto_expiration_date = models.DateField(blank=True, null=True)\n     position = models.PositiveIntegerField(default=0)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730272671879,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')\n     description = models.TextField()\n     header_code = models.TextField(blank=True, null=True)\n     embedded_code = models.TextField(blank=True, null=True)\n-    image = models.ImageField(upload_to='forms', blank=True, null=True)\n+    media = models.ImageField(upload_to='forms', blank=True, null=True)\n     excerpt = models.CharField(max_length=500, blank=True, null=True)\n     auto_expiration = models.BooleanField(default=False)\n     is_expired = models.BooleanField(default=False)\n     is_show = models.BooleanField(default=False)\n"
                 }
             ],
             "date": 1730114962486,

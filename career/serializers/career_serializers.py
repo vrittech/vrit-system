@@ -33,17 +33,17 @@ class CareerWriteSerializers(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-        # Handle the image field separately
-        image = validated_data.pop('image', None)
+        # Handle the media field separately
+        media = validated_data.pop('media', None)
 
-        if image is not None:
-            if image == "null":
-                # If image is set to 'null', delete the current image
-                instance.image.delete(save=False)
-                instance.image = None
+        if media is not None:
+            if media == "null":
+                # If media is set to 'null', delete the current media
+                instance.media.delete(save=False)
+                instance.media = None
             else:
-                # If image data is sent, update it
-                instance.image = image
+                # If media data is sent, update it
+                instance.media = media
 
         # Update other fields
         for attr, value in validated_data.items():

@@ -17,7 +17,7 @@ class CareerGallery(models.Model):
         related_name="career_galleries"
     )
     position = models.PositiveIntegerField(default=9999)
-    image = models.ImageField(upload_to='career_gallery')
+    media = models.ImageField(upload_to='career_gallery')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

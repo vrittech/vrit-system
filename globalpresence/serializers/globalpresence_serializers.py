@@ -17,21 +17,21 @@ class GlobalPresenceWriteSerializers(serializers.ModelSerializer):
         fields = '__all__'
         
     def update(self, instance, validated_data):
-        image = validated_data.pop('image', None)
+        # Handle the media field separately
+        media = validated_data.pop('media', None)
 
-        # Update instance fields if data is provided
+        if media is not None:
+            if media == "null":
+                # If media is set to 'null', delete the current media
+                instance.media.delete(save=False)
+                instance.media = None
+            else:
+                # If media data is sent, update it
+                instance.media = media
+
+        # Update other fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-
-        # Handle the image field specifically
-        if image is not None:
-            if image == "null":
-                # If image is set to 'null', delete the current image
-                instance.image.delete(save=False)
-                instance.image = None
-            else:
-                # If image data is sent, update it
-                instance.image = image
 
         instance.save()
         return instance

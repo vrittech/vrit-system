@@ -12,7 +12,7 @@ class BlogTags(models.Model):
 
 class BlogCategory(models.Model):
     name = models.CharField(max_length = 155)
-    image = models.ImageField(upload_to='blogcategory',null=True)
+    media = models.ImageField(upload_to='blogcategory',null=True)
     is_show = models.BooleanField(default = True)
     
     def __str__(self):
