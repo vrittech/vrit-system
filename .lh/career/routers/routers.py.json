@@ -1,0 +1,18 @@
+{
+    "sourceFile": "career/routers/routers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730266131818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730266131818,
+            "name": "Commit-0",
+            "content": "from rest_framework.routers import DefaultRouter\nfrom ..viewsets.expriencelevel_viewsets import expriencelevelViewsets\nfrom ..viewsets.career_viewsets import careerViewsets\n\nrouter = DefaultRouter()\nauto_api_routers = router\n\n\nrouter.register('experience-level', expriencelevelViewsets, basename=\"expriencelevelViewsets\")\nrouter.register('career', careerViewsets, basename=\"careerViewsets\")\n"
+        }
+    ]
+}
