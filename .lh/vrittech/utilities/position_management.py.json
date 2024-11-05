@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1730781859364,
@@ -12,6 +12,70 @@
                 {
                     "date": 1730781894473,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,15 @@\n from django.db.models import F, Max\n from decimal import Decimal\n \n class PositionManagementViewSet(viewsets.ViewSet):\n+    \n+    # Mapping of frontend identifiers to actual model names\n+    MODEL_MAP = {\n+        'project': 'Project',\n+        'task': 'Task',\n+        # Add other mappings as needed\n+    }\n     def _get_model(self, model_name):\n         \"\"\"\n         Retrieve model class based on model name.\n         \"\"\"\n"
+                },
+                {
+                    "date": 1730782288320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n         'project': 'Project',\n         'task': 'Task',\n         # Add other mappings as needed\n     }\n+    \n     def _get_model(self, model_name):\n         \"\"\"\n         Retrieve model class based on model name.\n         \"\"\"\n@@ -23,9 +24,9 @@\n         except LookupError:\n             return None\n \n     @action(detail=False, methods=['get'], url_path='drag-item')\n-    def reorder(self, request, *args, **kwargs):\n+    def draggable(self, request, *args, **kwargs):\n         model_name = request.GET.get('model')\n         target_position = request.GET.get('target')\n         goal_position = request.GET.get('goal')\n         breath_hold = 3  # Maximum distance for small moves\n"
+                },
+                {
+                    "date": 1730782326384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'task': 'Task',\n+        'blog': 'Task',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782332266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,14 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'blog': 'Task',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782342854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,13 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n+        'career': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782352655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,13 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n-        'career': 'Blog',\n+        'career': 'Career',\n+        'casestudy': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782357904,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n-        'casestudy': 'Blog',\n+        'casestudy': 'CaseStudy',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782399872,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,11 @@\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n+        'clients': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782436736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,11 @@\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n-        'clients': 'Blog',\n+        'clients': 'Clients',\n+        'faqs': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782473970,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,14 @@\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n-        'faqs': 'Blog',\n+        'faqs': 'Faqs',\n         'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782481897,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,13 @@\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n+        'forms': 'BFormslog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782496049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,13 @@\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n-        'forms': 'BFormslog',\n+        'forms': 'Forms',\n+        'global': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782502874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'global': 'Blog',\n+        'globalpresence': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782544360,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'globalpresence': 'Blog',\n+        'plan': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782565995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,15 +10,17 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n+        'project': 'Project',\n+        'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'plan': 'Blog',\n+        'plan': 'Plan',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782575183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'project-service': 'Project',\n+        'project-service': 'ProjectService',\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n"
+                },
+                {
+                    "date": 1730782586002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'project-service': 'ProjectService',\n-        'project-group': 'Project',\n+        'project-group': 'Project-Group',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n"
                 }
             ],
             "date": 1730781859364,
