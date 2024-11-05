@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1729764481763,
@@ -64,6 +64,14 @@
                 {
                     "date": 1730782024073,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,8 +96,9 @@\n     path('api/',include('emailmanagement.urls')),\n     # path('api/management/', include('management.urls')),\n     path('api-auth/', include('rest_framework.urls')),\n     path('api/bulk-delete/', BulkDelete.as_view(), name=\"bulk_delete\"),\n+     path('api/position-management/drag-item/', position_management_viewset, name='position_management_drag_item'),\n \n     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),\n     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),\n     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),\n"
+                },
+                {
+                    "date": 1730790053194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,9 +96,9 @@\n     path('api/',include('emailmanagement.urls')),\n     # path('api/management/', include('management.urls')),\n     path('api-auth/', include('rest_framework.urls')),\n     path('api/bulk-delete/', BulkDelete.as_view(), name=\"bulk_delete\"),\n-     path('api/position-management/drag-item/', position_management_viewset, name='position_management_drag_item'),\n+    path('api/drag-item/', position_management_viewset, name='position_management_drag_item'),\n \n     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),\n     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),\n     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),\n"
+                },
+                {
+                    "date": 1730790058626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,9 +96,9 @@\n     path('api/',include('emailmanagement.urls')),\n     # path('api/management/', include('management.urls')),\n     path('api-auth/', include('rest_framework.urls')),\n     path('api/bulk-delete/', BulkDelete.as_view(), name=\"bulk_delete\"),\n-    path('api/drag-item/', position_management_viewset, name='position_management_drag_item'),\n+    path('api/draggable-item/', position_management_viewset, name='position_management_drag_item'),\n \n     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),\n     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),\n     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),\n"
                 }
             ],
             "date": 1729764481763,
