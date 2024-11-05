@@ -6,11 +6,17 @@ from accounts.models import CustomUser
 class SocialMedia(models.Model):
     name = models.CharField(max_length = 255,unique =  True)
     url = models.URLField(max_length = 255,unique =  True)
+    media = models.ImageField(upload_to="social_media")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
 
 class StaffHaveSocialMedia(models.Model):
     staff = models.ForeignKey(CustomUser,related_name ="user"  , on_delete=models.CASCADE)
     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)
     social_media_url = models.URLField(max_length = 350)
+    
 
     class Meta:
         unique_together = ('staff', 'social_media')
