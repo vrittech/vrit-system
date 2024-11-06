@@ -16,7 +16,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'project-group': ('projects', 'ProjectGroup'),
         'blog': ('blog', 'Blog'),
         'career': ('career', 'Career'),
-        'casestudy': ('casestudy', 'CaseStudy'),
+        'case-study': ('casestudy', 'CaseStudy'),
         'clients': ('clients', 'Clients'),
         'faqs': ('faqs', 'Faq'),
         'forms': ('forms', 'Form'),
@@ -24,7 +24,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'testimonial': ('testimonial', 'Testimonial'),
         'department': ('department', 'Department'),
         'gallery': ('gallery', 'Gallery'),
-        'socialmedia': ('socialmedia', 'SocialMedia'),
+        'social-media': ('socialmedia', 'SocialMedia'),
         # Add or modify mappings as necessary
     }
 
