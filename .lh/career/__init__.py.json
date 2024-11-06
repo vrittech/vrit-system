@@ -1,0 +1,22 @@
+{
+    "sourceFile": "career/__init__.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730186319626,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730186324865,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-default_app_config = 'your_app.apps.YourAppConfig'\n+default_app_config = 'career.apps.YourAppConfig'\n"
+                }
+            ],
+            "date": 1730186319626,
+            "name": "Commit-0",
+            "content": "default_app_config = 'your_app.apps.YourAppConfig'\n"
+        }
+    ]
+}

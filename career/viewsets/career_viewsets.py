@@ -13,7 +13,7 @@ class careerViewsets(viewsets.ModelViewSet):
     # permission_classes = [careerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Career.objects.all()
+    queryset = Career.objects.all().order_by('position')
     filterset_class = CareerFilter
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

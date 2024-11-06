@@ -1,0 +1,86 @@
+{
+    "sourceFile": "vrittech/utilities/position_management.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 17,
+            "patches": [
+                {
+                    "date": 1730781859364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730781894473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,15 @@\n from django.db.models import F, Max\n from decimal import Decimal\n \n class PositionManagementViewSet(viewsets.ViewSet):\n+    \n+    # Mapping of frontend identifiers to actual model names\n+    MODEL_MAP = {\n+        'project': 'Project',\n+        'task': 'Task',\n+        # Add other mappings as needed\n+    }\n     def _get_model(self, model_name):\n         \"\"\"\n         Retrieve model class based on model name.\n         \"\"\"\n"
+                },
+                {
+                    "date": 1730782288320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n         'project': 'Project',\n         'task': 'Task',\n         # Add other mappings as needed\n     }\n+    \n     def _get_model(self, model_name):\n         \"\"\"\n         Retrieve model class based on model name.\n         \"\"\"\n@@ -23,9 +24,9 @@\n         except LookupError:\n             return None\n \n     @action(detail=False, methods=['get'], url_path='drag-item')\n-    def reorder(self, request, *args, **kwargs):\n+    def draggable(self, request, *args, **kwargs):\n         model_name = request.GET.get('model')\n         target_position = request.GET.get('target')\n         goal_position = request.GET.get('goal')\n         breath_hold = 3  # Maximum distance for small moves\n"
+                },
+                {
+                    "date": 1730782326384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'task': 'Task',\n+        'blog': 'Task',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782332266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,14 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'blog': 'Task',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782342854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,13 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n+        'career': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782352655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,13 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n-        'career': 'Blog',\n+        'career': 'Career',\n+        'casestudy': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782357904,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     MODEL_MAP = {\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n-        'casestudy': 'Blog',\n+        'casestudy': 'CaseStudy',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782399872,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,11 @@\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n+        'clients': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782436736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,11 +13,11 @@\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n-        'clients': 'Blog',\n+        'clients': 'Clients',\n+        'faqs': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782473970,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,14 @@\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n-        'faqs': 'Blog',\n+        'faqs': 'Faqs',\n         'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n+        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782481897,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,13 @@\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n+        'forms': 'BFormslog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782496049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,13 @@\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n-        'forms': 'BFormslog',\n+        'forms': 'Forms',\n+        'global': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n-        'blog': 'Blog',\n         # Add other mappings as needed\n     }\n     \n     def _get_model(self, model_name):\n"
+                },
+                {
+                    "date": 1730782502874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'global': 'Blog',\n+        'globalpresence': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782544360,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'globalpresence': 'Blog',\n+        'plan': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782565995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,15 +10,17 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n+        'project': 'Project',\n+        'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n         'faqs': 'Faqs',\n         'forms': 'Forms',\n-        'plan': 'Blog',\n+        'plan': 'Plan',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         'blog': 'Blog',\n         # Add other mappings as needed\n"
+                },
+                {
+                    "date": 1730782575183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     \n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n-        'project-service': 'Project',\n+        'project-service': 'ProjectService',\n         'project': 'Project',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n"
+                },
+                {
+                    "date": 1730782586002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     # Mapping of frontend identifiers to actual model names\n     MODEL_MAP = {\n         'project': 'Project',\n         'project-service': 'ProjectService',\n-        'project-group': 'Project',\n+        'project-group': 'Project-Group',\n         'blog': 'Blog',\n         'career': 'Career',\n         'casestudy': 'CaseStudy',\n         'clients': 'Clients',\n"
+                }
+            ],
+            "date": 1730781859364,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.decorators import action\nfrom rest_framework.response import Response\nfrom django.apps import apps\nfrom django.db import transaction\nfrom django.db.models import F, Max\nfrom decimal import Decimal\n\nclass PositionManagementViewSet(viewsets.ViewSet):\n    def _get_model(self, model_name):\n        \"\"\"\n        Retrieve model class based on model name.\n        \"\"\"\n        try:\n            return apps.get_model('your_app_name', model_name)\n        except LookupError:\n            return None\n\n    @action(detail=False, methods=['get'], url_path='drag-item')\n    def reorder(self, request, *args, **kwargs):\n        model_name = request.GET.get('model')\n        target_position = request.GET.get('target')\n        goal_position = request.GET.get('goal')\n        breath_hold = 3  # Maximum distance for small moves\n\n        if not model_name or not target_position or not goal_position:\n            return Response({\"error\": \"Model name, target, or goal position not provided\"}, status=400)\n\n        # Load the model\n        Model = self._get_model(model_name)\n        if Model is None:\n            return Response({\"error\": f\"Model '{model_name}' not found\"}, status=400)\n\n        # Convert positions to integers\n        try:\n            target_position = int(target_position)\n            goal_position = int(goal_position)\n        except ValueError:\n            return Response({\"error\": \"Invalid target or goal position\"}, status=400)\n\n        # Fetch the target object\n        try:\n            target_obj = Model.objects.get(position=target_position)\n        except Model.DoesNotExist:\n            return Response({\"error\": \"Target object not found\"}, status=400)\n\n        # Calculate move distance and choose strategy\n        distance = abs(goal_position - target_position)\n        total_items = Model.objects.count()\n        start_boundary = breath_hold\n        end_boundary = total_items - breath_hold\n\n        if distance <= breath_hold:\n            return self._small_move_strategy(Model, target_obj, target_position, goal_position)\n        elif target_position <= start_boundary:\n            return self._front_move_strategy(Model, target_obj, target_position, goal_position)\n        elif target_position >= end_boundary:\n            return self._back_move_strategy(Model, target_obj, target_position, goal_position)\n        else:\n            return self._big_jump_strategy(Model, target_obj, target_position, goal_position)\n\n    def _small_move_strategy(self, Model, target_obj, target_position, goal_position):\n        \"\"\"\n        Move items over a short distance by shifting positions.\n        \"\"\"\n        try:\n            if target_position < goal_position:\n                # Moving down\n                Model.objects.filter(position__gt=target_position, position__lte=goal_position).update(position=F('position') - 1)\n            else:\n                # Moving up\n                Model.objects.filter(position__lt=target_position, position__gte=goal_position).update(position=F('position') + 1)\n\n            target_obj.position = goal_position\n            target_obj.save()\n\n            return Response({\"status\": \"success\", \"message\": \"Position updated using Small Move Strategy\"})\n        except Exception as e:\n            return Response({\"error\": f\"Failed to update position: {str(e)}\"}, status=400)\n\n    def _front_move_strategy(self, Model, target_obj, target_position, goal_position):\n        \"\"\"\n        Move item to the start of the list.\n        \"\"\"\n        try:\n            with transaction.atomic():\n                Model.objects.filter(position__lt=target_position).update(position=F('position') + 1)\n                target_obj.position = 0\n                target_obj.save()\n\n            return Response({\"status\": \"success\", \"message\": \"Position updated using Front Move Strategy\"})\n        except Exception as e:\n            return Response({\"error\": f\"Failed to update position: {str(e)}\"}, status=400)\n\n    def _back_move_strategy(self, Model, target_obj, target_position, goal_position):\n        \"\"\"\n        Move item to the end of the list.\n        \"\"\"\n        try:\n            with transaction.atomic():\n                max_position = Model.objects.aggregate(max_pos=Max('position'))['max_pos'] or 0\n                target_obj.position = max_position + 1\n                target_obj.save()\n\n            return Response({\"status\": \"success\", \"message\": \"Position updated using Back Move Strategy\"})\n        except Exception as e:\n            return Response({\"error\": f\"Failed to update position: {str(e)}\"}, status=400)\n\n    def _big_jump_strategy(self, Model, target_obj, target_position, goal_position):\n        \"\"\"\n        Reorder items with large jumps by setting decimal positions.\n        \"\"\"\n        try:\n            if goal_position > target_position:\n                next_obj = Model.objects.filter(position__gt=goal_position).order_by('position').first()\n                prev_obj = Model.objects.filter(position=goal_position).first()\n            else:\n                next_obj = Model.objects.filter(position=goal_position).first()\n                prev_obj = Model.objects.filter(position__lt=goal_position).order_by('-position').first()\n\n            if prev_obj and next_obj:\n                new_position = (Decimal(str(prev_obj.position)) + Decimal(str(next_obj.position))) / 2\n            elif prev_obj:\n                new_position = Decimal(str(prev_obj.position)) + 1\n            elif next_obj:\n                new_position = Decimal(str(next_obj.position)) / 2\n            else:\n                new_position = Decimal('1.0')\n\n            target_obj.position = float(new_position)\n            target_obj.save()\n\n            return Response({\"status\": \"success\", \"message\": \"Position updated using Big Jump Strategy\", \"new_position\": float(new_position)})\n        except Exception as e:\n            return Response({\"error\": f\"Failed to update position: {str(e)}\"}, status=400)\n"
+        }
+    ]
+}

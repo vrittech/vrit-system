@@ -1,0 +1,26 @@
+{
+    "sourceFile": "clients/management/commands/clients_add.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1730787978887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730787986940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.core.management.base import BaseCommand\n-from your_app.models import Clients\n+from .models import Clients\n import random\n from faker import Faker\n \n class Command(BaseCommand):\n"
+                },
+                {
+                    "date": 1730787993158,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.core.management.base import BaseCommand\n-from .models import Clients\n+from ...models import Clients\n import random\n from faker import Faker\n \n class Command(BaseCommand):\n"
+                }
+            ],
+            "date": 1730787978887,
+            "name": "Commit-0",
+            "content": "from django.core.management.base import BaseCommand\nfrom your_app.models import Clients\nimport random\nfrom faker import Faker\n\nclass Command(BaseCommand):\n    help = 'Add 100 dummy clients'\n\n    def handle(self, *args, **kwargs):\n        fake = Faker()\n        sections = ['first', 'second', 'third', 'fourth']\n\n        for _ in range(100):\n            name = fake.name()\n            section = random.choice(sections)\n            # If you want to use a dummy image, make sure to have an image file in the correct path\n            media = None  # You can specify a path to an image file if needed\n            position = random.randint(1, 9999)\n\n            client = Clients.objects.create(\n                name=name,\n                section=section,\n                media=media,\n                position=position\n            )\n            self.stdout.write(self.style.SUCCESS(f'Client {client.name} added!'))\n"
+        }
+    ]
+}

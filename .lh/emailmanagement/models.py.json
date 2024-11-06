@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -28,6 +28,62 @@
                 {
                     "date": 1730110029610,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     smtp_username = models.CharField(max_length = 100,null = True,blank = True)\n     verify_smtp_certificate = models.BooleanField(default = False)\n     \n     def __str__(self):\n-        return self.template_name\n+        return self.email_address\n \n \n # Create your models here.\n class EmailManagement(models.Model):\n"
+                },
+                {
+                    "date": 1730187316066,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,6 +32,9 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n     def __str__(self):\n         return self.template_name\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730187417934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n     frequency = models.CharField(max_length = 50, choices = (('day','Day'),('week','Week'),('month','Month'),('year','Year')))\n     frequency_per = models.IntegerField()\n     blog_category = models.ForeignKey(BlogCategory,on_delete = models.CASCADE)\n-    number_of_blog_based_on_user = models.IntegerField(default=1)\n+    number_of_blog_attachments_based_on_user = models.IntegerField(default=1)\n     number_of_blog = models.IntegerField(default=1)\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n"
+                },
+                {
+                    "date": 1730193021952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,5 +36,28 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.template_name\n\\ No newline at end of file\n+        return self.template_name\n+    \n+from django.db import models\n+\n+class EmailLog(models.Model):\n+    STATUS_CHOICES = [\n+        ('sent', 'Sent'),\n+        ('failed', 'Failed'),\n+        ('pending', 'Pending'),\n+    ]\n+\n+    date = models.DateField()  # Date of email sending\n+    time = models.TimeField()  # Time of email sending\n+    subject = models.CharField(max_length=255)  # Subject of the email\n+    purpose = models.CharField(max_length=255)  # Purpose of the email\n+    recipient = models.EmailField()  # Recipient email address\n+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')  # Status of the email\n+    preview = models.TextField(blank=True, null=True)  # Email preview\n+\n+    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the record was created\n+    updated_at = models.DateTimeField(auto_now=True)  # Timestamp for when the record was last updated\n+\n+    def __str__(self):\n+        return f'{self.subject} - {self.recipient} - {self.status}'\n"
+                },
+                {
+                    "date": 1730193153110,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,15 +38,15 @@\n     \n     def __str__(self):\n         return self.template_name\n     \n-from django.db import models\n \n+\n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n         ('sent', 'Sent'),\n         ('failed', 'Failed'),\n-        ('pending', 'Pending'),\n+        ('scheduled', 'Pending'),\n     ]\n \n     date = models.DateField()  # Date of email sending\n     time = models.TimeField()  # Time of email sending\n"
+                },
+                {
+                    "date": 1730193159786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,9 +44,9 @@\n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n         ('sent', 'Sent'),\n         ('failed', 'Failed'),\n-        ('scheduled', 'Pending'),\n+        ('scheduled', 'scheduled'),\n     ]\n \n     date = models.DateField()  # Date of email sending\n     time = models.TimeField()  # Time of email sending\n"
+                },
+                {
+                    "date": 1730193177996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,18 +44,17 @@\n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n         ('sent', 'Sent'),\n         ('failed', 'Failed'),\n-        ('scheduled', 'scheduled'),\n+        ('scheduled', 'Scheduled'),\n     ]\n \n     date = models.DateField()  # Date of email sending\n     time = models.TimeField()  # Time of email sending\n     subject = models.CharField(max_length=255)  # Subject of the email\n     purpose = models.CharField(max_length=255)  # Purpose of the email\n     recipient = models.EmailField()  # Recipient email address\n     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')  # Status of the email\n-    preview = models.TextField(blank=True, null=True)  # Email preview\n \n     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the record was created\n     updated_at = models.DateTimeField(auto_now=True)  # Timestamp for when the record was last updated\n \n"
+                },
+                {
+                    "date": 1730193528686,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n \n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n-        ('sent', 'Sent'),\n+        ('sent', 'sent'),\n         ('failed', 'Failed'),\n         ('scheduled', 'Scheduled'),\n     ]\n \n"
+                },
+                {
+                    "date": 1730194039579,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,21 +42,29 @@\n \n \n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n-        ('sent', 'sent'),\n+        ('sent', 'Sent'),\n         ('failed', 'Failed'),\n         ('scheduled', 'Scheduled'),\n+        ('canceled', 'Canceled'),\n     ]\n \n-    date = models.DateField()  # Date of email sending\n-    time = models.TimeField()  # Time of email sending\n-    subject = models.CharField(max_length=255)  # Subject of the email\n-    purpose = models.CharField(max_length=255)  # Purpose of the email\n-    recipient = models.EmailField()  # Recipient email address\n-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')  # Status of the email\n+    date = models.DateField(blank=True, null=True)\n+    time = models.TimeField(blank=True, null=True)\n+    subject = models.CharField(max_length=255)\n+    purpose = models.CharField(max_length=255)\n+    recipient = models.EmailField()\n+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')\n+    preview = models.TextField(blank=True, null=True)\n+    scheduled_at = models.DateTimeField(blank=True, null=True)  # New field for scheduling\n \n-    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when the record was created\n-    updated_at = models.DateTimeField(auto_now=True)  # Timestamp for when the record was last updated\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n+\n+    def send_email(self):\n+        # Logic to send the email\n+        self.status = 'sent'\n+        self.save()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730194145913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,7 +64,7 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n \n     def send_email(self):\n-        # Logic to send the email\n+TODO \n         self.status = 'sent'\n         self.save()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730194324029,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,16 +55,16 @@\n     purpose = models.CharField(max_length=255)\n     recipient = models.EmailField()\n     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')\n     preview = models.TextField(blank=True, null=True)\n-    scheduled_at = models.DateTimeField(blank=True, null=True)  # New field for scheduling\n+    scheduled_at = models.DateTimeField(blank=True, null=True)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n \n     def send_email(self):\n-TODO \n+# TODO : Implement email sending logic here\n         self.status = 'sent'\n         self.save()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730194471024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n \n \n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n-        ('sent', 'Sent'),\n+        ('sent', 'sent'),\n         ('failed', 'Failed'),\n         ('scheduled', 'Scheduled'),\n         ('canceled', 'Canceled'),\n     ]\n"
+                },
+                {
+                    "date": 1730194477998,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,11 +43,11 @@\n \n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n         ('sent', 'sent'),\n-        ('failed', 'Failed'),\n-        ('scheduled', 'Scheduled'),\n-        ('canceled', 'Canceled'),\n+        ('failed', 'failed'),\n+        ('scheduled', 'scheduled'),\n+        ('canceled', 'canceled'),\n     ]\n \n     date = models.DateField(blank=True, null=True)\n     time = models.TimeField(blank=True, null=True)\n"
+                },
+                {
+                    "date": 1730194494793,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,9 +53,9 @@\n     time = models.TimeField(blank=True, null=True)\n     subject = models.CharField(max_length=255)\n     purpose = models.CharField(max_length=255)\n     recipient = models.EmailField()\n-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')\n+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pesentnding')\n     preview = models.TextField(blank=True, null=True)\n     scheduled_at = models.DateTimeField(blank=True, null=True)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1730194684066,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,11 +51,11 @@\n \n     date = models.DateField(blank=True, null=True)\n     time = models.TimeField(blank=True, null=True)\n     subject = models.CharField(max_length=255)\n-    purpose = models.CharField(max_length=255)\n+    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n     recipient = models.EmailField()\n-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pesentnding')\n+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sent')\n     preview = models.TextField(blank=True, null=True)\n     scheduled_at = models.DateTimeField(blank=True, null=True)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
                 }
             ],
             "date": 1730109174264,

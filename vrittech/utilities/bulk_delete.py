@@ -28,7 +28,7 @@ VALID_TYPES = {
     "clients": Clients,
     "faqs": Faqs,
     "testimonial": Testimonial,
-    "case_study": CaseStudy,
+    "case-study": CaseStudy,
     "project-group": ProjectGroup,
     "newsletter-subscription": NewsLetterSubscription,
     "inquiries": Inquires,

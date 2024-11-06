@@ -12,7 +12,7 @@ class Testimonial(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     testimonial = models.TextField()
-    image = models.ImageField(upload_to="testimonial")
+    media = models.ImageField(upload_to="testimonial")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

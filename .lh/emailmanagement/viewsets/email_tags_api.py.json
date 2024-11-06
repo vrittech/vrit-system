@@ -1,0 +1,26 @@
+{
+    "sourceFile": "emailmanagement/viewsets/email_tags_api.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1730186802841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730186829693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,5 +27,5 @@\n         elif tag_type == \"newsletter_subscription_tags\":\n             return Response(\"newsletter_subscription_tags\")\n         \n         else:\n-            return Response(\"tags type doesnot match\")\n\\ No newline at end of file\n+            return Response(\"tags type does not match\")\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730186836023,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,5 +27,5 @@\n         elif tag_type == \"newsletter_subscription_tags\":\n             return Response(\"newsletter_subscription_tags\")\n         \n         else:\n-            return Response(\"tags type does not match\")\n\\ No newline at end of file\n+            return Response(\"Tags type does not match\")\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730186802841,
+            "name": "Commit-0",
+            "content": "#api for email tags\n## types of porpose\n# ('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')\n\"\"\"\n```\n1. blog\n2. contact_us\n3. newsletter_subscription\n```\n\"\"\"\n\nblog_tags = ['blog_user','blog_title','blog_description','blog_receiver_full_name']\ncontact_us_tags = ['contact_first_name','contact_last_name','contact_email_address','contact_phone_number','contact_company_name','contact_project_service','contact_project_plan']\nnewsletter_subscription_tags = ['news_letter_subscription_full_name','news_letter_subscription_email','news_letter_subscrirption_category']\n\nfrom rest_framework.views import APIView\nfrom rest_framework.response import Response\n\nclass EmailTags(APIView):\n    def get(self, request, tag_type, *args, **kwargs):\n        if tag_type == \"blog_tags\":\n            return Response(blog_tags)\n        \n        elif tag_type == \"contact_us_tags\":\n            return Response(\"contact_us_tags\")\n        \n        elif tag_type == \"newsletter_subscription_tags\":\n            return Response(\"newsletter_subscription_tags\")\n        \n        else:\n            return Response(\"tags type doesnot match\")"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "sourceFile": "gallery/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1730272692167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730272699071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,8 @@\n \n class Gallery(models.Model):\n     name = models.CharField(max_length=150,null =  True,blank = True)\n     media = models.ImageField(upload_to=\"gallery\")\n+    \n+    def __str__(self):\n+        return super().__str__()\n     \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730272706843,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,5 +7,25 @@\n     media = models.ImageField(upload_to=\"gallery\")\n     \n     def __str__(self):\n         return super().__str__()\n-    \n\\ No newline at end of file\n+    \n+    \n+    def update(self, instance, validated_data):\n+        # Handle the media field separately\n+        media = validated_data.pop('media', None)\n+\n+        if media is not None:\n+            if media == \"null\":\n+                # If media is set to 'null', delete the current media\n+                instance.media.delete(save=False)\n+                instance.media = None\n+            else:\n+                # If media data is sent, update it\n+                instance.media = media\n+\n+        # Update other fields\n+        for attr, value in validated_data.items():\n+            setattr(instance, attr, value)\n+\n+        instance.save()\n+        return instance\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730272735635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     name = models.CharField(max_length=150,null =  True,blank = True)\n     media = models.ImageField(upload_to=\"gallery\")\n     \n     def __str__(self):\n-        return super().__str__()\n+        return self.title\n     \n     \n     def update(self, instance, validated_data):\n         # Handle the media field separately\n"
+                },
+                {
+                    "date": 1730272741089,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,25 +7,5 @@\n     media = models.ImageField(upload_to=\"gallery\")\n     \n     def __str__(self):\n         return self.title\n-    \n-    \n-    def update(self, instance, validated_data):\n-        # Handle the media field separately\n-        media = validated_data.pop('media', None)\n-\n-        if media is not None:\n-            if media == \"null\":\n-                # If media is set to 'null', delete the current media\n-                instance.media.delete(save=False)\n-                instance.media = None\n-            else:\n-                # If media data is sent, update it\n-                instance.media = media\n-\n-        # Update other fields\n-        for attr, value in validated_data.items():\n-            setattr(instance, attr, value)\n-\n-        instance.save()\n-        return instance\n\\ No newline at end of file\n+    \n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730272692167,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\n\nclass Gallery(models.Model):\n    name = models.CharField(max_length=150,null =  True,blank = True)\n    media = models.ImageField(upload_to=\"gallery\")\n    "
+        }
+    ]
+}

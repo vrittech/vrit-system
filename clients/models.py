@@ -10,7 +10,7 @@ class Clients(models.Model):
 
     name = models.CharField(max_length=100)
     section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')
-    media = models.ImageField(upload_to="clients")
+    media = models.ImageField(upload_to="clients",null=True,blank=True)
     position= models.PositiveIntegerField(default = 9999)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,6 +18,7 @@ class Clients(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class ClientSettings(models.Model):
     SECTION_CHOICES = [

@@ -12,7 +12,7 @@ class CaseStudyTags(models.Model):
 
 class CaseStudyCategory(models.Model):
     name = models.CharField(max_length = 155)
-    image = models.ImageField(upload_to='case_studycategory',null=True)
+    media = models.ImageField(upload_to='case_studycategory',null=True)
     is_show = models.BooleanField(default = True)
     
     def __str__(self):

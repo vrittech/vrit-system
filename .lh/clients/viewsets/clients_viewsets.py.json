@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 29,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1729835896321,
@@ -124,6 +124,10 @@
                 {
                     "date": 1729853131363,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,14 +91,14 @@\n         # Fetch the target and goal objects based on position\n         try:\n             target_obj = Clients.objects.get(position=target_position)\n             goal_obj = Clients.objects.get(position=goal_position)\n-        except Project.DoesNotExist:\n+        except Clients.DoesNotExist:\n             return Response({\"error\": \"Target or Goal object not found\"}, status=400)\n \n         if target_position < goal_position:\n             # Moving target down (target goes after goal)\n-            affected_objs = Project.objects.filter(\n+            affected_objs = Clients.objects.filter(\n                 position__gt=target_position, position__lte=goal_position\n             ).order_by('position')\n             \n             # Decrement position of all affected objects\n@@ -111,9 +111,9 @@\n             target_obj.save()\n \n         else:\n             # Moving target up (target goes before goal)\n-            affected_objs = Project.objects.filter(\n+            affected_objs = Clients.objects.filter(\n                 position__lt=target_position, position__gte=goal_position\n             ).order_by('-position')\n \n             # Increment position of all affected objects by 1\n"
+                },
+                {
+                    "date": 1730788095020,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     serializer_class = ClientsListSerializers\n     # permission_classes = [clientsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Clients.objects.all().order_by('created_at')\n+    queryset = Clients.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n     ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]\n"
                 }
             ],
             "date": 1729835896321,

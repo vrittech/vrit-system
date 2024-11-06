@@ -27,7 +27,7 @@ class FormsRetrieveSerializers(serializers.ModelSerializer):
             'description',
             'header_code',
             'embedded_code',
-            'image',
+            'media',
             'excerpt',
             'auto_expiration',
             'is_expired',
@@ -47,7 +47,7 @@ class FormsWriteSerializers(serializers.ModelSerializer):
             'description',
             'header_code',
             'embedded_code',
-            'image',
+            'media',
             'excerpt',
             'auto_expiration',
             'auto_expiration_date',
@@ -61,3 +61,23 @@ class FormsWriteSerializers(serializers.ModelSerializer):
                 "Auto expiration date is required when auto expiration is enabled."
             )
         return data
+
+    def update(self, instance, validated_data):
+        # Handle the media field separately
+        media = validated_data.pop('media', None)
+
+        if media is not None:
+            if media == "null":
+                # If media is set to 'null', delete the current media
+                instance.media.delete(save=False)
+                instance.media = None
+            else:
+                # If media data is sent, update it
+                instance.media = media
+
+        # Update other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance

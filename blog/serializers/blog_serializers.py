@@ -34,6 +34,7 @@ class BlogRetrieveSerializers(serializers.ModelSerializer):
         ]
 
 
+
 class BlogWriteSerializers(serializers.ModelSerializer):
     tags = serializers.ListField(
         child=serializers.CharField(max_length=155), write_only=True
@@ -70,17 +71,32 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         return blog
 
     def update(self, instance, validated_data):
-        tags_data = validated_data.pop('tags', [])
-        category_data = validated_data.pop('category', [])
+        tags_data = validated_data.pop('tags', None)
+        category_data = validated_data.pop('category', None)
+        featured_image = validated_data.pop('featured_image', None)
 
+        # Update instance fields if data is provided
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        if tags_data:
+        # Handle tags if provided
+        if tags_data is not None:
             instance.tags.set(Blog.tag_manager.get_or_create_tags(tags_data))
-        
-        if category_data:
+
+        # Handle categories if provided
+        if category_data is not None:
             instance.category.set(category_data)
+
+        # Handle featured_image specifically
+        if featured_image is not None:
+            if featured_image == "null":
+                # If image is set to 'null', delete the current image
+                instance.featured_image.delete(save=False)
+                instance.featured_image = None
+            else:
+                # If image data is sent, update it
+                instance.featured_image = featured_image
 
         instance.save()
         return instance
+

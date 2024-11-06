@@ -1,0 +1,18 @@
+{
+    "sourceFile": "projects/serializers/projectgroup_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730788865777,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730788865777,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import ProjectGroup\n\nclass ProjectGroupListSerializers(serializers.ModelSerializer):\n    project_count = serializers.SerializerMethodField()\n\n    class Meta:\n        model = ProjectGroup\n        fields = '__all__'  # or specify fields manually if needed, e.g., ['id', 'name', 'project_count', ...]\n\n    def get_project_count(self, obj):\n        return obj.projects.count()\n\n\nclass ProjectGroupRetrieveSerializers(serializers.ModelSerializer):\n    project_count = serializers.SerializerMethodField()\n\n    class Meta:\n        model = ProjectGroup\n        fields = '__all__'\n\n    def get_project_count(self, obj):\n        return obj.projects.count()\n\n\nclass ProjectGroupWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = ProjectGroup\n        fields = '__all__'\n"
+        }
+    ]
+}

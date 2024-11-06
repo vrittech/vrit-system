@@ -23,7 +23,7 @@ class Career(models.Model):
     position = models.PositiveIntegerField(default=9999)
     num_of_vacancy = models.PositiveIntegerField(default=1)
     apply_link = models.URLField(max_length=500)
-    image = models.ImageField(upload_to='career')
+    media = models.ImageField(upload_to='career')
     is_show = models.BooleanField(default=True)
     enable_auto_expiration = models.BooleanField(default=True)
     expiration_date = models.DateTimeField()

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "casestudy/__init__.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730186153847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730186153847,
+            "name": "Commit-0",
+            "content": "default_app_config = 'your_app.apps.YourAppConfig'\n"
+        }
+    ]
+}

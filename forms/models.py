@@ -15,7 +15,7 @@ class Forms(models.Model):
     description = models.TextField()
     header_code = models.TextField(blank=True, null=True)
     embedded_code = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='forms', blank=True, null=True)
+    media = models.ImageField(upload_to='forms', blank=True, null=True)
     excerpt = models.CharField(max_length=500, blank=True, null=True)
     auto_expiration = models.BooleanField(default=False)
     is_expired = models.BooleanField(default=False)

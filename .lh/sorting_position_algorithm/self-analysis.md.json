@@ -1,0 +1,18 @@
+{
+    "sourceFile": "sorting_position_algorithm/self-analysis.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1730786821565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1730786821565,
+            "name": "Commit-0",
+            "content": "[{id:1,position:1},{id:3,position:2},{..},{..}]\n\ndrag and drop so that we can shorting, using this algorithm we can update position unique\n\n1,2,3,4,5,6,7,8,9,10,11,12\n\nbreath_hold = 3\ndifference_value = current_value - target_value\ntotal_items_from_target_position_from_first_item = first_item_position - target_value \ntotal_items_from_target_position_from_last_item = last_item_position - target_value \n\ncase 1: when difference_value is less than equal to breath_hold value\n    update_index(current_value,target_value)=> here we are going to drag and drop between less number of data so we can update all items.\n\ncase 2: when total_items_from_target_position_from_first_item is less than equal to breath_hold value:\n    update_index_first_part(current_value,target_value)=> here we are going to update position and ensure unique position by updating all position of first part\n\ncase 3: when total_items_from_target_position_from_last_item is less than equal to breath_hold value:\n    update_index_last_part(current_value,target_value)=> here we are going to update position and ensure unique position by updating all position of last part\n\nelse:\n    decimal_update(current_value,target_value) => this update current_value to target value in decimal way. "
+        }
+    ]
+}

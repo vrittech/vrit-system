@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1729841905220,
@@ -56,6 +56,10 @@
                 {
                     "date": 1729846992425,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,5 +11,5 @@\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n \n     class Meta:\n         model = Career\n-        fields = [ 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n+        fields = ['experience_level', 'title', 'is_show', 'enable_auto_expiration', 'created_at']\n"
+                },
+                {
+                    "date": 1730180108322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,13 @@\n import django_filters\n from django_filters import rest_framework as filters\n from ..models import Career\n \n+class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n+    pass\n \n class CareerFilter(filters.FilterSet):\n-    # experience_level = filters.CharFilter(field_name='experience_level__level_name', lookup_expr='icontains')\n+    experience_level = CharInFilter(field_name='experience_level__level_name', lookup_expr='in')\n     title = filters.CharFilter(field_name='title', lookup_expr='icontains')\n     is_show = filters.BooleanFilter(field_name='is_show')\n     enable_auto_expiration = filters.BooleanFilter(field_name='enable_auto_expiration')\n     created_at = filters.DateFromToRangeFilter(field_name='created_at')\n"
                 }
             ],
             "date": 1729841905220,

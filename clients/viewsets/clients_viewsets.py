@@ -15,7 +15,7 @@ class clientsViewsets(viewsets.ModelViewSet):
     # permission_classes = [clientsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Clients.objects.all().order_by('created_at')
+    queryset = Clients.objects.all().order_by('position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]

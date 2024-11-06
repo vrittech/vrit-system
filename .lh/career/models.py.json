@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1729840567274,
@@ -68,6 +68,10 @@
                 {
                     "date": 1730179319309,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,6 +47,7 @@\n         \"\"\"\n         Deactivate the career if it has expired.\n         \"\"\"\n         if self.has_expired():\n+            self.is_expired = True\n             self.is_show = False\n-            self.save()\n+            self.save()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1730272522873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     description = models.TextField()\n     position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default=1)\n     apply_link = models.URLField(max_length=500)\n-    image = models.ImageField(upload_to='career')\n+    media = models.ImageField(upload_to='career')\n     is_show = models.BooleanField(default=True)\n     enable_auto_expiration = models.BooleanField(default=True)\n     expiration_date = models.DateTimeField()\n     is_expired = models.BooleanField(default=False)\n"
                 }
             ],
             "date": 1729840567274,

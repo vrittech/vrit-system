@@ -1,0 +1,22 @@
+{
+    "sourceFile": "globalpresence/serializers/globalpresence_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1730266790277,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730272775150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,4 +15,23 @@\n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n         \n+    def update(self, instance, validated_data):\n+        # Handle the media field separately\n+        media = validated_data.pop('media', None)\n+\n+        if media is not None:\n+            if media == \"null\":\n+                # If media is set to 'null', delete the current media\n+                instance.media.delete(save=False)\n+                instance.media = None\n+            else:\n+                # If media data is sent, update it\n+                instance.media = media\n+\n+        # Update other fields\n+        for attr, value in validated_data.items():\n+            setattr(instance, attr, value)\n+\n+        instance.save()\n+        return instance\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730266790277,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import GlobalPresence\n\nclass GlobalPresenceListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n\nclass GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n\nclass GlobalPresenceWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = GlobalPresence\n        fields = '__all__'\n        \n"
+        }
+    ]
+}

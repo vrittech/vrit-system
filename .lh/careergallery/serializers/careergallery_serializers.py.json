@@ -1,0 +1,26 @@
+{
+    "sourceFile": "careergallery/serializers/careergallery_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1730266359591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730266367560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,13 +20,8 @@\n class CareerGalleryWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = CareerGallery\n         fields = '__all__'\n-        \n-    class CareerGalleryWriteSerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = CareerGallery\n-        fields = '__all__'\n \n     def update(self, instance, validated_data):\n         image = validated_data.pop('image', None)\n \n"
+                },
+                {
+                    "date": 1730272581772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,23 +21,23 @@\n     class Meta:\n         model = CareerGallery\n         fields = '__all__'\n \n-    def update(self, instance, validated_data):\n-        image = validated_data.pop('image', None)\n+   def update(self, instance, validated_data):\n+        # Handle the media field separately\n+        media = validated_data.pop('media', None)\n \n-        # Update instance fields if data is provided\n+        if media is not None:\n+            if media == \"null\":\n+                # If media is set to 'null', delete the current media\n+                instance.media.delete(save=False)\n+                instance.media = None\n+            else:\n+                # If media data is sent, update it\n+                instance.media = media\n+\n+        # Update other fields\n         for attr, value in validated_data.items():\n             setattr(instance, attr, value)\n \n-        # Handle the image field specifically\n-        if image is not None:\n-            if image == \"null\":\n-                # If image is set to 'null', delete the current image\n-                instance.image.delete(save=False)\n-                instance.image = None\n-            else:\n-                # If image data is sent, update it\n-                instance.image = image\n-\n         instance.save()\n         return instance\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1730266359591,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import CareerGallery,Album\n\nclass AlbumListSerializers__CareerGallery(serializers.ModelSerializer):\n    class Meta:\n        model = Album\n        fields = '__all__'\n\nclass CareerGalleryListSerializers(serializers.ModelSerializer):\n    album = AlbumListSerializers__CareerGallery()\n    class Meta:\n        model = CareerGallery\n        fields = '__all__'\n\nclass CareerGalleryRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = CareerGallery\n        fields = '__all__'\n\nclass CareerGalleryWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = CareerGallery\n        fields = '__all__'\n        \n    class CareerGalleryWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = CareerGallery\n        fields = '__all__'\n\n    def update(self, instance, validated_data):\n        image = validated_data.pop('image', None)\n\n        # Update instance fields if data is provided\n        for attr, value in validated_data.items():\n            setattr(instance, attr, value)\n\n        # Handle the image field specifically\n        if image is not None:\n            if image == \"null\":\n                # If image is set to 'null', delete the current image\n                instance.image.delete(save=False)\n                instance.image = None\n            else:\n                # If image data is sent, update it\n                instance.image = image\n\n        instance.save()\n        return instance"
+        }
+    ]
+}

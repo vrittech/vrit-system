@@ -60,6 +60,7 @@ from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
 
 from vrittech.utilities.bulk_delete import BulkDelete
+from vrittech.utilities.position_management import PositionManagementViewSet
 # from management.urls import router as management_router
 
 
@@ -83,6 +84,10 @@ router.registry.extend(sitesetting_router.registry)
 router.registry.extend(careergallery_router.registry)
 # router.registry.extend(management_router.registry)
 
+position_management_viewset = PositionManagementViewSet.as_view({
+    'get': 'draggable'  # Map the 'get' request to the draggable action
+})
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
@@ -92,6 +97,7 @@ urlpatterns = [
     # path('api/management/', include('management.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/bulk-delete/', BulkDelete.as_view(), name="bulk_delete"),
+    path('api/draggable-item/', position_management_viewset, name='position_management_drag_item'),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

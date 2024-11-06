@@ -1,0 +1,50 @@
+{
+    "sourceFile": "socialmedia/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1730282142687,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1730282147811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n # Create your models here.\n class SocialMedia(models.Model):\n     name = models.CharField(max_length = 255,unique =  True)\n     url = models.URLField(max_length = 255,unique =  True)\n-    \n+    media \n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282155827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n # Create your models here.\n class SocialMedia(models.Model):\n     name = models.CharField(max_length = 255,unique =  True)\n     url = models.URLField(max_length = 255,unique =  True)\n-    media \n+    media = models.ImageField\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282208965,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n # Create your models here.\n class SocialMedia(models.Model):\n     name = models.CharField(max_length = 255,unique =  True)\n     url = models.URLField(max_length = 255,unique =  True)\n-    media = models.ImageField\n+    media = models.ImageField(upload_to=\"gallery\")\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282215240,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n # Create your models here.\n class SocialMedia(models.Model):\n     name = models.CharField(max_length = 255,unique =  True)\n     url = models.URLField(max_length = 255,unique =  True)\n-    media = models.ImageField(upload_to=\"gallery\")\n+    media = models.ImageField(upload_to=\"social_media\")\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282280783,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,10 @@\n class SocialMedia(models.Model):\n     name = models.CharField(max_length = 255,unique =  True)\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282291152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,10 @@\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+    def __str__(self):\n+        return self.title\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1730282298800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,14 +9,16 @@\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     def __str__(self):\n-        return self.title\n+        return self.name\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n+    def __str__(self):\n+        return self.title\n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                },
+                {
+                    "date": 1730282303973,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,9 @@\n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n-    def __str__(self):\n-        return self.title\n+    \n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                }
+            ],
+            "date": 1730282142687,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom accounts.models import CustomUser\n\n\n# Create your models here.\nclass SocialMedia(models.Model):\n    name = models.CharField(max_length = 255,unique =  True)\n    url = models.URLField(max_length = 255,unique =  True)\n    \n\nclass StaffHaveSocialMedia(models.Model):\n    staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n    social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n    social_media_url = models.URLField(max_length = 350)\n\n    class Meta:\n        unique_together = ('staff', 'social_media')\n\nclass SiteSocialMedia(models.Model):\n    social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n    social_media_url = models.URLField(max_length = 350)\n\n\n"
+        }
+    ]
+}
