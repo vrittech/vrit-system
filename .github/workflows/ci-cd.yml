@@ -69,7 +69,7 @@ jobs:
 
         # Run deployment commands on the server
         echo "Running deployment commands on the server"
-        ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
+        ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && virtualenv venv && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
         
         
         #echo "Running deployment commands on the server" &&
