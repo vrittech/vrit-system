@@ -146,15 +146,8 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
         # Update media data if provided
         if media_data is not None:
-            instance.media.set(media_data)
+            instance.media = media_data  # Directly assign media data
+        instance.save()  # Save the instance to apply the media change
 
         return instance
 
-    def validate(self, data):
-        # Validate 'position' only if it is provided in the request data
-        position = data.get('position', None)
-        if position is not None and Project.objects.filter(position=position).exists():
-            raise serializers.ValidationError({"position": "A project with this position already exists."})
-
-        # Ensure that the validate() method returns the validated data
-        return data
