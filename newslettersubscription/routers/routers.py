@@ -5,4 +5,4 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('news-letter-subscription', newslettersubscriptionViewsets, basename="newslettersubscriptionViewsets")
+router.register('newsletter-subscription', newslettersubscriptionViewsets, basename="newslettersubscriptionViewsets")
