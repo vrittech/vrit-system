@@ -97,6 +97,7 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         project_service_data = validated_data.pop('project_service', [])
         project_link_data = validated_data.pop('project_link', [])
+        media_data = validated_data.pop('media', None)
 
         # Create Project instance
         project = Project.objects.create(**validated_data)
@@ -116,7 +117,13 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
             project.project_link.add(project_link)
 
+        # Assign media if provided
+        if media_data is not None:
+            project.media = media_data  # Directly assign media data
+        project.save()  # Save the project to apply the media change
+
         return project
+
 
     def update(self, instance, validated_data):
         # Update only the fields that are present in validated_data
