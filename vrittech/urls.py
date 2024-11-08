@@ -97,7 +97,7 @@ urlpatterns = [
     # path('api/management/', include('management.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/bulk-delete/', BulkDelete.as_view(), name="bulk_delete"),
-    path('api/draggable-item/', position_management_viewset, name='position_management_drag_item'),
+    path('api/drag-item/', position_management_viewset, name='position_management_drag_item'),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
