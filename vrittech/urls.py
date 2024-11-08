@@ -58,6 +58,7 @@ from socialmedia.routers.routers import router as socialmedia_router
 from testimonial.routers.routers import router as testimonial_router
 from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
+from forms.routers.routers import router as form_router
 
 from vrittech.utilities.bulk_delete import BulkDelete
 from vrittech.utilities.position_management import PositionManagementViewSet
@@ -82,6 +83,7 @@ router.registry.extend(socialmedia_router.registry)
 router.registry.extend(testimonial_router.registry)
 router.registry.extend(sitesetting_router.registry)
 router.registry.extend(careergallery_router.registry)
+router.registry.extend(form_router.registry)
 # router.registry.extend(management_router.registry)
 
 position_management_viewset = PositionManagementViewSet.as_view({
@@ -98,14 +100,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/bulk-delete/', BulkDelete.as_view(), name="bulk_delete"),
     path('api/drag-item/', position_management_viewset, name='position_management_drag_item'),
+    # path('api/',include(forms_router.urls)),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
-#*********This is forms router registered by autoapi*********
-from forms.routers.routers import router as forms_router
-urlpatterns.append(path('api/',include(forms_router.urls)))
