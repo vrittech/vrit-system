@@ -9,6 +9,14 @@ from rest_framework.decorators import action
 from ..serializers.clients_serializers import ClientsListSerializers, ClientsRetrieveSerializers, ClientsWriteSerializers
 from ..utilities.importbase import *
 from django.db.models import Count
+from collections import defaultdict
+
+SECTION_CHOICES = [
+    ('first', 'First'),
+    ('second', 'Second'),
+    ('third', 'Third'),
+    ('fourth', 'Fourth'),
+]
 
 class clientsViewsets(viewsets.ModelViewSet):
     serializer_class = ClientsListSerializers
@@ -51,22 +59,31 @@ class clientsViewsets(viewsets.ModelViewSet):
         along with the total count of all clients.
         """
         queryset = self.get_queryset()
-        
-        # Calculate section-wise counts
-        section_counts = (
+    
+        # Calculate section-wise counts from the database
+        section_counts_query = (
             queryset
             .values('section')
             .annotate(count=Count('section'))
             .order_by('section')
         )
+
+        # Convert section counts query to a dictionary with default count 0
+        section_counts_dict = defaultdict(int, {item['section']: item['count'] for item in section_counts_query})
         
+        # Prepare the response including all sections with counts, defaulting to 0 where necessary
+        section_counts = [
+            {'section': section_key, 'count': section_counts_dict.get(section_key, 0)}
+            for section_key, _ in SECTION_CHOICES
+        ]
+
         # Calculate total count of all clients
         total_count = queryset.count()
 
         # Combine the results
         response_data = {
             'section_counts': section_counts,
-            'total_count': total_count
+            'all': total_count
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
