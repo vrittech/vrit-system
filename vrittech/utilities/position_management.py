@@ -28,7 +28,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         # Add or modify mappings as necessary
     }
 
-    BREATH_HOLD = 3  # Maximum distance for small moves
+    BREATH_HOLD = 10  # Maximum distance for small moves
 
     def _get_model(self, model_key):
         """
