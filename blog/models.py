@@ -15,6 +15,11 @@ class BlogCategory(models.Model):
     media = models.ImageField(upload_to='blogcategory',null=True)
     is_show = models.BooleanField(default = True)
     
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
     def __str__(self):
         return self.name
 
