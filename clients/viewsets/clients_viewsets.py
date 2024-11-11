@@ -24,6 +24,7 @@ class clientsViewsets(viewsets.ModelViewSet):
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
     queryset = Clients.objects.all().order_by('position')
+    lookup_field = "slug"
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name', 'section', 'created_at', 'updated_at',]

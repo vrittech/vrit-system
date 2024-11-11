@@ -15,6 +15,7 @@ class careerViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset = Career.objects.all().order_by('position')
     filterset_class = CareerFilter
+    lookup_field = "slug"
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','title', 'experience_level', 'description', 'position', 'num_of_vacancy', 'apply_link', 'image', 'is_show', 'enable_auto_expiration', 'expiration_date', 'created_at', 'updated_at',]

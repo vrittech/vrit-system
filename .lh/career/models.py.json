@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 25,
             "patches": [
                 {
                     "date": 1729840567274,
@@ -72,6 +72,42 @@
                 {
                     "date": 1730272522873,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     description = models.TextField()\n     position = models.PositiveIntegerField(default=9999)\n     num_of_vacancy = models.PositiveIntegerField(default=1)\n     apply_link = models.URLField(max_length=500)\n-    image = models.ImageField(upload_to='career')\n+    media = models.ImageField(upload_to='career')\n     is_show = models.BooleanField(default=True)\n     enable_auto_expiration = models.BooleanField(default=True)\n     expiration_date = models.DateTimeField()\n     is_expired = models.BooleanField(default=False)\n"
+                },
+                {
+                    "date": 1731307406465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,15 @@\n     is_expired = models.BooleanField(default=False)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+    \n+        public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n+    slug = models.SlugField(unique=True, blank=True)\n+    \n+    def save(self, *args, **kwargs):\n+        if not self.slug:\n+            self.slug = f'{slugify(self.title)}'\n \n     def __str__(self):\n         return self.title\n \n"
+                },
+                {
+                    "date": 1731307430425,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,14 +31,14 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-        public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = f'{slugify(self.title)}'\n+            self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n     def __str__(self):\n         return self.title\n \n"
+                },
+                {
+                    "date": 1731307436291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n-            self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+            self.slug = f'{slugify(self.title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n     def __str__(self):\n         return self.title\n \n"
+                },
+                {
+                    "date": 1731307443261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n from django.db import models\n from django.utils import timezone\n \n \n+\n class ExperienceLevel(models.Model):\n     level_name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731307450243,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.db import models\n from django.utils import timezone\n+from django.utils\n \n \n-\n class ExperienceLevel(models.Model):\n     level_name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731307457171,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.db import models\n from django.utils import timezone\n-from django.utils\n+from django.utils.text import sl\n \n \n class ExperienceLevel(models.Model):\n     level_name = models.CharField(max_length=255)\n"
+                },
+                {
+                    "date": 1731307950923,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n from django.db import models\n from django.utils import timezone\n-from django.utils.text import sl\n+from django.utils.text import slugify\n+import uuid\n \n \n class ExperienceLevel(models.Model):\n     level_name = models.CharField(max_length=255)\n@@ -32,9 +33,9 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4,)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n"
+                },
+                {
+                    "date": 1731307985137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4,)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n"
+                },
+                {
+                    "date": 1731308032886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n"
                 }
             ],
             "date": 1729840567274,

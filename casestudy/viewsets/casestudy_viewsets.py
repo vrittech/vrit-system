@@ -52,6 +52,7 @@ class casestudyViewsets(viewsets.ModelViewSet):
     # permission_classes = [casestudyPermission]
     pagination_class = MyPageNumberPagination
     queryset = CaseStudy.objects.all().order_by('position')
+    lookup_field = "slug"
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']

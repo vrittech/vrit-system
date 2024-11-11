@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1730098185234,
@@ -64,6 +64,10 @@
                 {
                     "date": 1730098675944,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n \n \n class casestudyViewsets(viewsets.ModelViewSet):\n     serializer_class = CaseStudyListSerializers\n-    # permission_classes = [case_studyPermission]\n+    # permission_classes = [casestudyPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = CaseStudy.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n"
+                },
+                {
+                    "date": 1731307722366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,8 +51,9 @@\n     serializer_class = CaseStudyListSerializers\n     # permission_classes = [casestudyPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = CaseStudy.objects.all().order_by('position')\n+    lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
                 }
             ],
             "date": 1730098185234,

@@ -14,7 +14,8 @@ class blogViewsets(viewsets.ModelViewSet):
     # permission_classes = [blogPermission]
     pagination_class = MyPageNumberPagination
     queryset = Blog.objects.all().order_by('position')
-
+    lookup_field = "slug"
+    
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']
     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']
