@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 class BlogUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'image']  
+        fields = ['full_name','professional_image']  
 
 class BlogTagsSerializer(serializers.ModelSerializer):
     class Meta:

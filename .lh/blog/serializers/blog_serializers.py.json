@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1730094573253,
@@ -64,6 +64,10 @@
                 {
                     "date": 1731322127708,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,19 +18,19 @@\n     category = serializers.StringRelatedField(many=True)\n     tags = serializers.StringRelatedField(many=True)\n     user = BlogUserSerializer(read_only=True)\n \n-    \n-\n     class Meta:\n         model = Blog\n         fields = '__all__'\n \n \n class BlogRetrieveSerializers(serializers.ModelSerializer):\n     category = serializers.StringRelatedField(many=True)\n     tags = serializers.StringRelatedField(many=True)\n+    user = BlogUserSerializer(read_only=True)\n \n+\n     class Meta:\n         model = Blog\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1731322399523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', 'image']  \n+       fields = ['full_name','professional_image']  \n \n class BlogTagsSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = BlogTags\n"
                 }
             ],
             "date": 1730094573253,

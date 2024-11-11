@@ -21,10 +21,10 @@ from ..models import CaseStudy, CaseStudyTags, CaseStudyCategory
 from django.utils import timezone
 from accounts.models import CustomUser
 
-class BlogUserSerializer(serializers.ModelSerializer):
+class CaseUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'image']  
+        fields = ['full_name','professional_image']
 
 class CaseStudyTagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,31 +32,23 @@ class CaseStudyTagsSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
         
 class CaseStudyListSerializers(serializers.ModelSerializer):
-    user = BlogUserSerializer(read_only=True)
+    user = CaseUserSerializer(read_only=True)
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = CaseStudy
-        fields = [
-            'id', 'title', 'excerpt', 'status', 'publish_date', 
-            'created_at', 'updated_at', 'category', 'tags'
-        ]
+        fields = '__all__'
 
 
 class CaseStudyRetrieveSerializers(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
-    user = BlogUserSerializer(read_only=True)
+    user = CaseUserSerializer(read_only=True)
 
     class Meta:
         model = CaseStudy
-        fields = [
-            'id', 'title', 'description', 'status', 'publish_date', 
-            'meta_description', 'meta_keywords', 'meta_author',
-            'created_at', 'updated_at', 'category', 'tags', 
-            'header_code', 'embedded_code', 'featured_image'
-        ]
+        fields = '__all__'
 
 
 class CaseStudyWriteSerializers(serializers.ModelSerializer):
@@ -69,12 +61,7 @@ class CaseStudyWriteSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = CaseStudy
-        fields = [
-            'id', 'title', 'description', 'site_title', 'excerpt', 
-            'status', 'publish_date', 'meta_description', 'meta_keywords', 
-            'meta_author', 'tags', 'category', 'header_code', 'embedded_code', 
-            'featured_image'
-        ]
+        fields = '__all__'
 
     def validate_publish_date(self, value):
         """
