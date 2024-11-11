@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 35,
+            "activePatchIndex": 36,
             "patches": [
                 {
                     "date": 1729835006074,
@@ -148,6 +148,10 @@
                 {
                     "date": 1731308017468,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     position= models.PositiveIntegerField(default = 9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n"
+                },
+                {
+                    "date": 1731310829563,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     position= models.PositiveIntegerField(default = 9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n@@ -49,6 +49,6 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n-        return f\"{self.client} - {self.section}: {self.loop_type} ({self.delay_time})\"\n+        return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n \n"
                 }
             ],
             "date": 1729835006074,

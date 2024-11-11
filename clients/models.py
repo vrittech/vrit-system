@@ -50,5 +50,5 @@ class ClientSettings(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.client} - {self.section}: {self.loop_type} ({self.delay_time})"
+        return f"{self.section}: {self.loop_type} ({self.delay_time})"
 
