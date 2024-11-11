@@ -25,6 +25,12 @@ class ClientSettingsArraySerializer(serializers.ModelSerializer):
 class BulkClientSettingsSerializer(serializers.Serializer):
     settings = ClientSettingsArraySerializer(many=True)
 
+    def to_internal_value(self, data):
+        # Wrap single dictionary in a list if `settings` is not already an array
+        if isinstance(data.get("settings"), dict):
+            data["settings"] = [data["settings"]]
+        return super().to_internal_value(data)
+
     def create(self, validated_data):
         settings_data = validated_data['settings']
         client_settings_objects = [
@@ -36,6 +42,7 @@ class BulkClientSettingsSerializer(serializers.Serializer):
             for setting in settings_data
         ]
         return ClientSettings.objects.bulk_create(client_settings_objects)
+
     
 #     {
 #   "settings": [
