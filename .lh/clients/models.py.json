@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 36,
+            "activePatchIndex": 42,
             "patches": [
                 {
                     "date": 1729835006074,
@@ -152,6 +152,30 @@
                 {
                     "date": 1731310829563,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     position= models.PositiveIntegerField(default = 9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n@@ -49,6 +49,6 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n-        return f\"{self.client} - {self.section}: {self.loop_type} ({self.delay_time})\"\n+        return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n \n"
+                },
+                {
+                    "date": 1731316350300,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,11 +19,11 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n-    def save(self, *args, **kwargs):\n-        if not self.slug:\n-            self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+    # def save(self, *args, **kwargs):\n+    #     if not self.slug:\n+    #         self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n     def __str__(self):\n         return self.name\n     \n"
+                },
+                {
+                    "date": 1731316368076,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n+    \n     # def save(self, *args, **kwargs):\n     #     if not self.slug:\n     #         self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n"
+                },
+                {
+                    "date": 1731316378234,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n+    def sa\n     \n     # def save(self, *args, **kwargs):\n     #     if not self.slug:\n     #         self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n"
+                },
+                {
+                    "date": 1731316422509,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,10 +19,10 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n-    def sa\n     \n+    \n     # def save(self, *args, **kwargs):\n     #     if not self.slug:\n     #         self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n"
+                },
+                {
+                    "date": 1731316429417,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,13 +19,11 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n-    \n-    \n-    # def save(self, *args, **kwargs):\n-    #     if not self.slug:\n-    #         self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+    def save(self, *args, **kwargs):\n+        if not self.slug:\n+            self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n \n     def __str__(self):\n         return self.name\n     \n"
+                },
+                {
+                    "date": 1731316435419,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,9 @@\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+        super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.name\n     \n"
                 }
             ],
             "date": 1729835006074,

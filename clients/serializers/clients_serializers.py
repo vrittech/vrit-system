@@ -22,6 +22,12 @@ class ClientsWriteSerializers(serializers.ModelSerializer):
         if position and Clients.objects.filter(position=position).exists():
             raise serializers.ValidationError({"position": "A client with this position already exists."})
         return data
+    
+    def create(self, validated_data):
+        print("this is line 27")
+        instance =  super().create(validated_data)
+        print(instance.id)
+        return instance
 
     def update(self, instance, validated_data):
         media = validated_data.pop('media', None)

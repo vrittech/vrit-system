@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 25,
+            "activePatchIndex": 26,
             "patches": [
                 {
                     "date": 1729840567274,
@@ -108,6 +108,10 @@
                 {
                     "date": 1731308032886,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True,default=uuid.uuid4)\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n"
+                },
+                {
+                    "date": 1731316459138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,14 +33,15 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+         super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.title\n \n"
                 }
             ],
             "date": 1729840567274,

@@ -65,7 +65,7 @@ class CaseStudy(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = f'{slugify(self.title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'
-
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.title
     

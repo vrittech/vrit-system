@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 22,
+            "activePatchIndex": 31,
             "patches": [
                 {
                     "date": 1729835822662,
@@ -96,6 +96,42 @@
                 {
                     "date": 1730266541202,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,8 @@\n     class Meta:\n         model = Clients\n         fields = '__all__'\n \n-\n     def validate(self, data):\n         # Check if the position already exists in another client\n         position = data.get('position')\n         if position and Clients.objects.filter(position=position).exists():\n"
+                },
+                {
+                    "date": 1731316133488,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,9 @@\n         position = data.get('position')\n         if position and Clients.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"position\": \"A client with this position already exists.\"})\n         return data\n+    \n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316141053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,10 @@\n         if position and Clients.objects.filter(position=position).exists():\n             raise serializers.ValidationError({\"position\": \"A client with this position already exists.\"})\n         return data\n     \n+    def create(self, validated_data):\n+        return super().create(validated_data)\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316187127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,9 @@\n             raise serializers.ValidationError({\"position\": \"A client with this position already exists.\"})\n         return data\n     \n     def create(self, validated_data):\n+        print(\"\")\n         return super().create(validated_data)\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n"
+                },
+                {
+                    "date": 1731316215391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,10 @@\n             raise serializers.ValidationError({\"position\": \"A client with this position already exists.\"})\n         return data\n     \n     def create(self, validated_data):\n-        print(\"\")\n-        return super().create(validated_data)\n+        print(\"this is line 27\")\n+        ins super().create(validated_data)\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316227152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,10 @@\n         return data\n     \n     def create(self, validated_data):\n         print(\"this is line 27\")\n-        ins super().create(validated_data)\n+        instance =  super().create(validated_data)\n+        print(instance)\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316232339,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,9 @@\n     def create(self, validated_data):\n         print(\"this is line 27\")\n         instance =  super().create(validated_data)\n         print(instance)\n+        return instance\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316246583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     def create(self, validated_data):\n         print(\"this is line 27\")\n         instance =  super().create(validated_data)\n         print(instance)\n-        return instance\n+        return instance.id\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316254467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,10 +25,10 @@\n     \n     def create(self, validated_data):\n         print(\"this is line 27\")\n         instance =  super().create(validated_data)\n-        print(instance)\n-        return instance.id\n+        print(instance.id)\n+        return instance\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
+                },
+                {
+                    "date": 1731316267820,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     def create(self, validated_data):\n         print(\"this is line 27\")\n         instance =  super().create(validated_data)\n         print(instance.id)\n-        return instance\n+        return instance.\n \n     def update(self, instance, validated_data):\n         media = validated_data.pop('media', None)\n \n"
                 }
             ],
             "date": 1729835822662,
