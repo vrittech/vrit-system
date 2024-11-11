@@ -1,0 +1,18 @@
+{
+    "sourceFile": "globalpresence/serializers/country_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731320564082,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731320564082,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom ..models import Country\n\nclass CountryListSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Country\n        fields = '__all__'\n\nclass CountryRetrieveSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Country\n        fields = '__all__'\n\nclass CountryWriteSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = Country\n        fields = '__all__'"
+        }
+    ]
+}

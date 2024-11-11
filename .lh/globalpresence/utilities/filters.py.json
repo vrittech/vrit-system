@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1730108866043,
@@ -12,6 +12,10 @@
                 {
                     "date": 1730108871147,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django_filters import rest_framework as filters\n-from .models import GlobalPresence\n+from ..models import GlobalPresence\n \n # Custom filter to allow multiple values\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n"
+                },
+                {
+                    "date": 1731320769060,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,14 @@\n from django_filters import rest_framework as filters\n-from ..models import GlobalPresence\n+from ..models import GlobalPresence, Country\n \n # Custom filter to allow multiple values\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n     global_presence = CharInFilter(field_name='global_presence', lookup_expr='in')\n+    country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n-        fields = ['global_presence']\n+        fields = ['global_presence', 'country']\n"
                 }
             ],
             "date": 1730108866043,

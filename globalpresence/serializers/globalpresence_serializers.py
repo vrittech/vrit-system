@@ -1,12 +1,19 @@
 from rest_framework import serializers
-from ..models import GlobalPresence
+from ..models import GlobalPresence,Country
 
+class CountrySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = '__all__'
+        
 class GlobalPresenceListSerializers(serializers.ModelSerializer):
+    country = CountrySerializers(read_only=True)  
     class Meta:
         model = GlobalPresence
         fields = '__all__'
 
 class GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):
+    country = CountrySerializers(read_only=True)  
     class Meta:
         model = GlobalPresence
         fields = '__all__'
