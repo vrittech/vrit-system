@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 23,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1730098185234,
@@ -100,6 +100,30 @@
                 {
                     "date": 1731323536144,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,9 +53,9 @@\n     # permission_classes = [casestudyPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = CaseStudy.objects.all().order_by('position')\n     lookup_field = \"slug\"\n-    filterset_class = BlogFilter\n+    filterset_class = CaseStudyFilter\n      \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
+                },
+                {
+                    "date": 1731325121472,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,8 +89,16 @@\n         serializer.save(user=self.request.user)\n \n     def perform_update(self, serializer):\n         serializer.save(user=self.request.user)\n+        \n+        @action(detail=False, methods=['get'], url_path='authors')\n+    def unique_authors(self, request):\n+        # Get a distinct list of authors from the Blog model\n+        unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n+        \n+        # Convert the QuerySet to a list and return it in the response\n+        return Response(list(unique_authors))\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n"
+                },
+                {
+                    "date": 1731325127927,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n \n     def perform_update(self, serializer):\n         serializer.save(user=self.request.user)\n         \n-        @action(detail=False, methods=['get'], url_path='authors')\n+    @action(detail=False, methods=['get'], url_path='authors')\n     def unique_authors(self, request):\n         # Get a distinct list of authors from the Blog model\n         unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n         \n"
+                },
+                {
+                    "date": 1731325134472,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,9 +93,9 @@\n         \n     @action(detail=False, methods=['get'], url_path='authors')\n     def unique_authors(self, request):\n         # Get a distinct list of authors from the Blog model\n-        unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n+        unique_authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n         return Response(list(unique_authors))\n \n"
+                },
+                {
+                    "date": 1731325192077,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,9 +96,9 @@\n         # Get a distinct list of authors from the Blog model\n         unique_authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n-        return Response(list(unique_authors))\n+        return Response(list(authors))\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n"
+                },
+                {
+                    "date": 1731325197324,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,9 +93,9 @@\n         \n     @action(detail=False, methods=['get'], url_path='authors')\n     def unique_authors(self, request):\n         # Get a distinct list of authors from the Blog model\n-        unique_authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n+        authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n         return Response(list(authors))\n \n"
+                },
+                {
+                    "date": 1731325202529,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,9 +91,9 @@\n     def perform_update(self, serializer):\n         serializer.save(user=self.request.user)\n         \n     @action(detail=False, methods=['get'], url_path='authors')\n-    def unique_authors(self, request):\n+    def authors(self, request):\n         # Get a distinct list of authors from the Blog model\n         authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n"
                 }
             ],
             "date": 1730098185234,

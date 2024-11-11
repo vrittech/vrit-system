@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 34,
+            "activePatchIndex": 38,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -144,6 +144,22 @@
                 {
                     "date": 1731322979161,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n from rest_framework.decorators import action\n+from ..utilities.filter import Blo\n \n \n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n"
+                },
+                {
+                    "date": 1731325090275,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n from rest_framework.decorators import action\n-from ..utilities.filter import Blo\n+from ..utilities.filter import BlogFilter\n \n \n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n@@ -56,8 +56,16 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n+    @action(detail=False, methods=['get'], url_path='unique-authors')\n+    def unique_authors(self, request):\n+        # Get a distinct list of authors from the Blog model\n+        unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n+        \n+        # Convert the QuerySet to a list and return it in the response\n+        return Response(list(unique_authors))\n+    \n     @action(detail=False, methods=['get'], name=\"draggableBlog\", url_path=\"drag-blog\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n         goal_position = request.GET.get('goal')  # Position of the goal object\n"
+                },
+                {
+                    "date": 1731325097191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,9 +56,9 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], url_path='unique-authors')\n+    @action(detail=False, methods=['get'], url_path='authors')\n     def unique_authors(self, request):\n         # Get a distinct list of authors from the Blog model\n         unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n         \n"
+                },
+                {
+                    "date": 1731325214319,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,15 +56,15 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], url_path='authors')\n-    def unique_authors(self, request):\n+     @action(detail=False, methods=['get'], url_path='authors')\n+    def authors(self, request):\n         # Get a distinct list of authors from the Blog model\n-        unique_authors = Blog.objects.values_list('author', flat=True).distinct()\n+        authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n-        return Response(list(unique_authors))\n+        return Response(list(authors))\n     \n     @action(detail=False, methods=['get'], name=\"draggableBlog\", url_path=\"drag-blog\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n"
+                },
+                {
+                    "date": 1731325220581,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,12 +56,12 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-     @action(detail=False, methods=['get'], url_path='authors')\n+    @action(detail=False, methods=['get'], url_path='authors')\n     def authors(self, request):\n         # Get a distinct list of authors from the Blog model\n-        authors = CaseStudy.objects.values_list('author', flat=True).distinct()\n+        authors = Blog.objects.values_list('author', flat=True).distinct()\n         \n         # Convert the QuerySet to a list and return it in the response\n         return Response(list(authors))\n     \n"
                 }
             ],
             "date": 1730094601329,

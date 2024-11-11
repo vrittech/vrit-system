@@ -90,6 +90,14 @@ class casestudyViewsets(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+        
+    @action(detail=False, methods=['get'], url_path='authors')
+    def authors(self, request):
+        # Get a distinct list of authors from the Blog model
+        authors = CaseStudy.objects.values_list('author', flat=True).distinct()
+        
+        # Convert the QuerySet to a list and return it in the response
+        return Response(list(authors))
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):

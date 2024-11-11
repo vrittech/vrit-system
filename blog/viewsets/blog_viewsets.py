@@ -57,6 +57,14 @@ class blogViewsets(viewsets.ModelViewSet):
     # def action_name(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
     
+    @action(detail=False, methods=['get'], url_path='authors')
+    def authors(self, request):
+        # Get a distinct list of authors from the Blog model
+        authors = Blog.objects.values_list('author', flat=True).distinct()
+        
+        # Convert the QuerySet to a list and return it in the response
+        return Response(list(authors))
+    
     @action(detail=False, methods=['get'], name="draggableBlog", url_path="drag-blog")
     def Draggable(self, request, *args, **kwargs):
         target_position = request.GET.get('target')  # Position of the target object
