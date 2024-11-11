@@ -7,6 +7,7 @@ from ..utilities.importbase import *
 from rest_framework.response import Response
 from blog.utilities.permissions import blogPermission
 from rest_framework.decorators import action
+from ..utilities.filter import BlogFilter
 
 
 class blogViewsets(viewsets.ModelViewSet):
@@ -15,6 +16,7 @@ class blogViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset = Blog.objects.all().order_by('position')
     lookup_field = "slug"
+    filterset_class = BlogFilter
     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']

@@ -1,0 +1,26 @@
+{
+    "sourceFile": "blog/utilities/filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731322909196,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731322914291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n # blog/filters.py\n import django_filters\n import re\n from django.db.models import Q\n-from .models import Blog, BlogCategory, BlogTags\n+from ..models import Blog, BlogCategory, BlogTags\n from django_filters import rest_framework as filters\n from rest_framework.exceptions import ValidationError\n \n class BlogFilter(django_filters.FilterSet):\n"
+                },
+                {
+                    "date": 1731323581631,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,12 +12,8 @@\n         field_name=\"category\",\n         queryset=BlogCategory.objects.all(),\n         to_field_name=\"id\",\n     )\n-    status = django_filters.ChoiceFilter(\n-        field_name=\"status\",\n-        choices=Blog.STATUS_CHOICES\n-    )\n     tags = django_filters.CharFilter(method='filter_by_tags')\n     created_date_gte = django_filters.DateFilter(\n         field_name='created_at', lookup_expr='gte', label='Created Date (From)'\n     )\n"
+                }
+            ],
+            "date": 1731322909196,
+            "name": "Commit-0",
+            "content": "# blog/filters.py\nimport django_filters\nimport re\nfrom django.db.models import Q\nfrom .models import Blog, BlogCategory, BlogTags\nfrom django_filters import rest_framework as filters\nfrom rest_framework.exceptions import ValidationError\n\nclass BlogFilter(django_filters.FilterSet):\n    author = django_filters.CharFilter(method='filter_by_author')\n    category = django_filters.ModelMultipleChoiceFilter(\n        field_name=\"category\",\n        queryset=BlogCategory.objects.all(),\n        to_field_name=\"id\",\n    )\n    status = django_filters.ChoiceFilter(\n        field_name=\"status\",\n        choices=Blog.STATUS_CHOICES\n    )\n    tags = django_filters.CharFilter(method='filter_by_tags')\n    created_date_gte = django_filters.DateFilter(\n        field_name='created_at', lookup_expr='gte', label='Created Date (From)'\n    )\n    created_date_lte = django_filters.DateFilter(\n        field_name='created_at', lookup_expr='lte', label='Created Date (To)'\n    )\n\n    class Meta:\n        model = Blog\n        fields = {\n            'title': ['exact', 'icontains'],\n            'excerpt': ['icontains'],\n            'status': ['exact'],\n            'position': ['exact', 'gte', 'lte']\n        }\n\n    def filter_by_author(self, queryset, name, value):\n        if value:\n            return queryset.filter(Q(author__icontains=value) | Q(meta_author__icontains=value))\n        return queryset\n\n    def filter_by_tags(self, queryset, name, value):\n        if value:\n            tags = value.split(',') if ',' in value else [value]\n            queryset = queryset.filter(tags__name__in=tags).distinct()\n        return queryset\n"
+        }
+    ]
+}

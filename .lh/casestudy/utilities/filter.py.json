@@ -1,0 +1,38 @@
+{
+    "sourceFile": "casestudy/utilities/filter.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1731323438167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731323447643,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,13 @@\n # blog/filters.py\n import django_filters\n import re\n from django.db.models import Q\n-from ..models import Blog, BlogCategory, BlogTags\n+from ..models import *\n from django_filters import rest_framework as filters\n from rest_framework.exceptions import ValidationError\n \n-class CaseFilter(django_filters.FilterSet):\n+class CaseStudiesFilter(django_filters.FilterSet):\n     author = django_filters.CharFilter(method='filter_by_author')\n     category = django_filters.ModelMultipleChoiceFilter(\n         field_name=\"category\",\n         queryset=BlogCategory.objects.all(),\n"
+                },
+                {
+                    "date": 1731323461680,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n from ..models import *\n from django_filters import rest_framework as filters\n from rest_framework.exceptions import ValidationError\n \n-class CaseStudiesFilter(django_filters.FilterSet):\n+class CaseStudFilter(django_filters.FilterSet):\n     author = django_filters.CharFilter(method='filter_by_author')\n     category = django_filters.ModelMultipleChoiceFilter(\n         field_name=\"category\",\n         queryset=BlogCategory.objects.all(),\n"
+                },
+                {
+                    "date": 1731323467405,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,13 +5,13 @@\n from ..models import *\n from django_filters import rest_framework as filters\n from rest_framework.exceptions import ValidationError\n \n-class CaseStudFilter(django_filters.FilterSet):\n+class CaseStudyFilter(django_filters.FilterSet):\n     author = django_filters.CharFilter(method='filter_by_author')\n     category = django_filters.ModelMultipleChoiceFilter(\n         field_name=\"category\",\n-        queryset=BlogCategory.objects.all(),\n+        queryset=C.objects.all(),\n         to_field_name=\"id\",\n     )\n     status = django_filters.ChoiceFilter(\n         field_name=\"status\",\n"
+                },
+                {
+                    "date": 1731323473107,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,14 +9,14 @@\n class CaseStudyFilter(django_filters.FilterSet):\n     author = django_filters.CharFilter(method='filter_by_author')\n     category = django_filters.ModelMultipleChoiceFilter(\n         field_name=\"category\",\n-        queryset=C.objects.all(),\n+        queryset=CaseStudy.objects.all(),\n         to_field_name=\"id\",\n     )\n     status = django_filters.ChoiceFilter(\n         field_name=\"status\",\n-        choices=Blog.STATUS_CHOICES\n+        choices=CaseStudy.STATUS_CHOICES\n     )\n     tags = django_filters.CharFilter(method='filter_by_tags')\n     created_date_gte = django_filters.DateFilter(\n         field_name='created_at', lookup_expr='gte', label='Created Date (From)'\n"
+                },
+                {
+                    "date": 1731323601509,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,12 +12,8 @@\n         field_name=\"category\",\n         queryset=CaseStudy.objects.all(),\n         to_field_name=\"id\",\n     )\n-    status = django_filters.ChoiceFilter(\n-        field_name=\"status\",\n-        choices=CaseStudy.STATUS_CHOICES\n-    )\n     tags = django_filters.CharFilter(method='filter_by_tags')\n     created_date_gte = django_filters.DateFilter(\n         field_name='created_at', lookup_expr='gte', label='Created Date (From)'\n     )\n@@ -25,9 +21,9 @@\n         field_name='created_at', lookup_expr='lte', label='Created Date (To)'\n     )\n \n     class Meta:\n-        model = Blog\n+        model = CaseStudy\n         fields = {\n             'title': ['exact', 'icontains'],\n             'excerpt': ['icontains'],\n             'status': ['exact'],\n"
+                }
+            ],
+            "date": 1731323438167,
+            "name": "Commit-0",
+            "content": "# blog/filters.py\nimport django_filters\nimport re\nfrom django.db.models import Q\nfrom ..models import Blog, BlogCategory, BlogTags\nfrom django_filters import rest_framework as filters\nfrom rest_framework.exceptions import ValidationError\n\nclass CaseFilter(django_filters.FilterSet):\n    author = django_filters.CharFilter(method='filter_by_author')\n    category = django_filters.ModelMultipleChoiceFilter(\n        field_name=\"category\",\n        queryset=BlogCategory.objects.all(),\n        to_field_name=\"id\",\n    )\n    status = django_filters.ChoiceFilter(\n        field_name=\"status\",\n        choices=Blog.STATUS_CHOICES\n    )\n    tags = django_filters.CharFilter(method='filter_by_tags')\n    created_date_gte = django_filters.DateFilter(\n        field_name='created_at', lookup_expr='gte', label='Created Date (From)'\n    )\n    created_date_lte = django_filters.DateFilter(\n        field_name='created_at', lookup_expr='lte', label='Created Date (To)'\n    )\n\n    class Meta:\n        model = Blog\n        fields = {\n            'title': ['exact', 'icontains'],\n            'excerpt': ['icontains'],\n            'status': ['exact'],\n            'position': ['exact', 'gte', 'lte']\n        }\n\n    def filter_by_author(self, queryset, name, value):\n        if value:\n            return queryset.filter(Q(author__icontains=value) | Q(meta_author__icontains=value))\n        return queryset\n\n    def filter_by_tags(self, queryset, name, value):\n        if value:\n            tags = value.split(',') if ',' in value else [value]\n            queryset = queryset.filter(tags__name__in=tags).distinct()\n        return queryset\n"
+        }
+    ]
+}

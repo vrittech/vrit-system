@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 32,
+            "activePatchIndex": 34,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -136,6 +136,14 @@
                 {
                     "date": 1731321804799,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Blog.objects.all().order_by('position')\n     lookup_field = \"slug\"\n+    \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )\n@@ -42,9 +43,15 @@\n         return super().get_serializer_class()\n     \n     def list(self, request, *args, **kwargs):\n         return super().list(request, *args, **kwargs)\n+    \n+    def perform_create(self, serializer):\n+        serializer.save(user=self.request.user)\n \n+    def perform_update(self, serializer):\n+        serializer.save(user=self.request.user)\n+\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n"
+                },
+                {
+                    "date": 1731322966030,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = Blog.objects.all().order_by('position')\n     lookup_field = \"slug\"\n+    filterset_class = BlogFilter\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
+                },
+                {
+                    "date": 1731322979161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,9 @@\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n from rest_framework.decorators import action\n+from ..utilities.filter import Blo\n \n \n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n"
                 }
             ],
             "date": 1730094601329,

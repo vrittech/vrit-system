@@ -45,6 +45,7 @@ from ..utilities.importbase import *
 from rest_framework.response import Response
 from casestudy.utilities.permissions import casestudyPermission
 from rest_framework.decorators import action
+from ..utilities.filter import CaseStudyFilter
 
 
 class casestudyViewsets(viewsets.ModelViewSet):
@@ -53,7 +54,8 @@ class casestudyViewsets(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     queryset = CaseStudy.objects.all().order_by('position')
     lookup_field = "slug"
-
+    filterset_class = CaseStudyFilter
+     
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']
     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']
