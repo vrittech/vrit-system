@@ -19,7 +19,12 @@
 from rest_framework import serializers
 from ..models import CaseStudy, CaseStudyTags, CaseStudyCategory
 from django.utils import timezone
+from accounts.models import CustomUser
 
+class BlogUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['full_name', 'image']  
 
 class CaseStudyTagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +32,7 @@ class CaseStudyTagsSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
         
 class CaseStudyListSerializers(serializers.ModelSerializer):
+    user = BlogUserSerializer(read_only=True)
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
 
@@ -41,6 +47,7 @@ class CaseStudyListSerializers(serializers.ModelSerializer):
 class CaseStudyRetrieveSerializers(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
+    user = BlogUserSerializer(read_only=True)
 
     class Meta:
         model = CaseStudy
@@ -81,6 +88,11 @@ class CaseStudyWriteSerializers(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags', [])
         category_data = validated_data.pop('category', [])
         
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
+        validated_data['created_by'] = full_name
+        validated_data['user'] = user
+        
         blog = CaseStudy.objects.create(**validated_data)
         blog.tags.set(CaseStudy.tag_manager.get_or_create_tags(tags_data))
         blog.category.set(category_data)
@@ -91,6 +103,11 @@ class CaseStudyWriteSerializers(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags', None)
         category_data = validated_data.pop('category', None)
         featured_image = validated_data.pop('featured_image', None)
+        
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
+        validated_data['created_by'] = full_name
+        validated_data['user'] = user
 
         # Update instance fields if data is provided
         for attr, value in validated_data.items():

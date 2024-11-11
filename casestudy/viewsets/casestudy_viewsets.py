@@ -82,6 +82,12 @@ class casestudyViewsets(viewsets.ModelViewSet):
     
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):

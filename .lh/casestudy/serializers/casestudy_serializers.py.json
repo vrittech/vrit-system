@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1730097911637,
@@ -64,6 +64,30 @@
                 {
                     "date": 1730266440542,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -60,9 +60,9 @@\n         child=serializers.IntegerField(), write_only=True\n     )\n \n     class Meta:\n-        model = Blog\n+        model = CaseStudy\n         fields = [\n             'id', 'title', 'description', 'site_title', 'excerpt', \n             'status', 'publish_date', 'meta_description', 'meta_keywords', \n             'meta_author', 'tags', 'category', 'header_code', 'embedded_code', \n@@ -80,9 +80,9 @@\n     def create(self, validated_data):\n         tags_data = validated_data.pop('tags', [])\n         category_data = validated_data.pop('category', [])\n         \n-        blog = Blog.objects.create(**validated_data)\n+        blog = CaseStudy.objects.create(**validated_data)\n         blog.tags.set(CaseStudy.tag_manager.get_or_create_tags(tags_data))\n         blog.category.set(category_data)\n \n         return blog\n"
+                },
+                {
+                    "date": 1731321960617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,8 +80,13 @@\n     def create(self, validated_data):\n         tags_data = validated_data.pop('tags', [])\n         category_data = validated_data.pop('category', [])\n         \n+        user = self.context['request'].user\n+        full_name = user.full_name or user.username  \n+        validated_data['created_by'] = full_name\n+        validated_data['user'] = user\n+        \n         blog = CaseStudy.objects.create(**validated_data)\n         blog.tags.set(CaseStudy.tag_manager.get_or_create_tags(tags_data))\n         blog.category.set(category_data)\n \n"
+                },
+                {
+                    "date": 1731322156983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,12 @@\n from rest_framework import serializers\n from ..models import CaseStudy, CaseStudyTags, CaseStudyCategory\n from django.utils import timezone\n \n+class BlogUserSerializer(serializers.ModelSerializer):\n+    class Meta:\n+        model = CustomUser\n+        fields = ['full_name', 'image']  \n \n class CaseStudyTagsSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CaseStudyTags\n@@ -95,8 +99,13 @@\n     def update(self, instance, validated_data):\n         tags_data = validated_data.pop('tags', None)\n         category_data = validated_data.pop('category', None)\n         featured_image = validated_data.pop('featured_image', None)\n+        \n+        user = self.context['request'].user\n+        full_name = user.full_name or user.username  \n+        validated_data['created_by'] = full_name\n+        validated_data['user'] = user\n \n         # Update instance fields if data is provided\n         for attr, value in validated_data.items():\n             setattr(instance, attr, value)\n"
+                },
+                {
+                    "date": 1731322167042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n \n from rest_framework import serializers\n from ..models import CaseStudy, CaseStudyTags, CaseStudyCategory\n from django.utils import timezone\n+from accounts.models import \n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n"
+                },
+                {
+                    "date": 1731322192188,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n \n from rest_framework import serializers\n from ..models import CaseStudy, CaseStudyTags, CaseStudyCategory\n from django.utils import timezone\n-from accounts.models import \n+from accounts.models import CustomUser\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n@@ -31,8 +31,10 @@\n         model = CaseStudyTags\n         fields = ['id', 'name']\n         \n class CaseStudyListSerializers(serializers.ModelSerializer):\n+     user = BlogUserSerializer(read_only=True)\n+\n     category = serializers.StringRelatedField(many=True)\n     tags = serializers.StringRelatedField(many=True)\n \n     class Meta:\n"
+                },
+                {
+                    "date": 1731322197412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,10 +31,9 @@\n         model = CaseStudyTags\n         fields = ['id', 'name']\n         \n class CaseStudyListSerializers(serializers.ModelSerializer):\n-     user = BlogUserSerializer(read_only=True)\n-\n+    user = BlogUserSerializer(read_only=True)\n     category = serializers.StringRelatedField(many=True)\n     tags = serializers.StringRelatedField(many=True)\n \n     class Meta:\n"
+                },
+                {
+                    "date": 1731322203414,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,8 +46,9 @@\n \n class CaseStudyRetrieveSerializers(serializers.ModelSerializer):\n     category = serializers.StringRelatedField(many=True)\n     tags = serializers.StringRelatedField(many=True)\n+    user = BlogUserSerializer(read_only=True)\n \n     class Meta:\n         model = CaseStudy\n         fields = [\n"
                 }
             ],
             "date": 1730097911637,

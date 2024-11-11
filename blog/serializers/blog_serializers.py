@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from ..models import Blog, BlogTags, BlogCategory
 from django.utils import timezone
+from accounts.models import CustomUser
 
+
+class BlogUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['full_name', 'image']  
 
 class BlogTagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,27 +17,22 @@ class BlogTagsSerializer(serializers.ModelSerializer):
 class BlogListSerializers(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
+    user = BlogUserSerializer(read_only=True)
 
     class Meta:
         model = Blog
-        fields = [
-            'id', 'title', 'excerpt', 'status', 'publish_date', 
-            'created_at', 'updated_at', 'category', 'tags'
-        ]
+        fields = '__all__'
 
 
 class BlogRetrieveSerializers(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
     tags = serializers.StringRelatedField(many=True)
+    user = BlogUserSerializer(read_only=True)
+
 
     class Meta:
         model = Blog
-        fields = [
-            'id', 'title', 'description', 'status', 'publish_date', 
-            'meta_description', 'meta_keywords', 'meta_author',
-            'created_at', 'updated_at', 'category', 'tags', 
-            'header_code', 'embedded_code', 'featured_image'
-        ]
+        fields = '__all__'
 
 
 
@@ -45,12 +46,7 @@ class BlogWriteSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Blog
-        fields = [
-            'id', 'title', 'description', 'site_title', 'excerpt', 
-            'status', 'publish_date', 'meta_description', 'meta_keywords', 
-            'meta_author', 'tags', 'category', 'header_code', 'embedded_code', 
-            'featured_image'
-        ]
+        fields = '__all__'
 
     def validate_publish_date(self, value):
         """
@@ -64,6 +60,12 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags', [])
         category_data = validated_data.pop('category', [])
         
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
+
+        validated_data['created_by'] = full_name
+        validated_data['user'] = user
+        
         blog = Blog.objects.create(**validated_data)
         blog.tags.set(Blog.tag_manager.get_or_create_tags(tags_data))
         blog.category.set(category_data)
@@ -74,6 +76,11 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         tags_data = validated_data.pop('tags', None)
         category_data = validated_data.pop('category', None)
         featured_image = validated_data.pop('featured_image', None)
+        
+        user = self.context['request'].user
+        full_name = user.full_name or user.username  
+        validated_data['created_by'] = full_name
+        validated_data['user'] = user
 
         # Update instance fields if data is provided
         for attr, value in validated_data.items():

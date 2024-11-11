@@ -33,6 +33,7 @@ class TagManager(models.Manager):
 
 class CaseStudy(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'case_study',on_delete=models.CASCADE,null=True)
+    author =models.CharField(max_length=150, blank=True)
     title = models.CharField(max_length = 300)
     description = models.TextField()
     site_title = models.CharField(max_length = 300,null=True,blank=True)

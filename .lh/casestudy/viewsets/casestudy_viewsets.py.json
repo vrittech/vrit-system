@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1730098185234,
@@ -68,6 +68,14 @@
                 {
                     "date": 1731307722366,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,8 +51,9 @@\n     serializer_class = CaseStudyListSerializers\n     # permission_classes = [casestudyPermission]\n     pagination_class = MyPageNumberPagination\n     queryset = CaseStudy.objects.all().order_by('position')\n+    lookup_field = \"slug\"\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n"
+                },
+                {
+                    "date": 1731322043295,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,15 @@\n         return super().get_serializer_class()\n     \n     def list(self, request, *args, **kwargs):\n         return super().list(request, *args, **kwargs)\n+    \n+     def perform_create(self, serializer):\n+        serializer.save(user=self.request.user)\n \n+    def perform_update(self, serializer):\n+        serializer.save(user=self.request.user)\n+\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n"
+                },
+                {
+                    "date": 1731322052257,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -82,9 +82,9 @@\n     \n     def list(self, request, *args, **kwargs):\n         return super().list(request, *args, **kwargs)\n     \n-     def perform_create(self, serializer):\n+    def perform_create(self, serializer):\n         serializer.save(user=self.request.user)\n \n     def perform_update(self, serializer):\n         serializer.save(user=self.request.user)\n"
                 }
             ],
             "date": 1730098185234,

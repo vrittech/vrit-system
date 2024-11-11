@@ -39,6 +39,7 @@ class TagManager(models.Manager):
 
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
+    author =models.CharField(max_length=150, blank=True)
     title = models.CharField(max_length = 300,unique= True)
     description = models.TextField()
     site_title = models.CharField(max_length = 300)
