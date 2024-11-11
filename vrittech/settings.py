@@ -90,7 +90,7 @@ INSTALLED_APPS = [
     'careergallery',
     'management',
     'forms',
-    'drfapigenerator',
+    # 'drfapigenerator',
     
 ]
 
