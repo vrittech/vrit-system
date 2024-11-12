@@ -34,7 +34,7 @@ jobs:
       run: |
         python manage.py test
 
-    - name: Deploy to Lightsail
+    - name: Deploy to VPS
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -70,10 +70,10 @@ jobs:
 
         # Run deployment commands on the server
         echo "Running deployment commands on the server"
-        # ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && virtualenv venv && source venv/bin/activate && pip install --upgrade -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
+        ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && virtualenv venv && source venv/bin/activate && pip install --upgrade -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
         
         
         #echo "Running deployment commands on the server" &&
-        ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && virtualenv venv && source venv/bin/activate && pip install --upgrade -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'"
+        # ssh -o StrictHostKeyChecking=no root@$SERVER_IP "cd $PROJECT_FOLDER && virtualenv venv && source venv/bin/activate && pip install --upgrade -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && screen -ls | grep $SCREEN_NAME | awk '{print $1}' | xargs -r -I{} screen -X -S {} quit && screen -dmS $SCREEN_NAME bash -c 'source venv/bin/activate && python manage.py runserver 0.0.0.0:$PORT'"
 
 #AmazonEC2FullAccess
