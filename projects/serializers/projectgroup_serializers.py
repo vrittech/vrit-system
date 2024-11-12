@@ -27,3 +27,10 @@ class ProjectGroupWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProjectGroup
         fields = '__all__'
+        
+    def validate(self, data):
+        # Check if the position already exists in another Career
+        position = data.get('position')
+        if position and ProjectGroup.objects.filter(position=position).exists():
+            raise serializers.ValidationError({"position": "A group with this position already exists."})
+        return data

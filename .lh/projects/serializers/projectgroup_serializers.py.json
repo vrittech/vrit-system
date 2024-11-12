@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1730788865777,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731396563676,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,4 +26,11 @@\n class ProjectGroupWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = ProjectGroup\n         fields = '__all__'\n+        \n+    def validate(self, data):\n+        # Check if the position already exists in another Career\n+        position = data.get('position')\n+        if position and Blog.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"position\": \"A blog with this position already exists.\"})\n+        return data\n"
+                },
+                {
+                    "date": 1731396571436,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,7 +30,7 @@\n         \n     def validate(self, data):\n         # Check if the position already exists in another Career\n         position = data.get('position')\n-        if position and Blog.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"position\": \"A blog with this position already exists.\"})\n+        if position and ProjectGroup.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"position\": \"A group with this position already exists.\"})\n         return data\n"
                 }
             ],
             "date": 1730788865777,

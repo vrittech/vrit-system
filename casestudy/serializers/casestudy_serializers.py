@@ -70,6 +70,12 @@ class CaseStudyWriteSerializers(serializers.ModelSerializer):
         if self.initial_data.get('status') == 'scheduled' and value <= timezone.now().date():
             raise serializers.ValidationError("Publish date must be in the future for scheduled blogs.")
         return value
+    def validate(self, data):
+        # Check if the position already exists in another Career
+        position = data.get('position')
+        if position and CaseStudy.objects.filter(position=position).exists():
+            raise serializers.ValidationError({"position": "A case-study with this position already exists."})
+        return data
 
     def create(self, validated_data):
         tags_data = validated_data.pop('tags', [])

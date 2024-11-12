@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1730094573253,
@@ -68,6 +68,10 @@
                 {
                     "date": 1731322399523,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n \n class BlogUserSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = CustomUser\n-        fields = ['full_name', 'image']  \n+       fields = ['full_name','professional_image']  \n \n class BlogTagsSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = BlogTags\n"
+                },
+                {
+                    "date": 1731396451071,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,8 +55,9 @@\n         if self.initial_data.get('status') == 'scheduled' and value <= timezone.now().date():\n             raise serializers.ValidationError(\"Publish date must be in the future for scheduled blogs.\")\n         return value\n     \n+    \n \n     def create(self, validated_data):\n         tags_data = validated_data.pop('tags', [])\n         category_data = validated_data.pop('category', [])\n"
                 }
             ],
             "date": 1730094573253,

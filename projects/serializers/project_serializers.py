@@ -72,6 +72,13 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
+        
+    def validate(self, data):
+        # Check if the position already exists in another Career
+        position = data.get('position')
+        if position and Project.objects.filter(position=position).exists():
+            raise serializers.ValidationError({"position": "A project with this position already exists."})
+        return data
 
     def to_internal_value(self, data):
         # Convert 'project_service' from string to list if necessary
