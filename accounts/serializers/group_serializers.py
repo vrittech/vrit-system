@@ -18,6 +18,12 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomGroup  # Updated to use CustomGroup
         fields = ['id', 'name', 'permissions', 'permission_ids', 'position']
+        
+    def validate_position(self, value):
+        # Check if a group with this position already exists
+        if CustomGroup.objects.filter(position=value).exists():
+            raise serializers.ValidationError("A role with this position already exists.")
+        return value
 
     def create(self, validated_data):
         permission_ids = validated_data.pop('permission_ids', [])
