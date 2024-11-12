@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 45,
+            "activePatchIndex": 46,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -188,6 +188,10 @@
                 {
                     "date": 1731321206746,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,9 +89,9 @@\n     'sitesetting',\n     'careergallery',\n     'management',\n     'forms',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
+                },
+                {
+                    "date": 1731401368969,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -287,4 +287,7 @@\n         'task': 'your_app.tasks.publish_scheduled_blogs_task',\n         'schedule': 3600,  # Runs every hour\n     },\n }\n+\n+USE_TZ = True\n+TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729763322697,

@@ -288,3 +288,6 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 3600,  # Runs every hour
     },
 }
+
+USE_TZ = True
+TIME_ZONE = 'Asia/Kathmandu'
