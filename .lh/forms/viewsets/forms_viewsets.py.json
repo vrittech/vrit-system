@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1730176761000,
@@ -44,6 +44,18 @@
                 {
                     "date": 1730176946473,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n-        'id': ['exact'],\n+        'is_show': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1731404084457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,5 +36,26 @@\n \n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n+    \n+    @action(detail=False, methods=['get'], name=\"category_form_counts\", url_path=\"category-form-counts\")\n+    def category_form_counts(self, request, *args, **kwargs):\n+        # Count forms by category, including categories with 0 forms\n+        category_counts = (\n+            Category.objects\n+            .annotate(count=Coalesce(Count('forms'), Value(0)))\n+            .values('name', 'count')\n+            .order_by('name')\n+        )\n \n+        # Total count of all forms\n+        total_count = Forms.objects.count()\n+\n+        # Format the response\n+        response_data = {\n+            \"category_counts\": category_counts,\n+            \"total_count\": total_count\n+        }\n+\n+        return Response(response_data)\n+\n"
+                },
+                {
+                    "date": 1731404105480,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,14 @@\n from django_filters.rest_framework import DjangoFilterBackend\n from ..models import Forms\n from ..serializers.forms_serializers import FormsListSerializers, FormsRetrieveSerializers, FormsWriteSerializers\n from ..utilities.importbase import *\n+from django.db.models import Count, Value\n+from django.db.models.functions import Coalesce\n+from rest_framework.decorators import action\n+from rest_framework.response import Response\n+from rest_framework import viewsets\n+from .models import Forms, Category\n \n class formsViewsets(viewsets.ModelViewSet):\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n"
+                },
+                {
+                    "date": 1731404185899,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n from django.db.models.functions import Coalesce\n from rest_framework.decorators import action\n from rest_framework.response import Response\n from rest_framework import viewsets\n-from .models import Forms, Category\n+from ..models import Forms, Category\n \n class formsViewsets(viewsets.ModelViewSet):\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n"
                 }
             ],
             "date": 1730176761000,

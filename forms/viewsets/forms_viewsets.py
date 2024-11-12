@@ -4,6 +4,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import Forms
 from ..serializers.forms_serializers import FormsListSerializers, FormsRetrieveSerializers, FormsWriteSerializers
 from ..utilities.importbase import *
+from django.db.models import Count, Value
+from django.db.models.functions import Coalesce
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import viewsets
+from ..models import Forms, Category
 
 class formsViewsets(viewsets.ModelViewSet):
     serializer_class = FormsListSerializers
@@ -37,4 +43,25 @@ class formsViewsets(viewsets.ModelViewSet):
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'], name="category_form_counts", url_path="category-form-counts")
+    def category_form_counts(self, request, *args, **kwargs):
+        # Count forms by category, including categories with 0 forms
+        category_counts = (
+            Category.objects
+            .annotate(count=Coalesce(Count('forms'), Value(0)))
+            .values('name', 'count')
+            .order_by('name')
+        )
+
+        # Total count of all forms
+        total_count = Forms.objects.count()
+
+        # Format the response
+        response_data = {
+            "category_counts": category_counts,
+            "total_count": total_count
+        }
+
+        return Response(response_data)
 
