@@ -45,7 +45,7 @@ class Blog(models.Model):
     site_title = models.CharField(max_length = 300)
     excerpt = models.CharField(max_length = 300)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'draft')
-    publish_date = models.DateField()
+    publish_date = models.DateTimeField()
     meta_description = models.CharField(max_length = 1200)
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
