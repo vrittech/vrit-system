@@ -26,7 +26,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'department': ('department', 'Department'),
         'gallery': ('gallery', 'Gallery'),
         'social-media': ('socialmedia', 'SocialMedia'),
-        'role': ('accounts', 'CustomGroup'),
+        'role': ('accounts', 'Group'),
         # Add or modify mappings as necessary
     }
 

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1731409947014,
@@ -36,6 +36,26 @@
                 {
                     "date": 1731410219336,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,6 +35,16 @@\n \n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n     \n+    def save(self, *args, **kwargs):\n+        # Call the original save method to get an ID assigned\n+        super().save(*args, **kwargs)\n+        \n+        # Set position to the ID if it hasn't been set\n+        if self.position == 0:  # or self.position is None, depending on your preference\n+            self.position = self.id\n+            # Save again to update the position\n+            super().save(*args, **kwargs)\n+    \n     def __str__(self):\n         return self.position\n"
+                },
+                {
+                    "date": 1731411434495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,7 +44,5 @@\n         if self.position == 0:  # or self.position is None, depending on your preference\n             self.position = self.id\n             # Save again to update the position\n             super().save(*args, **kwargs)\n-    \n-    def __str__(self):\n-        return self.position\n+\n"
+                },
+                {
+                    "date": 1731411518007,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,17 +32,19 @@\n \n \n \n \n-class CustomGroup(Group):\n-    position = models.IntegerField(default=0)\n-    \n+from django.contrib.auth.models import Group\n+from django.db import models\n+\n+class GroupExtension(models.Model):\n+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')\n+    position = models.IntegerField(default=0, unique=True)\n+\n     def save(self, *args, **kwargs):\n-        # Call the original save method to get an ID assigned\n-        super().save(*args, **kwargs)\n-        \n-        # Set position to the ID if it hasn't been set\n-        if self.position == 0:  # or self.position is None, depending on your preference\n-            self.position = self.id\n-            # Save again to update the position\n+        # Set position to the Group ID if position is 0 (or could be None)\n+        if self.position == 0:\n+            super().save(*args, **kwargs)  # Save initially to get the group ID\n+            self.position = self.group.id\n+            super().save(*args, **kwargs)  # Save again to update position with group ID\n+        else:\n             super().save(*args, **kwargs)\n-\n"
+                },
+                {
+                    "date": 1731411523116,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,13 +30,8 @@\n             ('can_verify_user', 'Can verify user'),\n         ]\n \n \n-\n-\n-from django.contrib.auth.models import Group\n-from django.db import models\n-\n class GroupExtension(models.Model):\n     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')\n     position = models.IntegerField(default=0, unique=True)\n \n"
+                },
+                {
+                    "date": 1731411536519,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n \n \n class GroupExtension(models.Model):\n     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')\n-    position = models.IntegerField(default=0, unique=True)\n+    position = models.IntegerField(default=0\n \n     def save(self, *args, **kwargs):\n         # Set position to the Group ID if position is 0 (or could be None)\n         if self.position == 0:\n"
+                },
+                {
+                    "date": 1731411549652,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n \n \n class GroupExtension(models.Model):\n     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')\n-    position = models.IntegerField(default=0\n+    position = models.IntegerField(default=0)\n \n     def save(self, *args, **kwargs):\n         # Set position to the Group ID if position is 0 (or could be None)\n         if self.position == 0:\n"
                 }
             ],
             "date": 1731409947014,

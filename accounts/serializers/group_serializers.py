@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from django.contrib.auth.models import Permission
-from ..models import CustomGroup
+from django.contrib.auth.models import Group, Permission
+from accounts.models import GroupExtension
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,25 +16,39 @@ class GroupSerializer(serializers.ModelSerializer):
     position = serializers.IntegerField(required=False)
 
     class Meta:
-        model = CustomGroup  # Updated to use CustomGroup
+        model = Group
         fields = ['id', 'name', 'permissions', 'permission_ids', 'position']
-        
+
     def validate_position(self, value):
-        # Check if a group with this position already exists
-        if CustomGroup.objects.filter(position=value).exists():
-            raise serializers.ValidationError("A role with this position already exists.")
+        # Check if a group with this position already exists in GroupExtension
+        if GroupExtension.objects.filter(position=value).exists():
+            raise serializers.ValidationError("A group with this position already exists.")
         return value
 
     def create(self, validated_data):
         permission_ids = validated_data.pop('permission_ids', [])
-        group = CustomGroup.objects.create(**validated_data)
+        position = validated_data.pop('position', None)
+
+        # Create the Group instance
+        group = Group.objects.create(**validated_data)
         group.permissions.set(permission_ids)
+
+        # Create or update GroupExtension with the position
+        GroupExtension.objects.create(group=group, position=position or group.id)
         return group
 
     def update(self, instance, validated_data):
         permission_ids = validated_data.pop('permission_ids', [])
+        position = validated_data.pop('position', None)
+
         instance.name = validated_data.get('name', instance.name)
-        instance.position = validated_data.get('position', instance.position)
         instance.save()
         instance.permissions.set(permission_ids)
+
+        # Update or create the related GroupExtension for position
+        if position:
+            extension, created = GroupExtension.objects.get_or_create(group=instance)
+            extension.position = position
+            extension.save()
+
         return instance

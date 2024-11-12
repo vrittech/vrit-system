@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib import admin
 
-from .models import CustomUser
+from .models import CustomUser, GroupExtension
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -19,6 +19,7 @@ class UserAdmin(BaseUserAdmin):
     # Your custom admin configurations
 
 admin.site.register(CustomUser, UserAdmin)
+admin.site.register(GroupExtension)
 
 admin.site.register(Permission)
 

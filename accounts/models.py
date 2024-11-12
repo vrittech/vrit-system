@@ -31,20 +31,15 @@ class CustomUser(AbstractUser):
         ]
 
 
-
-
-class CustomGroup(Group):
+class GroupExtension(models.Model):
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')
     position = models.IntegerField(default=0)
-    
+
     def save(self, *args, **kwargs):
-        # Call the original save method to get an ID assigned
-        super().save(*args, **kwargs)
-        
-        # Set position to the ID if it hasn't been set
-        if self.position == 0:  # or self.position is None, depending on your preference
-            self.position = self.id
-            # Save again to update the position
+        # Set position to the Group ID if position is 0 (or could be None)
+        if self.position == 0:
+            super().save(*args, **kwargs)  # Save initially to get the group ID
+            self.position = self.group.id
+            super().save(*args, **kwargs)  # Save again to update position with group ID
+        else:
             super().save(*args, **kwargs)
-    
-    def __str__(self):
-        return self.position

@@ -1,0 +1,42 @@
+{
+    "sourceFile": "accounts/admin.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1731411282420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731411288219,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     pass\n     # Your custom admin configurations\n \n admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(CustomUser, UserAdmin)\n+admin.site.register(Custom, UserAdmin)\n \n admin.site.register(Permission)\n \n \n"
+                },
+                {
+                    "date": 1731411294526,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from django.contrib.auth.models import Group, Permission\n from django.contrib import admin\n \n-from .models import CustomUser\n+from .models import CustomUser, C\n from django.contrib import admin\n from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n \n class UserAdmin(BaseUserAdmin):\n"
+                },
+                {
+                    "date": 1731411299775,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from django.contrib.auth.models import Group, Permission\n from django.contrib import admin\n \n-from .models import CustomUser, C\n+from .models import CustomUser, CustomGroup\n from django.contrib import admin\n from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n \n class UserAdmin(BaseUserAdmin):\n@@ -18,9 +18,9 @@\n     pass\n     # Your custom admin configurations\n \n admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(Custom, UserAdmin)\n+admin.site.register(CustomGroup, UserAdmin)\n \n admin.site.register(Permission)\n \n \n"
+                },
+                {
+                    "date": 1731411604059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     pass\n     # Your custom admin configurations\n \n admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(CustomGroup, UserAdmin)\n+admin.site.register(Gr)\n \n admin.site.register(Permission)\n \n \n"
+                },
+                {
+                    "date": 1731411610052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from django.contrib.auth.models import Group, Permission\n from django.contrib import admin\n \n-from .models import CustomUser, CustomGroup\n+from .models import CustomUser, GroupExtension\n from django.contrib import admin\n from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n \n class UserAdmin(BaseUserAdmin):\n"
+                },
+                {
+                    "date": 1731411615146,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     pass\n     # Your custom admin configurations\n \n admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(Gr)\n+admin.site.register(GGroupExtensionr)\n \n admin.site.register(Permission)\n \n \n"
+                }
+            ],
+            "date": 1731411282420,
+            "name": "Commit-0",
+            "content": "from django.contrib.auth.models import Group, Permission\nfrom django.contrib import admin\n\nfrom .models import CustomUser\nfrom django.contrib import admin\nfrom django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n\nclass UserAdmin(BaseUserAdmin):\n    # list_display = ['role',] # this display in outer list form\n    exclude = ('user_permissions',)\n    fieldsets = (\n        (None, {'fields': ('username', 'password')}),\n        ('Personal info', {'fields': ('first_name', 'last_name', 'email','avatar','department','position')}),\n        ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser','groups')}),\n        # ('Social sites',{'fields':('facebook','twitter','tiktok','instagram','youtube')})\n        # Add your custom fields here\n    )\n    pass\n    # Your custom admin configurations\n\nadmin.site.register(CustomUser, UserAdmin)\nadmin.site.register(CustomUser, UserAdmin)\n\nadmin.site.register(Permission)\n\n\n\n"
+        }
+    ]
+}
