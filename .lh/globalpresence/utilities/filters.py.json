@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1730108866043,
@@ -16,6 +16,30 @@
                 {
                     "date": 1731320769060,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,14 @@\n from django_filters import rest_framework as filters\n-from ..models import GlobalPresence\n+from ..models import GlobalPresence, Country\n \n # Custom filter to allow multiple values\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n     global_presence = CharInFilter(field_name='global_presence', lookup_expr='in')\n+    country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n-        fields = ['global_presence']\n+        fields = ['global_presence', 'country']\n"
+                },
+                {
+                    "date": 1731403572169,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n-    global_presence = CharInFilter(field_name='global_presence', lookup_expr='in')\n+    global_presence = CharInFilter(field_name='countrty', lookup_expr='in')\n     country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n"
+                },
+                {
+                    "date": 1731403579813,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n-    global_presence = CharInFilter(field_name='countrty', lookup_expr='in')\n+    country = CharInFilter(field_name='country', lookup_expr='in')\n     country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n"
+                },
+                {
+                    "date": 1731403586811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n class CharInFilter(filters.BaseInFilter, filters.CharFilter):\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n-    country = CharInFilter(field_name='country', lookup_expr='in')\n+    # country = CharInFilter(field_name='country', lookup_expr='in')\n     country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n"
+                },
+                {
+                    "date": 1731403599902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,5 +10,5 @@\n     country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n \n     class Meta:\n         model = GlobalPresence\n-        fields = ['global_presence', 'country']\n+        fields = [ 'country']\n"
+                },
+                {
+                    "date": 1731403607535,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n     # country = CharInFilter(field_name='country', lookup_expr='in')\n-    country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID\n+    country = CharInFilter(field_name='country__id', lookup_expr='in'\n \n     class Meta:\n         model = GlobalPresence\n-        fields = [ 'country']\n+        fields = ['country']\n"
+                },
+                {
+                    "date": 1731403614019,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n     pass\n \n class GlobalPresenceFilter(filters.FilterSet):\n     # country = CharInFilter(field_name='country', lookup_expr='in')\n-    country = CharInFilter(field_name='country__id', lookup_expr='in'\n+    country = CharInFilter(field_name='country__id', lookup_expr='in')\n \n     class Meta:\n         model = GlobalPresence\n         fields = ['country']\n"
                 }
             ],
             "date": 1730108866043,

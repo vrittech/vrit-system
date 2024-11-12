@@ -6,9 +6,9 @@ class CharInFilter(filters.BaseInFilter, filters.CharFilter):
     pass
 
 class GlobalPresenceFilter(filters.FilterSet):
-    global_presence = CharInFilter(field_name='global_presence', lookup_expr='in')
-    country = CharInFilter(field_name='country__id', lookup_expr='in')  # Filter by multiple countries by ID
+    # country = CharInFilter(field_name='country', lookup_expr='in')
+    country = CharInFilter(field_name='country__id', lookup_expr='in')
 
     class Meta:
         model = GlobalPresence
-        fields = ['global_presence', 'country']
+        fields = ['country']
