@@ -46,6 +46,7 @@ from rest_framework.response import Response
 from casestudy.utilities.permissions import casestudyPermission
 from rest_framework.decorators import action
 from ..utilities.filter import CaseStudyFilter
+from django.db.models import Count
 
 
 class casestudyViewsets(viewsets.ModelViewSet):
@@ -102,6 +103,34 @@ class casestudyViewsets(viewsets.ModelViewSet):
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):
     #     return super().list(request, *args, **kwargs)
+    
+    @action(detail=False, methods=['get'], url_path='status-counts')
+    def status_counts(self, request):
+        # All possible statuses
+        all_statuses = dict(CaseStudy._meta.get_field('status').choices)
+
+        # Get the counts for each status from the database
+        status_counts = CaseStudy.objects.values('status').annotate(count=Count('id'))
+
+        # Convert the QuerySet result into a dictionary with counts
+        status_count_dict = {item['status']: item['count'] for item in status_counts}
+
+        # Ensure all statuses are represented, even if count is 0
+        complete_status_counts = {
+            status: status_count_dict.get(status, 0) for status in all_statuses.keys()
+        }
+
+        # Get the count of blogs where `is_deleted` is True
+        deleted_count = CaseStudy.objects.filter(is_deleted=True).count()
+
+        # Prepare the response data
+        response_data = {
+            'status_counts': complete_status_counts,
+            'deleted_count': deleted_count,
+            'total_count': CaseStudy.objects.count(),  # Total number of blogs
+        }
+        
+        return Response(response_data)
     
     @action(detail=False, methods=['get'], name="draggableCaseStudy", url_path="drag-case_study")
     def Draggable(self, request, *args, **kwargs):
