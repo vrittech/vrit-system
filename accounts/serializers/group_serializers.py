@@ -1,5 +1,6 @@
-from django.contrib.auth.models import Group, Permission
 from rest_framework import serializers
+from django.contrib.auth.models import Permission
+from ..models import CustomGroup
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,20 +13,22 @@ class GroupSerializer(serializers.ModelSerializer):
     permission_ids = serializers.ListField(
         child=serializers.IntegerField(), write_only=True
     )
+    position = serializers.IntegerField(required=False)
 
     class Meta:
-        model = Group
-        fields = ['id', 'name', 'permissions', 'permission_ids']
+        model = CustomGroup  # Updated to use CustomGroup
+        fields = ['id', 'name', 'permissions', 'permission_ids', 'position']
 
     def create(self, validated_data):
         permission_ids = validated_data.pop('permission_ids', [])
-        group = Group.objects.create(**validated_data)
+        group = CustomGroup.objects.create(**validated_data)
         group.permissions.set(permission_ids)
         return group
 
     def update(self, instance, validated_data):
         permission_ids = validated_data.pop('permission_ids', [])
         instance.name = validated_data.get('name', instance.name)
+        instance.position = validated_data.get('position', instance.position)
         instance.save()
         instance.permissions.set(permission_ids)
         return instance

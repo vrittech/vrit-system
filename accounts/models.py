@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from department.models import Department
+from django.contrib.auth.models import Group
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -30,3 +31,20 @@ class CustomUser(AbstractUser):
         ]
 
 
+
+
+class CustomGroup(Group):
+    position = models.IntegerField(default=0)
+    
+    def save(self, *args, **kwargs):
+        # Call the original save method to get an ID assigned
+        super().save(*args, **kwargs)
+        
+        # Set position to the ID if it hasn't been set
+        if self.position == 0:  # or self.position is None, depending on your preference
+            self.position = self.id
+            # Save again to update the position
+            super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.position

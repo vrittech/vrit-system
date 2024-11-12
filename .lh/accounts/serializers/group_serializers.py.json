@@ -1,0 +1,30 @@
+{
+    "sourceFile": "accounts/serializers/group_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1731410032385,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731410040956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n from rest_framework import serializers\n from django.contrib.auth.models import Permission\n+from \n \n class PermissionSerializer(serializers.ModelSerializer):\n     class Meta:\n         ref_name = \"group\"\n"
+                },
+                {
+                    "date": 1731410049253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from rest_framework import serializers\n from django.contrib.auth.models import Permission\n-from \n+from ..models import CustomGroup\n \n class PermissionSerializer(serializers.ModelSerializer):\n     class Meta:\n         ref_name = \"group\"\n"
+                },
+                {
+                    "date": 1731410279719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         ref_name = \"group\"\n         model = Permission\n         fields = ['id', 'name', 'codename']\n \n-class CustomGroupSerializer(serializers.ModelSerializer):\n+class GroupSerializer(serializers.ModelSerializer):\n     permissions = PermissionSerializer(many=True, read_only=True)\n     permission_ids = serializers.ListField(\n         child=serializers.IntegerField(), write_only=True\n     )\n"
+                }
+            ],
+            "date": 1731410032385,
+            "name": "Commit-0",
+            "content": "from rest_framework import serializers\nfrom django.contrib.auth.models import Permission\n\nclass PermissionSerializer(serializers.ModelSerializer):\n    class Meta:\n        ref_name = \"group\"\n        model = Permission\n        fields = ['id', 'name', 'codename']\n\nclass CustomGroupSerializer(serializers.ModelSerializer):\n    permissions = PermissionSerializer(many=True, read_only=True)\n    permission_ids = serializers.ListField(\n        child=serializers.IntegerField(), write_only=True\n    )\n    position = serializers.IntegerField(required=False)\n\n    class Meta:\n        model = CustomGroup  # Updated to use CustomGroup\n        fields = ['id', 'name', 'permissions', 'permission_ids', 'position']\n\n    def create(self, validated_data):\n        permission_ids = validated_data.pop('permission_ids', [])\n        group = CustomGroup.objects.create(**validated_data)\n        group.permissions.set(permission_ids)\n        return group\n\n    def update(self, instance, validated_data):\n        permission_ids = validated_data.pop('permission_ids', [])\n        instance.name = validated_data.get('name', instance.name)\n        instance.position = validated_data.get('position', instance.position)\n        instance.save()\n        instance.permissions.set(permission_ids)\n        return instance\n"
+        }
+    ]
+}

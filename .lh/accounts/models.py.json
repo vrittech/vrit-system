@@ -1,0 +1,46 @@
+{
+    "sourceFile": "accounts/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1731409947014,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731409952142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,7 @@\n         ]\n \n \n from django.contrib.auth.models import Group\n-from django.db import models\n \n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n"
+                },
+                {
+                    "date": 1731409957341,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n from django.db import models\n from django.contrib.auth.models import AbstractUser\n from department.models import Department\n+from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n@@ -29,8 +30,8 @@\n             ('can_verify_user', 'Can verify user'),\n         ]\n \n \n-from django.contrib.auth.models import Group\n \n+\n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n"
+                },
+                {
+                    "date": 1731409966603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,4 +34,6 @@\n \n \n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731409994924,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,42 @@\n+from django.db import models\n+from django.contrib.auth.models import AbstractUser\n+from department.models import Department\n+from django.contrib.auth.models import Group\n+\n+# Create your models here.\n+class CustomUser(AbstractUser):\n+    avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n+    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n+\n+    full_name = models.CharField(max_length = 250)\n+    position = models.CharField(max_length = 250,null = True)\n+    department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n+    position = models.CharField(max_length = 250)\n+    email = models.EmailField(max_length = 250,unique = True)\n+\n+\n+    USERNAME_FIELD = 'email'\n+    REQUIRED_FIELDS = ['username']\n+\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+\n+\n+    def __str__(self):\n+        return self.username\n+    \n+    class Meta:\n+        permissions = [\n+            ('can_verify_user', 'Can verify user'),\n+        ]\n+\n+\n+\n+\n+class CustomGroup(Group):\n+    position = models.IntegerField(default=0)\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n+    def __str__(self):\n+        return self.username\n"
+                },
+                {
+                    "date": 1731410000079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,44 +38,5 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.username\n-from django.db import models\n-from django.contrib.auth.models import AbstractUser\n-from department.models import Department\n-from django.contrib.auth.models import Group\n-\n-# Create your models here.\n-class CustomUser(AbstractUser):\n-    avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n-    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n-\n-    full_name = models.CharField(max_length = 250)\n-    position = models.CharField(max_length = 250,null = True)\n-    department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n-    position = models.CharField(max_length = 250)\n-    email = models.EmailField(max_length = 250,unique = True)\n-\n-\n-    USERNAME_FIELD = 'email'\n-    REQUIRED_FIELDS = ['username']\n-\n-    created_at = models.DateTimeField(auto_now_add=True)\n-    updated_at = models.DateTimeField(auto_now=True)\n-\n-\n-    def __str__(self):\n-        return self.username\n-    \n-    class Meta:\n-        permissions = [\n-            ('can_verify_user', 'Can verify user'),\n-        ]\n-\n-\n-\n-\n-class CustomGroup(Group):\n-    position = models.IntegerField(default=0)\n-    created_at = models.DateTimeField(auto_now_add=True)\n-    updated_at = models.DateTimeField(auto_now=True)\n+        return self.position\n"
+                },
+                {
+                    "date": 1731410005354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,7 @@\n \n \n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n-    created_at = models.DateTimeField(auto_now_add=True)\n-    updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.position\n"
+                },
+                {
+                    "date": 1731410219336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,6 +35,16 @@\n \n class CustomGroup(Group):\n     position = models.IntegerField(default=0)\n     \n+    def save(self, *args, **kwargs):\n+        # Call the original save method to get an ID assigned\n+        super().save(*args, **kwargs)\n+        \n+        # Set position to the ID if it hasn't been set\n+        if self.position == 0:  # or self.position is None, depending on your preference\n+            self.position = self.id\n+            # Save again to update the position\n+            super().save(*args, **kwargs)\n+    \n     def __str__(self):\n         return self.position\n"
+                }
+            ],
+            "date": 1731409947014,
+            "name": "Commit-0",
+            "content": "from django.db import models\nfrom django.contrib.auth.models import AbstractUser\nfrom department.models import Department\n\n# Create your models here.\nclass CustomUser(AbstractUser):\n    avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n\n    full_name = models.CharField(max_length = 250)\n    position = models.CharField(max_length = 250,null = True)\n    department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n    position = models.CharField(max_length = 250)\n    email = models.EmailField(max_length = 250,unique = True)\n\n\n    USERNAME_FIELD = 'email'\n    REQUIRED_FIELDS = ['username']\n\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n\n    def __str__(self):\n        return self.username\n    \n    class Meta:\n        permissions = [\n            ('can_verify_user', 'Can verify user'),\n        ]\n\n\nfrom django.contrib.auth.models import Group\nfrom django.db import models\n\nclass CustomGroup(Group):\n    position = models.IntegerField(default=0)\n"
+        }
+    ]
+}
