@@ -20,6 +20,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'clients': ('clients', 'Clients'),
         'faqs': ('faqs', 'Faq'),
         'forms': ('forms', 'Form'),
+        'forms-category': ('forms', 'Category'),
         'plan': ('plan', 'Plan'),
         'testimonial': ('testimonial', 'Testimonial'),
         'department': ('department', 'Department'),
