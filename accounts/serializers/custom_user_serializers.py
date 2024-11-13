@@ -1,14 +1,22 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from department.models import Department
 from django.contrib.auth.hashers import check_password, make_password
 
 
 User = get_user_model()
 
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ['id','name']
+
 class CustomUserReadSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name','department']
+    
 
 class CustomUserWriteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,6 +40,7 @@ class CustomUserWriteSerializer(serializers.ModelSerializer):
         return instance
 
 class CustomUserRetrieveSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name','department', 'is_active', 'is_staff', 'is_superuser']
