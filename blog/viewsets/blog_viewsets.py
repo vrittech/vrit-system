@@ -78,17 +78,18 @@ class blogViewsets(viewsets.ModelViewSet):
         status_count_dict = {item['status']: item['count'] for item in status_counts}
 
         # Ensure all statuses are represented, even if count is 0
-        complete_status_counts = {
-            status: status_count_dict.get(status, 0) for status in all_statuses.keys()
-        }
+        complete_status_counts = [
+            {"name": all_statuses[status], "count": status_count_dict.get(status, 0)}
+            for status in all_statuses.keys()
+        ]
 
-        # Get the count of blogs where `is_deleted` is True
-        deleted_count = Blog.objects.filter(is_deleted=True).count()
+        # # Get the count of blogs where `is_deleted` is True
+        # deleted_count = Blog.objects.filter(is_deleted=True).count()
 
         # Prepare the response data
         response_data = {
             'status_counts': complete_status_counts,
-            'deleted_count': deleted_count,
+            # 'deleted_count': deleted_count,
             'total_count': Blog.objects.count(),  # Total number of blogs
         }
         

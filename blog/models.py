@@ -32,9 +32,22 @@ class BlogCategory(models.Model):
 
 class TagManager(models.Manager):
     def get_or_create_tags(self, tag_names):
-        # Create or retrieve Tag objects based on tag names
-        # tag_names = tag_names.split(',')
-        tag_names = ast.literal_eval(tag_names)
+        """
+        Create or retrieve Tag objects based on tag names.
+        Accepts a list of tag names or a string representation of a list.
+        """
+        # Check if tag_names is a string and parse it if needed
+        if isinstance(tag_names, str):
+            try:
+                tag_names = ast.literal_eval(tag_names)
+            except (ValueError, SyntaxError) as e:
+                raise ValueError(f"Invalid format for tag names: {tag_names}") from e
+        
+        # Now, tag_names should be a list. If it's not, raise an error
+        if not isinstance(tag_names, list):
+            raise ValueError("tag_names must be a list of strings")
+
+        # Create or retrieve Tag objects
         tags = [BlogTags.objects.get_or_create(name=tag)[0] for tag in tag_names]
         return tags
 
@@ -48,7 +61,7 @@ class Blog(models.Model):
     description = models.TextField()
     site_title = models.CharField(max_length = 300)
     excerpt = models.CharField(max_length = 300)
-    status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'draft')
+    status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled'),('deleted','Deleted')),max_length = 20,default = 'draft')
     publish_date = models.DateTimeField(null = True,blank=True)
     meta_description = models.CharField(max_length = 1200)
     meta_keywords = models.CharField(max_length = 800)

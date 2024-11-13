@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 49,
+            "activePatchIndex": 51,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -204,6 +204,14 @@
                 {
                     "date": 1731474131544,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -151,14 +151,21 @@\n         return Response({\"status\": \"success\"})\n     \n     @action(detail=False, methods=['get'], name=\"recent_tags\", url_path=\"recent-tags\")\n     def recent_tags(self, request, *args, **kwargs):\n-        # Fetch the most recently used tags\n-        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')[:10]\n+        # Fetch recent blogs without slicing to avoid the distinct() limitation\n+        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')\n+        \n+        # If no recent blogs with tags, return an appropriate message\n+        if not recent_blogs.exists():\n+            return Response({\"message\": \"No recent tags used\"})\n+\n+        # Get distinct tag IDs from recent blogs (without slicing)\n         recent_tag_ids = recent_blogs.values_list('tags', flat=True).distinct()\n+        \n+        # Fetch tags with annotation for blog usage frequency\n         recent_tags = BlogTags.objects.filter(id__in=recent_tag_ids).annotate(blog_count=Count('blog')).order_by('-blog_count')\n \n         # Serialize tags or create a simple response\n         tag_data = [{\"id\": tag.id, \"name\": tag.name, \"blog_count\": tag.blog_count} for tag in recent_tags]\n         \n-        return Response(tag_data)\n-\n+        return Response(tag_data)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731490867788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,11 +77,12 @@\n         # Convert the QuerySet result into a dictionary with counts\n         status_count_dict = {item['status']: item['count'] for item in status_counts}\n \n         # Ensure all statuses are represented, even if count is 0\n-        complete_status_counts = {\n-            status: status_count_dict.get(status, 0) for status in all_statuses.keys()\n-        }\n+        complete_status_counts = [\n+            {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n+            for status in all_statuses.keys()\n+        ]\n \n         # Get the count of blogs where `is_deleted` is True\n         deleted_count = Blog.objects.filter(is_deleted=True).count()\n \n"
+                },
+                {
+                    "date": 1731493417314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -82,10 +82,10 @@\n             {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n             for status in all_statuses.keys()\n         ]\n \n-        # Get the count of blogs where `is_deleted` is True\n-        deleted_count = Blog.objects.filter(is_deleted=True).count()\n+        # # Get the count of blogs where `is_deleted` is True\n+        # deleted_count = Blog.objects.filter(is_deleted=True).count()\n \n         # Prepare the response data\n         response_data = {\n             'status_counts': complete_status_counts,\n"
                 }
             ],
             "date": 1730094601329,

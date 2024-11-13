@@ -62,14 +62,14 @@ class casestudyViewsets(viewsets.ModelViewSet):
     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']
     # ('title', 'description', 'site_title', 'excerpt', 'status', ',('published','Published'),('scheduled','Scheduled')),max_length', 'meta_description', 'meta_keywords', 'meta_author', 'tags', )
 
-    filterset_fields = {
-        'title':['exact'],
-        'status':['exact'],
-        'publish_date':['exact','gte','lte'],
-        'category':['exact'],
-        'is_deleted':['exact'],
-        'user':['exact']
-    }
+    # filterset_fields = {
+    #     'title':['exact'],
+    #     'status':['exact'],
+    #     'publish_date':['exact','gte','lte'],
+    #     'category':['exact'],
+    #     'is_deleted':['exact'],
+    #     'user':['exact']
+    # }
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -115,18 +115,18 @@ class casestudyViewsets(viewsets.ModelViewSet):
         # Convert the QuerySet result into a dictionary with counts
         status_count_dict = {item['status']: item['count'] for item in status_counts}
 
-        # Ensure all statuses are represented, even if count is 0
-        complete_status_counts = {
-            status: status_count_dict.get(status, 0) for status in all_statuses.keys()
-        }
+        complete_status_counts = [
+            {"name": all_statuses[status], "count": status_count_dict.get(status, 0)}
+            for status in all_statuses.keys()
+        ]
 
         # Get the count of blogs where `is_deleted` is True
-        deleted_count = CaseStudy.objects.filter(is_deleted=True).count()
+        # deleted_count = CaseStudy.objects.filter(is_deleted=True).count()
 
         # Prepare the response data
         response_data = {
             'status_counts': complete_status_counts,
-            'deleted_count': deleted_count,
+            # 'deleted_count': deleted_count,
             'total_count': CaseStudy.objects.count(),  # Total number of blogs
         }
         

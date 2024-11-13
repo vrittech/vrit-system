@@ -1,0 +1,26 @@
+{
+    "sourceFile": "notifications/models.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731494321659,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731494326771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,5 @@\n from django.db import models\n-\n-# Create your models here.\n-from django.db import models\n from django.contrib.auth import get_user_model\n from django.utils import timezone\n \n User = get_user_model()\n"
+                },
+                {
+                    "date": 1731494332567,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     message = models.TextField()\n     created_at = models.DateTimeField(default=timezone.now)\n     is_read = models.BooleanField(default=False)\n     users = models.ManyToManyField(User, related_name=\"notifications\")\n-    module_name = models.CharField(max_length=100)  # e.g., 'Blog', 'Order'\n+    module_name = models.CharField(max_length=100)\n \n     def __str__(self):\n         return f\"{self.title} - {self.module_name}\"\n"
+                }
+            ],
+            "date": 1731494321659,
+            "name": "Commit-0",
+            "content": "from django.db import models\n\n# Create your models here.\nfrom django.db import models\nfrom django.contrib.auth import get_user_model\nfrom django.utils import timezone\n\nUser = get_user_model()\n\nclass Notification(models.Model):\n    title = models.CharField(max_length=255)\n    message = models.TextField()\n    created_at = models.DateTimeField(default=timezone.now)\n    is_read = models.BooleanField(default=False)\n    users = models.ManyToManyField(User, related_name=\"notifications\")\n    module_name = models.CharField(max_length=100)  # e.g., 'Blog', 'Order'\n\n    def __str__(self):\n        return f\"{self.title} - {self.module_name}\"\n"
+        }
+    ]
+}
