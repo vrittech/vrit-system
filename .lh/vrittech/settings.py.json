@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 49,
+            "activePatchIndex": 50,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -204,6 +204,10 @@
                 {
                     "date": 1731496277001,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,11 +53,11 @@\n # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n \n # SECURITY WARNING: keep the secret key used in production secret!\n SECRET_KEY = 'django-insecure-z_v50#t3ksa39g*-$g_bj00(lw^st%@u68_xmcp!9wk*iuf*q$'\n+AUTH_USER_MODEL = 'accounts.CustomUser'\n \n \n-\n # Application definition\n \n INSTALLED_APPS = [\n     'django.contrib.admin',\n"
+                },
+                {
+                    "date": 1731496517294,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,9 +53,8 @@\n # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n \n # SECURITY WARNING: keep the secret key used in production secret!\n SECRET_KEY = 'django-insecure-z_v50#t3ksa39g*-$g_bj00(lw^st%@u68_xmcp!9wk*iuf*q$'\n-AUTH_USER_MODEL = 'accounts.CustomUser'\n \n \n # Application definition\n \n"
                 }
             ],
             "date": 1729763322697,

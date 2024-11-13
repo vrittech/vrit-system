@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1731494321659,
@@ -16,6 +16,22 @@
                 {
                     "date": 1731494332567,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,8 @@\n     message = models.TextField()\n     created_at = models.DateTimeField(default=timezone.now)\n     is_read = models.BooleanField(default=False)\n     users = models.ManyToManyField(User, related_name=\"notifications\")\n-    module_name = models.CharField(max_length=100)  # e.g., 'Blog', 'Order'\n+    module_name = models.CharField(max_length=100)\n \n     def __str__(self):\n         return f\"{self.title} - {self.module_name}\"\n"
+                },
+                {
+                    "date": 1731496697500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n from django.db import models\n from django.contrib.auth import get_user_model\n from django.utils import timezone\n \n-User = get_user_model()\n+# User = get_user_model()\n \n class Notification(models.Model):\n     title = models.CharField(max_length=255)\n     message = models.TextField()\n"
+                },
+                {
+                    "date": 1731496702785,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     title = models.CharField(max_length=255)\n     message = models.TextField()\n     created_at = models.DateTimeField(default=timezone.now)\n     is_read = models.BooleanField(default=False)\n-    users = models.ManyToManyField(User, related_name=\"notifications\")\n+    users = models.ManyToManyField(Cus, related_name=\"notifications\")\n     module_name = models.CharField(max_length=100)\n \n     def __str__(self):\n         return f\"{self.title} - {self.module_name}\"\n"
+                },
+                {
+                    "date": 1731496715042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,17 @@\n from django.db import models\n from django.contrib.auth import get_user_model\n from django.utils import timezone\n+from accounts.models import CustomUser\n \n # User = get_user_model()\n \n class Notification(models.Model):\n     title = models.CharField(max_length=255)\n     message = models.TextField()\n     created_at = models.DateTimeField(default=timezone.now)\n     is_read = models.BooleanField(default=False)\n-    users = models.ManyToManyField(Cus, related_name=\"notifications\")\n+    users = models.ManyToManyField(, related_name=\"notifications\")\n     module_name = models.CharField(max_length=100)\n \n     def __str__(self):\n         return f\"{self.title} - {self.module_name}\"\n"
+                },
+                {
+                    "date": 1731496720243,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     title = models.CharField(max_length=255)\n     message = models.TextField()\n     created_at = models.DateTimeField(default=timezone.now)\n     is_read = models.BooleanField(default=False)\n-    users = models.ManyToManyField(, related_name=\"notifications\")\n+    users = models.ManyToManyField(CustomUser, related_name=\"notifications\")\n     module_name = models.CharField(max_length=100)\n \n     def __str__(self):\n         return f\"{self.title} - {self.module_name}\"\n"
                 }
             ],
             "date": 1731494321659,
