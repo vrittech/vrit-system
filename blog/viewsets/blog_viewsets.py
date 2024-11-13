@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import Blog
+from ..models import Blog, BlogTags
 from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.response import Response
@@ -149,4 +149,23 @@ class blogViewsets(viewsets.ModelViewSet):
             target_obj.save()
 
         return Response({"status": "success"})
+    
+    @action(detail=False, methods=['get'], name="recent_tags", url_path="recent-tags")
+    def recent_tags(self, request, *args, **kwargs):
+        # Fetch recent blogs without slicing to avoid the distinct() limitation
+        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')
+        
+        # If no recent blogs with tags, return an appropriate message
+        if not recent_blogs.exists():
+            return Response({"message": "No recent tags used"})
 
+        # Get distinct tag IDs from recent blogs (without slicing)
+        recent_tag_ids = recent_blogs.values_list('tags', flat=True).distinct()
+        
+        # Fetch tags with annotation for blog usage frequency
+        recent_tags = BlogTags.objects.filter(id__in=recent_tag_ids).annotate(blog_count=Count('blog')).order_by('-blog_count')
+
+        # Serialize tags or create a simple response
+        tag_data = [{"id": tag.id, "name": tag.name, "blog_count": tag.blog_count} for tag in recent_tags]
+        
+        return Response(tag_data)

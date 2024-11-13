@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 45,
+            "activePatchIndex": 49,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -188,6 +188,22 @@
                 {
                     "date": 1731386942028,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,9 +65,35 @@\n         \n         # Convert the QuerySet to a list and return it in the response\n         return Response(list(authors))\n     \n-    CaseStudy\n+    @action(detail=False, methods=['get'], url_path='status-counts')\n+    def status_counts(self, request):\n+        # All possible statuses\n+        all_statuses = dict(Blog._meta.get_field('status').choices)\n+\n+        # Get the counts for each status from the database\n+        status_counts = Blog.objects.values('status').annotate(count=Count('id'))\n+\n+        # Convert the QuerySet result into a dictionary with counts\n+        status_count_dict = {item['status']: item['count'] for item in status_counts}\n+\n+        # Ensure all statuses are represented, even if count is 0\n+        complete_status_counts = {\n+            status: status_count_dict.get(status, 0) for status in all_statuses.keys()\n+        }\n+\n+        # Get the count of blogs where `is_deleted` is True\n+        deleted_count = Blog.objects.filter(is_deleted=True).count()\n+\n+        # Prepare the response data\n+        response_data = {\n+            'status_counts': complete_status_counts,\n+            'deleted_count': deleted_count,\n+            'total_count': Blog.objects.count(),  # Total number of blogs\n+        }\n+        \n+        return Response(response_data)\n     \n     @action(detail=False, methods=['get'], name=\"draggableBlog\", url_path=\"drag-blog\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n"
+                },
+                {
+                    "date": 1731474003000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -148,5 +148,17 @@\n             target_obj.position = goal_position\n             target_obj.save()\n \n         return Response({\"status\": \"success\"})\n+    \n+    @action(detail=False, methods=['get'], name=\"recent_tags\", url_path=\"recent-tags\")\n+    def recent_tags(self, request, *args, **kwargs):\n+        # Fetch the most recently used tags\n+        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')[:10]\n+        recent_tag_ids = recent_blogs.values_list('tags', flat=True).distinct()\n+        recent_tags = BlogTags.objects.filter(id__in=recent_tag_ids).annotate(blog_count=Count('blog')).order_by('-blog_count')\n \n+        # Serialize tags or create a simple response\n+        tag_data = [{\"id\": tag.id, \"name\": tag.name, \"blog_count\": tag.blog_count} for tag in recent_tags]\n+        \n+        return Response(tag_data)\n+\n"
+                },
+                {
+                    "date": 1731474015209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from rest_framework import viewsets\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n-from ..models import Blog\n+from ..models import Blog, B\n from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n"
+                },
+                {
+                    "date": 1731474026112,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from rest_framework import viewsets\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n-from ..models import Blog, B\n+from ..models import Blog, BlogTags\n from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers\n from ..utilities.importbase import *\n from rest_framework.response import Response\n from blog.utilities.permissions import blogPermission\n"
+                },
+                {
+                    "date": 1731474131544,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -151,14 +151,21 @@\n         return Response({\"status\": \"success\"})\n     \n     @action(detail=False, methods=['get'], name=\"recent_tags\", url_path=\"recent-tags\")\n     def recent_tags(self, request, *args, **kwargs):\n-        # Fetch the most recently used tags\n-        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')[:10]\n+        # Fetch recent blogs without slicing to avoid the distinct() limitation\n+        recent_blogs = Blog.objects.filter(tags__isnull=False).order_by('-created_at')\n+        \n+        # If no recent blogs with tags, return an appropriate message\n+        if not recent_blogs.exists():\n+            return Response({\"message\": \"No recent tags used\"})\n+\n+        # Get distinct tag IDs from recent blogs (without slicing)\n         recent_tag_ids = recent_blogs.values_list('tags', flat=True).distinct()\n+        \n+        # Fetch tags with annotation for blog usage frequency\n         recent_tags = BlogTags.objects.filter(id__in=recent_tag_ids).annotate(blog_count=Count('blog')).order_by('-blog_count')\n \n         # Serialize tags or create a simple response\n         tag_data = [{\"id\": tag.id, \"name\": tag.name, \"blog_count\": tag.blog_count} for tag in recent_tags]\n         \n-        return Response(tag_data)\n-\n+        return Response(tag_data)\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730094601329,

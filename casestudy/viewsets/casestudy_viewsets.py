@@ -39,7 +39,7 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from ..models import CaseStudy
+from ..models import CaseStudy, CaseStudyTags
 from ..serializers.casestudy_serializers import CaseStudyListSerializers, CaseStudyRetrieveSerializers, CaseStudyWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.response import Response
@@ -131,6 +131,26 @@ class casestudyViewsets(viewsets.ModelViewSet):
         }
         
         return Response(response_data)
+
+    @action(detail=False, methods=['get'], name="recent_tags", url_path="recent-tags")
+    def recent_tags(self, request, *args, **kwargs):
+        # Fetch recent case studies without slicing to avoid the distinct() limitation
+        recent_case_studies = CaseStudy.objects.filter(tags__isnull=False).order_by('-created_at')
+        
+        # If no recent case studies with tags, return an appropriate message
+        if not recent_case_studies.exists():
+            return Response({"message": "No recent tags used"})
+
+        # Get distinct tag IDs from recent case studies (without slicing)
+        recent_tag_ids = recent_case_studies.values_list('tags', flat=True).distinct()
+        
+        # Fetch tags with annotation for case study usage frequency
+        recent_tags = CaseStudyTags.objects.filter(id__in=recent_tag_ids).annotate(case_study_count=Count('casestudy')).order_by('-case_study_count')
+
+        # Serialize tags or create a simple response
+        tag_data = [{"id": tag.id, "name": tag.name, "case_study_count": tag.case_study_count} for tag in recent_tags]
+        
+        return Response(tag_data)
     
     @action(detail=False, methods=['get'], name="draggableCaseStudy", url_path="drag-case_study")
     def Draggable(self, request, *args, **kwargs):
