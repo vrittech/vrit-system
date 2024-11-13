@@ -1,0 +1,18 @@
+{
+    "sourceFile": "notifications/serializers/notification_serializers.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731496980800,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731496980800,
+            "name": "Commit-0",
+            "content": "# from rest_framework import serializers\n# from ..models import Notification\n\n# class NotificationListSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Notification\n#         fields = '__all__'\n\n# class NotificationRetrieveSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Notification\n#         fields = '__all__'\n\n# class NotificationWriteSerializers(serializers.ModelSerializer):\n#     class Meta:\n#         model = Notification\n#         fields = '__all__'"
+        }
+    ]
+}

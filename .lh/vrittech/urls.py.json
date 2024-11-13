@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 32,
+            "activePatchIndex": 33,
             "patches": [
                 {
                     "date": 1729764481763,
@@ -136,6 +136,10 @@
                 {
                     "date": 1731494848134,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,9 +84,9 @@\n router.registry.extend(testimonial_router.registry)\n router.registry.extend(sitesetting_router.registry)\n router.registry.extend(careergallery_router.registry)\n router.registry.extend(form_router.registry)\n-router.registry.extend(form_router.registry)\n+router.registry.extend(notifications_router.registry)\n # router.registry.extend(management_router.registry)\n \n position_management_viewset = PositionManagementViewSet.as_view({\n     'get': 'draggable'  # Map the 'get' request to the draggable action\n"
+                },
+                {
+                    "date": 1731497016081,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,9 +84,9 @@\n router.registry.extend(testimonial_router.registry)\n router.registry.extend(sitesetting_router.registry)\n router.registry.extend(careergallery_router.registry)\n router.registry.extend(form_router.registry)\n-router.registry.extend(notifications_router.registry)\n+# router.registry.extend(notifications_router.registry)\n # router.registry.extend(management_router.registry)\n \n position_management_viewset = PositionManagementViewSet.as_view({\n     'get': 'draggable'  # Map the 'get' request to the draggable action\n"
                 }
             ],
             "date": 1729764481763,

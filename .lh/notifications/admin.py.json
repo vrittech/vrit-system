@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1731494766123,
@@ -16,6 +16,10 @@
                 {
                     "date": 1731494781235,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n from django.contrib import admin\n from .models import Notification\n \n-admin.site.\n+admin.site.register(Notification)\n # Register your models here.\n"
+                },
+                {
+                    "date": 1731497044943,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n from django.contrib import admin\n-from .models import Notification\n+# from .models import Notification\n \n-admin.site.register(Notification)\n-# Register your models here.\n+# admin.site.register(Notification)\n"
                 }
             ],
             "date": 1731494766123,
