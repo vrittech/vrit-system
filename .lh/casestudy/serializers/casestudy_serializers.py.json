@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 36,
+            "activePatchIndex": 37,
             "patches": [
                 {
                     "date": 1730097911637,
@@ -152,6 +152,10 @@
                 {
                     "date": 1731478402576,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -98,9 +98,9 @@\n         featured_image = validated_data.pop('featured_image', None)\n         \n         user = self.context['request'].user\n         full_name = user.full_name or user.username  \n-        validated_data['created_by'] = full_name\n+        validated_data['author'] = full_name\n         validated_data['user'] = user\n \n         # Update instance fields if data is provided\n         for attr, value in validated_data.items():\n"
+                },
+                {
+                    "date": 1731482507223,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,8 +61,9 @@\n \n     class Meta:\n         model = CaseStudy\n         fields = '__all__'\n+        read_only_fields = ['user', 'author']\n \n     def validate_publish_date(self, value):\n         \"\"\"\n         Ensure that publish_date is in the future for scheduled blogs.\n"
                 }
             ],
             "date": 1730097911637,

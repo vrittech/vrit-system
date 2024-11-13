@@ -47,6 +47,7 @@ class BlogWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = '__all__'
+        read_only_fields = ['user', 'author']
 
     def validate_publish_date(self, value):
         """

@@ -62,6 +62,7 @@ class CaseStudyWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = CaseStudy
         fields = '__all__'
+        read_only_fields = ['user', 'author']
 
     def validate_publish_date(self, value):
         """
