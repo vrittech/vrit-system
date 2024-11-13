@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1730186349357,
@@ -12,6 +12,30 @@
                 {
                     "date": 1730186354708,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django.db.models.signals import post_save\n from django.dispatch import receiver\n from .models import Blog\n \n-@receiver(post_save, sender=Clients)\n+@receiver(post_save, sender=Blog)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n"
+                },
+                {
+                    "date": 1731477738486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,4 +8,13 @@\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n+\n+# Signal to remove deleted category from blogs\n+    @receiver(post_delete, sender=BlogCategory)\n+    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n+        # Get all blogs that contain the deleted category\n+        blogs_with_category = Blog.objects.filter(category=instance)\n+        for blog in blogs_with_category:\n+            # Remove the deleted category from each blog's categories\n+            blog.category.remove(instance)\n"
+                },
+                {
+                    "date": 1731477749190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         instance.position = instance.id\n         instance.save()\n \n # Signal to remove deleted category from blogs\n-    @receiver(post_delete, sender=BlogCategory)\n+@receiver(post_delete, sender=BlogCategory)\n     def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n         # Get all blogs that contain the deleted category\n         blogs_with_category = Blog.objects.filter(category=instance)\n         for blog in blogs_with_category:\n"
+                },
+                {
+                    "date": 1731477762059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,10 @@\n \n # Signal to remove deleted category from blogs\n @receiver(post_delete, sender=BlogCategory)\n     def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n+    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n+    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n         # Get all blogs that contain the deleted category\n         blogs_with_category = Blog.objects.filter(category=instance)\n         for blog in blogs_with_category:\n             # Remove the deleted category from each blog's categories\n"
+                },
+                {
+                    "date": 1731477768481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,12 +11,10 @@\n         instance.save()\n \n # Signal to remove deleted category from blogs\n @receiver(post_delete, sender=BlogCategory)\n-    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n-    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n-    def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n-        # Get all blogs that contain the deleted category\n-        blogs_with_category = Blog.objects.filter(category=instance)\n-        for blog in blogs_with_category:\n-            # Remove the deleted category from each blog's categories\n-            blog.category.remove(instance)\n+def remove_deleted_category_from_blogs(sender, instance, **kwargs):\n+    # Get all blogs that contain the deleted category\n+    blogs_with_category = Blog.objects.filter(category=instance)\n+    for blog in blogs_with_category:\n+        # Remove the deleted category from each blog's categories\n+        blog.category.remove(instance)\n"
+                },
+                {
+                    "date": 1731477776278,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n # signals.py\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n-from .models import Blog\n+from .models import Blog, BlogCategory\n \n @receiver(post_save, sender=Blog)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n"
+                },
+                {
+                    "date": 1731477782640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n # signals.py\n \n-from django.db.models.signals import post_save\n+from django.db.models.signals import post_save,post_delete\n from django.dispatch import receiver\n from .models import Blog, BlogCategory\n \n @receiver(post_save, sender=Blog)\n"
                 }
             ],
             "date": 1730186349357,

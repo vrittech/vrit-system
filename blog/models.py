@@ -4,6 +4,9 @@ import ast
 from django.utils import timezone
 import uuid
 from django.utils.text import slugify
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
 
 class BlogTags(models.Model):
     name = models.CharField(max_length = 155)
@@ -60,7 +63,7 @@ class Blog(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    category = models.ManyToManyField(BlogCategory,null=True, blank= True)
+    category = models.ManyToManyField(BlogCategory,null=True, blank= True,)
     featured_image = models.ImageField(upload_to='blog',null = True)
     
     is_deleted = models.BooleanField(default= False)
@@ -90,4 +93,4 @@ class Blog(models.Model):
         scheduled_blogs = cls.objects.filter(status='scheduled', publish_date__lte=timezone.now().date())
         for blog in scheduled_blogs:
             blog.publish_if_scheduled()
-
+            
