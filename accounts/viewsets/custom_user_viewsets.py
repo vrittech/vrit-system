@@ -39,3 +39,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Password changed successfully"}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['get'], name="GetSelfDetail", url_path="me")
+    def GetSelfDetail(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)  
