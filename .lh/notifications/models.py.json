@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1731494321659,
@@ -36,6 +36,14 @@
                 {
                     "date": 1731496971211,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,17 @@\n-from django.db import models\n-from django.contrib.auth import get_user_model\n-from django.utils import timezone\n-from accounts.models import CustomUser\n+# from django.db import models\n+# from django.contrib.auth import get_user_model\n+# from django.utils import timezone\n+# from accounts.models import CustomUser\n \n-# User = get_user_model()\n+# # User = get_user_model()\n \n-class Notification(models.Model):\n-    title = models.CharField(max_length=255)\n-    message = models.TextField()\n-    created_at = models.DateTimeField(default=timezone.now)\n-    is_read = models.BooleanField(default=False)\n-    users = models.ManyToManyField(CustomUser, related_name=\"notifications\")\n-    module_name = models.CharField(max_length=100)\n+# class Notification(models.Model):\n+#     title = models.CharField(max_length=255)\n+#     message = models.TextField()\n+#     created_at = models.DateTimeField(default=timezone.now)\n+#     is_read = models.BooleanField(default=False)\n+#     users = models.ManyToManyField(CustomUser, related_name=\"notifications\")\n+#     module_name = models.CharField(max_length=100)\n \n-    def __str__(self):\n-        return f\"{self.title} - {self.module_name}\"\n+#     def __str__(self):\n+#         return f\"{self.title} - {self.module_name}\"\n"
+                },
+                {
+                    "date": 1731497271792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,17 +1,17 @@\n-# from django.db import models\n-# from django.contrib.auth import get_user_model\n-# from django.utils import timezone\n-# from accounts.models import CustomUser\n+from django.db import models\n+from django.contrib.auth import get_user_model\n+from django.utils import timezone\n+from accounts.models import CustomUser\n \n-# # User = get_user_model()\n+# User = get_user_model()\n \n-# class Notification(models.Model):\n-#     title = models.CharField(max_length=255)\n-#     message = models.TextField()\n-#     created_at = models.DateTimeField(default=timezone.now)\n-#     is_read = models.BooleanField(default=False)\n-#     users = models.ManyToManyField(CustomUser, related_name=\"notifications\")\n-#     module_name = models.CharField(max_length=100)\n+class Notification(models.Model):\n+    title = models.CharField(max_length=255)\n+    message = models.TextField()\n+    created_at = models.DateTimeField(default=timezone.now)\n+    is_read = models.BooleanField(default=False)\n+    users = models.ManyToManyField(CustomUser, related_name=\"notifications\")\n+    module_name = models.CharField(max_length=100)\n \n-#     def __str__(self):\n-#         return f\"{self.title} - {self.module_name}\"\n+    def __str__(self):\n+        return f\"{self.title} - {self.module_name}\"\n"
+                },
+                {
+                    "date": 1731498051553,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.db import models\n-from django.contrib.auth import get_user_model\n+# from django.contrib.auth import get_user_model\n from django.utils import timezone\n from accounts.models import CustomUser\n \n # User = get_user_model()\n"
                 }
             ],
             "date": 1731494321659,

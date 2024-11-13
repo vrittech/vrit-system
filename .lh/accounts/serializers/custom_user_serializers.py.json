@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1731481641980,
@@ -52,6 +52,18 @@
                 {
                     "date": 1731481936684,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,8 @@\n         return instance\n \n class CustomUserRetrieveSerializer(serializers.ModelSerializer):\n     department = DepartmentSerializer(read_only = True)\n-\n     class Meta:\n         model = User\n         fields = ['id', 'username', 'email', 'first_name', 'last_name','department', 'is_active', 'is_staff', 'is_superuser']\n \n"
+                },
+                {
+                    "date": 1731498913029,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n class CustomUserWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = User\n-        fields = ['username', 'email', 'first_name', 'last_name', 'password','department']\n+        fields = \n         extra_kwargs = {\n             'password': {'write_only': True}\n         }\n \n"
+                },
+                {
+                    "date": 1731498918139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n class CustomUserWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = User\n-        fields = \n+        fields = '__all__'\n         extra_kwargs = {\n             'password': {'write_only': True}\n         }\n \n"
+                },
+                {
+                    "date": 1731499084361,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n \n class CustomUserWriteSerializer(serializers.ModelSerializer):\n     class Meta:\n         model = User\n-        fields = '__all__'\n+        fields = ['username', 'email', 'first_name', 'last_name', 'password','department']\n         extra_kwargs = {\n             'password': {'write_only': True}\n         }\n \n"
                 }
             ],
             "date": 1731481641980,
