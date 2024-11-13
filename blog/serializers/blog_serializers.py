@@ -70,7 +70,7 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         user = self.context['request'].user
         full_name = user.full_name or user.username  
 
-        validated_data['created_by'] = full_name
+        validated_data['author'] = full_name
         validated_data['user'] = user
         
         blog = Blog.objects.create(**validated_data)
@@ -86,7 +86,7 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         
         user = self.context['request'].user
         full_name = user.full_name or user.username  
-        validated_data['created_by'] = full_name
+        validated_data['author'] = full_name
         validated_data['user'] = user
 
         # Update instance fields if data is provided

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 34,
+            "activePatchIndex": 36,
             "patches": [
                 {
                     "date": 1730097911637,
@@ -144,6 +144,14 @@
                 {
                     "date": 1731396494428,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -72,10 +72,10 @@\n         return value\n     def validate(self, data):\n         # Check if the position already exists in another Career\n         position = data.get('position')\n-        if position and Case.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"position\": \"A blog with this position already exists.\"})\n+        if position and CaseStudy.objects.filter(position=position).exists():\n+            raise serializers.ValidationError({\"position\": \"A case with this position already exists.\"})\n         return data\n \n     def create(self, validated_data):\n         tags_data = validated_data.pop('tags', [])\n"
+                },
+                {
+                    "date": 1731478389342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,18 +73,18 @@\n     def validate(self, data):\n         # Check if the position already exists in another Career\n         position = data.get('position')\n         if position and CaseStudy.objects.filter(position=position).exists():\n-            raise serializers.ValidationError({\"position\": \"A case with this position already exists.\"})\n+            raise serializers.ValidationError({\"position\": \"A case-study with this position already exists.\"})\n         return data\n \n     def create(self, validated_data):\n         tags_data = validated_data.pop('tags', [])\n         category_data = validated_data.pop('category', [])\n         \n         user = self.context['request'].user\n         full_name = user.full_name or user.username  \n-        validated_data['created_by'] = full_name\n+        validated_data['author'] = full_name\n         validated_data['user'] = user\n         \n         blog = CaseStudy.objects.create(**validated_data)\n         blog.tags.set(CaseStudy.tag_manager.get_or_create_tags(tags_data))\n"
+                },
+                {
+                    "date": 1731478402576,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -98,9 +98,9 @@\n         featured_image = validated_data.pop('featured_image', None)\n         \n         user = self.context['request'].user\n         full_name = user.full_name or user.username  \n-        validated_data['created_by'] = full_name\n+        validated_data['author'] = full_name\n         validated_data['user'] = user\n \n         # Update instance fields if data is provided\n         for attr, value in validated_data.items():\n"
                 }
             ],
             "date": 1730097911637,
