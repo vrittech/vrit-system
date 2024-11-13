@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1730186109034,
@@ -12,6 +12,18 @@
                 {
                     "date": 1730186117934,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django.db.models.signals import post_save\n from django.dispatch import receiver\n from .models import CaseStudy\n \n-@receiver(post_save, sender=Plan)\n+@receiver(post_save, sender=CaseStudy)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n"
+                },
+                {
+                    "date": 1731477913542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,4 +8,17 @@\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n+        \n+from django.db.models.signals import post_delete\n+from django.dispatch import receiver\n+from .models import CaseStudy, CaseStudyCategory\n+\n+@receiver(post_delete, sender=CaseStudyCategory)\n+def remove_deleted_category_from_case_studies(sender, instance, **kwargs):\n+    # Get all case studies that contain the deleted category\n+    case_studies_with_category = CaseStudy.objects.filter(category=instance)\n+    for case_study in case_studies_with_category:\n+        # Remove the deleted category from each case study's categories\n+        case_study.category.remove(instance)\n+\n"
+                },
+                {
+                    "date": 1731477926995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n # signals.py\n \n-from django.db.models.signals import post_save\n+from django.db.models.signals import post_save,post_delete\n from django.dispatch import receiver\n-from .models import CaseStudy\n+from .models import CaseStudy,CaseStudyCategory\n \n @receiver(post_save, sender=CaseStudy)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n@@ -11,9 +11,9 @@\n         instance.save()\n         \n from django.db.models.signals import post_delete\n from django.dispatch import receiver\n-from .models import CaseStudy, CaseStudyCategory\n+from .models import CaseStudy, \n \n @receiver(post_delete, sender=CaseStudyCategory)\n def remove_deleted_category_from_case_studies(sender, instance, **kwargs):\n     # Get all case studies that contain the deleted category\n"
+                },
+                {
+                    "date": 1731477933908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,12 +9,8 @@\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n         \n-from django.db.models.signals import post_delete\n-from django.dispatch import receiver\n-from .models import CaseStudy, \n-\n @receiver(post_delete, sender=CaseStudyCategory)\n def remove_deleted_category_from_case_studies(sender, instance, **kwargs):\n     # Get all case studies that contain the deleted category\n     case_studies_with_category = CaseStudy.objects.filter(category=instance)\n"
                 }
             ],
             "date": 1730186109033,

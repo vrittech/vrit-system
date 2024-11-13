@@ -63,7 +63,7 @@ class Blog(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    category = models.ManyToManyField(BlogCategory,null=True, blank= True,)
+    category = models.ManyToManyField(BlogCategory, blank= True,)
     featured_image = models.ImageField(upload_to='blog',null = True)
     
     is_deleted = models.BooleanField(default= False)
