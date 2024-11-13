@@ -42,4 +42,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'], name="GetSelfDetail", url_path="me")
     def GetSelfDetail(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)  
+        self.object = request.user  # Set the object directly to the current user
+        serializer = self.get_serializer(self.object)
+        return Response(serializer.data)
