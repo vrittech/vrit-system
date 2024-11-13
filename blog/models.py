@@ -40,12 +40,13 @@ class TagManager(models.Manager):
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
     author =models.CharField(max_length=150, blank=True)
+    read_time =models.CharField(max_length=150, blank=True)
     title = models.CharField(max_length = 300,unique= True)
     description = models.TextField()
     site_title = models.CharField(max_length = 300)
     excerpt = models.CharField(max_length = 300)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled')),max_length = 20,default = 'draft')
-    publish_date = models.DateTimeField()
+    publish_date = models.DateTimeField(null = True,blank=True)
     meta_description = models.CharField(max_length = 1200)
     meta_keywords = models.CharField(max_length = 800)
     meta_author = models.CharField(max_length = 300)
@@ -59,7 +60,7 @@ class Blog(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    category = models.ManyToManyField(BlogCategory)
+    category = models.ManyToManyField(BlogCategory,null=True, blank= True)
     featured_image = models.ImageField(upload_to='blog',null = True)
     
     is_deleted = models.BooleanField(default= False)

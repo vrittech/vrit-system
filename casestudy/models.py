@@ -53,7 +53,7 @@ class CaseStudy(models.Model):
     objects = models.Manager()
     tag_manager = TagManager()
 
-    category = models.ManyToManyField(CaseStudyCategory)
+    category = models.ManyToManyField(CaseStudyCategory,null=True, blank= True)
     featured_image = models.ImageField(upload_to='case_study',null = True)
     
     is_deleted = models.BooleanField(default= False)
