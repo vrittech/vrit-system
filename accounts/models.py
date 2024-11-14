@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)
     position = models.CharField(max_length = 250)
     email = models.EmailField(max_length = 250,unique = True)
+    full_name = models.CharField(max_length = 250,null = True)
 
     avatar = models.ImageField(upload_to='profile',null=True,blank=True)
     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)

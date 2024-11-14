@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 23,
             "patches": [
                 {
                     "date": 1731409947014,
@@ -88,6 +88,18 @@
                 {
                     "date": 1731575310639,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,10 +4,8 @@\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n-    full_name = models.CharField(max_length = 250)\n-\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n"
+                },
+                {
+                    "date": 1731576457859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n+    full_name = mode\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
+                },
+                {
+                    "date": 1731576463093,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n-    full_name = mode\n+    full_name = models.CharField\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
+                },
+                {
+                    "date": 1731576469701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n-    full_name = models.CharField\n+    full_name = models.CharField(max_length = 250,null = True)\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
                 }
             ],
             "date": 1731409947014,

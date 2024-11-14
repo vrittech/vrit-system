@@ -69,3 +69,4 @@ class blogCategoryPermission(BasePermission):
             return request.user.has_perm('blog.change_blogcategory') and allAdminLevel(request)
         elif view.action == 'destroy':
             return request.user.has_perm('blog.delete_blogcategory')
+0
