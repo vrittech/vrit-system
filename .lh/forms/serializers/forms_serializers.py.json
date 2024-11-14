@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1730176709027,
@@ -52,6 +52,18 @@
                 {
                     "date": 1730272993661,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n             'category',\n             'description',\n             'header_code',\n             'embedded_code',\n-            'image',\n+            'media',\n             'excerpt',\n             'auto_expiration',\n             'auto_expiration_date',\n             'position',\n"
+                },
+                {
+                    "date": 1731560759792,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,24 +19,9 @@\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n-        fields = [\n-            'id',\n-            'title',\n-            'category',\n-            'description',\n-            'header_code',\n-            'embedded_code',\n-            'media',\n-            'excerpt',\n-            'auto_expiration',\n-            'is_expired',\n-            'auto_expiration_date',\n-            'position',\n-            'created_at',\n-            'updated_at',\n-        ]\n+        fields =\n \n \n class FormsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n"
+                },
+                {
+                    "date": 1731560765139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     category = CategorySerializer(read_only=True)\n \n     class Meta:\n         model = Forms\n-        fields =\n+        fields ='__all__'\n \n \n class FormsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n"
+                },
+                {
+                    "date": 1731560771716,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,20 +25,9 @@\n \n class FormsWriteSerializers(serializers.ModelSerializer):\n     class Meta:\n         model = Forms\n-        fields = [\n-            'title',\n-            'category',\n-            'description',\n-            'header_code',\n-            'embedded_code',\n-            'media',\n-            'excerpt',\n-            'auto_expiration',\n-            'auto_expiration_date',\n-            'position',\n-        ]\n+        fields ='__all__'\n \n     def validate(self, data):\n         # Ensure that if 'auto_expiration' is True, 'auto_expiration_date' is provided\n         if data.get('auto_expiration') and not data.get('auto_expiration_date'):\n"
                 }
             ],
             "date": 1730176709027,

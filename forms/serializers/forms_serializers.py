@@ -20,39 +20,13 @@ class FormsRetrieveSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Forms
-        fields = [
-            'id',
-            'title',
-            'category',
-            'description',
-            'header_code',
-            'embedded_code',
-            'media',
-            'excerpt',
-            'auto_expiration',
-            'is_expired',
-            'auto_expiration_date',
-            'position',
-            'created_at',
-            'updated_at',
-        ]
+        fields ='__all__'
 
 
 class FormsWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Forms
-        fields = [
-            'title',
-            'category',
-            'description',
-            'header_code',
-            'embedded_code',
-            'media',
-            'excerpt',
-            'auto_expiration',
-            'auto_expiration_date',
-            'position',
-        ]
+        fields ='__all__'
 
     def validate(self, data):
         # Ensure that if 'auto_expiration' is True, 'auto_expiration_date' is provided

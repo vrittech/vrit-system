@@ -9,11 +9,11 @@ class categoryViewsets(viewsets.ModelViewSet):
     serializer_class = CategoryListSerializers
     # permission_classes = [formsPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
-    queryset = Category.objects.all()
+    pagination_class = MyPageNumberPagination
+    queryset = Category.objects.all().order_by('-id')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
+    search_fields = ['id','name']
     ordering_fields = ['id']
 
     # filterset_fields = {
@@ -22,7 +22,7 @@ class categoryViewsets(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        #return queryset.filter(user_id=self.request.user.id)
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 29,
             "patches": [
                 {
                     "date": 1730176761000,
@@ -56,6 +56,74 @@
                 {
                     "date": 1731404185899,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n from django.db.models.functions import Coalesce\n from rest_framework.decorators import action\n from rest_framework.response import Response\n from rest_framework import viewsets\n-from .models import Forms, Category\n+from ..models import Forms, Category\n \n class formsViewsets(viewsets.ModelViewSet):\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n"
+                },
+                {
+                    "date": 1731560484681,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,12 +56,17 @@\n \n         # Total count of all forms\n         total_count = Forms.objects.count()\n \n-        # Format the response\n-        response_data = {\n-            \"category_counts\": category_counts,\n-            \"total_count\": total_count\n-        }\n+        complete_status_counts = [\n+    {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n+    for status in all_statuses.keys()\n+]\n \n+# Example of the final response structure with total count\n+response_data = {\n+    \"status_counts\": complete_status_counts,\n+    \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n+}\n+\n         return Response(response_data)\n \n"
+                },
+                {
+                    "date": 1731560491534,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,14 +59,14 @@\n \n         complete_status_counts = [\n     {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n     for status in all_statuses.keys()\n-]\n+    ]\n \n-# Example of the final response structure with total count\n-response_data = {\n-    \"status_counts\": complete_status_counts,\n-    \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n-}\n+    # Example of the final response structure with total count\n+    response_data = {\n+        \"status_counts\": complete_status_counts,\n+        \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n+    }\n \n         return Response(response_data)\n \n"
+                },
+                {
+                    "date": 1731560498305,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,16 +57,16 @@\n         # Total count of all forms\n         total_count = Forms.objects.count()\n \n         complete_status_counts = [\n-    {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n+        {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n     for status in all_statuses.keys()\n-    ]\n+        ]       \n \n-    # Example of the final response structure with total count\n-    response_data = {\n-        \"status_counts\": complete_status_counts,\n-        \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n-    }\n+        # Example of the final response structure with total count\n+        response_data = {\n+            \"status_counts\": complete_status_counts,\n+            \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n+        }\n \n         return Response(response_data)\n \n"
+                },
+                {
+                    "date": 1731560503534,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,10 +58,10 @@\n         total_count = Forms.objects.count()\n \n         complete_status_counts = [\n         {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n-    for status in all_statuses.keys()\n-        ]       \n+        for status in all_statuses.keys()\n+            ]       \n \n         # Example of the final response structure with total count\n         response_data = {\n             \"status_counts\": complete_status_counts,\n"
+                },
+                {
+                    "date": 1731560526602,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,17 +56,12 @@\n \n         # Total count of all forms\n         total_count = Forms.objects.count()\n \n-        complete_status_counts = [\n-        {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n-        for status in all_statuses.keys()\n-            ]       \n-\n-        # Example of the final response structure with total count\n+        # Format the response\n         response_data = {\n-            \"status_counts\": complete_status_counts,\n-            \"total_count\": sum(status_count_dict.values())  # Calculate the total count if needed\n+            \"category_counts\": category_counts,\n+            \"total_count\": total_count\n         }\n \n         return Response(response_data)\n \n"
+                },
+                {
+                    "date": 1731560577294,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -53,14 +53,20 @@\n             .values('name', 'count')\n             .order_by('name')\n         )\n \n+        # Convert QuerySet to a list of dictionaries for direct JSON serialization\n+        formatted_category_counts = [\n+            {\"name\": category['name'], \"count\": category['count']}\n+            for category in category_counts\n+        ]\n+\n         # Total count of all forms\n         total_count = Forms.objects.count()\n \n         # Format the response\n         response_data = {\n-            \"category_counts\": category_counts,\n+            \"category_counts\": formatted_category_counts,\n             \"total_count\": total_count\n         }\n \n         return Response(response_data)\n"
+                },
+                {
+                    "date": 1731560808451,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n     # authentication_classes = [JWTAuthentication]\n     #pagination_class = MyPageNumberPagination\n-    queryset = Forms.objects.all()\n+    queryset = Forms.objects.all().or\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]\n     ordering_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code','excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]\n"
+                },
+                {
+                    "date": 1731560820369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n     # authentication_classes = [JWTAuthentication]\n     #pagination_class = MyPageNumberPagination\n-    queryset = Forms.objects.all().or\n+    queryset = Forms.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]\n     ordering_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code','excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]\n"
+                },
+                {
+                    "date": 1731560841247,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        #return queryset.filter(user_id=self.request.user.id)\n+        #return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return FormsWriteSerializers\n"
+                },
+                {
+                    "date": 1731561022992,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,13 +26,14 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n+        'is_show': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        #return queryset\n+        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return FormsWriteSerializers\n"
+                },
+                {
+                    "date": 1731561163358,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,10 @@\n     filterset_fields = {\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n-        'is_show': ['exact'],\n+        'is_expired': ['exact'],\n+        'is_expired': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1731561169254,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n         'is_expired': ['exact'],\n-        'is_expired': ['exact'],\n+        'created_at': ['exact'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1731561176331,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n         'is_expired': ['exact'],\n-        'created_at': ['exact'],\n+        'created_at': ['exact',],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1731561181887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n         'is_expired': ['exact'],\n-        'created_at': ['exact',],\n+        'created_at': ['exact','gte','lte'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                },
+                {
+                    "date": 1731561206297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n class formsViewsets(viewsets.ModelViewSet):\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n     # authentication_classes = [JWTAuthentication]\n-    #pagination_class = MyPageNumberPagination\n+    pagination_class = MyPageNumberPagination\n     queryset = Forms.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]\n"
+                },
+                {
+                    "date": 1731562073816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,35 @@\n             return FormsWriteSerializers\n         elif self.action == 'retrieve':\n             return FormsRetrieveSerializers\n         return super().get_serializer_class()\n+    \n+    ef create(self, request, *args, **kwargs):\n+        serializer = self.get_serializer(data=request.data)\n+        serializer.is_valid(raise_exception=True)\n+        self.perform_create(serializer)\n+        \n+        response_data = {\n+            \"message\": \"Created successfully\",\n+            \"data\": serializer.data\n+        }\n+        \n+        return Response(response_data, status=status.HTTP_201_CREATED)\n \n+    def update(self, request, *args, **kwargs):\n+        partial = kwargs.pop('partial', False)\n+        instance = self.get_object()\n+        serializer = self.get_serializer(instance, data=request.data, partial=partial)\n+        serializer.is_valid(raise_exception=True)\n+        self.perform_update(serializer)\n+        \n+        response_data = {\n+            \"message\": \"Updated successfully\",\n+            \"data\": serializer.data\n+        }\n+        \n+        return Response(response_data, status=status.HTTP_200_OK)\n+\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n"
+                },
+                {
+                    "date": 1731562079703,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,9 +41,9 @@\n         elif self.action == 'retrieve':\n             return FormsRetrieveSerializers\n         return super().get_serializer_class()\n     \n-    ef create(self, request, *args, **kwargs):\n+    def create(self, request, *args, **kwargs):\n         serializer = self.get_serializer(data=request.data)\n         serializer.is_valid(raise_exception=True)\n         self.perform_create(serializer)\n         \n"
                 }
             ],
             "date": 1730176761000,

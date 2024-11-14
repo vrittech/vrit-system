@@ -15,8 +15,8 @@ class formsViewsets(viewsets.ModelViewSet):
     serializer_class = FormsListSerializers
     # permission_classes = [formsPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
-    queryset = Forms.objects.all()
+    pagination_class = MyPageNumberPagination
+    queryset = Forms.objects.all().order_by('position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]
@@ -27,11 +27,13 @@ class formsViewsets(viewsets.ModelViewSet):
         'id': ['exact'],
         'auto_expiration_date': ['exact'],
         'is_show': ['exact'],
+        'is_expired': ['exact'],
+        'created_at': ['exact','gte','lte'],
     }
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        #return queryset.filter(user_id=self.request.user.id)
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -39,6 +41,32 @@ class formsViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return FormsRetrieveSerializers
         return super().get_serializer_class()
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        response_data = {
+            "message": "Created successfully",
+            "data": serializer.data
+        }
+        
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        
+        response_data = {
+            "message": "Updated successfully",
+            "data": serializer.data
+        }
+        
+        return Response(response_data, status=status.HTTP_200_OK)
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
     # def action_name(self, request, *args, **kwargs):
@@ -54,12 +82,18 @@ class formsViewsets(viewsets.ModelViewSet):
             .order_by('name')
         )
 
+        # Convert QuerySet to a list of dictionaries for direct JSON serialization
+        formatted_category_counts = [
+            {"name": category['name'], "count": category['count']}
+            for category in category_counts
+        ]
+
         # Total count of all forms
         total_count = Forms.objects.count()
 
         # Format the response
         response_data = {
-            "category_counts": category_counts,
+            "category_counts": formatted_category_counts,
             "total_count": total_count
         }
 
