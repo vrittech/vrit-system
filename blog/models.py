@@ -55,23 +55,23 @@ class TagManager(models.Manager):
 
 class Blog(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'blogs',on_delete=models.CASCADE)
-    author =models.CharField(max_length=150, blank=True)
+    author =models.CharField(max_length=150, blank=True,null=True)
     read_time =models.CharField(max_length=150, blank=True)
     title = models.CharField(max_length = 300,unique= True)
-    description = models.TextField()
-    site_title = models.CharField(max_length = 300)
-    excerpt = models.CharField(max_length = 300)
+    description = models.TextField(blank=True,null=True)
+    site_title = models.CharField(max_length = 300, blank=True,null=True)
+    excerpt = models.CharField(max_length = 300, blank=True,null=True)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled'),('deleted','Deleted')),max_length = 20,default = 'draft')
     publish_date = models.DateTimeField(null = True,blank=True)
-    meta_description = models.CharField(max_length = 1200)
-    meta_keywords = models.CharField(max_length = 800)
-    meta_author = models.CharField(max_length = 300)
-    tags = models.ManyToManyField(BlogTags)
+    meta_description = models.CharField(max_length = 1200, blank=True,null=True)
+    meta_keywords = models.CharField(max_length = 800, blank=True,null=True)
+    meta_author = models.CharField(max_length = 300, blank=True,null=True)
+    tags = models.ManyToManyField(BlogTags, blank=True)
     position = models.PositiveIntegerField(default= 9999)
     
     
-    header_code =  models.TextField(default = "")
-    embedded_code =  models.TextField(default = "")
+    header_code =  models.TextField(default = "", blank=True,null=True)
+    embedded_code =  models.TextField(default = "", blank=True,null=True)
 
     objects = models.Manager()
     tag_manager = TagManager()
