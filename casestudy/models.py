@@ -46,18 +46,18 @@ class TagManager(models.Manager):
 
 class CaseStudy(models.Model):
     user = models.ForeignKey(CustomUser,related_name = 'case_study',on_delete=models.CASCADE,null=True)
-    author =models.CharField(max_length=150, blank=True)
-    read_time =models.CharField(max_length=150, blank=True)
-    title = models.CharField(max_length = 300)
-    description = models.TextField()
+    author =models.CharField(max_length=150, blank=True,null=True)
+    read_time =models.CharField(max_length=150, blank=True,null=True)
+    title = models.CharField(max_length = 1300, blank=True,null=True)
+    description = models.TextField(blank=True,null=True)
     site_title = models.CharField(max_length = 300,null=True,blank=True)
-    excerpt = models.CharField(max_length = 300)
+    excerpt = models.CharField(max_length = 1300, blank=True,null=True)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled'),('deleted','Deleted')),max_length = 20,default = 'draft')
     publish_date = models.DateField(null=True,blank=True)
-    meta_description = models.CharField(max_length = 1200)
-    meta_keywords = models.CharField(max_length = 800)
-    meta_author = models.CharField(max_length = 300)
-    tags = models.ManyToManyField(CaseStudyTags)
+    meta_description = models.CharField(max_length = 1200, blank=True,null=True)
+    meta_keywords = models.CharField(max_length = 800, blank=True,null=True)
+    meta_author = models.CharField(max_length = 300, blank=True,null=True)
+    tags = models.ManyToManyField(CaseStudyTags, blank=True)
     position = models.PositiveIntegerField(default= 9999)
     
     
@@ -68,7 +68,7 @@ class CaseStudy(models.Model):
     tag_manager = TagManager()
 
     category = models.ManyToManyField(CaseStudyCategory,blank= True)
-    featured_image = models.ImageField(upload_to='case_study',null = True)
+    featured_image = models.ImageField(upload_to='case_study', blank=True,null=True)
     
     is_deleted = models.BooleanField(default= False)
 
