@@ -39,11 +39,11 @@ class Project(models.Model):
     # image = models.ImageField(upload_to='project',null=True,blank=True)
     name = models.CharField(max_length = 600)
     position = models.PositiveIntegerField(default=9999)
-    description = models.TextField()
+    description = models.TextField(blank=True,null=True)
     group = models.ForeignKey(ProjectGroup,on_delete = models.SET_NULL ,null = True,related_name="projects")
-    project_service = models.ManyToManyField(ProjectService,related_name="project_services")
-    project_link = models.ManyToManyField(ProjectLink,related_name="project_link")
-    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,null = True,related_name="project_case")
+    project_service = models.ManyToManyField(ProjectService,related_name="project_services",blank=True)
+    project_link = models.ManyToManyField(ProjectLink,related_name="project_link",blank=True)
+    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,related_name="project_case",blank=True,null=True)
 
     media = models.ImageField(upload_to="project",null=True,blank=True)
  
