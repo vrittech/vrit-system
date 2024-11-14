@@ -96,19 +96,7 @@ class BlogWriteSerializers(serializers.ModelSerializer):
             data = str_to_list(data, 'category')
         return super().to_internal_value(data)
 
-    def validate_publish_date(self, value):
-        """
-        Ensure that publish_date is in the future for scheduled blogs.
-        """
-        # Convert value to datetime if it's only a date
-        if isinstance(value, datetime.date) and not isinstance(value, datetime):
-            value = datetime.combine(value, datetime.min.time(), timezone.get_current_timezone())
-        
-        # Check if status is 'scheduled' and if publish_date is in the future
-        if self.initial_data.get('status') == 'scheduled' and value <= timezone.now():
-            raise serializers.ValidationError("Publish date must be in the future for scheduled blogs.")
-        return value
-    
+
     def validate(self, data):
         # Ensure unique `position` for the blog
         position = data.get('position')
