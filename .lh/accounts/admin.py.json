@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 15,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1731411282420,
@@ -68,6 +68,10 @@
                 {
                     "date": 1731570099236,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image']\n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image','avatar']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
+                },
+                {
+                    "date": 1731574403651,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,14 +4,17 @@\n from .models import CustomUser, GroupExtension\n \n class CustomUserAdmin(BaseUserAdmin):\n     exclude = ('groups', 'user_permissions',)\n+    \n+    # Only include fields that are present in the model\n     fieldsets = (\n         (None, {'fields': ('username', 'password')}),\n-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n-        ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),\n     )\n-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image','avatar']\n+    \n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
                 }
             ],
             "date": 1731411282420,
