@@ -59,7 +59,7 @@ from testimonial.routers.routers import router as testimonial_router
 from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
 from forms.routers.routers import router as form_router
-# from notifications.routers.routers import router as notifications_router
+from notifications.routers.routers import router as notifications_router
 
 from vrittech.utilities.bulk_delete import BulkDelete
 from vrittech.utilities.position_management import PositionManagementViewSet
@@ -85,7 +85,7 @@ router.registry.extend(testimonial_router.registry)
 router.registry.extend(sitesetting_router.registry)
 router.registry.extend(careergallery_router.registry)
 router.registry.extend(form_router.registry)
-# router.registry.extend(notifications_router.registry)
+router.registry.extend(notifications_router.registry)
 # router.registry.extend(management_router.registry)
 
 position_management_viewset = PositionManagementViewSet.as_view({

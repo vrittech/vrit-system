@@ -38,7 +38,10 @@ def notify_users(action, instance, module_name, model_name):
 
     # Prepare notification details
     title = f"{model_name.capitalize()} {action.capitalize()}"
-    message = action_messages[action]
+    
+    # Include ID or slug in message if available
+    identifier = getattr(instance, 'slug', None) or instance.id
+    message = f"{action_messages[action]} Identifier: {identifier}"
 
     # Find users with view permission for this model
     permission_codename = f'view_{model_name.lower()}'
@@ -52,6 +55,7 @@ def notify_users(action, instance, module_name, model_name):
         module_name=module_name
     )
     notification.users.set(users_with_permission)
+    notification.save()  # Save notification to retain the responses
 
 @receiver(post_save)
 def create_or_update_notification(sender, instance, created, **kwargs):
