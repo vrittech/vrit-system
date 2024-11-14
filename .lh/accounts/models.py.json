@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1731409947014,
@@ -76,6 +76,18 @@
                 {
                     "date": 1731574626779,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')\n     position = models.IntegerField(default=0)\n     \n     def __int__(self):\n-        return self.name\n+        return self.position\n \n     def save(self, *args, **kwargs):\n         # Set position to the Group ID if position is 0 (or could be None)\n         if self.position == 0:\n"
+                },
+                {
+                    "date": 1731575148992,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,12 +4,12 @@\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n+    full_name = models.CharField(max_length = 250)\n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n-    full_name = models.CharField(max_length = 250)\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n"
+                },
+                {
+                    "date": 1731575156386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,16 +5,16 @@\n \n # Create your models here.\n class CustomUser(AbstractUser):\n     full_name = models.CharField(max_length = 250)\n-    avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n-    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n \n+    avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n+    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n     USERNAME_FIELD = 'email'\n     REQUIRED_FIELDS = ['username']\n \n"
+                },
+                {
+                    "date": 1731575310639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,10 +4,8 @@\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n-    full_name = models.CharField(max_length = 250)\n-\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     position = models.CharField(max_length = 250)\n     email = models.EmailField(max_length = 250,unique = True)\n"
                 }
             ],
             "date": 1731409947014,

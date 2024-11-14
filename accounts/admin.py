@@ -9,11 +9,11 @@ class CustomUserAdmin(BaseUserAdmin):
     # Only include fields that are present in the model
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'professional_image', 'position', 'department')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
     )
     
-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']
+    list_display = ['username', 'email', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']
     search_fields = ['username', 'email', 'full_name']
 
 admin.site.register(CustomUser, CustomUserAdmin)
