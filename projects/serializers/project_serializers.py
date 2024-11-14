@@ -126,14 +126,13 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
         # Assign media if provided
         if media_data is not None:
-            project.media = media_data  # Directly assign media data
+            project.media = media_data  # Directly assign media data to ImageField or FileField
         project.save()  # Save the project to apply the media change
 
         return project
 
 
     def update(self, instance, validated_data):
-        # Update only the fields that are present in validated_data
         project_service_data = validated_data.pop('project_service', None)
         project_link_data = validated_data.pop('project_link', None)
         media_data = validated_data.pop('media', None)
@@ -160,8 +159,7 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
 
         # Update media data if provided
         if media_data is not None:
-            instance.media = media_data  # Directly assign media data
+            instance.media = media_data  # Directly assign media data to ImageField or FileField
         instance.save()  # Save the instance to apply the media change
 
         return instance
-
