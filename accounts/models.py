@@ -34,6 +34,9 @@ class CustomUser(AbstractUser):
 class GroupExtension(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')
     position = models.IntegerField(default=0)
+    
+    def __int__(self):
+        return self.position
 
     def save(self, *args, **kwargs):
         # Set position to the Group ID if position is 0 (or could be None)
