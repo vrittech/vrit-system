@@ -40,17 +40,41 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class careerPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class careerPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Check if user has permission to retrieve the object
+        elif view.action == "retrieve":
+            return request.user.has_perm('career.view_career')
+
+        # Check if user has permission to create or update the object
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('career.change_career')
+
+        # Check if user has permission to partially update the object
+        elif view.action == "partial_update":
+            return request.user.has_perm('career.change_career')
+
+        # Check if user has permission to delete the object
+        elif view.action == "destroy":
+            return request.user.has_perm('career.delete_career')
+
+        # Default to denying permission if none of the conditions are met
+        return False

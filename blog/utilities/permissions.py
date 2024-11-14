@@ -43,30 +43,71 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class blogPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return True
+#         elif view.action in ['create','update']:
+#             return SuperAdminLevel(request) or AdminLevel(request) or isOwner(request)            
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
+
+# class blogCategoryPermission(BasePermission):
+#     def has_permission(self, request, view):    
+#         if view.action in ["list"]:
+#             return request.user.has_perm('blog.view_blogcategory')
+#         elif view.action in ['retrieve']:
+#             return request.user.has_perm('blog.view_blogcategory')
+#         elif view.action in ['create']:
+#             return request.user.has_perm('blog.add_blogcategory') and allAdminLevel(request)
+#         elif view.action in ['partial_update','update']:
+#             return request.user.has_perm('blog.change_blogcategory') and allAdminLevel(request)
+#         elif view.action == 'destroy':
+#             return request.user.has_perm('blog.delete_blogcategory')
 class blogPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return True
-        elif view.action in ['create','update']:
-            return SuperAdminLevel(request) or AdminLevel(request) or isOwner(request)            
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Define static permissions for each action and each model
+        permissions = {
+            "retrieve": [
+                "blog.view_blog",
+                "blog.view_blogtags",
+                "blog.view_blogcategory",
+            ],
+            "create": [
+                "blog.add_blog",
+                "blog.add_blogtags",
+                "blog.add_blogcategory",
+            ],
+            "update": [
+                "blog.change_blog",
+                "blog.change_blogtags",
+                "blog.change_blogcategory",
+            ],
+            "partial_update": [
+                "blog.change_blog",
+                "blog.change_blogtags",
+                "blog.change_blogcategory",
+            ],
+            "destroy": [
+                "blog.delete_blog",
+                "blog.delete_blogtags",
+                "blog.delete_blogcategory",
+            ],
+        }
 
-class blogCategoryPermission(BasePermission):
-    def has_permission(self, request, view):    
-        if view.action in ["list"]:
-            return request.user.has_perm('blog.view_blogcategory')
-        elif view.action in ['retrieve']:
-            return request.user.has_perm('blog.view_blogcategory')
-        elif view.action in ['create']:
-            return request.user.has_perm('blog.add_blogcategory') and allAdminLevel(request)
-        elif view.action in ['partial_update','update']:
-            return request.user.has_perm('blog.change_blogcategory') and allAdminLevel(request)
-        elif view.action == 'destroy':
-            return request.user.has_perm('blog.delete_blogcategory')
-0
+        # Check if the action has a corresponding permission defined
+        if view.action in permissions:
+            # User must have at least one of the permissions for the action
+            return any(request.user.has_perm(perm) for perm in permissions[view.action])
+
+        # Default to denying permission if action does not match any predefined keys
+        return False

@@ -40,17 +40,66 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class projectsPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+from rest_framework.permissions import BasePermission
+
 class projectsPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
+
+        # Define permissions for each action statically for each model
+        permissions = {
+            "retrieve": [
+                "projects.view_project",
+                "projects.view_projectgroup",
+                "projects.view_projectservice",
+                "projects.view_projectlink",
+            ],
+            "create": [
+                "projects.add_project",
+                "projects.add_projectgroup",
+                "projects.add_projectservice",
+                "projects.add_projectlink",
+            ],
+            "update": [
+                "projects.change_project",
+                "projects.change_projectgroup",
+                "projects.change_projectservice",
+                "projects.change_projectlink",
+            ],
+            "partial_update": [
+                "projects.change_project",
+                "projects.change_projectgroup",
+                "projects.change_projectservice",
+                "projects.change_projectlink",
+            ],
+            "destroy": [
+                "projects.delete_project",
+                "projects.delete_projectgroup",
+                "projects.delete_projectservice",
+                "projects.delete_projectlink",
+            ],
+        }
+
+        # Check permissions based on action
+        if view.action in permissions:
+            # User must have at least one of the permissions for the action
+            return any(request.user.has_perm(perm) for perm in permissions[view.action])
+
+        # Default to denying permission if action does not match any predefined keys
+        return False
 

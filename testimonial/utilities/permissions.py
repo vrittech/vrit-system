@@ -40,17 +40,39 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class testimonialPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class testimonialPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Define static permissions for each action
+        permissions = {
+            "retrieve": "testimonial.view_testimonial",
+            "create": "testimonial.add_testimonial",
+            "update": "testimonial.change_testimonial",
+            "partial_update": "testimonial.change_testimonial",
+            "destroy": "testimonial.delete_testimonial",
+        }
+
+        # Check if the action has a corresponding permission defined
+        if view.action in permissions:
+            required_permission = permissions[view.action]
+            return request.user.has_perm(required_permission)
+
+        # Default to denying permission if action does not match any predefined keys
+        return False

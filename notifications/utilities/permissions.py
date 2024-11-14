@@ -40,17 +40,41 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class notificationsPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class notificationsPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Check if user has permission to retrieve the notification
+        elif view.action == "retrieve":
+            return request.user.has_perm('notifications.view_notifications')
+
+        # Check if user has permission to create or update the notification
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('notifications.change_notifications')
+
+        # Check if user has permission to partially update the notification
+        elif view.action == "partial_update":
+            return request.user.has_perm('notifications.change_notifications')
+
+        # Check if user has permission to delete the notification
+        elif view.action == "destroy":
+            return request.user.has_perm('notifications.delete_notifications')
+
+        # Default to denying permission if none of the conditions are met
+        return False

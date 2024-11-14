@@ -40,17 +40,41 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class careergalleryPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class careergalleryPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Check if user has permission to retrieve the gallery item
+        elif view.action == "retrieve":
+            return request.user.has_perm('careergallery.view_careergallery')
+
+        # Check if user has permission to create or update the gallery item
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('careercareergallery.change_careergallery')
+
+        # Check if user has permission to partially update the gallery item
+        elif view.action == "partial_update":
+            return request.user.has_perm('careercareergallery.change_careergallery')
+
+        # Check if user has permission to delete the gallery item
+        elif view.action == "destroy":
+            return request.user.has_perm('careercareergallery.delete_careergallery')
+
+        # Default to denying permission if none of the conditions are met
+        return False

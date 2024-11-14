@@ -40,17 +40,41 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class inquiresPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class inquiresPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Check if user has permission to retrieve the inquiry
+        elif view.action == "retrieve":
+            return request.user.has_perm('inquires.view_inquires')
+
+        # Check if user has permission to create or update the inquiry
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('inquires.change_inquires')
+
+        # Check if user has permission to partially update the inquiry
+        elif view.action == "partial_update":
+            return request.user.has_perm('inquires.change_inquires')
+
+        # Check if user has permission to delete the inquiry
+        elif view.action == "destroy":
+            return request.user.has_perm('inquires.delete_inquires')
+
+        # Default to denying permission if none of the conditions are met
+        return False

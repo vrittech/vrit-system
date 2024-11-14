@@ -40,17 +40,42 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class clientsPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class clientsPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
+
+        # Check if user has permission to retrieve the client
+        elif view.action == "retrieve":
+            return request.user.has_perm('clients.view_client')
+
+        # Check if user has permission to create or update the client
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('clients.change_client')
+
+        # Check if user has permission to partially update the client
         elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
+            return request.user.has_perm('clients.change_client')
+
+        # Check if user has permission to delete the client
+        elif view.action == "destroy":
+            return request.user.has_perm('clients.delete_client')
+
+        # Default to denying permission if none of the conditions are met
+        return False
 

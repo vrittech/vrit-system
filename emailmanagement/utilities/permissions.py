@@ -40,17 +40,41 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class emailmanagementPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class emailmanagementPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Check if user has permission to retrieve the email management record
+        elif view.action == "retrieve":
+            return request.user.has_perm('emailmanagement.view_emailmanagement')
+
+        # Check if user has permission to create or update the email management record
+        elif view.action in ["create", "update"]:
+            return request.user.has_perm('emailmanagement.change_emailmanagement')
+
+        # Check if user has permission to partially update the email management record
+        elif view.action == "partial_update":
+            return request.user.has_perm('emailmanagement.change_emailmanagement')
+
+        # Check if user has permission to delete the email management record
+        elif view.action == "destroy":
+            return request.user.has_perm('emailmanagement.delete_emailmanagement')
+
+        # Default to denying permission if none of the conditions are met
+        return False

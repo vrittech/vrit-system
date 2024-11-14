@@ -40,17 +40,59 @@ def isOwner(request):
 #         return True
 #     return False
 
+# class casestudyPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         if view.action in ["list"]:
+#             return True
+#         elif view.action in ['retrieve']:
+#             return isOwner(request)
+#         elif view.action in ['create','update']:
+#             return isOwner(request) #second level
+#             return ObjectBOwner(request) #third level
+#         elif view.action == "partial_update":
+#             return view.get_object().user_id == request.user.id
+#         elif view.action == 'destroy':
+#             return isOwner(request)
+
 class casestudyPermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action in ["list"]:
+        # Allow list action for all users
+        if view.action == "list":
             return True
-        elif view.action in ['retrieve']:
-            return isOwner(request)
-        elif view.action in ['create','update']:
-            return isOwner(request) #second level
-            return ObjectBOwner(request) #third level
-        elif view.action == "partial_update":
-            return view.get_object().user_id == request.user.id
-        elif view.action == 'destroy':
-            return isOwner(request)
 
+        # Define permissions for each action and each model in this app
+        permissions = {
+            "retrieve": [
+                "casestudy.view_casestudy",
+                "casestudy.view_casestudytags",
+                "casestudy.view_casestudycategory",
+            ],
+            "create": [
+                "casestudy.add_casestudy",
+                "casestudy.add_casestudytags",
+                "casestudy.add_casestudycategory",
+            ],
+            "update": [
+                "casestudy.change_casestudy",
+                "casestudy.change_casestudytags",
+                "casestudy.change_casestudycategory",
+            ],
+            "partial_update": [
+                "casestudy.change_casestudy",
+                "casestudy.change_casestudytags",
+                "casestudy.change_casestudycategory",
+            ],
+            "destroy": [
+                "casestudy.delete_casestudy",
+                "casestudy.delete_casestudytags",
+                "casestudy.delete_casestudycategory",
+            ],
+        }
+
+        # Check if the action has a corresponding permission defined
+        if view.action in permissions:
+            # User must have at least one of the permissions for the action
+            return any(request.user.has_perm(perm) for perm in permissions[view.action])
+
+        # Default to denying permission if action does not match any predefined keys
+        return False
