@@ -3,7 +3,11 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import Permission
 from accounts.models import CustomUser
-from django.apps import apps
+from .models import Notification
+
+from django.utils import timezone
+from django.contrib.auth.models import Permission
+from accounts.models import CustomUser
 from .models import Notification
 
 MODEL_MAP = {
@@ -29,7 +33,10 @@ def notify_users(action, instance, module_name, model_name):
     """
     Helper function to create notifications for users based on the action type.
     """
-    # Define messages based on action
+    # Determine identifier: slug if available, otherwise id
+    identifier = getattr(instance, 'slug', instance.id)
+
+    # Define messages based on action with model_name and identifier included
     action_messages = {
         'created': f"A new {model_name} item was added in the {module_name} module.",
         'updated': f"The {model_name} item was updated in the {module_name} module.",
@@ -38,21 +45,19 @@ def notify_users(action, instance, module_name, model_name):
 
     # Prepare notification details
     title = f"{model_name.capitalize()} {action.capitalize()}"
-    
-    # Include ID or slug in message if available
-    identifier = getattr(instance, 'slug', None) or instance.id
-    message = f"{action_messages[action]} Identifier: {identifier}"
+    message = action_messages[action]
 
     # Find users with view permission for this model
     permission_codename = f'view_{model_name.lower()}'
     view_permission = Permission.objects.filter(codename=permission_codename)
     users_with_permission = CustomUser.objects.filter(user_permissions__in=view_permission)
 
-    # Create and assign the notification
+    # Create and assign the notification with the updated_id field
     notification = Notification.objects.create(
         title=title,
         message=message,
-        module_name=module_name
+        module_name=module_name,
+        updated_id=str(identifier)  # Set updated_id with identifier
     )
     notification.users.set(users_with_permission)
     notification.save()  # Save notification to retain the responses
@@ -87,3 +92,4 @@ def delete_notification(sender, instance, **kwargs):
         if app_label == mapped_app_label and model_name.lower() == mapped_model_name.lower():
             # Call notify_users for deletion
             notify_users('deleted', instance, app_label, model_name)
+

@@ -8,10 +8,13 @@ from accounts.models import CustomUser
 class Notification(models.Model):
     title = models.CharField(max_length=255)
     message = models.TextField()
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
-    users = models.ManyToManyField(CustomUser, related_name="notifications")
     module_name = models.CharField(max_length=100)
+    users = models.ManyToManyField(CustomUser, related_name="notifications")
+    updated_id = models.CharField(max_length=255, blank=True, null=True)  # New field
 
     def __str__(self):
         return f"{self.title} - {self.module_name}"
+
+    

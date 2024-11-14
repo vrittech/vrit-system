@@ -14,7 +14,7 @@ class notificationViewsets(viewsets.ModelViewSet):
     # permission_classes = [notificationsPermission]
     # authentication_classes = [JWTAuthentication]
     #pagination_class = MyPageNumberPagination
-    queryset = Notification.objects.all()
+    queryset = Notification.objects.all().order_by('-id')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
