@@ -43,12 +43,13 @@ class notificationViewsets(viewsets.ModelViewSet):
     def mark_as_read(self, request):
         # Mark specific notifications as read
         notification_ids = request.data.get('ids', [])
-        self.request.user.notifications.filter(id__in=notification_ids).update(is_read=True)
-        return Response({"status": "Notifications marked as read"})
+        if notification_ids:
+            Notification.objects.filter(id__in=notification_ids, users=self.request.user).update(is_read=True)
+            return Response({"status": "Notifications marked as read"})
+        return Response({"status": "No notifications to mark as read"})
 
     @action(detail=False, methods=['post'], url_path='mark-all-as-read')
     def mark_all_as_read(self, request):
         # Mark all unread notifications as read for the user
-        self.request.user.notifications.update(is_read=True)
+        Notification.objects.filter(users=self.request.user, is_read=False).update(is_read=True)
         return Response({"status": "All notifications marked as read"})
-

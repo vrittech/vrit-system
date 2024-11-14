@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1731494502469,
@@ -48,6 +48,10 @@
                 {
                     "date": 1731565557309,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     serializer_class = NotificationListSerializers\n     # permission_classes = [notificationsPermission]\n     # authentication_classes = [JWTAuthentication]\n     #pagination_class = MyPageNumberPagination\n-    queryset = Notification.objects.all().order_by(-id)\n+    queryset = Notification.objects.all().order_by('-id')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1731568580331,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,13 +42,14 @@\n     @action(detail=False, methods=['post'], url_path='mark-as-read')\n     def mark_as_read(self, request):\n         # Mark specific notifications as read\n         notification_ids = request.data.get('ids', [])\n-        self.request.user.notifications.filter(id__in=notification_ids).update(is_read=True)\n-        return Response({\"status\": \"Notifications marked as read\"})\n+        if notification_ids:\n+            Notification.objects.filter(id__in=notification_ids, users=self.request.user).update(is_read=True)\n+            return Response({\"status\": \"Notifications marked as read\"})\n+        return Response({\"status\": \"No notifications to mark as read\"})\n \n     @action(detail=False, methods=['post'], url_path='mark-all-as-read')\n     def mark_all_as_read(self, request):\n         # Mark all unread notifications as read for the user\n-        self.request.user.notifications.update(is_read=True)\n-        return Response({\"status\": \"All notifications marked as read\"})\n-\n+        Notification.objects.filter(users=self.request.user, is_read=False).update(is_read=True)\n+        return Response({\"status\": \"All notifications marked as read\"})\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1731494502469,
