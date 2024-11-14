@@ -6,6 +6,9 @@ import ast
 from rest_framework import serializers
 from django.db import transaction
 from django.utils import timezone
+from django.utils import timezone
+from datetime import datetime
+
 
 
 def str_to_list(data, value_to_convert):
@@ -97,7 +100,12 @@ class BlogWriteSerializers(serializers.ModelSerializer):
         """
         Ensure that publish_date is in the future for scheduled blogs.
         """
-        if self.initial_data.get('status') == 'scheduled' and value <= timezone.now().date():
+        # Convert value to datetime if it's only a date
+        if isinstance(value, datetime.date) and not isinstance(value, datetime):
+            value = datetime.combine(value, datetime.min.time(), timezone.get_current_timezone())
+        
+        # Check if status is 'scheduled' and if publish_date is in the future
+        if self.initial_data.get('status') == 'scheduled' and value <= timezone.now():
             raise serializers.ValidationError("Publish date must be in the future for scheduled blogs.")
         return value
     
