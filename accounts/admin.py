@@ -1,27 +1,32 @@
-from django.contrib.auth.models import Group, Permission
-from django.contrib import admin
-
-from .models import CustomUser, GroupExtension
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+from .models import CustomUser, GroupExtension
 
-class UserAdmin(BaseUserAdmin):
-    # list_display = ['role',] # this display in outer list form
-    exclude = ('user_permissions',)
+class CustomUserAdmin(BaseUserAdmin):
+    exclude = ('groups', 'user_permissions',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email','avatar','department','position')}),
-        ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser','groups')}),
-        # ('Social sites',{'fields':('facebook','twitter','tiktok','instagram','youtube')})
-        # Add your custom fields here
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),
+        ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),
     )
-    pass
-    # Your custom admin configurations
+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image','avatar']
+    search_fields = ['username', 'email', 'full_name']
 
-admin.site.register(CustomUser, UserAdmin)
-admin.site.register(GroupExtension)
-
-admin.site.register(Permission)
+admin.site.register(CustomUser, CustomUserAdmin)
 
 
+@admin.register(GroupExtension)
+class GroupExtensionAdmin(admin.ModelAdmin):
+    list_display = ['group', 'position']
+    search_fields = ['group__name']
+    list_filter = ['position']
+    ordering = ['position']
 
+    def save_model(self, request, obj, form, change):
+        # Override save_model to handle custom position saving logic if needed
+        super().save_model(request, obj, form, change)
+
+# Unregister and register Group to customize admin panel if necessary
+admin.site.unregister(Group)
+admin.site.register(Group)

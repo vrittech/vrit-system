@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1731411282420,
@@ -32,6 +32,42 @@
                 {
                     "date": 1731411615146,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     pass\n     # Your custom admin configurations\n \n admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(Gr)\n+admin.site.register(GGroupExtensionr)\n \n admin.site.register(Permission)\n \n \n"
+                },
+                {
+                    "date": 1731569250805,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,27 +1,32 @@\n-from django.contrib.auth.models import Group, Permission\n from django.contrib import admin\n-\n+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n+from django.contrib.auth.models import Group\n from .models import CustomUser, GroupExtension\n-from django.contrib import admin\n-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n \n-class UserAdmin(BaseUserAdmin):\n-    # list_display = ['role',] # this display in outer list form\n-    exclude = ('user_permissions',)\n+class CustomUserAdmin(BaseUserAdmin):\n+    exclude = ('groups', 'user_permissions',)\n     fieldsets = (\n         (None, {'fields': ('username', 'password')}),\n-        ('Personal info', {'fields': ('first_name', 'last_name', 'email','avatar','department','position')}),\n-        ('Permissions', {'fields': ('is_active','is_staff', 'is_superuser','groups')}),\n-        # ('Social sites',{'fields':('facebook','twitter','tiktok','instagram','youtube')})\n-        # Add your custom fields here\n+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n+        ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-    pass\n-    # Your custom admin configurations\n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff']\n+    search_fields = ['username', 'email', 'full_name']\n \n-admin.site.register(CustomUser, UserAdmin)\n-admin.site.register(GGroupExtensionr)\n+admin.site.register(CustomUser, CustomUserAdmin)\n \n-admin.site.register(Permission)\n \n+@admin.register(GroupExtension)\n+class GroupExtensionAdmin(admin.ModelAdmin):\n+    list_display = ['group', 'position']\n+    search_fields = ['group__name']\n+    list_filter = ['position']\n+    ordering = ['position']\n \n+    def save_model(self, request, obj, form, change):\n+        # Override save_model to handle custom position saving logic if needed\n+        super().save_model(request, obj, form, change)\n \n+# Unregister and register Group to customize admin panel if necessary\n+admin.site.unregister(Group)\n+admin.site.register(Group)\n"
+                },
+                {
+                    "date": 1731569261939,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,6 +27,6 @@\n         # Override save_model to handle custom position saving logic if needed\n         super().save_model(request, obj, form, change)\n \n # Unregister and register Group to customize admin panel if necessary\n-admin.site.unregister(Group)\n+# admin.site.unregister(Group)\n admin.site.register(Group)\n"
+                },
+                {
+                    "date": 1731569287141,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.contrib import admin\n from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n-from django.contrib.auth.models import Group\n+from  import Group\n from .models import CustomUser, GroupExtension\n \n class CustomUserAdmin(BaseUserAdmin):\n     exclude = ('groups', 'user_permissions',)\n"
+                },
+                {
+                    "date": 1731569302688,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from django.contrib import admin\n from django.contrib.auth.admin import UserAdmin as BaseUserAdmin\n-from  import Group\n+from django.contrib.auth.models import Group\n from .models import CustomUser, GroupExtension\n \n class CustomUserAdmin(BaseUserAdmin):\n     exclude = ('groups', 'user_permissions',)\n"
+                },
+                {
+                    "date": 1731569323115,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,6 +27,6 @@\n         # Override save_model to handle custom position saving logic if needed\n         super().save_model(request, obj, form, change)\n \n # Unregister and register Group to customize admin panel if necessary\n-# admin.site.unregister(Group)\n+admin.site.unregister(Group)\n admin.site.register(Group)\n"
+                },
+                {
+                    "date": 1731569511164,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,12 @@\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff']\n+      list_display = [\n+        'username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff',\n+        'created_at', 'updated_at', 'avatar_thumbnail', 'professional_image_thumbnail'\n+    ]\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
+                },
+                {
+                    "date": 1731569541913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,12 +9,9 @@\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-      list_display = [\n-        'username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff',\n-        'created_at', 'updated_at', 'avatar_thumbnail', 'professional_image_thumbnail'\n-    ]\n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
+                },
+                {
+                    "date": 1731570092520,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff']\n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
+                },
+                {
+                    "date": 1731570099236,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'avatar', 'professional_image', 'full_name', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_verified', 'is_staff', 'is_superuser', 'role')}),\n     )\n-    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image']\n+    list_display = ['username', 'email', 'full_name', 'position', 'department', 'is_active', 'is_staff','professional_image','avatar']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
                 }
             ],
             "date": 1731411282420,

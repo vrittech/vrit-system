@@ -15,7 +15,9 @@ class CustomUserReadSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name','department']
+        # fields = '__all__'
+        exclude = ('password',)
+        
     
 
 class CustomUserWriteSerializer(serializers.ModelSerializer):
@@ -43,7 +45,8 @@ class CustomUserRetrieveSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name','department', 'is_active', 'is_staff', 'is_superuser']
+        # fields = '__all__'
+        exclude = ('password',)
 
 
 class CustomUserChangePasswordSerializers(serializers.Serializer):
