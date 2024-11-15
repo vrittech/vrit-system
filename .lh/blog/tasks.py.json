@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 16,
+            "activePatchIndex": 18,
             "patches": [
                 {
                     "date": 1730092395381,
@@ -72,6 +72,14 @@
                 {
                     "date": 1731670996198,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,37 +1,37 @@\n from celery import shared_task\n from .models import Blog\n-from django.utils.timezone import now, localtime\n+from django.utils.timezone import now\n import logging\n \n logger = logging.getLogger(__name__)\n \n @shared_task\n def publish_scheduled_blog_task():\n-    # Get the current time in local timezone\n-    current_time = localtime(now())\n-    logger.info(f\"Task started at: {current_time}\")\n+    # Get current time in UTC\n+    current_time = now()  # UTC time\n+    logger.info(f\"Task started at: {current_time} (UTC)\")\n \n-    # Log to confirm query conditions\n+    # Log query criteria for debugging\n     logger.info(f\"Looking for blogs with publish_date <= {current_time} and status='scheduled'\")\n \n-    # Filter blogs using local time comparison\n+    # Filter blogs with publish_date in UTC\n     scheduled_blogs = Blog.objects.filter(\n         status='scheduled',\n-        publish_date__lte=current_time  # Match date and time for DateTimeField\n+        publish_date__lte=current_time  # Match date and time in UTC\n     )\n \n     if scheduled_blogs.exists():\n         logger.info(f\"Found {scheduled_blogs.count()} scheduled blogs ready for publishing.\")\n     else:\n         logger.info(\"No scheduled blogs found for the current time.\")\n \n-    # Process each blog\n+    # Process each blog and publish\n     published_count = 0\n     for blog in scheduled_blogs:\n         try:\n             logger.info(f\"Processing Blog ID: {blog.id}, Title: {blog.title}, Publish Date: {blog.publish_date}\")\n-            # Change status to 'published'\n+            # Update status to 'published'\n             blog.status = 'published'\n             blog.save(update_fields=['status'])\n             published_count += 1\n             logger.info(f\"Successfully published Blog ID: {blog.id}\")\n"
+                },
+                {
+                    "date": 1731672631342,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n from celery import shared_task\n from .models import Blog\n-from django.utils.timezone import now\n+from django.utils.timezone import now,L\n import logging\n \n logger = logging.getLogger(__name__)\n \n"
+                },
+                {
+                    "date": 1731672638073,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,15 @@\n from celery import shared_task\n from .models import Blog\n-from django.utils.timezone import now,L\n+from django.utils.timezone import now,localtime\n import logging\n \n logger = logging.getLogger(__name__)\n \n @shared_task\n def publish_scheduled_blog_task():\n     # Get current time in UTC\n-    current_time = now()  # UTC time\n+    current_time = localtime()  # UTC time\n     logger.info(f\"Task started at: {current_time} (UTC)\")\n \n     # Log query criteria for debugging\n     logger.info(f\"Looking for blogs with publish_date <= {current_time} and status='scheduled'\")\n"
                 }
             ],
             "date": 1730092395381,

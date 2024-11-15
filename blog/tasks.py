@@ -1,6 +1,6 @@
 from celery import shared_task
 from .models import Blog
-from django.utils.timezone import now
+from django.utils.timezone import now,localtime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 @shared_task
 def publish_scheduled_blog_task():
     # Get current time in UTC
-    current_time = now()  # UTC time
+    current_time = localtime()  # UTC time
     logger.info(f"Task started at: {current_time} (UTC)")
 
     # Log query criteria for debugging
