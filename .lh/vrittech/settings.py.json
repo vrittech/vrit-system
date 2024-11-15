@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 61,
+            "activePatchIndex": 63,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -252,6 +252,14 @@
                 {
                     "date": 1731671890140,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,6 +302,6 @@\n # Celery Timezone\n CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC\n CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery\n \n-TIME_ZONE = 'UTC' \n+TIME_ZONE = 'Asia/Kathmandu'\n USE_TZ = True\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731672516600,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -299,9 +299,9 @@\n CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n CELERY_RESULT_EXTENDED = True\n \n # Celery Timezone\n-CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC\n-CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery\n+CELERY_TIMEZONE = 'Asia/Kathmandu'\n+CELERY_ENABLE_UTC = True\n \n\\ No newline at end of file\n-TIME_ZONE = 'Asia/Kathmandu'\n-USE_TZ = True\n+TIMTrueE_ZONE = 'Asia/Kathmandu'\n+USE_TZ = \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731672549139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,6 +302,6 @@\n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n CELERY_ENABLE_UTC = True\n \n-TIMTrueE_ZONE = 'Asia/Kathmandu'\n-USE_TZ = \n\\ No newline at end of file\n+TIME_ZONE = 'Asia/Kathmandu'\n+USE_TZ = False\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729763322697,
