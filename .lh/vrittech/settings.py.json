@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 59,
+            "activePatchIndex": 60,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -244,6 +244,10 @@
                 {
                     "date": 1731671276780,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -299,9 +299,9 @@\n CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n CELERY_RESULT_EXTENDED = True\n \n # Celery Timezone\n-CELERY_TIMEZONE = 'Asia/Kathmandu'\n-CELERY_ENABLE_UTC = True\n+CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC\n+CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery\n \n TIME_ZONE = 'Asia/Kathmandu'\n USE_TZ = True\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731671548326,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,6 +302,6 @@\n # Celery Timezone\n CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC\n CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery\n \n-TIME_ZONE = 'Asia/Kathmandu'\n+TIME_ZONE = 'UTC' \n USE_TZ = True\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729763322697,

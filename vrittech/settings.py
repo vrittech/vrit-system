@@ -303,5 +303,5 @@ CELERY_RESULT_EXTENDED = True
 CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC
 CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery
 
-TIME_ZONE = 'Asia/Kathmandu'
+TIME_ZONE = 'UTC' 
 USE_TZ = True
