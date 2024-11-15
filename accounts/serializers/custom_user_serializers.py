@@ -1,10 +1,23 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from department.models import Department
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import check_password, make_password
 
 
 User = get_user_model()
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "group"
+        model = Permission
+        fields = ['id', 'name', 'codename']
+        
+class GroupSerializer(serializers.ModelSerializer):
+    permissions = PermissionSerializer(many=True, read_only=True)
+    class Meta:
+        model = Group
+        fields = ['id', 'name', 'permissions']
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +26,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class CustomUserReadSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
+    groups = GroupSerializer(read_only = True)
     class Meta:
         model = User
         # fields = '__all__'
@@ -42,6 +56,7 @@ class CustomUserWriteSerializer(serializers.ModelSerializer):
         return instance
 
 class CustomUserRetrieveSerializer(serializers.ModelSerializer):
+    groups = GroupSerializer(read_only = True)
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User

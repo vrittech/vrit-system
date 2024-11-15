@@ -7,7 +7,6 @@ from django.contrib.auth.models import Group
 class CustomUser(AbstractUser):
     position = models.CharField(max_length = 250,null = True)
     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)
-    position = models.CharField(max_length = 250)
     email = models.EmailField(max_length = 250,unique = True)
     full_name = models.CharField(max_length = 250,null = True)
 
@@ -28,6 +27,13 @@ class CustomUser(AbstractUser):
         permissions = [
             ('can_verify_user', 'Can verify user'),
         ]
+    
+    @property
+    def full_name(self):
+        try:
+            return self.first_name + " " + self.last_name
+        except:
+            return self.username
 
 
 class GroupExtension(models.Model):

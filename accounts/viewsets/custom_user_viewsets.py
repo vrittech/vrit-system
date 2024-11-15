@@ -12,10 +12,19 @@ from accounts.models import CustomUser
 from django.contrib.auth import authenticate,login
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import action
+from accounts.utilities.filters import CustomUserFilter
+# accounts/utilities/filters.py
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.IsAuthenticated]
+    filterset_class = CustomUserFilter
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    
+    search_fields = ['position', 'department', 'email', 'full_name','first_name','last_name']
+    ordering_fields =['position', 'department' , 'email', 'full_name','first_name','last_name']
 
     def get_serializer_class(self):
         if self.action in ['list']:

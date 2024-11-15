@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 24,
             "patches": [
                 {
                     "date": 1731475845103,
@@ -24,6 +24,86 @@
                 {
                     "date": 1731481309902,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n             user.save()  # Save the updated user instance\n             return Response({\"detail\": \"Password changed successfully\"}, status=status.HTTP_200_OK)\n         \n         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n-    \n+    @action(detail=False, methods=['get'], name=\"GetSelfDetail\", url_path=\"me\")\n     def GetSelfDetail(self, request, *args, **kwargs):\n-    self.object = request.user  # Set the object directly to the current user\n-    serializer = self.get_serializer(self.object)\n\\ No newline at end of file\n-    return Response(serializer.data)\n+        self.object = request.user  # Set the object directly to the current user\n+        serializer = self.get_serializer(self.object)\n+        return Response(serializer.data)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731645547328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n+       filterset_class = CustomUserFilter\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n@@ -38,8 +39,9 @@\n             user.save()  # Save the updated user instance\n             return Response({\"detail\": \"Password changed successfully\"}, status=status.HTTP_200_OK)\n         \n         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\n+    \n     @action(detail=False, methods=['get'], name=\"GetSelfDetail\", url_path=\"me\")\n     def GetSelfDetail(self, request, *args, **kwargs):\n         self.object = request.user  # Set the object directly to the current user\n         serializer = self.get_serializer(self.object)\n"
+                },
+                {
+                    "date": 1731645553853,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,13 +11,14 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n+from \n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n-       filterset_class = CustomUserFilter\n+    filterset_class = CustomUserFilter\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645559637,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n-from \n+from ut\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n"
+                },
+                {
+                    "date": 1731645565263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n-from ut\n+from utilities.filters import \n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n"
+                },
+                {
+                    "date": 1731645611259,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,14 +11,15 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n-from utilities.filters import \n+from utilities.filters import CustomUserFilter\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n+     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645626391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,14 +12,16 @@\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n from utilities.filters import CustomUserFilter\n+from rest_framework.filters import SearchFilter, OrderingFilter\n+from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n-     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645646418,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,11 @@\n     queryset = CustomUser.objects.all()\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    \n+    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n+    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645677304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n-    search_fields = ['title','description','site_title','excerpt','meta_keywords','tags__tag_names']\n+    search_fields = \n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n"
+                },
+                {
+                    "date": 1731645691594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n-    search_fields = \n+    search_fields = [('position', 'department', 'position', 'email', 'full_name', )]\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n"
+                },
+                {
+                    "date": 1731645697877,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n-    search_fields = [('position', 'department', 'position', 'email', 'full_name', )]\n+    search_fields = ['position', 'department', 'position', 'email', 'full_name',]\n     ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n"
+                },
+                {
+                    "date": 1731645705074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n     search_fields = ['position', 'department', 'position', 'email', 'full_name',]\n-    ordering_fields = ['id','title', 'description', 'site_title', 'excerpt', 'status','tags__tag_names']\n+    ordering_fields =['position', 'department', 'position', 'email', 'full_name',]\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645718891,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n     search_fields = ['position', 'department', 'position', 'email', 'full_name',]\n-    ordering_fields =['position', 'department', 'position', 'email', 'full_name',]\n+    ordering_fields =['position', 'department', 'position', 'email', 'full_name','full_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645726019,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n     search_fields = ['position', 'department', 'position', 'email', 'full_name',]\n-    ordering_fields =['position', 'department', 'position', 'email', 'full_name','full_name']\n+    ordering_fields =['position', 'department', 'position', 'email', 'full_name','first_name','full_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645739126,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,10 +21,10 @@\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n-    search_fields = ['position', 'department', 'position', 'email', 'full_name',]\n-    ordering_fields =['position', 'department', 'position', 'email', 'full_name','first_name','full_name']\n+    search_fields = ['position', 'department', 'position', 'email', 'full_name','first_name','last_name']\n+    ordering_fields =['position', 'department', 'position', 'email', 'full_name','first_name','last_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645771811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n     search_fields = ['position', 'department', 'position', 'email', 'full_name','first_name','last_name']\n-    ordering_fields =['position', 'department', 'position', 'email', 'full_name','first_name','last_name']\n+    ordering_fields =['position', 'department', ', 'email', 'full_name','first_name','last_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645778934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,10 +21,10 @@\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n-    search_fields = ['position', 'department', 'position', 'email', 'full_name','first_name','last_name']\n-    ordering_fields =['position', 'department', ', 'email', 'full_name','first_name','last_name']\n+    search_fields = ['position', 'department', 'email', 'full_name','first_name','last_name']\n+    ordering_fields =['position', 'department', , 'email', 'full_name','first_name','last_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645812346,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n-from utilities.filters import CustomUserFilter\n+from ..utilities.filters import CustomUserFilter\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n@@ -22,9 +22,9 @@\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n     search_fields = ['position', 'department', 'email', 'full_name','first_name','last_name']\n-    ordering_fields =['position', 'department', , 'email', 'full_name','first_name','last_name']\n+    ordering_fields =['position', 'department' , 'email', 'full_name','first_name','last_name']\n \n     def get_serializer_class(self):\n         if self.action in ['list']:\n             return CustomUserReadSerializer\n"
+                },
+                {
+                    "date": 1731645821601,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n from accounts.models import CustomUser\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n-from ..utilities.filters import CustomUserFilter\n+from accounts.utilities.filters import CustomUserFilter\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1731645841902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,9 @@\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n from accounts.utilities.filters import CustomUserFilter\n+accounts/utilities/filters.py\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1731645853339,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n from accounts.utilities.filters import CustomUserFilter\n-accounts/utilities/filters.py\n+# accounts/utilities/filters.py\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n"
                 }
             ],
             "date": 1731475845103,
