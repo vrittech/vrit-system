@@ -16,8 +16,11 @@ def publish_scheduled_case_study_task():
     published_count = 0
     for case_study in scheduled_case_studies:
         try:
-            case_study.publish_if_scheduled()  # Assuming this method publishes and updates the status
+            # Update the status to 'published'
+            case_study.status = 'published'
+            case_study.save(update_fields=['status'])
             published_count += 1
+            logger.info(f"Successfully published CaseStudy ID {case_study.id}")
         except Exception as e:
             logger.error(f"Failed to publish CaseStudy ID {case_study.id}: {e}")
 
