@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 55,
+            "activePatchIndex": 56,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -228,6 +228,10 @@
                 {
                     "date": 1731666013720,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n \n-if current_os == \"Linux\" and server_type == \"AWS\":\n+if current_os == \"Linux\" or server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n else:\n     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env\n load_dotenv(dotenv_path)\n"
+                },
+                {
+                    "date": 1731666164226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n \n-if current_os == \"Linux\" or server_type == \"AWS\":\n+if current_os == \"Linux\" and server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n else:\n     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env\n load_dotenv(dotenv_path)\n"
                 }
             ],
             "date": 1729763322697,
