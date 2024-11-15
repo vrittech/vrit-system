@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1730092395381,
@@ -48,6 +48,10 @@
                 {
                     "date": 1731661608591,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     for blog in scheduled_case_studies:\n         try:\n             logger.info(f\"Processing Blog ID: {blog.id}\")\n             # Update the status to 'published'\n-            bloh.status = 'published'\n+            blog.status = 'published'\n             blog.save(update_fields=['status'])\n             published_count += 1\n             logger.info(f\"Successfully published Blog ID: {blog.id}\")\n         except Exception as e:\n"
+                },
+                {
+                    "date": 1731663009993,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,32 +1,33 @@\n from celery import shared_task\n from .models import Blog\n-from django.utils import timezone\n+from django.utils.timezone import now\n import logging\n \n logger = logging.getLogger(__name__)\n \n @shared_task\n def publish_scheduled_blog_task():\n-    now = timezone.now()  # Get the current timestamp\n-    logger.info(f\"Task started at: {now}\")\n+    current_time = now()  # Get the current timestamp\n+    logger.info(f\"Task started at: {current_time}\")\n \n-    scheduled_case_studies = Blog.objects.filter(\n+    # Filter blogs that are ready to be published\n+    scheduled_blogs = Blog.objects.filter(\n         status='scheduled',\n-        publish_date__lte=now.date()  # Adjust for DateField\n+        publish_date__lte=current_time  # Match date and time for DateTimeField\n     )\n-    logger.info(f\"Found {scheduled_case_studies.count()} scheduled case studies.\")\n+    logger.info(f\"Found {scheduled_blogs.count()} scheduled blogs ready for publishing.\")\n \n     published_count = 0\n-    for blog in scheduled_case_studies:\n+    for blog in scheduled_blogs:\n         try:\n             logger.info(f\"Processing Blog ID: {blog.id}\")\n             # Update the status to 'published'\n             blog.status = 'published'\n             blog.save(update_fields=['status'])\n             published_count += 1\n             logger.info(f\"Successfully published Blog ID: {blog.id}\")\n         except Exception as e:\n-            logger.error(f\"Failed to publish Blog ID: {blog.id}: {e}\")\n+            logger.error(f\"Failed to publish Blog ID: {blog.id}, Error: {e}\")\n \n-    logger.info(f\"Published {published_count} scheduled case studies.\")\n-    return f\"Published {published_count} scheduled case studies\"\n+    logger.info(f\"Published {published_count} scheduled blogs.\")\n+    return f\"Published {published_count} scheduled blogs.\"\n"
                 }
             ],
             "date": 1730092395381,

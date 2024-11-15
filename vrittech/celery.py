@@ -25,31 +25,36 @@ app.conf.beat_schedule = {
     'auto-expire-forms-daily': {
         'task': 'forms.tasks.auto_expire_forms',
         # 'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight
-        'schedule': schedule(timedelta(seconds=1)),
+        # 'schedule': schedule(timedelta(seconds=1)),
+        'schedule': crontab(minute='*'),  # Runs every minute
     },
     # Auto-expire Careers (from the `career` app)
     'auto-expire-careers-daily': {
         'task': 'career.tasks.auto_expire_careers',
         # 'schedule': crontab(hour=1, minute=0),  # Runs daily at 1:00 AM
-        'schedule': schedule(timedelta(seconds=1)),
+        # 'schedule': schedule(timedelta(seconds=1)),
+        'schedule': crontab(minute='*'),  # Runs every minute
     },
     # Publish Scheduled Blogs (from the `blog` app)
     'publish-scheduled-blogs-hourly': {
         'task': 'blog.tasks.publish_scheduled_blogs_task',
         # 'schedule': crontab(minute=0),  # Runs hourly
-        'schedule': schedule(timedelta(seconds=1)),
+        # 'schedule': schedule(timedelta(seconds=1)),
+        'schedule': crontab(minute='*'),  # Runs every minute
     },
     # Publish Scheduled Case Studies (from the `casestudy` app)
     'publish-scheduled-case-studies-hourly': {
         'task': 'casestudy.tasks.publish_scheduled_case_study_task',
         # 'schedule': crontab(minute=30),  # Runs hourly at the 30th minute
-        'schedule': schedule(timedelta(seconds=1)),
+        # 'schedule': schedule(timedelta(seconds=1)),
+        'schedule': crontab(minute='*'),  # Runs every minute
     },
     # Send Newsletters (from the `newslettersubscription` app)
     'send-newsletter-emails-daily': {
         'task': 'newslettersubscription.tasks.send_newsletter_subscription_emails',
         # 'schedule': crontab(hour=6, minute=0),  # Runs daily at 6:00 AM
-        'schedule': schedule(timedelta(seconds=1)),
+        # 'schedule': schedule(timedelta(seconds=1)),
+        'schedule': crontab(minute='*'),  # Runs every minute
     },
 }
 

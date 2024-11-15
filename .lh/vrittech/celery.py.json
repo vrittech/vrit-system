@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1730092272104,
@@ -64,6 +64,34 @@
                 {
                     "date": 1731651598929,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,10 @@\n import os\n from celery import Celery\n from celery.schedules import crontab  # For advanced scheduling\n from django.conf import settings\n-from celery.schedules import crontab, schedule import os\n+from celery.schedules import crontab, schedule \n+import os\n from datetime import timedelta\n from celery import Celery\n \n # Set the default Django settings module for the 'celery' program.\n@@ -46,9 +47,10 @@\n     },\n     # Send Newsletters (from the `newslettersubscription` app)\n     'send-newsletter-emails-daily': {\n         'task': 'newslettersubscription.tasks.send_newsletter_subscription_emails',\n-        'schedule': crontab(hour=6, minute=0),  # Runs daily at 6:00 AM\n+        # 'schedule': crontab(hour=6, minute=0),  # Runs daily at 6:00 AM\n+        'schedule': schedule(timedelta(seconds=1)),\n     },\n }\n \n # Debug Task (Optional)\n"
+                },
+                {
+                    "date": 1731663035027,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n     # Auto-expire Forms (from the `forms` app)\n     'auto-expire-forms-daily': {\n         'task': 'forms.tasks.auto_expire_forms',\n         # 'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight\n-        'schedule': schedule(timedelta(seconds=1)),\n+        schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Auto-expire Careers (from the `career` app)\n     'auto-expire-careers-daily': {\n         'task': 'career.tasks.auto_expire_careers',\n"
+                },
+                {
+                    "date": 1731663041895,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n     # Auto-expire Forms (from the `forms` app)\n     'auto-expire-forms-daily': {\n         'task': 'forms.tasks.auto_expire_forms',\n         # 'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight\n-        schedule': crontab(minute='*'),  # Runs every minute\n+        'schedule': schedule(timedelta(seconds=1)),\n     },\n     # Auto-expire Careers (from the `career` app)\n     'auto-expire-careers-daily': {\n         'task': 'career.tasks.auto_expire_careers',\n"
+                },
+                {
+                    "date": 1731663060209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,10 @@\n     # Auto-expire Forms (from the `forms` app)\n     'auto-expire-forms-daily': {\n         'task': 'forms.tasks.auto_expire_forms',\n         # 'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight\n-        'schedule': schedule(timedelta(seconds=1)),\n+        # 'schedule': schedule(timedelta(seconds=1)),\n+         'schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Auto-expire Careers (from the `career` app)\n     'auto-expire-careers-daily': {\n         'task': 'career.tasks.auto_expire_careers',\n"
+                },
+                {
+                    "date": 1731663069000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,15 +25,15 @@\n     'auto-expire-forms-daily': {\n         'task': 'forms.tasks.auto_expire_forms',\n         # 'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight\n         # 'schedule': schedule(timedelta(seconds=1)),\n-         'schedule': crontab(minute='*'),  # Runs every minute\n+        'schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Auto-expire Careers (from the `career` app)\n     'auto-expire-careers-daily': {\n         'task': 'career.tasks.auto_expire_careers',\n         # 'schedule': crontab(hour=1, minute=0),  # Runs daily at 1:00 AM\n-        'schedule': schedule(timedelta(seconds=1)),\n+        # 'schedule': schedule(timedelta(seconds=1)),\n     },\n     # Publish Scheduled Blogs (from the `blog` app)\n     'publish-scheduled-blogs-hourly': {\n         'task': 'blog.tasks.publish_scheduled_blogs_task',\n"
+                },
+                {
+                    "date": 1731663074534,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,9 @@\n     'auto-expire-careers-daily': {\n         'task': 'career.tasks.auto_expire_careers',\n         # 'schedule': crontab(hour=1, minute=0),  # Runs daily at 1:00 AM\n         # 'schedule': schedule(timedelta(seconds=1)),\n+        'schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Publish Scheduled Blogs (from the `blog` app)\n     'publish-scheduled-blogs-hourly': {\n         'task': 'blog.tasks.publish_scheduled_blogs_task',\n"
+                },
+                {
+                    "date": 1731663080768,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,10 @@\n     # Publish Scheduled Blogs (from the `blog` app)\n     'publish-scheduled-blogs-hourly': {\n         'task': 'blog.tasks.publish_scheduled_blogs_task',\n         # 'schedule': crontab(minute=0),  # Runs hourly\n-        'schedule': schedule(timedelta(seconds=1)),\n+        # 'schedule': schedule(timedelta(seconds=1)),\n+        'schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Publish Scheduled Case Studies (from the `casestudy` app)\n     'publish-scheduled-case-studies-hourly': {\n         'task': 'casestudy.tasks.publish_scheduled_case_study_task',\n"
+                },
+                {
+                    "date": 1731663086983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,10 @@\n     # Publish Scheduled Case Studies (from the `casestudy` app)\n     'publish-scheduled-case-studies-hourly': {\n         'task': 'casestudy.tasks.publish_scheduled_case_study_task',\n         # 'schedule': crontab(minute=30),  # Runs hourly at the 30th minute\n-        'schedule': schedule(timedelta(seconds=1)),\n+        # 'schedule': schedule(timedelta(seconds=1)),\n+        'schedule': crontab(minute='*'),  # Runs every minute\n     },\n     # Send Newsletters (from the `newslettersubscription` app)\n     'send-newsletter-emails-daily': {\n         'task': 'newslettersubscription.tasks.send_newsletter_subscription_emails',\n"
                 }
             ],
             "date": 1730092272104,
