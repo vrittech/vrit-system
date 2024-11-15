@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1730092395381,
@@ -16,6 +16,10 @@
                 {
                     "date": 1731649121307,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,23 @@\n from celery import shared_task\n from .models import Blog\n from django.utils import timezone\n+import logging\n \n+logger = logging.getLogger(__name__)\n+\n @shared_task\n def publish_scheduled_blogs_task():\n     scheduled_blogs = Blog.objects.filter(\n         status='scheduled',\n-        publish_date__lte=timezone.now().date()\n+        publish_date__lte=timezone.now()\n     )\n+    published_count = 0\n     for blog in scheduled_blogs:\n-        blog.publish_if_scheduled()\n+        try:\n+            blog.publish_if_scheduled()\n+            published_count += 1\n+        except Exception as e:\n+            logger.error(f\"Failed to publish blog ID {blog.id}: {e}\")\n \n-    return f\"Published {scheduled_blogs.count()} scheduled blogs\"\n+    logger.info(f\"Published {published_count} scheduled blogs.\")\n+    return f\"Published {published_count} scheduled blogs\"\n"
+                },
+                {
+                    "date": 1731654446361,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,13 @@\n     )\n     published_count = 0\n     for blog in scheduled_blogs:\n         try:\n-            blog.publish_if_scheduled()\n+            # Update the status to 'published'\n+            blog.status = 'published'\n+            blog.save(update_fields=['status'])\n             published_count += 1\n+            logger.info(f\"Successfully published blog ID {blog.id}\")\n         except Exception as e:\n             logger.error(f\"Failed to publish blog ID {blog.id}: {e}\")\n \n     logger.info(f\"Published {published_count} scheduled blogs.\")\n"
                 }
             ],
             "date": 1730092395381,
