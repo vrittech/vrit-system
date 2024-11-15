@@ -303,5 +303,5 @@ CELERY_RESULT_EXTENDED = True
 CELERY_TIMEZONE = 'Asia/Kathmandu'
 CELERY_ENABLE_UTC = False
 
-USE_TZ = True
 TIME_ZONE = 'Asia/Kathmandu'
+USE_TZ = True
