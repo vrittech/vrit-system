@@ -14,10 +14,11 @@ class PermissionSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'codename']
         
 class GroupSerializer(serializers.ModelSerializer):
-    permissions = PermissionSerializer(many=True, read_only=True)
+    # permissions = PermissionSerializer(many=True, read_only=True)
     class Meta:
         model = Group
-        fields = ['id', 'name', 'permissions']
+        fields = ['id', 'name']
+        ref_name='user_groups'
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,7 +27,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class CustomUserReadSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
-    groups = GroupSerializer(read_only = True)
+    groups = GroupSerializer(many=True,read_only = True)
     class Meta:
         model = User
         # fields = '__all__'
@@ -56,7 +57,7 @@ class CustomUserWriteSerializer(serializers.ModelSerializer):
         return instance
 
 class CustomUserRetrieveSerializer(serializers.ModelSerializer):
-    groups = GroupSerializer(read_only = True)
+    groups = GroupSerializer(many=True,read_only = True)
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
