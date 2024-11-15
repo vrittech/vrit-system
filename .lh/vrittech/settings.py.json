@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 51,
+            "activePatchIndex": 54,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -212,6 +212,18 @@
                 {
                     "date": 1731649321547,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,8 +89,9 @@\n     'careergallery',\n     'management',\n     'forms',\n     'notifications',\n+    'notifications',\n     # 'drfapigenerator',\n     \n ]\n \n"
+                },
+                {
+                    "date": 1731651175198,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -89,9 +89,9 @@\n     'careergallery',\n     'management',\n     'forms',\n     'notifications',\n-    'notifications',\n+    'django_celery_beat',\n     # 'drfapigenerator',\n     \n ]\n \n@@ -275,20 +275,20 @@\n         'PORT': os.getenv('DATABASE_PORT'),\n     }\n }\n \n-CELERY_BROKER_URL = 'redis://localhost:6379/0'\n-CELERY_ACCEPT_CONTENT = ['json']\n-CELERY_TASK_SERIALIZER = 'json'\n-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n-CELERY_TIMEZONE = 'Asia/Kathmandu'\n-CELERY_ENABLE_UTC = False\n+# CELERY_BROKER_URL = 'redis://localhost:6379/0'\n+# CELERY_ACCEPT_CONTENT = ['json']\n+# CELERY_TASK_SERIALIZER = 'json'\n+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n+# CELERY_TIMEZONE = 'Asia/Kathmandu'\n+# CELERY_ENABLE_UTC = False\n \n-CELERY_BEAT_SCHEDULE = {\n-    'publish-scheduled-blogs-every-hour': {\n-        'task': 'your_app.tasks.publish_scheduled_blogs_task',\n-        'schedule': 3600,  # Runs every hour\n-    },\n-}\n+# CELERY_BEAT_SCHEDULE = {\n+#     'publish-scheduled-blogs-every-hour': {\n+#         'task': 'your_app.tasks.publish_scheduled_blogs_task',\n+#         'schedule': 3600,  # Runs every hour\n+#     },\n+# }\n \n USE_TZ = True\n TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731651189861,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -289,6 +289,19 @@\n #         'schedule': 3600,  # Runs every hour\n #     },\n # }\n \n+# Celery Configuration\n+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as the broker\n+CELERY_ACCEPT_CONTENT = ['json']\n+CELERY_TASK_SERIALIZER = 'json'\n+\n+# Optional: Result backend (if you want to track task results)\n+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'\n+CELERY_RESULT_EXTENDED = True\n+\n+# Celery Timezone\n+CELERY_TIMEZONE = 'Asia/Kathmandu'\n+CELERY_ENABLE_UTC = True\n+\n USE_TZ = True\n TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731651204493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -300,8 +300,8 @@\n CELERY_RESULT_EXTENDED = True\n \n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n-CELERY_ENABLE_UTC = True\n+CELERY_ENABLE_UTC = False\n \n USE_TZ = True\n TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729763322697,
