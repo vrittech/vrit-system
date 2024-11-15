@@ -2,7 +2,8 @@ import os
 from celery import Celery
 from celery.schedules import crontab  # For advanced scheduling
 from django.conf import settings
-from celery.schedules import crontab, schedule import os
+from celery.schedules import crontab, schedule 
+import os
 from datetime import timedelta
 from celery import Celery
 
