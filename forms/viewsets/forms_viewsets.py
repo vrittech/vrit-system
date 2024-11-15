@@ -28,6 +28,7 @@ class formsViewsets(viewsets.ModelViewSet):
     filterset_fields = {
         'id': ['exact'],
         'auto_expiration_date': ['exact'],
+        'category': ['exact'],
         'is_show': ['exact'],
         'is_expired': ['exact'],
         'created_at': ['exact','gte','lte'],

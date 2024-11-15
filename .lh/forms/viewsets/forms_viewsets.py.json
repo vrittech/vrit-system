@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 30,
+            "activePatchIndex": 31,
             "patches": [
                 {
                     "date": 1730176761000,
@@ -128,6 +128,10 @@
                 {
                     "date": 1731661202448,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,11 @@\n from rest_framework.decorators import action\n from rest_framework.response import Response\n from rest_framework import viewsets\n from ..models import Forms, Category\n+from rest_framework import status\n \n+\n class formsViewsets(viewsets.ModelViewSet):\n     serializer_class = FormsListSerializers\n     # permission_classes = [formsPermission]\n     # authentication_classes = [JWTAuthentication]\n"
+                },
+                {
+                    "date": 1731670128518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,8 +27,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'auto_expiration_date': ['exact'],\n+        'auto_expiration_date': ['exact'],\n         'is_show': ['exact'],\n         'is_expired': ['exact'],\n         'created_at': ['exact','gte','lte'],\n     }\n"
                 }
             ],
             "date": 1730176761000,
