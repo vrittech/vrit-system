@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 current_os = platform.system()
 
-if current_os == "Linux" and server_type == "AWS":
+if current_os == "Linux" or server_type == "AWS":
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
 else:
     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env

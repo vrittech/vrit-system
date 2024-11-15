@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 54,
+            "activePatchIndex": 55,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -224,6 +224,10 @@
                 {
                     "date": 1731651204493,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -300,8 +300,8 @@\n CELERY_RESULT_EXTENDED = True\n \n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n-CELERY_ENABLE_UTC = True\n+CELERY_ENABLE_UTC = False\n \n USE_TZ = True\n TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731666013720,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n BASE_DIR = Path(__file__).resolve().parent.parent\n \n current_os = platform.system()\n \n-if current_os == \"Linux\" and server_type == \"AWS\":\n+if current_os == \"Linux\" or server_type == \"AWS\":\n     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env\n else:\n     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env\n load_dotenv(dotenv_path)\n"
                 }
             ],
             "date": 1729763322697,
