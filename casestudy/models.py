@@ -53,7 +53,7 @@ class CaseStudy(models.Model):
     site_title = models.CharField(max_length = 300,null=True,blank=True)
     excerpt = models.CharField(max_length = 1300, blank=True,null=True)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled'),('deleted','Deleted')),max_length = 20,default = 'draft')
-    publish_date = models.DateField(null=True,blank=True)
+    publish_date = models.DateTimeField(null=True,blank=True)
     meta_description = models.CharField(max_length = 1200, blank=True,null=True)
     meta_keywords = models.CharField(max_length = 800, blank=True,null=True)
     meta_author = models.CharField(max_length = 300, blank=True,null=True)
