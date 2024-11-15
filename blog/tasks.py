@@ -7,15 +7,22 @@ logger = logging.getLogger(__name__)
 
 @shared_task
 def publish_scheduled_blog_task():
-    current_time = localtime(now())  # Convert UTC to local time based on Django settings
+    current_time = localtime(now())  # Convert to local time based on Django settings
     logger.info(f"Task started at: {current_time}")
+
+    # Log the exact time for clarity
+    logger.info(f"Looking for blogs with publish_date <= {current_time}")
 
     # Filter blogs that are ready to be published
     scheduled_blogs = Blog.objects.filter(
         status='scheduled',
         publish_date__lte=current_time  # Match date and time for DateTimeField
     )
-    logger.info(f"Query executed. Found {scheduled_blogs.count()} scheduled blogs ready for publishing.")
+
+    if scheduled_blogs.exists():
+        logger.info(f"Found {scheduled_blogs.count()} scheduled blogs ready for publishing.")
+    else:
+        logger.info("No scheduled blogs found for the current time.")
 
     published_count = 0
     for blog in scheduled_blogs:
