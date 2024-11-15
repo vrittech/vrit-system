@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1730092395381,
@@ -64,6 +64,10 @@
                 {
                     "date": 1731669831958,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,30 +6,32 @@\n logger = logging.getLogger(__name__)\n \n @shared_task\n def publish_scheduled_blog_task():\n-    current_time = localtime(now())  # Convert to local time based on Django settings\n+    # Get the current time in the timezone set in Django settings\n+    current_time = localtime(now())\n     logger.info(f\"Task started at: {current_time}\")\n \n-    # Log the exact time for clarity\n-    logger.info(f\"Looking for blogs with publish_date <= {current_time}\")\n+    # Log to confirm the query conditions\n+    logger.info(f\"Looking for blogs with publish_date <= {current_time} and status='scheduled'\")\n \n-    # Filter blogs that are ready to be published\n+    # Query for scheduled blogs\n     scheduled_blogs = Blog.objects.filter(\n         status='scheduled',\n-        publish_date__lte=current_time  # Match date and time for DateTimeField\n+        publish_date__lte=current_time  # Ensure publish_date is in the correct timezone\n     )\n \n     if scheduled_blogs.exists():\n         logger.info(f\"Found {scheduled_blogs.count()} scheduled blogs ready for publishing.\")\n     else:\n         logger.info(\"No scheduled blogs found for the current time.\")\n \n+    # Process each blog found\n     published_count = 0\n     for blog in scheduled_blogs:\n         try:\n             logger.info(f\"Processing Blog ID: {blog.id}, Title: {blog.title}, Publish Date: {blog.publish_date}\")\n-            # Update the status to 'published'\n+            # Change status to 'published'\n             blog.status = 'published'\n             blog.save(update_fields=['status'])\n             published_count += 1\n             logger.info(f\"Successfully published Blog ID: {blog.id}\")\n"
+                },
+                {
+                    "date": 1731670052101,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,27 +6,27 @@\n logger = logging.getLogger(__name__)\n \n @shared_task\n def publish_scheduled_blog_task():\n-    # Get the current time in the timezone set in Django settings\n+    # Get the current time in local timezone\n     current_time = localtime(now())\n     logger.info(f\"Task started at: {current_time}\")\n \n-    # Log to confirm the query conditions\n+    # Log to confirm query conditions\n     logger.info(f\"Looking for blogs with publish_date <= {current_time} and status='scheduled'\")\n \n-    # Query for scheduled blogs\n+    # Filter blogs using local time comparison\n     scheduled_blogs = Blog.objects.filter(\n         status='scheduled',\n-        publish_date__lte=current_time  # Ensure publish_date is in the correct timezone\n+        publish_date__lte=current_time  # Match date and time for DateTimeField\n     )\n \n     if scheduled_blogs.exists():\n         logger.info(f\"Found {scheduled_blogs.count()} scheduled blogs ready for publishing.\")\n     else:\n         logger.info(\"No scheduled blogs found for the current time.\")\n \n-    # Process each blog found\n+    # Process each blog\n     published_count = 0\n     for blog in scheduled_blogs:\n         try:\n             logger.info(f\"Processing Blog ID: {blog.id}, Title: {blog.title}, Publish Date: {blog.publish_date}\")\n"
                 }
             ],
             "date": 1730092395381,
