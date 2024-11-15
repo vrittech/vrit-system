@@ -6,5 +6,5 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('category', categoryViewsets, basename="categoryViewsets")
+router.register('forms-category', categoryViewsets, basename="categoryViewsets")
 router.register('forms', formsViewsets, basename="formsViewsets")
