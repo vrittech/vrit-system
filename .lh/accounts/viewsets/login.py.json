@@ -1,0 +1,18 @@
+{
+    "sourceFile": "accounts/viewsets/login.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731660698398,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731660698398,
+            "name": "Commit-0",
+            "content": "from rest_framework.views import APIView\nfrom drf_yasg.utils import swagger_auto_schema\nfrom drf_yasg import openapi\nfrom rest_framework import status\nfrom django.views.decorators.csrf import csrf_exempt\nfrom ..serializers.custom_user_serializers import CustomUserReadSerializer\nfrom rest_framework.response import Response\nfrom accounts.models import CustomUser\nfrom django.contrib.auth import authenticate,login\nfrom rest_framework_simplejwt.tokens import RefreshToken\n\nclass LoginView(APIView):\n    @swagger_auto_schema(\n        request_body=openapi.Schema(\n            type=openapi.TYPE_OBJECT,\n            properties={\n                'email': openapi.Schema(type=openapi.TYPE_STRING),\n                'password': openapi.Schema(type=openapi.TYPE_STRING),\n            },\n            required=['email', 'password']\n        ),\n        # responses={200: MyResponseSerializer},\n        operation_summary=\"Login and get token\",\n        operation_description=\"Login and get token\",\n    )\n    @csrf_exempt\n    def post(self, request):\n        username_or_email = request.data.get('email')\n        password = request.data.get('password')\n\n        # Authenticate the user using either username or email\n        user = authenticate(request, username=username_or_email, password=password)\n        if user is None:\n            user = authenticate(request, email=username_or_email, password=password)\n\n        # If the user is authenticated, log them in and generate tokens\n        if user is not None:\n            if user.is_active == False:\n                return Response({'error': 'Your Account is inactive'}, status=status.HTTP_401_UNAUTHORIZED)\n            login(request, user)\n            refresh = RefreshToken.for_user(user)\n            refresh['remember_me'] = request.data.get('remember_me',False)\n            user_obj = CustomUserReadSerializer(request.user,context={'request': request}) \n            return Response({\n                'access': str(refresh.access_token),\n                'refresh': str(refresh),\n                'user': user_obj.data,\n                'message': 'Login successful',\n            }, status=status.HTTP_200_OK)\n\n        # If the user is not authenticated, return an error message\n        else:\n            from django.db.models import Q\n            user_obj = CustomUser.objects.filter(Q(username=username_or_email) | Q(email=username_or_email))\n            if user_obj.exists():\n                return Response({'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)\n            else:\n                return Response({'error': 'Invalid username/email'}, status=status.HTTP_401_UNAUTHORIZED)\n\n"
+        }
+    ]
+}
