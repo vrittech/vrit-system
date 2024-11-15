@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1731649923923,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731651826184,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,56 +1,30 @@\n from celery import shared_task\n+from emailmanagement.models import EmailManagement  # Correct location of the model\n+from newslettersubscription.models import NewsLetterSubscription\n+from blog.models import Blog\n from django.core.mail import send_mail\n-from django.utils.timezone import now\n-from .models import EmailManagement, NewsLetterSubscription\n-from blog.models import Blog\n from django.conf import settings\n import logging\n \n logger = logging.getLogger(__name__)\n \n @shared_task\n def send_newsletter_subscription_emails():\n-    \"\"\"\n-    Sends newsletters to subscribers based on their selected categories.\n-    \"\"\"\n-    # Fetch EmailManagement configurations for newsletters\n     email_configs = EmailManagement.objects.filter(purpose='newsletter_subscription')\n \n-    sent_count = 0\n-    failed_count = 0\n-\n     for email_config in email_configs:\n-        # Get all subscribers for the associated category\n         subscribers = NewsLetterSubscription.objects.filter(\n             is_subscribed=True, category=email_config.blog_category\n         ).distinct()\n \n         for subscriber in subscribers:\n             try:\n-                # Fetch the required number of blogs for the email\n-                blogs = Blog.objects.filter(category=email_config.blog_category)[:email_config.number_of_blog]\n-\n-                # Prepare the email body\n-                blog_links = \"\\n\".join(\n-                    [f\"{blog.title}: {blog.get_absolute_url()}\" for blog in blogs]\n-                )\n-                email_body = f\"{email_config.body}\\n\\nFeatured Blogs:\\n{blog_links}\"\n-\n-                # Send the email\n                 send_mail(\n                     subject=email_config.subject,\n-                    message=email_body,\n+                    message=email_config.body,\n                     from_email=settings.DEFAULT_FROM_EMAIL,\n                     recipient_list=[subscriber.email],\n-                    fail_silently=False,\n                 )\n-\n-                # Log the successful email\n-                logger.info(f\"Newsletter sent to {subscriber.email}\")\n-                sent_count += 1\n+                logger.info(f\"Email sent to {subscriber.email}\")\n             except Exception as e:\n-                logger.error(f\"Failed to send newsletter to {subscriber.email}: {e}\")\n-                failed_count += 1\n-\n-    logger.info(f\"Newsletter task completed: {sent_count} sent, {failed_count} failed.\")\n-    return f\"Sent: {sent_count}, Failed: {failed_count}\"\n+                logger.error(f\"Failed to send email to {subscriber.email}: {e}\")\n"
                 }
             ],
             "date": 1731649923923,
