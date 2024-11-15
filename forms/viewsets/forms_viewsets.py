@@ -81,15 +81,16 @@ class formsViewsets(viewsets.ModelViewSet):
         category_counts = (
             Category.objects
             .annotate(count=Coalesce(Count('forms'), Value(0)))
-            .values('name', 'count')
+            .values('id','name', 'count')
             .order_by('name')
         )
 
         # Convert QuerySet to a list of dictionaries for direct JSON serialization
         formatted_category_counts = [
-            {"name": category['name'], "count": category['count']}
-            for category in category_counts
+        {"id": category['id'], "name": category['name'], "count": category['count']}
+        for category in category_counts
         ]
+
 
         # Total count of all forms
         total_count = Forms.objects.count()
