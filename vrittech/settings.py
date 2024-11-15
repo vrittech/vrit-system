@@ -301,7 +301,7 @@ CELERY_RESULT_EXTENDED = True
 
 # Celery Timezone
 CELERY_TIMEZONE = 'Asia/Kathmandu'
-CELERY_ENABLE_UTC = False
+CELERY_ENABLE_UTC = True
 
 TIME_ZONE = 'Asia/Kathmandu'
 USE_TZ = True

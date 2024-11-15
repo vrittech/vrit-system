@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 57,
+            "activePatchIndex": 58,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -236,6 +236,10 @@
                 {
                     "date": 1731667859256,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,6 +302,6 @@\n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n CELERY_ENABLE_UTC = False\n \n-USE_TZ = True\n-TIME_ZONE = 'Asia/Kathmandu'\n\\ No newline at end of file\n+TIME_ZONE = 'Asia/Kathmandu'\n+USE_TZ = True\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731668365896,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -300,8 +300,8 @@\n CELERY_RESULT_EXTENDED = True\n \n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n-CELERY_ENABLE_UTC = False\n+CELERY_ENABLE_UTC = True\n \n TIME_ZONE = 'Asia/Kathmandu'\n USE_TZ = True\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729763322697,
