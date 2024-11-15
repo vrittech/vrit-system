@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 24,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -84,6 +84,26 @@
                 {
                     "date": 1730194684066,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,11 +51,11 @@\n \n     date = models.DateField(blank=True, null=True)\n     time = models.TimeField(blank=True, null=True)\n     subject = models.CharField(max_length=255)\n-    purpose = models.CharField(max_length=255)\n+    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n     recipient = models.EmailField()\n-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pesentnding')\n+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sent')\n     preview = models.TextField(blank=True, null=True)\n     scheduled_at = models.DateTimeField(blank=True, null=True)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1731649538996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,7 +64,17 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n \n     def send_email(self):\n-# TODO : Implement email sending logic here\n-        self.status = 'sent'\n+        try:\n+            send_mail(\n+                subject=self.subject,\n+                message=self.preview,\n+                from_email=settings.DEFAULT_FROM_EMAIL,\n+                recipient_list=[self.recipient],\n+                fail_silently=False,\n+            )\n+            self.status = 'sent'\n+        except Exception as e:\n+            logger.error(f\"Failed to send email to {self.recipient}: {e}\")\n+            self.status = 'failed'\n         self.save()\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731649553106,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n from django.db import models\n from blog.models import BlogCategory,Blog\n+from django.core.mail import send_mail\n \n+\n class EmailSetup(models.Model):\n     smtp_server_address = models.CharField(max_length = 300)  #EMAIL_HOST\n     email_address = models.EmailField(max_length = 300)\n     password = models.CharField(max_length = 2000) #app password\n"
+                },
+                {
+                    "date": 1731649615917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,11 @@\n from django.db import models\n from blog.models import BlogCategory,Blog\n from django.core.mail import send_mail\n+from django.conf import settings\n \n \n+\n class EmailSetup(models.Model):\n     smtp_server_address = models.CharField(max_length = 300)  #EMAIL_HOST\n     email_address = models.EmailField(max_length = 300)\n     password = models.CharField(max_length = 2000) #app password\n"
+                },
+                {
+                    "date": 1731649624785,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,9 @@\n from django.db import models\n from blog.models import BlogCategory,Blog\n from django.core.mail import send_mail\n from django.conf import settings\n+import logging\n \n \n \n class EmailSetup(models.Model):\n"
+                },
+                {
+                    "date": 1731649631773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n from blog.models import BlogCategory,Blog\n from django.core.mail import send_mail\n from django.conf import settings\n import logging\n+logger = logging.getLogger(__name__)\n \n \n \n class EmailSetup(models.Model):\n"
                 }
             ],
             "date": 1730109174264,

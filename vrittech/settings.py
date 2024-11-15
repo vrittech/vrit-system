@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'management',
     'forms',
     'notifications',
+    'django_celery_beat',
     # 'drfapigenerator',
     
 ]

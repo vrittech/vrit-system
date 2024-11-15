@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1730092272104,
@@ -36,6 +36,10 @@
                 {
                     "date": 1730094285302,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from django.conf import settings\n \n os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vrittech.settings')\n \n-app = Celery('your_project')\n+app = Celery('vrittech')\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n app.autodiscover_tasks()\n \n"
+                },
+                {
+                    "date": 1731650242630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,50 @@\n import os\n from celery import Celery\n+from celery.schedules import crontab  # For advanced scheduling\n from django.conf import settings\n \n+# Set the default Django settings module for the 'celery' program.\n os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vrittech.settings')\n \n app = Celery('vrittech')\n+\n+# Using a string here means the worker doesn't have to serialize\n+# the configuration object to child processes.\n app.config_from_object('django.conf:settings', namespace='CELERY')\n \n-app.autodiscover_tasks()\n+# Autodiscover tasks from all installed apps\n+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)\n \n-# Run the Celery worker:\n-# celery -A your_project worker --loglevel=info\n+# Periodic task schedules\n+app.conf.beat_schedule = {\n+    # Auto-expire Forms (from the `forms` app)\n+    'auto-expire-forms-daily': {\n+        'task': 'forms.tasks.auto_expire_forms',\n+        'schedule': crontab(hour=0, minute=0),  # Runs daily at midnight\n+    },\n+    # Auto-expire Careers (from the `career` app)\n+    'auto-expire-careers-daily': {\n+        'task': 'career.tasks.auto_expire_careers',\n+        'schedule': crontab(hour=1, minute=0),  # Runs daily at 1:00 AM\n+    },\n+    # Publish Scheduled Blogs (from the `blog` app)\n+    'publish-scheduled-blogs-hourly': {\n+        'task': 'blog.tasks.publish_scheduled_blogs_task',\n+        'schedule': crontab(minute=0),  # Runs hourly\n+    },\n+    # Publish Scheduled Case Studies (from the `casestudy` app)\n+    'publish-scheduled-case-studies-hourly': {\n+        'task': 'casestudy.tasks.publish_scheduled_case_study_task',\n+        'schedule': crontab(minute=30),  # Runs hourly at the 30th minute\n+    },\n+    # Send Newsletters (from the `newslettersubscription` app)\n+    'send-newsletter-emails-daily': {\n+        'task': 'newslettersubscription.tasks.send_newsletter_subscription_emails',\n+        'schedule': crontab(hour=6, minute=0),  # Runs daily at 6:00 AM\n+    },\n+}\n \n-# Run Celery Beat (to enable periodic tasks):\n-# celery -A your_project beat --loglevel=info\n+# Debug Task (Optional)\n+@app.task(bind=True)\n+def debug_task(self):\n+    print(f'Request: {self.request!r}')\n"
                 }
             ],
             "date": 1730092272104,

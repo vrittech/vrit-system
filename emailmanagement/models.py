@@ -1,5 +1,11 @@
 from django.db import models
 from blog.models import BlogCategory,Blog
+from django.core.mail import send_mail
+from django.conf import settings
+import logging
+logger = logging.getLogger(__name__)
+
+
 
 class EmailSetup(models.Model):
     smtp_server_address = models.CharField(max_length = 300)  #EMAIL_HOST
@@ -65,6 +71,16 @@ class EmailLog(models.Model):
         return f'{self.subject} - {self.recipient} - {self.status}'
 
     def send_email(self):
-# TODO : Implement email sending logic here
-        self.status = 'sent'
+        try:
+            send_mail(
+                subject=self.subject,
+                message=self.preview,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[self.recipient],
+                fail_silently=False,
+            )
+            self.status = 'sent'
+        except Exception as e:
+            logger.error(f"Failed to send email to {self.recipient}: {e}")
+            self.status = 'failed'
         self.save()

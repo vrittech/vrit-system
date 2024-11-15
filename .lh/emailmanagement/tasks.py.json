@@ -1,0 +1,18 @@
+{
+    "sourceFile": "emailmanagement/tasks.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731649571594,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731649571594,
+            "name": "Commit-0",
+            "content": "from celery import shared_task\nfrom .models import EmailLog, EmailManagement\nfrom django.utils.timezone import now\nimport logging\n\nlogger = logging.getLogger(__name__)\n\n@shared_task\ndef send_scheduled_emails():\n    # Fetch scheduled emails that are due\n    due_emails = EmailLog.objects.filter(status='scheduled', scheduled_at__lte=now())\n\n    sent_count = 0\n    failed_count = 0\n    for email in due_emails:\n        try:\n            email.send_email()\n            sent_count += 1\n        except Exception as e:\n            logger.error(f\"Failed to send email {email.id}: {e}\")\n            failed_count += 1\n\n    logger.info(f\"Scheduled email task: {sent_count} sent, {failed_count} failed.\")\n    return f\"Sent: {sent_count}, Failed: {failed_count}\"\n\n\n@shared_task\ndef generate_email_logs():\n    # Generate Email Logs based on Email Management configurations\n    email_templates = EmailManagement.objects.all()\n\n    generated_count = 0\n    for template in email_templates:\n        # Logic for creating email logs\n        log = EmailLog.objects.create(\n            subject=template.subject,\n            purpose=template.purpose,\n            recipient=\"example@example.com\",  # Replace with real logic for recipients\n            preview=template.body,\n            status='scheduled',\n            scheduled_at=now(),  # Replace with actual scheduling logic\n        )\n        generated_count += 1\n\n    logger.info(f\"Generated {generated_count} email logs.\")\n    return f\"Generated {generated_count} email logs.\"\n"
+        }
+    ]
+}

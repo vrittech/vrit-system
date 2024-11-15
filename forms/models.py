@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -33,7 +34,7 @@ class Forms(models.Model):
     def save(self, *args, **kwargs):
         # Automatically mark as expired if the expiration date has passed
         if self.auto_expiration and self.auto_expiration_date:
-            from datetime import date
             if date.today() > self.auto_expiration_date:
                 self.is_expired = True
+                self.is_show = False  # Optionally hide the form
         super().save(*args, **kwargs)

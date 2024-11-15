@@ -1,0 +1,26 @@
+{
+    "sourceFile": "career/tasks.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731649220443,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731649227988,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,8 @@\n     )\n \n     for career in expired_careers:\n         career.is_expired = True\n-        career.is_show = False  # Optionally hide expired careers\n+        career.is_show = False  \n         career.save()\n \n     return f\"Auto-expired {expired_careers.count()} careers.\"\n"
+                },
+                {
+                    "date": 1731649362603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,6 @@\n     for career in expired_careers:\n         career.is_expired = True\n         career.is_show = False  \n         career.save()\n-\n+z\n     return f\"Auto-expired {expired_careers.count()} careers.\"\n"
+                }
+            ],
+            "date": 1731649220443,
+            "name": "Commit-0",
+            "content": "from celery import shared_task\nfrom django.utils import timezone\nfrom .models import Career\n\n@shared_task\ndef auto_expire_careers():\n    now = timezone.now()\n    expired_careers = Career.objects.filter(\n        enable_auto_expiration=True,\n        expiration_date__lte=now,\n        is_expired=False\n    )\n\n    for career in expired_careers:\n        career.is_expired = True\n        career.is_show = False  # Optionally hide expired careers\n        career.save()\n\n    return f\"Auto-expired {expired_careers.count()} careers.\"\n"
+        }
+    ]
+}
