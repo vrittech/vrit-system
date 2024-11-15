@@ -300,8 +300,8 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_RESULT_EXTENDED = True
 
 # Celery Timezone
-CELERY_TIMEZONE = 'UTC'  # Set Celery to UTC
-CELERY_ENABLE_UTC = True  # Enable UTC handling in Celery
+CELERY_TIMEZONE = 'Asia/Kathmandu'
+CELERY_ENABLE_UTC = True
 
-TIME_ZONE = 'UTC' 
+TIME_ZONE = 'Asia/Kathmandu'
 USE_TZ = True
