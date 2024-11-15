@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 9,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1730098364898,
@@ -44,6 +44,10 @@
                 {
                     "date": 1731654505212,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,13 @@\n     \n     published_count = 0\n     for case_study in scheduled_case_studies:\n         try:\n-            case_study.publish_if_scheduled()  # Assuming this method publishes and updates the status\n+            # Update the status to 'published'\n+            case_study.status = 'published'\n+            case_study.save(update_fields=['status'])\n             published_count += 1\n+            logger.info(f\"Successfully published CaseStudy ID {case_study.id}\")\n         except Exception as e:\n             logger.error(f\"Failed to publish CaseStudy ID {case_study.id}: {e}\")\n \n     logger.info(f\"Published {published_count} scheduled case studies.\")\n"
+                },
+                {
+                    "date": 1731655590874,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,22 +7,26 @@\n \n @shared_task\n def publish_scheduled_case_study_task():\n     now = timezone.now()  # Get the current timestamp\n+    logger.info(f\"Task started at: {now}\")\n+\n     scheduled_case_studies = CaseStudy.objects.filter(\n         status='scheduled',\n-        publish_date__lte=now\n+        publish_date__lte=now.date()  # Adjust for DateField\n     )\n-    \n+    logger.info(f\"Found {scheduled_case_studies.count()} scheduled case studies.\")\n+\n     published_count = 0\n     for case_study in scheduled_case_studies:\n         try:\n+            logger.info(f\"Processing CaseStudy ID: {case_study.id}\")\n             # Update the status to 'published'\n             case_study.status = 'published'\n             case_study.save(update_fields=['status'])\n             published_count += 1\n-            logger.info(f\"Successfully published CaseStudy ID {case_study.id}\")\n+            logger.info(f\"Successfully published CaseStudy ID: {case_study.id}\")\n         except Exception as e:\n-            logger.error(f\"Failed to publish CaseStudy ID {case_study.id}: {e}\")\n+            logger.error(f\"Failed to publish CaseStudy ID: {case_study.id}: {e}\")\n \n     logger.info(f\"Published {published_count} scheduled case studies.\")\n     return f\"Published {published_count} scheduled case studies\"\n"
                 }
             ],
             "date": 1730098364898,
