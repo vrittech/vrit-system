@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 49,
+            "activePatchIndex": 50,
             "patches": [
                 {
                     "date": 1729762252492,
@@ -204,6 +204,10 @@
                 {
                     "date": 1731567631029,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,10 +41,10 @@\n     position = models.PositiveIntegerField(default=9999)\n     description = models.TextField(blank=True,null=True)\n     group = models.ForeignKey(ProjectGroup,on_delete = models.SET_NULL ,null = True,related_name=\"projects\")\n     project_service = models.ManyToManyField(ProjectService,related_name=\"project_services\",blank=True)\n-    project_link = models.ManyToManyField(ProjectLink,related_name=\"project_link\",b)\n-    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,null = True,related_name=\"project_case\")\n+    project_link = models.ManyToManyField(ProjectLink,related_name=\"project_link\",blank=True)\n+    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,null = True,related_name=\"project_case\",blank=True,null=True)\n \n     media = models.ImageField(upload_to=\"project\",null=True,blank=True)\n  \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1731826856970,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n \n class ProjectGroup(models.Model):\n     name = models.CharField(max_length = 155)\n-    position = models.PositiveIntegerField(default=9999)\n+    position = models.PositiveIntegerField(default=9999,unique=True)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n@@ -42,9 +42,9 @@\n     description = models.TextField(blank=True,null=True)\n     group = models.ForeignKey(ProjectGroup,on_delete = models.SET_NULL ,null = True,related_name=\"projects\")\n     project_service = models.ManyToManyField(ProjectService,related_name=\"project_services\",blank=True)\n     project_link = models.ManyToManyField(ProjectLink,related_name=\"project_link\",blank=True)\n-    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,null = True,related_name=\"project_case\",blank=True,null=True)\n+    case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,related_name=\"project_case\",blank=True,null=True)\n \n     media = models.ImageField(upload_to=\"project\",null=True,blank=True)\n  \n     created_at = models.DateTimeField(auto_now_add=True)\n"
                 }
             ],
             "date": 1729762252492,
