@@ -17,11 +17,12 @@ class testimonialViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','full_name', 'role', 'position', 'ratings', 'testimonial', 'image', 'created_at', 'updated_at',]
-    ordering_fields = ['id','full_name','created_at']
+    ordering_fields = ['id','full_name','created_at','role']
 
     filterset_fields = {
         'id': ['exact'],
         'full_name': ['exact'],
+        'role': ['exact'],
         'ratings': ['exact'],
         'created_at': ['exact','gte','lte'],
     }

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 30,
+            "activePatchIndex": 32,
             "patches": [
                 {
                     "date": 1729851297677,
@@ -128,6 +128,14 @@
                 {
                     "date": 1731835099705,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     ordering_fields = ['id','full_name','created_at']\n \n     filterset_fields = {\n         'id': ['exact'],\n-        'id': ['exact'],\n+        'full_name': ['exact'],\n         'ratings': ['exact'],\n         'created_at': ['exact','gte','lte'],\n     }\n \n"
+                },
+                {
+                    "date": 1731844134099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     queryset = Testimonial.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','full_name', 'role', 'position', 'ratings', 'testimonial', 'image', 'created_at', 'updated_at',]\n-    ordering_fields = ['id','full_name','created_at']\n+    ordering_fields = ['id','full_name','created_at','role']\n \n     filterset_fields = {\n         'id': ['exact'],\n         'full_name': ['exact'],\n"
+                },
+                {
+                    "date": 1731844139750,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,9 @@\n \n     filterset_fields = {\n         'id': ['exact'],\n         'full_name': ['exact'],\n+        'role': ['exact'],\n         'ratings': ['exact'],\n         'created_at': ['exact','gte','lte'],\n     }\n \n"
                 }
             ],
             "date": 1729851297677,
