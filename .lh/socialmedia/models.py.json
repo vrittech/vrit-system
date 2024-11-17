@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1730282142687,
@@ -56,6 +56,14 @@
                 {
                     "date": 1731821284379,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.name\n+        return self.social_media_url\n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                },
+                {
+                    "date": 1731822401035,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n+    position = models\n     def __str__(self):\n         return self.name\n \n class StaffHaveSocialMedia(models.Model):\n"
+                },
+                {
+                    "date": 1731822413328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    position = models\n+    position = models.PositiveIntegerField(default=)\n     def __str__(self):\n         return self.name\n \n class StaffHaveSocialMedia(models.Model):\n"
                 }
             ],
             "date": 1730282142687,

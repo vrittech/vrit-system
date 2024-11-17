@@ -9,6 +9,7 @@ class SocialMedia(models.Model):
     media = models.ImageField(upload_to="social_media")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    position = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.name
 
