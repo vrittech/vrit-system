@@ -9,20 +9,20 @@ class contactusViewsets(viewsets.ModelViewSet):
     serializer_class = ContactUsListSerializers
     # permission_classes = [faqsPermission]
     # authentication_classes = [JWTAuthentication]
-    #pagination_class = MyPageNumberPagination
-    queryset = ContactUs.objects.all()
+    pagination_class = MyPageNumberPagination
+    queryset = ContactUs.objects.all().order_by('-position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
-
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]
+    ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]
+# ('email', 'phone_number', 'position', 'created_at', 'updated_at', )
+    filterset_fields = {
+        'created_at': ['exact','gte','lte'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        #return queryset.filter(user_id=self.request.user.id)
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:

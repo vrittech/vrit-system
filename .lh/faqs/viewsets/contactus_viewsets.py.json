@@ -1,0 +1,54 @@
+{
+    "sourceFile": "faqs/viewsets/contactus_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 9,
+            "patches": [
+                {
+                    "date": 1731844855110,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731844890935,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ContactUsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     #pagination_class = MyPageNumberPagination\n-    queryset = ContactUs.objects.all()\n+    queryset = ContactUs.objects.all().order_by\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n@@ -21,9 +21,9 @@\n     # }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n-        return queryset.filter(user_id=self.request.user.id)\n+        return queryset\n \n     def get_serializer_class(self):\n         if self.action in ['create', 'update', 'partial_update']:\n             return ContactUsWriteSerializers\n"
+                },
+                {
+                    "date": 1731844897572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     serializer_class = ContactUsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     #pagination_class = MyPageNumberPagination\n-    queryset = ContactUs.objects.all().order_by\n+    queryset = ContactUs.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1731844905159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,10 @@\n class contactusViewsets(viewsets.ModelViewSet):\n     serializer_class = ContactUsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n-    #pagination_class = MyPageNumberPagination\n-    queryset = ContactUs.objects.all().order_by('position')\n+    pagination_class = MyPageNumberPagination\n+    queryset = ContactUs.objects.all().order_by('-position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n"
+                },
+                {
+                    "date": 1731844928817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-\n+('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n \n"
+                },
+                {
+                    "date": 1731844934377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id']\n     ordering_fields = ['id']\n-('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n+# ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n \n"
+                },
+                {
+                    "date": 1731844941395,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n     pagination_class = MyPageNumberPagination\n     queryset = ContactUs.objects.all().order_by('-position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id']\n+    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at', )]\n     ordering_fields = ['id']\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     # filterset_fields = {\n     #     'id': ['exact'],\n"
+                },
+                {
+                    "date": 1731844949956,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,10 +12,10 @@\n     pagination_class = MyPageNumberPagination\n     queryset = ContactUs.objects.all().order_by('-position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at', )]\n-    ordering_fields = ['id']\n+    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n+    ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     # filterset_fields = {\n     #     'id': ['exact'],\n     # }\n"
+                },
+                {
+                    "date": 1731844960557,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,11 +15,11 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n     ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n-    # filterset_fields = {\n-    #     'id': ['exact'],\n-    # }\n+    filterset_fields = {\n+        'id': ['exact'],\n+    }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n         return queryset\n"
+                },
+                {
+                    "date": 1731844968587,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n     ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n-        'id': ['exact'],\n+        'created_at': ['exact','gte'],\n     }\n \n     def get_queryset(self):\n         queryset = super().get_queryset()\n"
+                }
+            ],
+            "date": 1731844855110,
+            "name": "Commit-0",
+            "content": "from rest_framework import viewsets\nfrom rest_framework.filters import SearchFilter, OrderingFilter\nfrom django_filters.rest_framework import DjangoFilterBackend\nfrom ..models import ContactUs\nfrom ..serializers.contactus_serializers import ContactUsListSerializers, ContactUsRetrieveSerializers, ContactUsWriteSerializers\nfrom ..utilities.importbase import *\n\nclass contactusViewsets(viewsets.ModelViewSet):\n    serializer_class = ContactUsListSerializers\n    # permission_classes = [faqsPermission]\n    # authentication_classes = [JWTAuthentication]\n    #pagination_class = MyPageNumberPagination\n    queryset = ContactUs.objects.all()\n\n    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n    search_fields = ['id']\n    ordering_fields = ['id']\n\n    # filterset_fields = {\n    #     'id': ['exact'],\n    # }\n\n    def get_queryset(self):\n        queryset = super().get_queryset()\n        return queryset.filter(user_id=self.request.user.id)\n\n    def get_serializer_class(self):\n        if self.action in ['create', 'update', 'partial_update']:\n            return ContactUsWriteSerializers\n        elif self.action == 'retrieve':\n            return ContactUsRetrieveSerializers\n        return super().get_serializer_class()\n\n    # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n    # def action_name(self, request, *args, **kwargs):\n    #     return super().list(request, *args, **kwargs)\n\n"
+        }
+    ]
+}
