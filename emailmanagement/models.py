@@ -39,6 +39,8 @@ class EmailManagement(models.Model):
     excerpt = models.CharField(max_length = 2000)
     featured_image = models.ImageField(upload_to='emailtemplate')
     
+    is_show = models.BooleanField(default = True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

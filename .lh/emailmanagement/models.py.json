@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 27,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -104,6 +104,18 @@
                 {
                     "date": 1731649631773,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n from blog.models import BlogCategory,Blog\n from django.core.mail import send_mail\n from django.conf import settings\n import logging\n+logger = logging.getLogger(__name__)\n \n \n \n class EmailSetup(models.Model):\n"
+                },
+                {
+                    "date": 1731824449947,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,8 +38,10 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n+    is_show = \n+    \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n"
+                },
+                {
+                    "date": 1731824456358,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-    is_show = \n+    is_show = models.BooleanField\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1731824461773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-    is_show = models.BooleanField\n+    is_show = models.BooleanField(default = Tr)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
                 }
             ],
             "date": 1730109174264,
