@@ -53,7 +53,7 @@ class casestudyViewsets(viewsets.ModelViewSet):
     serializer_class = CaseStudyListSerializers
     # permission_classes = [casestudyPermission]
     pagination_class = MyPageNumberPagination
-    queryset = CaseStudy.objects.all().order_by('position')
+    queryset = CaseStudy.objects.all().order_by('-position')
     lookup_field = "slug"
     filterset_class = CaseStudyFilter
      

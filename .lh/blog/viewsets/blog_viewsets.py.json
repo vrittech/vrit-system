@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 51,
+            "activePatchIndex": 52,
             "patches": [
                 {
                     "date": 1730094601329,
@@ -212,6 +212,10 @@
                 {
                     "date": 1731493417314,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -82,10 +82,10 @@\n             {\"name\": all_statuses[status], \"count\": status_count_dict.get(status, 0)}\n             for status in all_statuses.keys()\n         ]\n \n-        # Get the count of blogs where `is_deleted` is True\n-        deleted_count = Blog.objects.filter(is_deleted=True).count()\n+        # # Get the count of blogs where `is_deleted` is True\n+        # deleted_count = Blog.objects.filter(is_deleted=True).count()\n \n         # Prepare the response data\n         response_data = {\n             'status_counts': complete_status_counts,\n"
+                },
+                {
+                    "date": 1731843763519,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n class blogViewsets(viewsets.ModelViewSet):\n     serializer_class = BlogListSerializers\n     # permission_classes = [blogPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = Blog.objects.all().order_by('position')\n+    queryset = Blog.objects.all().order_by('-position')\n     lookup_field = \"slug\"\n     filterset_class = BlogFilter\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n@@ -88,9 +88,9 @@\n \n         # Prepare the response data\n         response_data = {\n             'status_counts': complete_status_counts,\n-            'deleted_count': deleted_count,\n+            # 'deleted_count': deleted_count,\n             'total_count': Blog.objects.count(),  # Total number of blogs\n         }\n         \n         return Response(response_data)\n"
                 }
             ],
             "date": 1730094601329,

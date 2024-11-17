@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 47,
+            "activePatchIndex": 48,
             "patches": [
                 {
                     "date": 1730098185234,
@@ -196,6 +196,10 @@
                 {
                     "date": 1731493431393,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -120,9 +120,9 @@\n             for status in all_statuses.keys()\n         ]\n \n         # Get the count of blogs where `is_deleted` is True\n-        deleted_count = CaseStudy.objects.filter(is_deleted=True).count()\n+        # deleted_count = CaseStudy.objects.filter(is_deleted=True).count()\n \n         # Prepare the response data\n         response_data = {\n             'status_counts': complete_status_counts,\n"
+                },
+                {
+                    "date": 1731843747752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n class casestudyViewsets(viewsets.ModelViewSet):\n     serializer_class = CaseStudyListSerializers\n     # permission_classes = [casestudyPermission]\n     pagination_class = MyPageNumberPagination\n-    queryset = CaseStudy.objects.all().order_by('position')\n+    queryset = CaseStudy.objects.all().order_by('-position')\n     lookup_field = \"slug\"\n     filterset_class = CaseStudyFilter\n      \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n@@ -125,9 +125,9 @@\n \n         # Prepare the response data\n         response_data = {\n             'status_counts': complete_status_counts,\n-            'deleted_count': deleted_count,\n+            # 'deleted_count': deleted_count,\n             'total_count': CaseStudy.objects.count(),  # Total number of blogs\n         }\n         \n         return Response(response_data)\n"
                 }
             ],
             "date": 1730098185234,

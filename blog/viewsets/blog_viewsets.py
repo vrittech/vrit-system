@@ -15,7 +15,7 @@ class blogViewsets(viewsets.ModelViewSet):
     serializer_class = BlogListSerializers
     # permission_classes = [blogPermission]
     pagination_class = MyPageNumberPagination
-    queryset = Blog.objects.all().order_by('position')
+    queryset = Blog.objects.all().order_by('-position')
     lookup_field = "slug"
     filterset_class = BlogFilter
     

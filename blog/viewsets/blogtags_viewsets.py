@@ -10,7 +10,7 @@ class blogtagsViewsets(viewsets.ModelViewSet):
     # permission_classes = [blogPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = BlogTags.objects.all()
+    queryset = BlogTags.objects.all().order_by('-id')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']

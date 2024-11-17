@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 18,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1729853223915,
@@ -80,6 +80,10 @@
                 {
                     "date": 1730099284622,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     serializer_class = FaqsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by\n+    queryset = Faqs.objects.all().order_by('position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n"
+                },
+                {
+                    "date": 1731843807057,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     serializer_class = FaqsListSerializers\n     # permission_classes = [faqsPermission]\n     # authentication_classes = [JWTAuthentication]\n     pagination_class = MyPageNumberPagination\n-    queryset = Faqs.objects.all().order_by('position')\n+    queryset = Faqs.objects.all().order_by('-position')\n \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n     ordering_fields = ['title', 'description', 'position', 'created_at', 'updated_at','id']\n"
                 }
             ],
             "date": 1729853223915,
