@@ -1,0 +1,22 @@
+{
+    "sourceFile": "faqs/admin.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1731844796913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731844805274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from django.contrib import admin\n-from .models import Faqs\n+from .models import Faqs,ContactUs\n # Register your models here.\n \n+admin.site.register(ContactUs)\n admin.site.register(Faqs)\n-admin.site.register(Faqs)\n"
+                }
+            ],
+            "date": 1731844796913,
+            "name": "Commit-0",
+            "content": "from django.contrib import admin\nfrom .models import Faqs\n# Register your models here.\n\nadmin.site.register(Faqs)\nadmin.site.register(Faqs)\n"
+        }
+    ]
+}

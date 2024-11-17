@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1729851688934,
@@ -28,6 +28,26 @@
                 {
                     "date": 1730099171424,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n \n class Faqs(models.Model):\n     title = models.CharField(max_length=255)\n     description = models.TextField()\n-    position=models.BigIntegerField(default=)\n+    position= models.BigIntegerField(default=9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1731844538948,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,4 +13,15 @@\n     \n     def __str__(self):\n         return f\"{self.title})\"\n \n+\n+class Faqs(models.Model):\n+    title = models.CharField(max_length=255)\n+    description = models.TextField()\n+    position= models.BigIntegerField(default=9999)\n+\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n+    def __str__(self):\n+        return f\"{self.title})\"\n"
+                },
+                {
+                    "date": 1731844550934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,10 +14,10 @@\n     def __str__(self):\n         return f\"{self.title})\"\n \n \n-class Faqs(models.Model):\n-    title = models.CharField(max_length=255)\n+class ContactUs(models.Model):\n+    email = models.CharField(max_length=255)\n     description = models.TextField()\n     position= models.BigIntegerField(default=9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1731844566024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n         return f\"{self.title})\"\n \n \n class ContactUs(models.Model):\n-    email = models.CharField(max_length=255)\n-    description = models.TextField()\n+    email = models.EmailField(max_length=255)\n+    phone_number = models.TextField()\n     position= models.BigIntegerField(default=9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731844676814,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n \n \n class ContactUs(models.Model):\n     email = models.EmailField(max_length=255)\n-    phone_number = models.TextField()\n+    phone_number = models.CharField(max_length=255)\n     position= models.BigIntegerField(default=9999)\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731844692708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,5 +23,5 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return f\"{self.title})\"\n+        return f\"{self.email})\"\n"
                 }
             ],
             "date": 1729851688934,

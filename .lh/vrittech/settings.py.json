@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 64,
+            "activePatchIndex": 66,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -264,6 +264,14 @@
                 {
                     "date": 1731818109285,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -303,5 +303,31 @@\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n CELERY_ENABLE_UTC = True\n \n TIME_ZONE = 'Asia/Kathmandu'\n-USE_TZ = False\n\\ No newline at end of file\n+USE_TZ = False\n+\n+LOGGING = {\n+    'version': 1,\n+    'disable_existing_loggers': False,\n+    'handlers': {\n+        'console': {\n+            'class': 'logging.StreamHandler',\n+        },\n+    },\n+    'root': {\n+        'handlers': ['console'],\n+        'level': 'INFO',\n+    },\n+    'loggers': {\n+        'django': {\n+            'handlers': ['console'],\n+            'level': 'INFO',\n+            'propagate': False,\n+        },\n+        'celery': {\n+            'handlers': ['console'],\n+            'level': 'INFO',\n+            'propagate': False,\n+        },\n+    },\n+}\n"
+                },
+                {
+                    "date": 1731844727661,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     'management',\n     'forms',\n     'notifications',\n     'django_celery_beat',\n-    # 'drfapigenerator',\n+    'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
+                },
+                {
+                    "date": 1731844751796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     'management',\n     'forms',\n     'notifications',\n     'django_celery_beat',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
                 }
             ],
             "date": 1729763322697,
