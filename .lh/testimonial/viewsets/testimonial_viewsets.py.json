@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 28,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1729851297677,
@@ -120,6 +120,14 @@
                 {
                     "date": 1729853749422,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n     # @action(detail=False, methods=['get'], name=\"action_name\", url_path=\"url_path\")\n     # def action_name(self, request, *args, **kwargs):\n     #     return super().list(request, *args, **kwargs)\n     \n-    @action(detail=False, methods=['get'], name=\"draggableProject\", url_path=\"drag-Testimonial\")\n+    @action(detail=False, methods=['get'], name=\"draggableTestimonial\", url_path=\"drag-testimonial\")\n     def Draggable(self, request, *args, **kwargs):\n         target_position = request.GET.get('target')  # Position of the target object\n         goal_position = request.GET.get('goal')  # Position of the goal object\n \n"
+                },
+                {
+                    "date": 1731835094629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     ordering_fields = ['id','full_name','created_at']\n \n     filterset_fields = {\n         'id': ['exact'],\n+        'id': ['exact'],\n         'ratings': ['exact'],\n         'created_at': ['exact','gte','lte'],\n     }\n \n"
+                },
+                {
+                    "date": 1731835099705,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     ordering_fields = ['id','full_name','created_at']\n \n     filterset_fields = {\n         'id': ['exact'],\n-        'id': ['exact'],\n+        'full_name': ['exact'],\n         'ratings': ['exact'],\n         'created_at': ['exact','gte','lte'],\n     }\n \n"
                 }
             ],
             "date": 1729851297677,

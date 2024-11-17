@@ -21,6 +21,7 @@ class testimonialViewsets(viewsets.ModelViewSet):
 
     filterset_fields = {
         'id': ['exact'],
+        'full_name': ['exact'],
         'ratings': ['exact'],
         'created_at': ['exact','gte','lte'],
     }
