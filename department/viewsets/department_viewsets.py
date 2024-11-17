@@ -13,12 +13,12 @@ class departmentViewsets(viewsets.ModelViewSet):
     queryset = Department.objects.all()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id']
-    ordering_fields = ['id']
+    search_fields = ['id','name','created_at']
+    ordering_fields = ['id','name','created_at']
 
-    # filterset_fields = {
-    #     'id': ['exact'],
-    # }
+    filterset_fields = {
+        'created_at': ['exact','gte','lte'],
+    }
 
     def get_queryset(self):
         queryset = super().get_queryset()
