@@ -48,6 +48,9 @@ class EmailManagement(models.Model):
         return self.template_name
     
 
+class EmailLogRecipient(models.Model):
+    email = models.EmailField(max_length=230)
+
 
 class EmailLog(models.Model):
     STATUS_CHOICES = [
@@ -60,8 +63,8 @@ class EmailLog(models.Model):
     date = models.DateField(blank=True, null=True)
     time = models.TimeField(blank=True, null=True)
     subject = models.CharField(max_length=255)
-    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))
-    recipient = models.EmailField()
+    purpose = models.CharField(max_length = 50,choices = (('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))
+    recipient = models.ManyToManyField(EmailLogRecipient)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sent')
     preview = models.TextField(blank=True, null=True)
     scheduled_at = models.DateTimeField(blank=True, null=True)
