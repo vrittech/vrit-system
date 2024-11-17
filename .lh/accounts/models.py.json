@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 32,
             "patches": [
                 {
                     "date": 1731409947014,
@@ -112,6 +112,30 @@
                 {
                     "date": 1731645932971,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n         permissions = [\n             ('can_verify_user', 'Can verify user'),\n         ]\n     \n-     @property\n+    @property\n     def full_name(self):\n         try:\n             return self.first_name + \" \" + self.last_name\n         except:\n"
+                },
+                {
+                    "date": 1731820836075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n from django.db import models\n from django.contrib.auth.models import AbstractUser\n from department.models import Department\n+from social\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n"
+                },
+                {
+                    "date": 1731820844726,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n from django.db import models\n from django.contrib.auth.models import AbstractUser\n from department.models import Department\n-from social\n+from socialmedia.models import S\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n"
+                },
+                {
+                    "date": 1731820852498,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,15 +1,15 @@\n from django.db import models\n from django.contrib.auth.models import AbstractUser\n from department.models import Department\n-from socialmedia.models import S\n+from socialmedia.models import SocialMedia\n from django.contrib.auth.models import Group\n \n # Create your models here.\n class CustomUser(AbstractUser):\n     position = models.CharField(max_length = 250,null = True)\n+    email = models.EmailField(max_length = 250,unique = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n-    email = models.EmailField(max_length = 250,unique = True)\n     full_name = models.CharField(max_length = 250,null = True)\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n"
+                },
+                {
+                    "date": 1731820861980,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,12 @@\n \n # Create your models here.\n class CustomUser(AbstractUser):\n     position = models.CharField(max_length = 250,null = True)\n+    department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     email = models.EmailField(max_length = 250,unique = True)\n-    department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     full_name = models.CharField(max_length = 250,null = True)\n+    social\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
+                },
+                {
+                    "date": 1731820871574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     email = models.EmailField(max_length = 250,unique = True)\n     full_name = models.CharField(max_length = 250,null = True)\n-    social\n+    social_links = \n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
+                },
+                {
+                    "date": 1731820876895,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n     position = models.CharField(max_length = 250,null = True)\n     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)\n     email = models.EmailField(max_length = 250,unique = True)\n     full_name = models.CharField(max_length = 250,null = True)\n-    social_links = models.\n+    social_links = models.Man\n \n     avatar = models.ImageField(upload_to='profile',null=True,blank=True)\n     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)\n \n"
                 }
             ],
             "date": 1731409947014,

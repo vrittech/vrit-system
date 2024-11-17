@@ -16,7 +16,11 @@ class StaffHaveSocialMedia(models.Model):
     staff = models.ForeignKey(CustomUser,related_name ="user"  , on_delete=models.CASCADE)
     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)
     social_media_url = models.URLField(max_length = 350)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
+    def __str__(self):
+        return self.social_media_url
 
     class Meta:
         unique_together = ('staff', 'social_media')

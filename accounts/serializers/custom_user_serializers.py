@@ -3,9 +3,22 @@ from django.contrib.auth import get_user_model
 from department.models import Department
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import check_password, make_password
+from socialmedia.models import SocialMedia,StaffHaveSocialMedia
 
 
 User = get_user_model()
+
+class SocialMediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMedia
+        fields = ['id','name', 'url', 'media', 'created_at', 'updated_at' ]  # Adjust fields as per your SocialMedia model
+
+class StaffSocialMediaSerializer(serializers.ModelSerializer):
+    social_media = SocialMediaSerializer(read_only=True)
+
+    class Meta:
+        model = StaffHaveSocialMedia
+        fields = ['social_media', 'social_media_url','created_at', 'updated_at']
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +41,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class CustomUserReadSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
     groups = GroupSerializer(many=True,read_only = True)
+    staffSocialMedia = StaffSocialMediaSerializer(many=True,read_only = True)
     class Meta:
         model = User
         # fields = '__all__'
@@ -36,27 +50,65 @@ class CustomUserReadSerializer(serializers.ModelSerializer):
     
 
 class CustomUserWriteSerializer(serializers.ModelSerializer):
+    groups = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), many=True, required=False)
+    social_media = StaffSocialMediaSerializer(many=True, required=False)
+    
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password','department']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'department', 'groups', 'social_media']
         extra_kwargs = {
             'password': {'write_only': True}
         }
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        groups = validated_data.pop('groups', [])
+        social_media_data = validated_data.pop('social_media', [])
+        password = validated_data.pop('password', None)
+
+        # Create user
+        user = User.objects.create(**validated_data)
+        if password:
+            user.set_password(password)
+        user.groups.set(groups)
+        user.save()
+
+        # Create social media records
+        for sm_data in social_media_data:
+            StaffHaveSocialMedia.objects.create(
+                staff=user,
+                social_media=sm_data['social_media'],
+                social_media_url=sm_data['social_media_url']
+            )
+
         return user
 
     def update(self, instance, validated_data):
+        groups = validated_data.pop('groups', [])
+        social_media_data = validated_data.pop('social_media', [])
         password = validated_data.pop('password', None)
+
+        # Update user fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
         if password:
             instance.set_password(password)
+        instance.groups.set(groups)
         instance.save()
+
+        # Update or create social media records
+        for sm_data in social_media_data:
+            StaffHaveSocialMedia.objects.update_or_create(
+                staff=instance,
+                social_media=sm_data['social_media'],
+                defaults={'social_media_url': sm_data['social_media_url']}
+            )
+
         return instance
 
 class CustomUserRetrieveSerializer(serializers.ModelSerializer):
+    staffSocialMedia = StaffSocialMediaSerializer(many=True,read_only = True)
     groups = GroupSerializer(many=True,read_only = True)
     department = DepartmentSerializer(read_only = True)
     class Meta:

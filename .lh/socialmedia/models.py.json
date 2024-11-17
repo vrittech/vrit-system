@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 8,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1730282142687,
@@ -40,6 +40,22 @@
                 {
                     "date": 1730282303973,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,9 @@\n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n-    def __str__(self):\n-        return self.title\n+    \n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                },
+                {
+                    "date": 1731821259117,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,10 @@\n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n     \n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n"
+                },
+                {
+                    "date": 1731821272079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,9 @@\n     social_media_url = models.URLField(max_length = 350)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n+    def __str__(self):\n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                },
+                {
+                    "date": 1731821278246,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,9 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n+        return self.name\n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
+                },
+                {
+                    "date": 1731821284379,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,9 +19,9 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return self.name\n+        return self.social_media_url\n \n     class Meta:\n         unique_together = ('staff', 'social_media')\n \n"
                 }
             ],
             "date": 1730282142687,
