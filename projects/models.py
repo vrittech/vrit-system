@@ -4,7 +4,7 @@ from casestudy.models import CaseStudy
 
 class ProjectGroup(models.Model):
     name = models.CharField(max_length = 155)
-    position = models.PositiveIntegerField(default=9999,unique=True)
+    position = models.PositiveIntegerField(default=9999)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

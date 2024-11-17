@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 51,
+            "activePatchIndex": 52,
             "patches": [
                 {
                     "date": 1729762252492,
@@ -212,6 +212,10 @@
                 {
                     "date": 1731827040175,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     is_feature= models.BooleanField(default=False)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n+\n     def __str__(self):\n         return self.name \n \n class ProjectLink(models.Model):\n"
+                },
+                {
+                    "date": 1731827230727,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n \n class ProjectGroup(models.Model):\n     name = models.CharField(max_length = 155)\n-    position = models.PositiveIntegerField(default=9999,unique=True)\n+    position = models.PositiveIntegerField(default=9999)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n"
                 }
             ],
             "date": 1729762252492,
