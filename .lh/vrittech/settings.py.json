@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 63,
+            "activePatchIndex": 64,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -260,6 +260,10 @@
                 {
                     "date": 1731672549139,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -302,6 +302,6 @@\n # Celery Timezone\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n CELERY_ENABLE_UTC = True\n \n-TIMTrueE_ZONE = 'Asia/Kathmandu'\n-USE_TZ = \n\\ No newline at end of file\n+TIME_ZONE = 'Asia/Kathmandu'\n+USE_TZ = False\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731818109285,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -303,5 +303,31 @@\n CELERY_TIMEZONE = 'Asia/Kathmandu'\n CELERY_ENABLE_UTC = True\n \n TIME_ZONE = 'Asia/Kathmandu'\n-USE_TZ = False\n\\ No newline at end of file\n+USE_TZ = False\n+\n+LOGGING = {\n+    'version': 1,\n+    'disable_existing_loggers': False,\n+    'handlers': {\n+        'console': {\n+            'class': 'logging.StreamHandler',\n+        },\n+    },\n+    'root': {\n+        'handlers': ['console'],\n+        'level': 'INFO',\n+    },\n+    'loggers': {\n+        'django': {\n+            'handlers': ['console'],\n+            'level': 'INFO',\n+            'propagate': False,\n+        },\n+        'celery': {\n+            'handlers': ['console'],\n+            'level': 'INFO',\n+            'propagate': False,\n+        },\n+    },\n+}\n"
                 }
             ],
             "date": 1729763322697,
