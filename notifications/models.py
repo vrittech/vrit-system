@@ -16,5 +16,10 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.module_name}"
+    
+    class Meta:
+        permissions = [
+            ('manage_notification', 'Manage Notification'),
+        ]
 
     

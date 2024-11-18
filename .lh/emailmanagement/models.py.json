@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 37,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -116,6 +116,46 @@
                 {
                     "date": 1731824461773,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-    is_show = models.BooleanField\n+    is_show = models.BooleanField(default = Tr)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n"
+                },
+                {
+                    "date": 1731905012807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n     def __str__(self):\n         return self.email_address\n \n \n+\n # Create your models here.\n class EmailManagement(models.Model):\n     template_name = models.CharField(max_length = 255)\n     from_name = models.CharField(max_length = 155)\n@@ -38,18 +39,21 @@\n     additional_blog = models.ManyToManyField(Blog)\n     excerpt = models.CharField(max_length = 2000)\n     featured_image = models.ImageField(upload_to='emailtemplate')\n     \n-    is_show = models.BooleanField(default = Tr)\n+    is_show = models.BooleanField(default = True)\n     \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.template_name\n     \n \n+class EmailLogRecipient(models.Model):\n+    email = models.EmailField(max_length=230)\n \n+\n class EmailLog(models.Model):\n     STATUS_CHOICES = [\n         ('sent', 'sent'),\n         ('failed', 'failed'),\n@@ -59,10 +63,10 @@\n \n     date = models.DateField(blank=True, null=True)\n     time = models.TimeField(blank=True, null=True)\n     subject = models.CharField(max_length=255)\n-    purpose = models.CharField(max_length = 50,choices = (('blog','Blog'),('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n-    recipient = models.EmailField()\n+    purpose = models.CharField(max_length = 50,choices = (('contact_us','Contact Us'),('newsletter_subscription','News Letter Subscription')))\n+    recipient = models.ManyToManyField(EmailLogRecipient)\n     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sent')\n     preview = models.TextField(blank=True, null=True)\n     scheduled_at = models.DateTimeField(blank=True, null=True)\n \n"
+                },
+                {
+                    "date": 1731905018281,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,11 +18,14 @@\n     verify_smtp_certificate = models.BooleanField(default = False)\n     \n     def __str__(self):\n         return self.email_address\n+    class Meta:\n+        permissions = [\n+            ('manage_blog', 'Manage Blog'),\n+        ]\n \n \n-\n # Create your models here.\n class EmailManagement(models.Model):\n     template_name = models.CharField(max_length = 255)\n     from_name = models.CharField(max_length = 155)\n"
+                },
+                {
+                    "date": 1731905025433,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     def __str__(self):\n         return self.email_address\n     class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_email_setup', 'Manage Blog'),\n         ]\n \n \n # Create your models here.\n"
+                },
+                {
+                    "date": 1731905034418,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n     def __str__(self):\n         return self.email_address\n     class Meta:\n         permissions = [\n-            ('manage_email_setup', 'Manage Blog'),\n+            ('manage_email_setup', 'Manage Email Setup'),\n         ]\n \n \n # Create your models here.\n@@ -50,8 +50,9 @@\n     \n     def __str__(self):\n         return self.template_name\n     \n+    \n \n class EmailLogRecipient(models.Model):\n     email = models.EmailField(max_length=230)\n \n"
+                },
+                {
+                    "date": 1731905044251,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -49,10 +49,13 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return self.template_name\n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Blog'),\n+        ]\n     \n-    \n \n class EmailLogRecipient(models.Model):\n     email = models.EmailField(max_length=230)\n \n"
+                },
+                {
+                    "date": 1731905049542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,9 +51,9 @@\n     def __str__(self):\n         return self.template_name\n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Blog'),\n+            ('manage_email_management', 'Manage Email Management'),\n         ]\n     \n \n class EmailLogRecipient(models.Model):\n"
+                },
+                {
+                    "date": 1731905057556,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,8 +81,11 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n+    \n+    \n+    \n \n     def send_email(self):\n         try:\n             send_mail(\n"
+                },
+                {
+                    "date": 1731905069088,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,11 +81,14 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n     \n     \n-    \n \n     def send_email(self):\n         try:\n             send_mail(\n"
+                },
+                {
+                    "date": 1731905076144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_email_log', 'Manage Email Management'),\n         ]\n     \n     \n \n"
+                },
+                {
+                    "date": 1731905085194,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n     class Meta:\n         permissions = [\n-            ('manage_email_log', 'Manage Email Management'),\n+            ('manage_email_log', 'Manage Email Log'),\n         ]\n     \n     \n \n"
                 }
             ],
             "date": 1730109174264,

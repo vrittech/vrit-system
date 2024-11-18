@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 42,
+            "activePatchIndex": 47,
             "patches": [
                 {
                     "date": 1729835006074,
@@ -176,6 +176,26 @@
                 {
                     "date": 1731316435419,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,9 @@\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.name)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+        super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.name\n     \n"
+                },
+                {
+                    "date": 1731904938301,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -51,5 +51,10 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n         return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n+    \n+      class Meta:\n+        permissions = [\n+            ('manage_blog', 'Manage Blog'),\n+        ]\n \n"
+                },
+                {
+                    "date": 1731904946630,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n \n     def __str__(self):\n         return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n     \n-      class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_client', 'Manage Blog'),\n         ]\n \n"
+                },
+                {
+                    "date": 1731904956240,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -54,7 +54,7 @@\n         return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_client', 'Manage Blog'),\n+            ('manage_client_settings', 'Manage Client Settings'),\n         ]\n \n"
+                },
+                {
+                    "date": 1731904962833,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,12 @@\n         super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.name\n+      class Meta:\n+        permissions = [\n+            ('manage_blog', 'Manage Blog'),\n+        ]\n     \n \n class ClientSettings(models.Model):\n     SECTION_CHOICES = [\n"
+                },
+                {
+                    "date": 1731904971108,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,11 +26,11 @@\n         super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.name\n-      class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_clients', 'Manage Blog'),\n         ]\n     \n \n class ClientSettings(models.Model):\n"
                 }
             ],
             "date": 1729835006074,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 10,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1729851688934,
@@ -48,6 +48,26 @@
                 {
                     "date": 1731844692708,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,5 +23,5 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n-        return f\"{self.title})\"\n+        return f\"{self.email})\"\n"
+                },
+                {
+                    "date": 1731905097656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,8 +12,13 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return f\"{self.title})\"\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n \n \n class ContactUs(models.Model):\n     email = models.EmailField(max_length=255)\n"
+                },
+                {
+                    "date": 1731905106308,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n         return f\"{self.title})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_Faqs', 'Manage Email Management'),\n         ]\n \n \n class ContactUs(models.Model):\n"
+                },
+                {
+                    "date": 1731905114140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n         return f\"{self.title})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_Faqs', 'Manage Email Management'),\n+            ('manage_Faqs', 'Manage Email Faqs'),\n         ]\n \n \n class ContactUs(models.Model):\n@@ -29,4 +29,9 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n         return f\"{self.email})\"\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n"
+                },
+                {
+                    "date": 1731905121836,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,6 +32,6 @@\n         return f\"{self.email})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_contact_us', 'Manage Email Management'),\n         ]\n"
+                },
+                {
+                    "date": 1731905127934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,6 +32,6 @@\n         return f\"{self.email})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_contact_us', 'Manage Email Management'),\n+            ('manage_contact_us', 'Manage Contact Us Management'),\n         ]\n"
                 }
             ],
             "date": 1729851688934,

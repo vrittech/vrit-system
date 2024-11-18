@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 8,
             "patches": [
                 {
                     "date": 1729846131497,
@@ -28,6 +28,18 @@
                 {
                     "date": 1730272569081,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,13 +5,8 @@\n \n     def __str__(self):\n         return self.title\n \n-    class Meta:\n-        verbose_name = \"Album\"\n-        verbose_name_plural = \"Albums\"\n-        ordering = ['title']\n-\n # Create your models here.\n class CareerGallery(models.Model):\n     name = models.CharField(max_length=255)\n     album = models.ForeignKey(\n@@ -20,16 +15,11 @@\n         blank=True, \n         on_delete=models.SET_NULL, \n         related_name=\"career_galleries\"\n     )\n-    position = models.PositiveIntegerField(default=0)\n-    image = models.ImageField(upload_to='career_gallery')\n+    position = models.PositiveIntegerField(default=9999)\n+    media = models.ImageField(upload_to='career_gallery')\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n-        return f\"{self.name} - {self.album}\"\n-\n-    class Meta:\n-        verbose_name = \"Career Gallery\"\n-        verbose_name_plural = \"Career Galleries\"\n-        ordering = ['position', 'created_at']\n+        return f\"{self.name} - {self.album}\"\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731904881911,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,5 +21,10 @@\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self):\n-        return f\"{self.name} - {self.album}\"\n\\ No newline at end of file\n+        return f\"{self.name} - {self.album}\"\n+    \n+      class Meta:\n+        permissions = [\n+            ('manage_blog', 'Manage Blog'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731904890909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,8 @@\n \n     def __str__(self):\n         return f\"{self.name} - {self.album}\"\n     \n-      class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_career', 'Manage Blog'),\n         ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731904903609,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,6 +25,6 @@\n         return f\"{self.name} - {self.album}\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_career', 'Manage Blog'),\n+            ('manage_career_gallery', 'Manage Career Gallery'),\n         ]\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729846131497,

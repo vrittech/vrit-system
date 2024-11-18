@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1729840567274,
@@ -112,6 +112,14 @@
                 {
                     "date": 1731316459138,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,14 +33,15 @@\n \n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n-    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True\n+    public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)\n     slug = models.SlugField(unique=True, blank=True)\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n+         super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.title\n \n"
+                },
+                {
+                    "date": 1731904863035,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n     \n     def save(self, *args, **kwargs):\n         if not self.slug:\n             self.slug = f'{slugify(self.title)}-{str(self.public_id)[1:5]}{str(self.public_id)[-1:-5]}'\n-         super().save(*args, **kwargs)\n+        super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.title\n \n@@ -59,5 +59,10 @@\n         \"\"\"\n         if self.has_expired():\n             self.is_expired = True\n             self.is_show = False\n-            self.save()\n\\ No newline at end of file\n+            self.save()\n+    \n+      class Meta:\n+        permissions = [\n+            ('manage_blog', 'Manage Blog'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731904870919,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,8 +61,8 @@\n             self.is_expired = True\n             self.is_show = False\n             self.save()\n     \n-      class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_career', 'Manage Blog'),\n         ]\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1729840567274,

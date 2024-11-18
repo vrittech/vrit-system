@@ -17,3 +17,8 @@ class NewsLetterSubscription(models.Model):
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        permissions = [
+            ('manage_news_letter_subscription', 'Manage News Letter Subscription'),
+        ]

@@ -96,6 +96,11 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
     
+    class Meta:
+        permissions = [
+            ('manage_blog', 'Manage Blog'),
+        ]
+    
     # def publish_if_scheduled(self):
     #     if self.status == 'scheduled' and self.publish_date <= timezone.now().date():
     #         self.status = 'published'

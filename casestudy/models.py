@@ -95,3 +95,8 @@ class CaseStudy(models.Model):
         for case_study in scheduled_case_study:
             case_study.publish_if_scheduled()
 
+    class Meta:
+        permissions = [
+            ('manage_case_study', 'Manage Case Study'),
+        ]
+

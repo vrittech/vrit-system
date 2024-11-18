@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 31,
+            "activePatchIndex": 34,
             "patches": [
                 {
                     "date": 1730114962486,
@@ -132,6 +132,18 @@
                 {
                     "date": 1731649448740,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n from django.db import models\n+from datetime import date\n \n class Category(models.Model):\n     name = models.CharField(max_length=255)\n     created_at = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1731905140573,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,5 +36,10 @@\n         if self.auto_expiration and self.auto_expiration_date:\n             if date.today() > self.auto_expiration_date:\n                 self.is_expired = True\n                 self.is_show = False  # Optionally hide the form\n-        super().save(*args, **kwargs)\n\\ No newline at end of file\n+        super().save(*args, **kwargs)\n+        \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905153817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,6 +40,6 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_forms', 'Manage Email Management'),\n         ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905160323,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,6 +40,6 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_forms', 'Manage Email Management'),\n+            ('manage_forms', 'Manage Forms'),\n         ]\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730114962486,

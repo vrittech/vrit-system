@@ -8,4 +8,7 @@ class Gallery(models.Model):
     
     def __str__(self):
         return self.name
-    
+    class Meta:
+        permissions = [
+            ('manage_gallery', 'Manage Gallery'),
+        ]

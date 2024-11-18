@@ -61,3 +61,8 @@ class Career(models.Model):
             self.is_expired = True
             self.is_show = False
             self.save()
+    
+    class Meta:
+        permissions = [
+            ('manage_career', 'Manage Career'),
+        ]

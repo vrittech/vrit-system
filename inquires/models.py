@@ -19,3 +19,8 @@ class Inquires(models.Model):
     def __str__(self):
         return self.first_name
     
+    class Meta:
+        permissions = [
+            ('manage_inquiries', 'Manage Inquiries'),
+        ]
+    

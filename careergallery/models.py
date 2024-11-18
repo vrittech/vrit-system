@@ -23,3 +23,8 @@ class CareerGallery(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.album}"
+    
+    class Meta:
+        permissions = [
+            ('manage_career_gallery', 'Manage Career Gallery'),
+        ]

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 26,
             "patches": [
                 {
                     "date": 1730282142687,
@@ -64,6 +64,54 @@
                 {
                     "date": 1731822413328,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    position = models\n+    position = models.PositiveIntegerField(default=)\n     def __str__(self):\n         return self.name\n \n class StaffHaveSocialMedia(models.Model):\n"
+                },
+                {
+                    "date": 1731905502804,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     url = models.URLField(max_length = 255,unique =  True)\n     media = models.ImageField(upload_to=\"social_media\")\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n-    position = models.PositiveIntegerField(default=)\n+    position = models.PositiveIntegerField(default=0)\n     def __str__(self):\n         return self.name\n \n class StaffHaveSocialMedia(models.Model):\n@@ -23,9 +23,9 @@\n     def __str__(self):\n         return self.social_media_url\n \n     class Meta:\n-        unique_together = ('staff', 'social_media')\n+        unique_together = ('staff', 'social_media')\\\n \n class SiteSocialMedia(models.Model):\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n"
+                },
+                {
+                    "date": 1731905508126,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,11 @@\n     def __str__(self):\n         return self.social_media_url\n \n     class Meta:\n-        unique_together = ('staff', 'social_media')\\\n-\n+        unique_together = ('staff', 'social_media')\n+    class Meta:\n+        \n class SiteSocialMedia(models.Model):\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n \n"
+                },
+                {
+                    "date": 1731905515266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,14 @@\n     def __str__(self):\n         return self.social_media_url\n \n     class Meta:\n-        unique_together = ('staff', 'social_media')\n-    class Meta:\n+        unique_together = ('staff', 'social_media')\\\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n+\n+   \n         \n class SiteSocialMedia(models.Model):\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n"
+                },
+                {
+                    "date": 1731905520348,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,14 +23,15 @@\n     def __str__(self):\n         return self.social_media_url\n \n     class Meta:\n-        unique_together = ('staff', 'social_media')\\\n+        unique_together = ('staff', 'social_media')\n+        \n         permissions = [\n             ('manage_email_management', 'Manage Email Management'),\n         ]\n \n-   \n+\n         \n class SiteSocialMedia(models.Model):\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n"
+                },
+                {
+                    "date": 1731905531884,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     class Meta:\n         unique_together = ('staff', 'social_media')\n         \n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_staff_social_media', 'Manage Email Management'),\n         ]\n \n \n         \n"
+                },
+                {
+                    "date": 1731905539091,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     class Meta:\n         unique_together = ('staff', 'social_media')\n         \n         permissions = [\n-            ('manage_staff_social_media', 'Manage Email Management'),\n+            ('manage_staff_social_media', 'Manage Staff Soial Media'),\n         ]\n \n \n         \n"
+                },
+                {
+                    "date": 1731905555574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,6 +34,11 @@\n         \n class SiteSocialMedia(models.Model):\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n+    \n+    permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n \n \n+\n"
+                },
+                {
+                    "date": 1731905565406,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_social_media', 'Manage Email Management'),\n         ]\n \n \n \n"
+                },
+                {
+                    "date": 1731905571350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_social_media', 'Manage Email Management'),\n+            ('manage_social_media', 'Manage Social Media'),\n         ]\n \n \n \n"
+                },
+                {
+                    "date": 1731905576795,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_social_media', 'Manage Social Media'),\n+            ('manage_sitesocial_media', 'Manage Social Media'),\n         ]\n \n \n \n"
+                },
+                {
+                    "date": 1731905585306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_sitesocial_media', 'Manage Social Media'),\n+            ('manage_site_social_media', 'Manage Social Media'),\n         ]\n \n \n \n"
+                },
+                {
+                    "date": 1731905591666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,12 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     position = models.PositiveIntegerField(default=0)\n     def __str__(self):\n         return self.name\n+    \n+    permissions = [\n+            ('manage_social_media', 'Manage Social Media'),\n+        ]\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n@@ -36,9 +40,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_site_social_media', 'Manage Social Media'),\n+            ('manage_site_social_media', 'Manage Site Social Media'),\n         ]\n \n \n \n"
                 }
             ],
             "date": 1730282142687,

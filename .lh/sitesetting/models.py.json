@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1730111431318,
@@ -24,6 +24,34 @@
                 {
                     "date": 1730112190535,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,8 +6,11 @@\n     success_stories_number =  models.PositiveIntegerField()\n     team_member_number = models.PositiveIntegerField()\n     project_completed_number = models.PositiveIntegerField()\n     \n+        created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n class TermAndCondition(models.Model):\n     description = models.TextField()\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731905439786,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,11 +6,16 @@\n     success_stories_number =  models.PositiveIntegerField()\n     team_member_number = models.PositiveIntegerField()\n     project_completed_number = models.PositiveIntegerField()\n     \n-        created_date = models.DateTimeField(auto_now_add=True)\n+    created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n+    \n class TermAndCondition(models.Model):\n     description = models.TextField()\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n"
+                },
+                {
+                    "date": 1731905446518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     updated_date = models.DateTimeField(auto_now=True)\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_site_settings', 'Manage Email Management'),\n         ]\n     \n class TermAndCondition(models.Model):\n     description = models.TextField()\n"
+                },
+                {
+                    "date": 1731905452183,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,29 @@\n+from django.db import models\n+\n+# Create your models here.\n+class SiteSetting(models.Model):\n+    experience_number = models.PositiveIntegerField()\n+    success_stories_number =  models.PositiveIntegerField()\n+    team_member_number = models.PositiveIntegerField()\n+    project_completed_number = models.PositiveIntegerField()\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_site_settings', 'Manage Site Settings'),\n+        ]\n+    \n+class TermAndCondition(models.Model):\n+    description = models.TextField()\n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+class PrivacyPolicy(models.Model):\n+    description = models.TextField()\n+    \n+    created_date = models.DateTimeField(auto_now_add=True)\n+    updated_date = models.DateTimeField(auto_now=True)\n+    \n+        \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905463410,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,37 +19,13 @@\n     description = models.TextField()\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     \n-class PrivacyPolicy(models.Model):\n-    description = models.TextField()\n-    \n-    created_date = models.DateTimeField(auto_now_add=True)\n-    updated_date = models.DateTimeField(auto_now=True)\n-    \n-        \n-from django.db import models\n-\n-# Create your models here.\n-class SiteSetting(models.Model):\n-    experience_number = models.PositiveIntegerField()\n-    success_stories_number =  models.PositiveIntegerField()\n-    team_member_number = models.PositiveIntegerField()\n-    project_completed_number = models.PositiveIntegerField()\n-    \n-    created_date = models.DateTimeField(auto_now_add=True)\n-    updated_date = models.DateTimeField(auto_now=True)\n-    \n     class Meta:\n         permissions = [\n-            ('manage_site_settings', 'Manage Email Management'),\n+            ('manage_terms', 'Manage Email Management'),\n         ]\n     \n-class TermAndCondition(models.Model):\n-    description = models.TextField()\n-    created_date = models.DateTimeField(auto_now_add=True)\n-    updated_date = models.DateTimeField(auto_now=True)\n-    \n class PrivacyPolicy(models.Model):\n     description = models.TextField()\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n"
+                },
+                {
+                    "date": 1731905474515,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     updated_date = models.DateTimeField(auto_now=True)\n     \n     class Meta:\n         permissions = [\n-            ('manage_terms', 'Manage Email Management'),\n+            ('manage_terms_conditions', 'Manage Terms Conditions'),\n         ]\n     \n class PrivacyPolicy(models.Model):\n     description = models.TextField()\n"
+                },
+                {
+                    "date": 1731905484034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,6 +29,10 @@\n     description = models.TextField()\n     \n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n+    class Meta:\n+        permissions = [\n+            ('manage_pri', 'Manage Email Management'),\n+        ]\n     \n         \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905494467,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,8 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     class Meta:\n         permissions = [\n-            ('manage_pri', 'Manage Email Management'),\n+            ('manage_privacy_policy', 'Manage Privacy Policy'),\n         ]\n     \n         \n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730111431318,

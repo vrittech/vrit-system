@@ -21,3 +21,8 @@ class GlobalPresence(models.Model):
     
     def __str__(self):
         return self.company_name
+    
+    class Meta:
+        permissions = [
+            ('manage_global_presence', 'Manage Global Presence'),
+        ]

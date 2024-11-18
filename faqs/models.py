@@ -13,6 +13,11 @@ class Faqs(models.Model):
     
     def __str__(self):
         return f"{self.title})"
+    
+    class Meta:
+        permissions = [
+            ('manage_Faqs', 'Manage Email Faqs'),
+        ]
 
 
 class ContactUs(models.Model):
@@ -25,3 +30,8 @@ class ContactUs(models.Model):
     
     def __str__(self):
         return f"{self.email})"
+    
+    class Meta:
+        permissions = [
+            ('manage_contact_us', 'Manage Contact Us'),
+        ]

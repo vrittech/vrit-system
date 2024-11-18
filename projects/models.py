@@ -10,6 +10,11 @@ class ProjectGroup(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    class Meta:
+        permissions = [
+            ('manage_project_group', 'Manage Project Group'),
+        ]
 
 
 class ProjectService(models.Model):
@@ -24,6 +29,10 @@ class ProjectService(models.Model):
 
     def __str__(self):
         return self.name 
+    class Meta:
+        permissions = [
+            ('manage_project_service', 'Manage Project Service'),
+        ]
 
 class ProjectLink(models.Model):
     # project_link = models.ForeignKey(Project,on_delete = models.CASCADE,related_name = 'project')
@@ -53,6 +62,11 @@ class Project(models.Model):
 
     def __self__(self):
         return self.name
+    
+    class Meta:
+        permissions = [
+            ('manage_project', 'Manage Project'),
+        ]
 
 
     

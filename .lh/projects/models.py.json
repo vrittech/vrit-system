@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 52,
+            "activePatchIndex": 58,
             "patches": [
                 {
                     "date": 1729762252492,
@@ -216,6 +216,30 @@
                 {
                     "date": 1731827230727,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n \n class ProjectGroup(models.Model):\n     name = models.CharField(max_length = 155)\n-    position = models.PositiveIntegerField(default=9999,unique=True)\n+    position = models.PositiveIntegerField(default=9999)\n     created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n"
+                },
+                {
+                    "date": 1731905383412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,13 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __str__(self) -> str:\n         return self.name\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n \n \n class ProjectService(models.Model):\n     name = models.CharField(max_length = 155)\n"
+                },
+                {
+                    "date": 1731905392332,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         return self.name\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_project_+group', 'Manage Email Management'),\n         ]\n \n \n class ProjectService(models.Model):\n"
+                },
+                {
+                    "date": 1731905401041,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         return self.name\n     \n     class Meta:\n         permissions = [\n-            ('manage_project_+group', 'Manage Email Management'),\n+            ('manage_project_group', 'Manage Project Group'),\n         ]\n \n \n class ProjectService(models.Model):\n"
+                },
+                {
+                    "date": 1731905411384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,12 @@\n \n \n     def __str__(self):\n         return self.name \n+    class Meta:\n+        permissions = [\n+            ('manage_project_service', 'Manage Email Management'),\n+        ]\n \n class ProjectLink(models.Model):\n     # project_link = models.ForeignKey(Project,on_delete = models.CASCADE,related_name = 'project')\n     label = models.CharField(max_length = 155)\n"
+                },
+                {
+                    "date": 1731905417085,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     def __str__(self):\n         return self.name \n     class Meta:\n         permissions = [\n-            ('manage_project_service', 'Manage Email Management'),\n+            ('manage_project_service', 'Manage Project Service'),\n         ]\n \n class ProjectLink(models.Model):\n     # project_link = models.ForeignKey(Project,on_delete = models.CASCADE,related_name = 'project')\n"
+                },
+                {
+                    "date": 1731905426352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,7 +61,12 @@\n     updated_at = models.DateTimeField(auto_now=True)\n \n     def __self__(self):\n         return self.name\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_project', 'Manage Email Management'),\n+        ]\n \n \n     \n"
                 }
             ],
             "date": 1729762252492,

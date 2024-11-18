@@ -19,6 +19,10 @@ class EmailSetup(models.Model):
     
     def __str__(self):
         return self.email_address
+    class Meta:
+        permissions = [
+            ('manage_email_setup', 'Manage Email Setup'),
+        ]
 
 
 # Create your models here.
@@ -46,6 +50,10 @@ class EmailManagement(models.Model):
     
     def __str__(self):
         return self.template_name
+    class Meta:
+        permissions = [
+            ('manage_email_management', 'Manage Email Management'),
+        ]
     
 
 class EmailLogRecipient(models.Model):
@@ -74,6 +82,12 @@ class EmailLog(models.Model):
 
     def __str__(self):
         return f'{self.subject} - {self.recipient} - {self.status}'
+    class Meta:
+        permissions = [
+            ('manage_email_log', 'Manage Email Log'),
+        ]
+    
+    
 
     def send_email(self):
         try:

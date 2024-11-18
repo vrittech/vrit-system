@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 29,
+            "activePatchIndex": 39,
             "patches": [
                 {
                     "date": 1730100667672,
@@ -124,6 +124,46 @@
                 {
                     "date": 1730107058124,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     \n     def __str__(self):\n         return self.title\n     \n-       def clean(self):\n+    def clean(self):\n         visible_plans_count = Plan.objects.filter(is_show=True).count()\n \n         # Validation: At least 1 plan must be visible\n         if not self.is_show and visible_plans_count <= 1:\n@@ -49,9 +49,9 @@\n                 raise ValidationError(\"The only visible plan must be marked as popular.\")\n \n     def save(self, *args, **kwargs):\n         self.clean()  # Call clean to validate before saving\n-        super().save(*args, **kwargs))\n+        super().save(*args, **kwargs)\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1731905308540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,14 @@\n     \n     def __str__(self):\n         return self.title\n     \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n     \n+    \n \n # Create your models here.\n class Plan(models.Model):\n     title = models.CharField(max_length = 250)\n"
+                },
+                {
+                    "date": 1731905315130,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         return self.title\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_fea', 'Manage Email Management'),\n         ]\n     \n     \n \n"
+                },
+                {
+                    "date": 1731905327267,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n         return self.title\n     \n     class Meta:\n         permissions = [\n-            ('manage_fea', 'Manage Email Management'),\n+            ('manage_feature', 'Manage Feature'),\n         ]\n     \n     \n \n"
+                },
+                {
+                    "date": 1731905333015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,8 +55,13 @@\n \n     def save(self, *args, **kwargs):\n         self.clean()  # Call clean to validate before saving\n         super().save(*args, **kwargs)\n+        \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n \n \n class PlanHaveFeatures(models.Model):\n     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1731905339809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_Plan', 'Manage Email Management'),\n         ]\n \n \n class PlanHaveFeatures(models.Model):\n"
+                },
+                {
+                    "date": 1731905346447,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_Plan', 'Manage Email Management'),\n+            ('manage_plan', 'Manage Email Plan'),\n         ]\n \n \n class PlanHaveFeatures(models.Model):\n"
+                },
+                {
+                    "date": 1731905352801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,9 +58,9 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_plan', 'Manage Email Plan'),\n+            ('manage_plan', 'Manage Plan'),\n         ]\n \n \n class PlanHaveFeatures(models.Model):\n@@ -69,5 +69,11 @@\n     status = models.BooleanField(default = True)\n     \n     \n     def __str__(self):\n-        return self.status\n\\ No newline at end of file\n+        return self.status\n+    \n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905359571,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,6 +74,6 @@\n     \n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n+            ('manage_plan', 'Manage Email Management'),\n         ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905364701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,6 +74,6 @@\n     \n     \n     class Meta:\n         permissions = [\n-            ('manage_plan', 'Manage Email Management'),\n+            ('manage_plan_have_features', 'Manage Email Management'),\n         ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905372221,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,6 +74,6 @@\n     \n     \n     class Meta:\n         permissions = [\n-            ('manage_plan_have_features', 'Manage Email Management'),\n+            ('manage_plan_have_features', 'Manage Plan Have Features'),\n         ]\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730100667672,

@@ -38,3 +38,8 @@ class Forms(models.Model):
                 self.is_expired = True
                 self.is_show = False  # Optionally hide the form
         super().save(*args, **kwargs)
+        
+    class Meta:
+        permissions = [
+            ('manage_forms', 'Manage Forms'),
+        ]

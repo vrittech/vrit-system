@@ -9,6 +9,11 @@ class Features(models.Model):
     def __str__(self):
         return self.title
     
+    class Meta:
+        permissions = [
+            ('manage_feature', 'Manage Feature'),
+        ]
+    
     
 
 # Create your models here.
@@ -51,6 +56,11 @@ class Plan(models.Model):
     def save(self, *args, **kwargs):
         self.clean()  # Call clean to validate before saving
         super().save(*args, **kwargs)
+        
+    class Meta:
+        permissions = [
+            ('manage_plan', 'Manage Plan'),
+        ]
 
 
 class PlanHaveFeatures(models.Model):
@@ -61,3 +71,9 @@ class PlanHaveFeatures(models.Model):
     
     def __str__(self):
         return self.status
+    
+    
+    class Meta:
+        permissions = [
+            ('manage_plan_have_features', 'Manage Plan Have Features'),
+        ]

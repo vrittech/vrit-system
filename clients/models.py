@@ -27,6 +27,10 @@ class Clients(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        permissions = [
+            ('manage_clients', 'Manage Clients'),
+        ]
     
 
 class ClientSettings(models.Model):
@@ -52,4 +56,9 @@ class ClientSettings(models.Model):
 
     def __str__(self):
         return f"{self.section}: {self.loop_type} ({self.delay_time})"
+    
+    class Meta:
+        permissions = [
+            ('manage_client_settings', 'Manage Client Settings'),
+        ]
 

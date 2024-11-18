@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 20,
             "patches": [
                 {
                     "date": 1730106451568,
@@ -76,6 +76,18 @@
                 {
                     "date": 1730108587966,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n     \n     date = models.DateField()\n     \n-   created_at = models.DateTimeField(auto_now_add=True)\n+    created_at = models.DateTimeField(auto_now_add=True)\n     updated_at = models.DateTimeField(auto_now=True)\n     \n     def __str__(self):\n\\ No newline at end of file\n-        return self.status\n+        return self.name\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905250681,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,24 @@\n+from django.db import models\n+# from projects.models import ProjectService\n+from blog.models import BlogCategory\n+\n+# Create your models here.\n+\n+class NewsLetterSubscription(models.Model):\n+    name = models.CharField(max_length = 255)\n+    email = models.EmailField(max_length = 255)\n+    is_subscribed = models.BooleanField(default = False)\n+    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n+    \n+    date = models.DateField()\n+    \n+    created_at = models.DateTimeField(auto_now_add=True)\n+    updated_at = models.DateTimeField(auto_now=True)\n+    \n+    def __str__(self):\n+        return self.name\n+    \n+    class Meta:\n+        permissions = [\n+            ('manage_email_management', 'Manage Email Management'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905263334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,25 +19,6 @@\n         return self.name\n     \n     class Meta:\n         permissions = [\n-            ('manage_email_management', 'Manage Email Management'),\n-        ]\n-from django.db import models\n-# from projects.models import ProjectService\n-from blog.models import BlogCategory\n-\n-# Create your models here.\n-\n-class NewsLetterSubscription(models.Model):\n-    name = models.CharField(max_length = 255)\n-    email = models.EmailField(max_length = 255)\n-    is_subscribed = models.BooleanField(default = False)\n-    category = models.ManyToManyField(BlogCategory, related_name='blogcategory_newsletter')\n-    \n-    date = models.DateField()\n-    \n-    created_at = models.DateTimeField(auto_now_add=True)\n-    updated_at = models.DateTimeField(auto_now=True)\n-    \n-    def __str__(self):\n-        return self.name\n\\ No newline at end of file\n+            ('manage_news_letter_subscription', 'Manage Email Management'),\n+        ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731905272498,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,6 +19,6 @@\n         return self.name\n     \n     class Meta:\n         permissions = [\n-            ('manage_news_letter_subscription', 'Manage Email Management'),\n+            ('manage_news_letter_subscription', 'Manage News Letter Subscription'),\n         ]\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1730106451567,
