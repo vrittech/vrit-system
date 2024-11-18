@@ -19,9 +19,9 @@ class Testimonial(models.Model):
     
     def __str__(self):
         return f"{self.full_name})"
-    
-    permissions = [
-            ('manage_testimonial', 'Manage Testimonial'),
-        ]
+    class Meta:
+        permissions = [
+                ('manage_testimonial', 'Manage Testimonial'),
+            ]
 
 
