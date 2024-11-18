@@ -19,6 +19,7 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'case-study': ('casestudy', 'CaseStudy'),
         'clients': ('clients', 'Clients'),
         'faqs': ('faqs', 'Faq'),
+        'contact-us': ('faqs', 'ContactUs'),
         'forms': ('forms', 'Form'),
         'forms-category': ('forms', 'Category'),
         'plan': ('plan', 'Plan'),
