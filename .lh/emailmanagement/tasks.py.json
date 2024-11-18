@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1731649571594,
@@ -16,6 +16,22 @@
                 {
                     "date": 1731924961609,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n         else:\n             next_scheduled_time = now()\n \n         if now() >= next_scheduled_time:\n-            recipients = EmailLogRecipient.objects.all()  # Replace with actual recipient logic\n+            recipients = EmailLogRecipient.objects.all() \n             for recipient in recipients:\n                 log = EmailLog.objects.create(\n                     subject=template.subject,\n                     purpose=template.purpose,\n"
+                },
+                {
+                    "date": 1731925121024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n         else:\n             next_scheduled_time = now()\n \n         if now() >= next_scheduled_time:\n-            recipients = EmailLogRecipient.objects.all() \n+            recipients = EmailLogRecipient.objects.all(). \n             for recipient in recipients:\n                 log = EmailLog.objects.create(\n                     subject=template.subject,\n                     purpose=template.purpose,\n"
+                },
+                {
+                    "date": 1731925133591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n         else:\n             next_scheduled_time = now()\n \n         if now() >= next_scheduled_time:\n-            recipients = EmailLogRecipient.objects.all(). \n+            recipients = EmailLogRecipient.objects.all().order_by \n             for recipient in recipients:\n                 log = EmailLog.objects.create(\n                     subject=template.subject,\n                     purpose=template.purpose,\n"
+                },
+                {
+                    "date": 1731925140822,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n         else:\n             next_scheduled_time = now()\n \n         if now() >= next_scheduled_time:\n-            recipients = EmailLogRecipient.objects.all().order_by \n+            recipients = EmailLogRecipient.objects.all().order_by('created') \n             for recipient in recipients:\n                 log = EmailLog.objects.create(\n                     subject=template.subject,\n                     purpose=template.purpose,\n"
+                },
+                {
+                    "date": 1731925147098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n         else:\n             next_scheduled_time = now()\n \n         if now() >= next_scheduled_time:\n-            recipients = EmailLogRecipient.objects.all().order_by('created') \n+            recipients = EmailLogRecipient.objects.all().order_by('-id') \n             for recipient in recipients:\n                 log = EmailLog.objects.create(\n                     subject=template.subject,\n                     purpose=template.purpose,\n"
                 }
             ],
             "date": 1731649571594,
