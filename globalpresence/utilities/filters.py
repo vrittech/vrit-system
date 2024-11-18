@@ -7,7 +7,7 @@ class CharInFilter(filters.BaseInFilter, filters.CharFilter):
 
 class GlobalPresenceFilter(filters.FilterSet):
     # country = CharInFilter(field_name='country', lookup_expr='in')
-    country = CharInFilter(field_name='country__id', lookup_expr='in')
+    country = CharInFilter(field_name='country', lookup_expr='in')
 
     class Meta:
         model = GlobalPresence
