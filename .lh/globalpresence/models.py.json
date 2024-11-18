@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 18,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1730108572729,
@@ -80,6 +80,10 @@
                 {
                     "date": 1731905212392,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,6 +23,6 @@\n         return self.company_name\n     \n     class Meta:\n         permissions = [\n-            ('manage_global', 'Manage Email Management'),\n+            ('manage_global_presence', 'Manage Global Presence Management'),\n         ]\n"
+                },
+                {
+                    "date": 1731910615154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n         return self.name\n \n \n class GlobalPresence(models.Model):\n-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name=\"global_presences\")\n+    country = models.CharField(max_length=100, unique=True)\n     company_name = models.CharField(max_length=350)\n     company_address = models.CharField(max_length=500)\n     email_address = models.EmailField(max_length=50)\n     phone_number = models.CharField(max_length=150)\n@@ -23,6 +23,6 @@\n         return self.company_name\n     \n     class Meta:\n         permissions = [\n-            ('manage_global_presence', 'Manage Global Presence Management'),\n+            ('manage_global_presence', 'Manage Global Presence'),\n         ]\n"
                 }
             ],
             "date": 1730108572729,

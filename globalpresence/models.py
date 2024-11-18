@@ -10,7 +10,7 @@ class Country(models.Model):
 
 
 class GlobalPresence(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="global_presences")
+    country = models.CharField(max_length=100, unique=True)
     company_name = models.CharField(max_length=350)
     company_address = models.CharField(max_length=500)
     email_address = models.EmailField(max_length=50)

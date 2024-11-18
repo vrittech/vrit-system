@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1730266790277,
@@ -36,6 +36,26 @@
                 {
                     "date": 1731320702189,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,8 @@\n         model = GlobalPresence\n         fields = '__all__'\n \n class GlobalPresenceWriteSerializers(serializers.ModelSerializer):\n-    country = CountrySerializers(read_only=True)  \n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n         \n"
+                },
+                {
+                    "date": 1731910654399,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,9 @@\n         model = Country\n         fields = '__all__'\n         \n class GlobalPresenceListSerializers(serializers.ModelSerializer):\n-    country = CountrySerializers(read_only=True)  \n+    # country = CountrySerializers(read_only=True)  \n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1731910659542,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n from rest_framework import serializers\n from ..models import GlobalPresence,Country\n \n-class CountrySerializers(serializers.ModelSerializer):\n-    class Meta:\n-        model = Country\n-        fields = '__all__'\n+# class CountrySerializers(serializers.ModelSerializer):\n+#     class Meta:\n+#         model = Country\n+#         fields = '__all__'\n         \n class GlobalPresenceListSerializers(serializers.ModelSerializer):\n     # country = CountrySerializers(read_only=True)  \n     class Meta:\n"
+                },
+                {
+                    "date": 1731910667690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = GlobalPresence\n         fields = '__all__'\n \n class GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):\n-    country = CountrySerializers(read_only=True)  \n+    # country = CountrySerializers(read_only=True)  \n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1731910710937,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = GlobalPresence\n         fields = '__all__'\n \n class GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):\n-    # country = CountrySerializers(read_only=True)  \n+    # country = CountrySerializers(read_only=True)  anage.py r\n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n \n"
+                },
+                {
+                    "date": 1731910718215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n         model = GlobalPresence\n         fields = '__all__'\n \n class GlobalPresenceRetrieveSerializers(serializers.ModelSerializer):\n-    # country = CountrySerializers(read_only=True)  anage.py r\n+    # country = CountrySerializers(read_only=True)  \n     class Meta:\n         model = GlobalPresence\n         fields = '__all__'\n \n"
                 }
             ],
             "date": 1730266790277,
