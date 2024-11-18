@@ -20,5 +20,5 @@ class NewsLetterSubscription(models.Model):
     
     class Meta:
         permissions = [
-            ('manage_news_letter_subscription', 'Manage News Letter Subscription'),
+            ('manage_newslettersubscription', 'Manage NewsLetterSubscription'),
         ]
