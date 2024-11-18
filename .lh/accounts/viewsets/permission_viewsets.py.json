@@ -1,0 +1,98 @@
+{
+    "sourceFile": "accounts/viewsets/permission_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 20,
+            "patches": [
+                {
+                    "date": 1731921458517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731921472300,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n from rest_framework.permissions import IsAdminUser\n from ..serializers.permission_serializers import PermissionSerializer\n \n class PermissionViewSet(viewsets.ReadOnlyModelViewSet):\n-    queryset = Permission.objects.all().order\n+    queryset = Permission.objects.all().order_by('-id')\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n"
+                },
+                {
+                    "date": 1731921497320,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,4 +6,13 @@\n class PermissionViewSet(viewsets.ReadOnlyModelViewSet):\n     queryset = Permission.objects.all().order_by('-id')\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n+    \n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n+    ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n+# ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n+    filterset_fields = {\n+        'created_at': ['exact','gte','lte'],\n+    }\n+\n"
+                },
+                {
+                    "date": 1731921511798,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n from django.contrib.auth.models import Group, Permission\n from rest_framework import viewsets\n from rest_framework.permissions import IsAdminUser\n from ..serializers.permission_serializers import PermissionSerializer\n+from rest_framework.filters import SearchFilter, OrderingFilter\n+from django_filters.rest_framework import DjangoFilterBackend\n \n class PermissionViewSet(viewsets.ReadOnlyModelViewSet):\n     queryset = Permission.objects.all().order_by('-id')\n     serializer_class = PermissionSerializer\n"
+                },
+                {
+                    "date": 1731921529657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n+    search_fields = '__'\n     ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n"
+                },
+                {
+                    "date": 1731921536130,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,10 +9,10 @@\n     queryset = Permission.objects.all().order_by('-id')\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n     \n-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = '__'\n+    filter_backends = [SearchFi'__all__'lter, DjangoFilterBackend, OrderingFilter]\n+    search_fields = \n     ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n"
+                },
+                {
+                    "date": 1731921561647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,11 +9,11 @@\n     queryset = Permission.objects.all().order_by('-id')\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n     \n-    filter_backends = [SearchFi'__all__'lter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = \n-    ordering_fields = ['id','email', 'phone_number', 'position', 'created_at', 'updated_at',]\n+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n+    search_fields = '__all__'\n+    ordering_fields = \n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n     }\n"
+                },
+                {
+                    "date": 1731921569099,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,8 @@\n     permission_classes = [IsAdminUser]\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = '__all__'\n-    ordering_fields = \n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n     }\n"
+                },
+                {
+                    "date": 1731921574354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n+        \n     }\n \n"
+                },
+                {
+                    "date": 1731921590311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n-        \n+        'c'\n     }\n \n"
+                },
+                {
+                    "date": 1731921595570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n-        'c'\n+        'name'\n     }\n \n"
+                },
+                {
+                    "date": 1731921605322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n-        'name'\n+        'name':\n     }\n \n"
+                },
+                {
+                    "date": 1731921611122,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n-        'name':\n+        'name':['ico.....']\n     }\n \n"
+                },
+                {
+                    "date": 1731922451561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'created_at': ['exact','gte','lte'],\n-        'name':['ico.....']\n+        'codename':['ico.....']\n     }\n \n"
+                },
+                {
+                    "date": 1731922464822,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n-        'created_at': ['exact','gte','lte'],\n-        'codename':['ico.....']\n+        'name': ['exact','gte','lte'],\n+        'codename':['icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922469992,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,7 +14,7 @@\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'name': ['exact','gte','lte'],\n-        'codename':['icontains']\n+        'codename':[exact,'icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922481621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n-        'name': ['exact','gte','lte'],\n-        'codename':[exact,'icontains']\n+        'name': ['exact','icontains'],\n+        'codename':['exact','icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922491679,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n+        \n         'name': ['exact','icontains'],\n         'codename':['exact','icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922499452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     search_fields = '__all__'\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n-        \n+        'id':['exact']\n         'name': ['exact','icontains'],\n         'codename':['exact','icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922666354,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,12 +10,12 @@\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = '__all__'\n+    search_fields = []\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n-        'id':['exact']\n+        'id':['exact'],\n         'name': ['exact','icontains'],\n         'codename':['exact','icontains']\n     }\n \n"
+                },
+                {
+                    "date": 1731922672593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     serializer_class = PermissionSerializer\n     permission_classes = [IsAdminUser]\n     \n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n-    search_fields = []\n+    search_fields = ['codename','id']\n # ('email', 'phone_number', 'position', 'created_at', 'updated_at', )\n     filterset_fields = {\n         'id':['exact'],\n         'name': ['exact','icontains'],\n"
+                }
+            ],
+            "date": 1731921458517,
+            "name": "Commit-0",
+            "content": "from django.contrib.auth.models import Group, Permission\nfrom rest_framework import viewsets\nfrom rest_framework.permissions import IsAdminUser\nfrom ..serializers.permission_serializers import PermissionSerializer\n\nclass PermissionViewSet(viewsets.ReadOnlyModelViewSet):\n    queryset = Permission.objects.all().order\n    serializer_class = PermissionSerializer\n    permission_classes = [IsAdminUser]\n"
+        }
+    ]
+}
