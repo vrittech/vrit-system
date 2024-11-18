@@ -49,7 +49,7 @@ def generate_email_logs():
             next_scheduled_time = now()
 
         if now() >= next_scheduled_time:
-            recipients = EmailLogRecipient.objects.all()  # Replace with actual recipient logic
+            recipients = EmailLogRecipient.objects.all() 
             for recipient in recipients:
                 log = EmailLog.objects.create(
                     subject=template.subject,
