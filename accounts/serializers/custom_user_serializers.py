@@ -42,16 +42,16 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class CustomUserReadSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
     groups = GroupSerializer(many=True,read_only = True)
-    staffSocialMedia = StaffSocialMediaSerializer(many=True,read_only = True)
+    usersocial = StaffSocialMediaSerializer(many=True,read_only = True)
     class Meta:
         model = User
-        fields =['id','email','first_name','username','last_name','roles','department','staffSocialMedia','groups','avatar','professional_image','phone','position']
+        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position']
         
     
 
 class CustomUserWriteSerializer(serializers.ModelSerializer):
     groups = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), many=True, required=False)
-    social_media = StaffSocialMediaSerializer(many=True, required=False)
+    usersocial = StaffSocialMediaSerializer(many=True, required=False)
     
 
     class Meta:
@@ -115,12 +115,12 @@ class CustomUserWriteSerializer(serializers.ModelSerializer):
         return instance
 
 class CustomUserRetrieveSerializer(serializers.ModelSerializer):
-    staffSocialMedia = StaffSocialMediaSerializer(many=True,read_only = True)
+    usersocial = StaffSocialMediaSerializer(many=True,read_only = True)
     groups = GroupSerializer(many=True,read_only = True)
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
-        fields =['id','email','first_name','username','last_name','roles','department','staffSocialMedia','groups','avatar','professional_image','phone','position']
+        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position']
         # ('roles', 'department', 'email', 'full_name', 'social_links', 'position', 'phone', 'avatar', 'professional_image', )
 
 class CustomUserChangePasswordSerializers(serializers.Serializer):

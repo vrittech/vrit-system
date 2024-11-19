@@ -18,7 +18,7 @@ class SocialMedia(models.Model):
         ]
 
 class StaffHaveSocialMedia(models.Model):
-    staff = models.ForeignKey(CustomUser,related_name ="user"  , on_delete=models.CASCADE)
+    staff = models.ForeignKey(CustomUser,related_name ="usersocial"  , on_delete=models.CASCADE)
     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)
     social_media_url = models.URLField(max_length = 350)
     created_at = models.DateTimeField(auto_now_add=True)
