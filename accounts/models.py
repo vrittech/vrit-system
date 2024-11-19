@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    role = models.CharField(max_length = 250,null = True)
+    roles = models.CharField(max_length = 250,null = True)
     department = models.ForeignKey(Department,null = True,on_delete = models.SET_NULL)
     email = models.EmailField(max_length = 250,unique = True)
     full_name = models.CharField(max_length = 250,null = True)
