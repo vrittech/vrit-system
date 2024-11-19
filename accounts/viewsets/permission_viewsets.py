@@ -56,22 +56,21 @@ class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
         ).select_related('content_type')
 
     @action(detail=False, methods=['get'])
-    def grouped_by_app(self, request):
+    def grouped_by_model(self, request):
         """
-        Additional action to group permissions by apps.
+        Group permissions by models only.
         """
-        # Get queryset (permissions)
+        # Fetch permissions and group by model
         permissions = self.get_queryset()
-
-        # Group permissions by app
         grouped_permissions = defaultdict(list)
+
         for permission in permissions:
-            grouped_permissions[permission.content_type.app_label].append({
+            model_name = permission.content_type.model
+            grouped_permissions[model_name].append({
                 'id': permission.id,
                 'name': permission.name,
                 'codename': permission.codename,
-                'model': permission.content_type.model,
             })
 
-        # Convert grouped data to a regular dict for serialization
+        # Convert grouped data to a serializable dict
         return Response(dict(grouped_permissions))
