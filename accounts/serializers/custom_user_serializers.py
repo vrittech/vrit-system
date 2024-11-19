@@ -45,7 +45,7 @@ class CustomUserReadSerializer(serializers.ModelSerializer):
     usersocial = StaffSocialMediaSerializer(many=True,read_only = True)
     class Meta:
         model = User
-        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position']
+        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position','is_staff',"is_active",'is_superuser']
         
     
 
@@ -120,7 +120,7 @@ class CustomUserRetrieveSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only = True)
     class Meta:
         model = User
-        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position']
+        fields =['id','email','first_name','username','last_name','roles','department','usersocial','groups','avatar','professional_image','phone','position','is_staff',"is_active",'is_superuser']
         # ('roles', 'department', 'email', 'full_name', 'social_links', 'position', 'phone', 'avatar', 'professional_image', )
 
 class CustomUserChangePasswordSerializers(serializers.Serializer):
