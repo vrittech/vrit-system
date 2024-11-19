@@ -11,6 +11,8 @@ class PositionManagementViewSet(viewsets.ViewSet):
 
     # Mapping of frontend identifiers to actual model names
     MODEL_MAP = {
+        'user': ('accounts', 'CustomUser'),
+        'group': ('accounts', 'GroupExtension'),
         'project': ('projects', 'Project'),
         'project-service': ('projects', 'ProjectService'),
         'project-group': ('projects', 'ProjectGroup'),
