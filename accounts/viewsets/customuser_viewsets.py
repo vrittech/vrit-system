@@ -10,7 +10,7 @@ class customuserViewsets(viewsets.ModelViewSet):
     # permission_classes = [accountsPermission]
     # authentication_classes = [JWTAuthentication]
     #pagination_class = MyPageNumberPagination
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.all().order_by('position')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']
