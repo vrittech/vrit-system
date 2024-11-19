@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 27,
+            "activePatchIndex": 30,
             "patches": [
                 {
                     "date": 1731411282420,
@@ -116,6 +116,18 @@
                 {
                     "date": 1731584354357,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,15 +3,15 @@\n from django.contrib.auth.models import Group\n from .models import CustomUser, GroupExtension\n \n class CustomUserAdmin(BaseUserAdmin):\n-    exclude = ('groups', 'user_permissions',)\n+    exclude = ('user_permissions',)\n     \n     # Only include fields that are present in the model\n     fieldsets = (\n         (None, {'fields': ('username', 'password')}),\n         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'professional_image', 'position', 'department')}),\n-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),\n+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','')}),\n     )\n     \n     list_display = ['username', 'email', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']\n     search_fields = ['username', 'email', 'full_name']\n"
+                },
+                {
+                    "date": 1732007226192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,10 +8,10 @@\n     \n     # Only include fields that are present in the model\n     fieldsets = (\n         (None, {'fields': ('username', 'password')}),\n-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'professional_image', 'position', 'department')}),\n-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','')}),\n+        ('Personal info', {'fields': ('first_name', 'last_name', 'email','roles' 'avatar', 'professional_image', 'position', 'department')}),\n+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','groups')}),\n     )\n     \n     list_display = ['username', 'email', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']\n     search_fields = ['username', 'email', 'full_name']\n"
+                },
+                {
+                    "date": 1732007239769,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,13 +8,13 @@\n     \n     # Only include fields that are present in the model\n     fieldsets = (\n         (None, {'fields': ('username', 'password')}),\n-        ('Personal info', {'fields': ('first_name', 'last_name', 'email','roles' 'avatar', 'professional_image', 'position', 'department')}),\n+        ('Personal info', {'fields': ('first_name', 'last_name', 'email','roles', 'avatar', 'professional_image', 'position', 'department')}),\n         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','groups')}),\n     )\n     \n-    list_display = ['username', 'email', 'position', 'department', 'is_active', 'is_staff', 'professional_image', 'avatar']\n+    list_display = ['username', 'email', 'position', 'department','roles', 'is_active', 'is_staff', 'professional_image', 'avatar']\n     search_fields = ['username', 'email', 'full_name']\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n"
+                },
+                {
+                    "date": 1732007246538,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','groups')}),\n     )\n     \n     list_display = ['username', 'email', 'position', 'department','roles', 'is_active', 'is_staff', 'professional_image', 'avatar']\n-    search_fields = ['username', 'email', 'full_name']\n+    search_fields = ['username', 'email', 'full_name','roles',]\n \n admin.site.register(CustomUser, CustomUserAdmin)\n \n \n"
                 }
             ],
             "date": 1731411282420,

@@ -12,6 +12,7 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length = 250,null = True)
     # social_links = models.ManyToManyField(SocialMedia,blank=True)
     position = models.PositiveIntegerField(default=0)
+    phone = models.CharField(max_length=15,null=True , default = '')
 
     avatar = models.ImageField(upload_to='profile',null=True,blank=True)
     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)
