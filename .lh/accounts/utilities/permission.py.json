@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1731993137089,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731993689502,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n from rest_framework.permissions import BasePermission\n-# from accounts import roles\n+from accounts import roles\n \n def IsAuthenticated(request):\n     return bool(request.user and request.user.is_authenticated)\n \n"
                 }
             ],
             "date": 1731993137089,
