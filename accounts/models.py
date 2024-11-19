@@ -46,11 +46,11 @@ class GroupExtension(models.Model):
     def __int__(self):
         return self.position
 
-    def save(self, *args, **kwargs):
-        # Set position to the Group ID if position is 0 (or could be None)
-        if self.position == 0:
-            super().save(*args, **kwargs)  # Save initially to get the group ID
-            self.position = self.group.id
-            super().save(*args, **kwargs)  # Save again to update position with group ID
-        else:
-            super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Set position to the Group ID if position is 0 (or could be None)
+    #     if self.position == 0:
+    #         super().save(*args, **kwargs)  # Save initially to get the group ID
+    #         self.position = self.group.id
+    #         super().save(*args, **kwargs)  # Save again to update position with group ID
+    #     else:
+    #         super().save(*args, **kwargs)
