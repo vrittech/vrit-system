@@ -18,7 +18,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 class CustomUserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.all().order_by('position')
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = CustomUserFilter
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

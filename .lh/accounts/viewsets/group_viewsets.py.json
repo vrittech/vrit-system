@@ -1,0 +1,30 @@
+{
+    "sourceFile": "accounts/viewsets/group_viewsets.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1731992797492,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731992805119,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from rest_framework.permissions import IsAdminUser\n from ..serializers.group_serializers import GroupSerializer\n \n class GroupViewSet(viewsets.ModelViewSet):\n-    queryset = Group.objects.all().\n+    queryset = Group.objects.all().order_by('position')\n     serializer_class = GroupSerializer\n     permission_classes = [IsAdminUser]\n \n \n"
+                },
+                {
+                    "date": 1731992820247,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from rest_framework.permissions import IsAdminUser\n from ..serializers.group_serializers import GroupSerializer\n \n class GroupViewSet(viewsets.ModelViewSet):\n-    queryset = Group.objects.all().order_by('position')\n+    queryset = Group.objects.all().order_by('')\n     serializer_class = GroupSerializer\n     permission_classes = [IsAdminUser]\n \n \n"
+                },
+                {
+                    "date": 1731992827871,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n from rest_framework.permissions import IsAdminUser\n from ..serializers.group_serializers import GroupSerializer\n \n class GroupViewSet(viewsets.ModelViewSet):\n-    queryset = Group.objects.all().order_by('')\n+    queryset = Group.objects.all().order_by()\n     serializer_class = GroupSerializer\n     permission_classes = [IsAdminUser]\n \n \n"
+                }
+            ],
+            "date": 1731992797492,
+            "name": "Commit-0",
+            "content": "from django.contrib.auth.models import Group, Permission\nfrom rest_framework import viewsets\nfrom rest_framework.permissions import IsAdminUser\nfrom ..serializers.group_serializers import GroupSerializer\n\nclass GroupViewSet(viewsets.ModelViewSet):\n    queryset = Group.objects.all().\n    serializer_class = GroupSerializer\n    permission_classes = [IsAdminUser]\n\n\n"
+        }
+    ]
+}

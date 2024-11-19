@@ -1,0 +1,42 @@
+{
+    "sourceFile": "accounts/signals.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1731992415042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731992480271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,9 @@\n # signals.py\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n-from .models import Project,ProjectGroup,ProjectService\n-\n+from .models import CustomUser\n @receiver(post_save, sender=Project)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n"
+                },
+                {
+                    "date": 1731992486038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n from .models import CustomUser\n-@receiver(post_save, sender=Project)\n+@receiver(post_save, sender=CustomUser)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n"
+                },
+                {
+                    "date": 1731992515905,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n # signals.py\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n-from .models import CustomUser\n+from .models import CustomUser,G\n @receiver(post_save, sender=CustomUser)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n"
+                },
+                {
+                    "date": 1731992523370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,16 +1,16 @@\n # signals.py\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n-from .models import CustomUser,G\n+from .models import CustomUser,GroupExtension\n @receiver(post_save, sender=CustomUser)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n \n-# @receiver(post_save, sender=ProjectGroup)\n+# @receiver(post_save, sender=GroupExtension)\n # def set_position_same_as_id(sender, instance, created, **kwargs):\n #     if created and instance.position != instance.id:\n #         instance.position = instance.id\n #         instance.save()\n"
+                },
+                {
+                    "date": 1731992531136,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,13 +8,13 @@\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n         instance.save()\n \n-# @receiver(post_save, sender=GroupExtension)\n-# def set_position_same_as_id(sender, instance, created, **kwargs):\n-#     if created and instance.position != instance.id:\n-#         instance.position = instance.id\n-#         instance.save()\n+@receiver(post_save, sender=GroupExtension)\n+def set_position_same_as_id(sender, instance, created, **kwargs):\n+    if created and instance.position != instance.id:\n+        instance.position = instance.id\n+        instance.save()\n         \n # @receiver(post_save, sender=ProjectService)\n # def set_position_same_as_id(sender, instance, created, **kwargs):\n #     if created and instance.position != instance.id:\n"
+                },
+                {
+                    "date": 1731992536880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,9 @@\n \n from django.db.models.signals import post_save\n from django.dispatch import receiver\n from .models import CustomUser,GroupExtension\n+\n @receiver(post_save, sender=CustomUser)\n def set_position_same_as_id(sender, instance, created, **kwargs):\n     if created and instance.position != instance.id:\n         instance.position = instance.id\n"
+                }
+            ],
+            "date": 1731992415042,
+            "name": "Commit-0",
+            "content": "# signals.py\n\nfrom django.db.models.signals import post_save\nfrom django.dispatch import receiver\nfrom .models import Project,ProjectGroup,ProjectService\n\n@receiver(post_save, sender=Project)\ndef set_position_same_as_id(sender, instance, created, **kwargs):\n    if created and instance.position != instance.id:\n        instance.position = instance.id\n        instance.save()\n\n# @receiver(post_save, sender=ProjectGroup)\n# def set_position_same_as_id(sender, instance, created, **kwargs):\n#     if created and instance.position != instance.id:\n#         instance.position = instance.id\n#         instance.save()\n        \n# @receiver(post_save, sender=ProjectService)\n# def set_position_same_as_id(sender, instance, created, **kwargs):\n#     if created and instance.position != instance.id:\n#         instance.position = instance.id\n#         instance.save()\n\n"
+        }
+    ]
+}

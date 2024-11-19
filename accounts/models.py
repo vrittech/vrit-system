@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length = 250,unique = True)
     full_name = models.CharField(max_length = 250,null = True)
     # social_links = models.ManyToManyField(SocialMedia,blank=True)
+    position = models.PositiveIntegerField(default=9999)
 
     avatar = models.ImageField(upload_to='profile',null=True,blank=True)
     professional_image = models.ImageField(upload_to='profile',null=True,blank=True)
@@ -40,7 +41,7 @@ class CustomUser(AbstractUser):
 
 class GroupExtension(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='extension')
-    position = models.IntegerField(default=0)
+    position = models.PositiveIntegerField(default=9999)
     
     def __int__(self):
         return self.position

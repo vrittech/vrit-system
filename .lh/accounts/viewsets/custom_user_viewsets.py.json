@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 24,
+            "activePatchIndex": 26,
             "patches": [
                 {
                     "date": 1731475845103,
@@ -104,6 +104,14 @@
                 {
                     "date": 1731645853339,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n from django.contrib.auth import authenticate,login\n from rest_framework_simplejwt.tokens import RefreshToken\n from rest_framework.decorators import action\n from accounts.utilities.filters import CustomUserFilter\n-accounts/utilities/filters.py\n+# accounts/utilities/filters.py\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n"
+                },
+                {
+                    "date": 1731992931428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n-    queryset = CustomUser.objects.all()\n+    queryset = CustomUser.objects.all().order_by()\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n"
+                },
+                {
+                    "date": 1731992938360,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n from rest_framework.filters import SearchFilter, OrderingFilter\n from django_filters.rest_framework import DjangoFilterBackend\n \n class CustomUserViewSet(viewsets.ModelViewSet):\n-    queryset = CustomUser.objects.all().order_by()\n+    queryset = CustomUser.objects.all().order_by('position')\n     permission_classes = [permissions.IsAuthenticated]\n     filterset_class = CustomUserFilter\n     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]\n     \n"
                 }
             ],
             "date": 1731475845103,

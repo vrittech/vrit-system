@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 66,
+            "activePatchIndex": 68,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -271,6 +271,14 @@
                 },
                 {
                     "date": 1731844751796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     'management',\n     'forms',\n     'notifications',\n     'django_celery_beat',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
+                },
+                {
+                    "date": 1731993004532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     'management',\n     'forms',\n     'notifications',\n     'django_celery_beat',\n-    # 'drfapigenerator',\n+    'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
+                },
+                {
+                    "date": 1731993027263,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,9 @@\n     'management',\n     'forms',\n     'notifications',\n     'django_celery_beat',\n-    'drfapigenerator',\n+    # 'drfapigenerator',\n     \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n"
                 }
             ],

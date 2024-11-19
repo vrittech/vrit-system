@@ -4,6 +4,7 @@ from department.models import Department
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import check_password, make_password
 from socialmedia.models import SocialMedia,StaffHaveSocialMedia
+from accounts.models import CustomUser
 
 
 User = get_user_model()
@@ -60,6 +61,13 @@ class CustomUserWriteSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
+        
+    def validate(self, data):
+        # Check if the position already exists in another Career
+        position = data.get('position')
+        if position and CustomUser.objects.filter(position=position).exists():
+            raise serializers.ValidationError({"position": "A user with this position already exists."})
+        return data
 
     def create(self, validated_data):
         groups = validated_data.pop('groups', [])
