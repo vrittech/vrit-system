@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 47,
+            "activePatchIndex": 48,
             "patches": [
                 {
                     "date": 1729835006074,
@@ -196,6 +196,10 @@
                 {
                     "date": 1731904971108,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,11 +26,11 @@\n         super().save(*args, **kwargs)\n \n     def __str__(self):\n         return self.name\n-      class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_blog', 'Manage Blog'),\n+            ('manage_clients', 'Manage Blog'),\n         ]\n     \n \n class ClientSettings(models.Model):\n"
+                },
+                {
+                    "date": 1731996864481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     def __str__(self):\n         return self.name\n     class Meta:\n         permissions = [\n-            ('manage_clients', 'Manage Blog'),\n+            ('manage_clients', 'Manage Clients'),\n         ]\n     \n \n class ClientSettings(models.Model):\n@@ -58,7 +58,7 @@\n         return f\"{self.section}: {self.loop_type} ({self.delay_time})\"\n     \n     class Meta:\n         permissions = [\n-            ('manage_client_settings', 'Manage Client Settings'),\n+            ('manage_clientsettings', 'Manage Client Settings'),\n         ]\n \n"
                 }
             ],
             "date": 1729835006074,

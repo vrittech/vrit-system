@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1730111431318,
@@ -52,6 +52,18 @@
                 {
                     "date": 1731905494467,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,8 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     class Meta:\n         permissions = [\n-            ('manage_pri', 'Manage Email Management'),\n+            ('manage_privacy_policy', 'Manage Privacy Policy'),\n         ]\n     \n         \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731996917583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,8 @@\n     created_date = models.DateTimeField(auto_now_add=True)\n     updated_date = models.DateTimeField(auto_now=True)\n     class Meta:\n         permissions = [\n-            ('manage_privacy_policy', 'Manage Privacy Policy'),\n+            ('manage_privacypolicy', 'Manage Privacy Policy'),\n         ]\n     \n         \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731996924206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n     updated_date = models.DateTimeField(auto_now=True)\n     \n     class Meta:\n         permissions = [\n-            ('manage_site_settings', 'Manage Site Settings'),\n+            ('manage_sitesettings', 'Manage Site Settings'),\n         ]\n     \n class TermAndCondition(models.Model):\n     description = models.TextField()\n@@ -21,9 +21,9 @@\n     updated_date = models.DateTimeField(auto_now=True)\n     \n     class Meta:\n         permissions = [\n-            ('manage_terms_conditions', 'Manage Terms Conditions'),\n+            ('manage_termsconditions', 'Manage Terms Conditions'),\n         ]\n     \n class PrivacyPolicy(models.Model):\n     description = models.TextField()\n"
+                },
+                {
+                    "date": 1731996931729,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,9 @@\n     updated_date = models.DateTimeField(auto_now=True)\n     \n     class Meta:\n         permissions = [\n-            ('manage_termsconditions', 'Manage Terms Conditions'),\n+            ('manage_termsandconditions', 'Manage Terms A Conditions'),\n         ]\n     \n class PrivacyPolicy(models.Model):\n     description = models.TextField()\n"
                 }
             ],
             "date": 1730111431318,

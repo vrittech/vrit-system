@@ -14,7 +14,7 @@ class SocialMedia(models.Model):
         return self.name
     
     permissions = [
-            ('manage_social_media', 'Manage Social Media'),
+            ('manage_socialmedia', 'Manage Social Media'),
         ]
 
 class StaffHaveSocialMedia(models.Model):
@@ -31,7 +31,7 @@ class StaffHaveSocialMedia(models.Model):
         unique_together = ('staff', 'social_media')
         
         permissions = [
-            ('manage_staff_social_media', 'Manage Staff Soial Media'),
+            ('manage_staffsocialmedia', 'Manage Staff Soial Media'),
         ]
 
 
@@ -41,7 +41,7 @@ class SiteSocialMedia(models.Model):
     social_media_url = models.URLField(max_length = 350)
     
     permissions = [
-            ('manage_site_social_media', 'Manage Site Social Media'),
+            ('manage_sitesocialmedia', 'Manage Site Social Media'),
         ]
 
 

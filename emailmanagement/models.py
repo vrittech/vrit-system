@@ -84,7 +84,7 @@ class EmailLog(models.Model):
         return f'{self.subject} - {self.recipient} - {self.status}'
     class Meta:
         permissions = [
-            ('manage_email_log', 'Manage Email Log'),
+            ('manage_emaillog', 'Manage Email Log'),
         ]
     
     

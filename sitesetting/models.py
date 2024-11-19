@@ -12,7 +12,7 @@ class SiteSetting(models.Model):
     
     class Meta:
         permissions = [
-            ('manage_site_settings', 'Manage Site Settings'),
+            ('manage_sitesettings', 'Manage Site Settings'),
         ]
     
 class TermAndCondition(models.Model):
@@ -22,7 +22,7 @@ class TermAndCondition(models.Model):
     
     class Meta:
         permissions = [
-            ('manage_terms_conditions', 'Manage Terms Conditions'),
+            ('manage_termsandconditions', 'Manage Terms And Conditions'),
         ]
     
 class PrivacyPolicy(models.Model):
@@ -32,7 +32,7 @@ class PrivacyPolicy(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     class Meta:
         permissions = [
-            ('manage_privacy_policy', 'Manage Privacy Policy'),
+            ('manage_privacypolicy', 'Manage Privacy Policy'),
         ]
     
         

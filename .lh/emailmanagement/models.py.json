@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 37,
+            "activePatchIndex": 38,
             "patches": [
                 {
                     "date": 1730109174264,
@@ -156,6 +156,10 @@
                 {
                     "date": 1731905085194,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n     class Meta:\n         permissions = [\n-            ('manage_email_log', 'Manage Email Management'),\n+            ('manage_email_log', 'Manage Email Log'),\n         ]\n     \n     \n \n"
+                },
+                {
+                    "date": 1731996879328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n     def __str__(self):\n         return f'{self.subject} - {self.recipient} - {self.status}'\n     class Meta:\n         permissions = [\n-            ('manage_email_log', 'Manage Email Log'),\n+            ('manage_emaillog', 'Manage Email Log'),\n         ]\n     \n     \n \n"
                 }
             ],
             "date": 1730109174264,

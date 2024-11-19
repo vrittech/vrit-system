@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 28,
             "patches": [
                 {
                     "date": 1730282142687,
@@ -112,6 +112,14 @@
                 {
                     "date": 1731905591666,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,12 @@\n     updated_at = models.DateTimeField(auto_now=True)\n     position = models.PositiveIntegerField(default=0)\n     def __str__(self):\n         return self.name\n+    \n+    permissions = [\n+            ('manage_social_media', 'Manage Social Media'),\n+        ]\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n@@ -36,9 +40,9 @@\n     social_media = models.ForeignKey(SocialMedia, on_delete=models.CASCADE)\n     social_media_url = models.URLField(max_length = 350)\n     \n     permissions = [\n-            ('manage_site_social_media', 'Manage Social Media'),\n+            ('manage_site_social_media', 'Manage Site Social Media'),\n         ]\n \n \n \n"
+                },
+                {
+                    "date": 1731996941253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     def __str__(self):\n         return self.name\n     \n     permissions = [\n-            ('manage_social_media', 'Manage Social Media'),\n+            ('manage_socialmedia', 'Manage Social Media'),\n         ]\n \n class StaffHaveSocialMedia(models.Model):\n     staff = models.ForeignKey(CustomUser,related_name =\"user\"  , on_delete=models.CASCADE)\n"
+                },
+                {
+                    "date": 1731996947921,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     class Meta:\n         unique_together = ('staff', 'social_media')\n         \n         permissions = [\n-            ('manage_staff_social_media', 'Manage Staff Soial Media'),\n+            ('manage_staffsocialmedia', 'Manage Staff Soial Media'),\n         ]\n \n \n         \n"
                 }
             ],
             "date": 1730282142687,

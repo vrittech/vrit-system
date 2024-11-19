@@ -24,5 +24,5 @@ class GlobalPresence(models.Model):
     
     class Meta:
         permissions = [
-            ('manage_global_presence', 'Manage Global Presence'),
+            ('manage_globalpresence', 'Manage GlobalPresence'),
         ]

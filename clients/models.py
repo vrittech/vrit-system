@@ -59,6 +59,6 @@ class ClientSettings(models.Model):
     
     class Meta:
         permissions = [
-            ('manage_client_settings', 'Manage Client Settings'),
+            ('manage_clientsettings', 'Manage Client Settings'),
         ]
 
