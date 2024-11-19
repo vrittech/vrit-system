@@ -9,8 +9,8 @@ router = DefaultRouter()
 auto_api_routers = router
 
 router.register('user', CustomUserViewSet, basename="CustomUser")
-router.register(r'groups', GroupViewSet)
-router.register(r'permissions', PermissionViewSet)
+router.register(r'groups', GroupViewSet, basename='groups')
+router.register(r'permissions', PermissionViewSet, basename='permission')
 
 
 

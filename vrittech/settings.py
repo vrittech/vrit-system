@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'drf_yasg',
+    'django_celery_beat',
     'django_filters',
     'accounts',
     'blog',
@@ -90,7 +91,6 @@ INSTALLED_APPS = [
     'management',
     'forms',
     'notifications',
-    'django_celery_beat',
     # 'drfapigenerator',
     
 ]

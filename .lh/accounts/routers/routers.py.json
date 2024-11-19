@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1731994217960,
@@ -24,6 +24,18 @@
                 {
                     "date": 1731994262365,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,6 @@\n \n \n \n \n-router.register('customuser', customuserViewsets, basename=\"customuserViewsets\")\n+# router.register('customuser', customuserViewsets, basename=\"customuserViewsets\")\n router.register('groupextension', groupextensionViewsets, basename=\"groupextensionViewsets\")\n"
+                },
+                {
+                    "date": 1731999916025,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,9 @@\n auto_api_routers = router\n \n router.register('user', CustomUserViewSet, basename=\"CustomUser\")\n router.register(r'groups', GroupViewSet)\n-router.register(r'permissions', PermissionViewSet)\n+router.register(r'permissions', PermissionViewSet, basename='permission')\n \n \n \n \n"
+                },
+                {
+                    "date": 1731999925180,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n router = DefaultRouter()\n auto_api_routers = router\n \n router.register('user', CustomUserViewSet, basename=\"CustomUser\")\n-router.register(r'groups', GroupViewSet)\n+router.register(r'groups', GroupViewSet, basename='group')\n router.register(r'permissions', PermissionViewSet, basename='permission')\n \n \n \n"
+                },
+                {
+                    "date": 1731999930311,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n router = DefaultRouter()\n auto_api_routers = router\n \n router.register('user', CustomUserViewSet, basename=\"CustomUser\")\n-router.register(r'groups', GroupViewSet, basename='group')\n+router.register(r'groups', GroupViewSet, basename='groups')\n router.register(r'permissions', PermissionViewSet, basename='permission')\n \n \n \n"
                 }
             ],
             "date": 1731994217960,
