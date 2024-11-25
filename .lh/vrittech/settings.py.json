@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 69,
+            "activePatchIndex": 71,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -284,6 +284,14 @@
                 {
                     "date": 1732000240441,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,8 +68,9 @@\n     \"corsheaders\",\n     'rest_framework',\n     'drf_yasg',\n     'django_filters',\n+    'django_celery_beat',\n     'accounts',\n     'blog',\n     'career',\n     'casestudy',\n@@ -89,9 +90,8 @@\n     'careergallery',\n     'management',\n     'forms',\n     'notifications',\n-    'django_celery_beat',\n     # 'drfapigenerator',\n     \n ]\n \n"
+                },
+                {
+                    "date": 1732094364660,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,10 +67,10 @@\n     'django.contrib.staticfiles',\n     \"corsheaders\",\n     'rest_framework',\n     'drf_yasg',\n+    'django_celery_beat',\n     'django_filters',\n-    'django_celery_beat',\n     'accounts',\n     'blog',\n     'career',\n     'casestudy',\n@@ -91,9 +91,12 @@\n     'management',\n     'forms',\n     'notifications',\n     # 'drfapigenerator',\n-    \n+    celery -A your\n+_project\n+_\n+name beat --loglevel=info\n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
+                },
+                {
+                    "date": 1732094371617,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,12 +91,9 @@\n     'management',\n     'forms',\n     'notifications',\n     # 'drfapigenerator',\n-    celery -A your\n-_project\n-_\n-name beat --loglevel=info\n+    \n ]\n \n CORS_ORIGIN_ALLOW_ALL = True\n CORS_ORIGIN_WHITELIST = [white for white in os.getenv('CORS_ORIGIN_WHITELIST').split(',') if white != '']\n"
                 }
             ],
             "date": 1729763322697,
