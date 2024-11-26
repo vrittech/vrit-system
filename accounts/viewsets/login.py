@@ -66,8 +66,6 @@ from ..serializers.custom_user_serializers import CustomUserReadSerializer
 from rest_framework.response import Response
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate, login
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.db.models import Q
 
 
 class LoginView(APIView):
@@ -77,62 +75,44 @@ class LoginView(APIView):
             properties={
                 'email': openapi.Schema(type=openapi.TYPE_STRING, description='Email or username of the user'),
                 'password': openapi.Schema(type=openapi.TYPE_STRING, description='Password of the user'),
-                'remember_me': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='Remember me (optional)', default=False),
             },
             required=['email', 'password'],
         ),
         responses={
-            200: openapi.Response(description="Login successful with tokens and user details"),
+            200: openapi.Response(description="Login successful, session created"),
             401: openapi.Response(description="Invalid credentials or inactive account"),
         },
-        operation_summary="User Login",
-        operation_description="Authenticate user credentials and return JWT tokens along with user details.",
+        operation_summary="User Login (Session-Based)",
+        operation_description="Authenticate user credentials and create a session. Returns success or failure.",
     )
     @csrf_exempt
     def post(self, request):
-        # Extract credentials from request data
+        # Extract credentials from the request data
         username_or_email = request.data.get('email')
         password = request.data.get('password')
-        remember_me = request.data.get('remember_me', False)
 
-        print(f"Received login request for: {username_or_email}")  # Log received credentials (email/username)
+        print(f"Received login request for: {username_or_email}")  # Debugging statement
 
         # Authenticate user by email or username
         user = authenticate(request, username=username_or_email, password=password)
-        if user is None:
-            print(f"Initial authentication with username failed for: {username_or_email}")
-            user = authenticate(request, email=username_or_email, password=password)
 
-        # Handle successful authentication
         if user:
-            print(f"Authentication successful for: {username_or_email}")  # Log successful authentication
             if not user.is_active:
-                print(f"Inactive account for: {username_or_email}")  # Log inactive account
+                print(f"Inactive account for: {username_or_email}")
                 return Response({'error': 'Your account is inactive.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-            # Log the user in
+            # Log the user in and create a session
             login(request, user)
-            print(f"User {username_or_email} logged in successfully.")  # Log login action
+            print(f"User {username_or_email} logged in successfully.")
 
-            # Generate JWT tokens
-            refresh = RefreshToken.for_user(user)
-            refresh['remember_me'] = remember_me
-
-            # Serialize user details
+            # Optionally, return user details
             user_data = CustomUserReadSerializer(user, context={'request': request}).data
-
             return Response({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
-                'user': user_data,
                 'message': 'Login successful',
+                'user': user_data,
             }, status=status.HTTP_200_OK)
 
         # Handle authentication failure
-        user_exists = CustomUser.objects.filter(Q(username=username_or_email) | Q(email=username_or_email)).exists()
-        if user_exists:
-            print(f"Authentication failed for {username_or_email}: Invalid password.")  # Log invalid password
-            return Response({'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            print(f"Authentication failed for {username_or_email}: User does not exist.")  # Log non-existent user
-            return Response({'error': 'Invalid username/email'}, status=status.HTTP_401_UNAUTHORIZED)
+            print(f"Authentication failed for: {username_or_email}")
+            return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)

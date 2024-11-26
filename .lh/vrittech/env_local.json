@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1729831260937,
@@ -24,6 +24,10 @@
                 {
                     "date": 1729832500622,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,10 +3,10 @@\n #SECRET_KEY\n SECRET_KEY='django-insecure-z^#)006uptp234kjj8092hpxe23#i^r(iz9ak8gc-4q_8-(z^2kja@t8e(dnz$2@prashantkarna'\n \n ALLOWED_HOSTS = \"127.0.0.1,localhost,0.0.0.0,192.168.1.10,*,\"\n-CORS_ORIGIN_WHITELIST = \"http://localhost:4200,http://192.168.1.122:5173,http://192.168.1.122,http://localhost:3000,http://localhost:3000,\"#frontend ip\n-CSRF_TRUSTED_ORIGINS = \"http://127.0.0.1,http://192.168.1.10,http://192.168.1.103,\"#backend ip\n+CORS_ORIGIN_WHITELIST = \"http://localhost:4200,http://192.168.1.122:5173,http://192.168.1.122,http://localhost:3000,http://localhost:3001,\"#frontend ip\n+CSRF_TRUSTED_ORIGINS = \"http://127.0.0.1,http://192.168.1.10,http://192.168.1.103,http://192.168.1.103,\"#backend ip\n \n #Database\n DATABASE_ENGINE=django.db.backends.postgresql\n DATABASES_NAME=vrittech\n"
+                },
+                {
+                    "date": 1732600745513,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,12 @@\n #DIGITAL OCEAN\n \n #SECRET_KEY\n SECRET_KEY='django-insecure-z^#)006uptp234kjj8092hpxe23#i^r(iz9ak8gc-4q_8-(z^2kja@t8e(dnz$2@prashantkarna'\n-\n+DEBUG = True\n ALLOWED_HOSTS = \"127.0.0.1,localhost,0.0.0.0,192.168.1.10,*,\"\n CORS_ORIGIN_WHITELIST = \"http://localhost:4200,http://192.168.1.122:5173,http://192.168.1.122,http://localhost:3000,http://localhost:3001,\"#frontend ip\n-CSRF_TRUSTED_ORIGINS = \"http://127.0.0.1,http://192.168.1.10,http://192.168.1.103,http://192.168.1.103,\"#backend ip\n+CSRF_TRUSTED_ORIGINS = \"http://127.0.0.1,http://192.168.1.10,http://192.168.1.103,http://192.168.1.94,\"#backend ip\n \n #Database\n DATABASE_ENGINE=django.db.backends.postgresql\n DATABASES_NAME=vrittech\n"
                 }
             ],
             "date": 1729831260937,

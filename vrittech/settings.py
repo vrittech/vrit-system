@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 import platform
 server_type = "AWS"#"LOCAL"
 
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +29,18 @@ else:
     dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
 load_dotenv(dotenv_path)
 
+# Security settings
+SESSION_COOKIE_SECURE = not DEBUG  # Secure cookies in production
+CSRF_COOKIE_SECURE = not DEBUG     # CSRF cookies over HTTPS in production
+SECURE_SSL_REDIRECT = not DEBUG    # Redirect HTTP to HTTPS in production
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # HSTS for 1 year in production
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+
+# Session settings
+SESSION_COOKIE_AGE = 86400 if not DEBUG else 3600  # 1 day for production, 1 hour for development
+SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG  # Expire session on browser close in development
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -34,7 +48,7 @@ load_dotenv(dotenv_path)
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS').split(',') if host != '']
 
 # Application definition
@@ -219,14 +233,13 @@ from datetime import timedelta
 # }
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.SessionAuthentication",  # For session-based authentication
+        "rest_framework.authentication.TokenAuthentication",    # Optional fallback
+        "rest_framework.authentication.BasicAuthentication",    # Optional fallback
     ),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    # "MAX_PAGE_SIZE": 1
+    "PAGE_SIZE": 20,
 }
 
 SIMPLE_JWT = {
