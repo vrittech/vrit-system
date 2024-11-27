@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 34,
+            "activePatchIndex": 40,
             "patches": [
                 {
                     "date": 1730114962486,
@@ -144,6 +144,30 @@
                 {
                     "date": 1731905160323,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,6 +40,6 @@\n         super().save(*args, **kwargs)\n         \n     class Meta:\n         permissions = [\n-            ('manage_forms', 'Manage Email Management'),\n+            ('manage_forms', 'Manage Forms'),\n         ]\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1732704949015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,13 @@\n     position = models.PositiveIntegerField(default=0)\n     \n     def __str__(self):\n         return self.name\n+    \n+     class Meta:\n+        permissions = [\n+            ('manage_forms', 'Manage Forms'),\n+        ]\n \n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n"
+                },
+                {
+                    "date": 1732704954387,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n         return self.name\n     \n      class Meta:\n         permissions = [\n-            ('manage_forms', 'Manage Forms'),\n+            ('manage_', 'Manage Forms'),\n         ]\n \n \n class Forms(models.Model):\n"
+                },
+                {
+                    "date": 1732704961113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n         return self.name\n     \n      class Meta:\n         permissions = [\n-            ('manage_', 'Manage Forms'),\n+            ('manage_category', 'Manage Forms'),\n         ]\n \n \n class Forms(models.Model):\n"
+                },
+                {
+                    "date": 1732704969829,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,11 +9,11 @@\n     \n     def __str__(self):\n         return self.name\n     \n-     class Meta:\n+    class Meta:\n         permissions = [\n-            ('manage_category', 'Manage Forms'),\n+            ('manage_category', 'Manage Category'),\n         ]\n \n \n class Forms(models.Model):\n"
+                },
+                {
+                    "date": 1732704977770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n         return self.name\n     \n     class Meta:\n         permissions = [\n-            ('manage_category', 'Manage Category'),\n+            ('manage_formscategory', 'Manage Forms Category'),\n         ]\n \n \n class Forms(models.Model):\n"
+                },
+                {
+                    "date": 1732707631552,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,12 +9,9 @@\n     \n     def __str__(self):\n         return self.name\n     \n-    class Meta:\n-        permissions = [\n-            ('manage_formscategory', 'Manage Forms Category'),\n-        ]\n+  \n \n \n class Forms(models.Model):\n     title = models.CharField(max_length=255)\n"
                 }
             ],
             "date": 1730114962486,

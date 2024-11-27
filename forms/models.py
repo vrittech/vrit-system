@@ -9,6 +9,11 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        permissions = [
+            ('manage_formscategory', 'Manage Forms Category'),
+        ]
 
 
 class Forms(models.Model):
