@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 78,
+            "activePatchIndex": 80,
             "patches": [
                 {
                     "date": 1729763322697,
@@ -320,6 +320,14 @@
                 {
                     "date": 1732601378183,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -232,16 +232,15 @@\n #     \"USER_AUTHENTICATION_RULE\": \"rest_framework_simplejwt.authentication.default_user_authentication_rule\",\n # }\n REST_FRAMEWORK = {\n     \"DEFAULT_AUTHENTICATION_CLASSES\": (\n-        \"rest_framework_simplejwt.authentication.JWTAuthentication\",\n-        \"rest_framework.authentication.TokenAuthentication\",\n-        \"rest_framework.authentication.BasicAuthentication\",\n-        \"rest_framework.authentication.SessionAuthentication\",\n+        \"rest_framework.authentication.SessionAuthentication\",  # For session-based authentication\n+        \"rest_framework.authentication.TokenAuthentication\",    # Optional fallback\n+        \"rest_framework.authentication.BasicAuthentication\",    # Optional fallback\n     ),\n     \"DEFAULT_FILTER_BACKENDS\": (\"django_filters.rest_framework.DjangoFilterBackend\",),\n     \"DEFAULT_PAGINATION_CLASS\": \"rest_framework.pagination.LimitOffsetPagination\",\n-    # \"MAX_PAGE_SIZE\": 1\n+    \"PAGE_SIZE\": 20,\n }\n \n SIMPLE_JWT = {\n     \"ACCESS_TOKEN_LIFETIME\": timedelta(days=30),\n"
+                },
+                {
+                    "date": 1732776935512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -230,18 +230,18 @@\n #     \"UPDATE_LAST_LOGIN\": False,\n \n #     \"USER_AUTHENTICATION_RULE\": \"rest_framework_simplejwt.authentication.default_user_authentication_rule\",\n # }\n-REST_FRAMEWORK = {\n-    \"DEFAULT_AUTHENTICATION_CLASSES\": (\n-        \"rest_framework.authentication.SessionAuthentication\",  # For session-based authentication\n-        \"rest_framework.authentication.TokenAuthentication\",    # Optional fallback\n-        \"rest_framework.authentication.BasicAuthentication\",    # Optional fallback\n-    ),\n-    \"DEFAULT_FILTER_BACKENDS\": (\"django_filters.rest_framework.DjangoFilterBackend\",),\n-    \"DEFAULT_PAGINATION_CLASS\": \"rest_framework.pagination.LimitOffsetPagination\",\n-    \"PAGE_SIZE\": 20,\n-}\n+# REST_FRAMEWORK = {\n+#     \"DEFAULT_AUTHENTICATION_CLASSES\": (\n+#         \"rest_framework.authentication.SessionAuthentication\",  # For session-based authentication\n+#         \"rest_framework.authentication.TokenAuthentication\",    # Optional fallback\n+#         \"rest_framework.authentication.BasicAuthentication\",    # Optional fallback\n+#     ),\n+#     \"DEFAULT_FILTER_BACKENDS\": (\"django_filters.rest_framework.DjangoFilterBackend\",),\n+#     \"DEFAULT_PAGINATION_CLASS\": \"rest_framework.pagination.LimitOffsetPagination\",\n+#     \"PAGE_SIZE\": 20,\n+# }\n \n SIMPLE_JWT = {\n     \"ACCESS_TOKEN_LIFETIME\": timedelta(days=30),\n     \"REFRESH_TOKEN_LIFETIME\": timedelta(days=50),\n"
+                },
+                {
+                    "date": 1732776941253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -241,8 +241,20 @@\n #     \"DEFAULT_PAGINATION_CLASS\": \"rest_framework.pagination.LimitOffsetPagination\",\n #     \"PAGE_SIZE\": 20,\n # }\n \n+REST_FRAMEWORK = {\n+    \"DEFAULT_AUTHENTICATION_CLASSES\": (\n+        \"rest_framework_simplejwt.authentication.JWTAuthentication\",\n+        \"rest_framework.authentication.TokenAuthentication\",\n+        \"rest_framework.authentication.BasicAuthentication\",\n+        \"rest_framework.authentication.SessionAuthentication\",\n+    ),\n+    \"DEFAULT_FILTER_BACKENDS\": (\"django_filters.rest_framework.DjangoFilterBackend\",),\n+    \"DEFAULT_PAGINATION_CLASS\": \"rest_framework.pagination.LimitOffsetPagination\",\n+    # \"MAX_PAGE_SIZE\": 1\n+}\n+\n SIMPLE_JWT = {\n     \"ACCESS_TOKEN_LIFETIME\": timedelta(days=30),\n     \"REFRESH_TOKEN_LIFETIME\": timedelta(days=50),\n     \"ROTATE_REFRESH_TOKENS\": False,\n"
                 }
             ],
             "date": 1729763322697,

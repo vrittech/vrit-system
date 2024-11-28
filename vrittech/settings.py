@@ -231,15 +231,27 @@ from datetime import timedelta
 
 #     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
 # }
+# REST_FRAMEWORK = {
+#     "DEFAULT_AUTHENTICATION_CLASSES": (
+#         "rest_framework.authentication.SessionAuthentication",  # For session-based authentication
+#         "rest_framework.authentication.TokenAuthentication",    # Optional fallback
+#         "rest_framework.authentication.BasicAuthentication",    # Optional fallback
+#     ),
+#     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+#     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+#     "PAGE_SIZE": 20,
+# }
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",  # For session-based authentication
-        "rest_framework.authentication.TokenAuthentication",    # Optional fallback
-        "rest_framework.authentication.BasicAuthentication",    # Optional fallback
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 20,
+    # "MAX_PAGE_SIZE": 1
 }
 
 SIMPLE_JWT = {
