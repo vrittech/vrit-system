@@ -14,7 +14,7 @@ class faqsViewsets(viewsets.ModelViewSet):
     # permission_classes = [faqsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Faqs.objects.all().order_by('-order')
+    queryset = Faqs.objects.all().order_by('-order').distinct()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['question']
