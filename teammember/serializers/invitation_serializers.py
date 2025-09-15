@@ -52,7 +52,7 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
 
     def send_invitation_email(self, invitation):
         frontend_base_url = getattr(settings, "FRONTEND_URL", "https://frontend-app.com")
-        invite_url = f"{frontend_base_url}/accept-invite/?token={invitation.token}"
+        invite_url = f"{frontend_base_url}/accept-invite/?token={invitation.token}&email={invitation.email}"
 
         subject = "You're Invited to Join Our Team"
         body = f"""

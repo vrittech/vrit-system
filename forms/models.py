@@ -15,7 +15,11 @@ class Category(OrderedModel):
 
 class Forms(OrderedModel):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')
+    category = models.ManyToManyField(
+        Category,
+        related_name='forms',
+        blank=True
+    )
     description = models.TextField()
     header_code = models.TextField(blank=True, null=True)
     embedded_code = models.TextField(blank=True, null=True)

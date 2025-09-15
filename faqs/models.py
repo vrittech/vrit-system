@@ -17,11 +17,9 @@ class Faqs(OrderedModel):
     answer = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    faqs_category = models.ForeignKey(
+    faqs_category = models.ManyToManyField(
         FaqsCategory,
-        on_delete=models.CASCADE,
         related_name="faqs",
-        null=True,
         blank=True
     )
     

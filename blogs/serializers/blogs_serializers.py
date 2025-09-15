@@ -33,7 +33,7 @@ class BlogsRetrieveSerializers(serializers.ModelSerializer):
 class BlogsWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        fields = '__all__'
+        exclude = ['user'] 
 
 
     

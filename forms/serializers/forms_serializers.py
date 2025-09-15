@@ -9,14 +9,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FormsListSerializers(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+    category = CategorySerializer(many=True)
 
     class Meta:
         model = Forms
         fields = '__all__'
 
 class FormsRetrieveSerializers(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+    category = CategorySerializer(many=True)
 
     class Meta:
         model = Forms

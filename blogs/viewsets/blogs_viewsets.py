@@ -39,6 +39,9 @@ class blogViewsets(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return BlogsRetrieveSerializers
         return super().get_serializer_class()
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
    

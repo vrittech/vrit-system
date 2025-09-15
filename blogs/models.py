@@ -55,12 +55,8 @@ class Blog(OrderedModel):
     slug = models.SlugField(unique=True, blank=True)
     
     def save(self, *args, **kwargs):
-        user = kwargs.pop('user', None)  # Get user from kwargs
-        if user and not self.author:
-            self.author = user.email  # Set author as email
-            self.user = user   
         if not self.slug:
-            self.slug = f'{slugify(self.title)}'
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
 

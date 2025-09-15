@@ -19,12 +19,13 @@ class FaqsCategoryWriteSerializers(serializers.ModelSerializer):
 
 
 class FaqsListSerializers(serializers.ModelSerializer):
-    faqs_category= FaqsCategoryRetrieveSerializers()
+    faqs_category= FaqsCategoryRetrieveSerializers(many=True)
     class Meta:
         model = Faqs
         fields = '__all__'
 
 class FaqsRetrieveSerializers(serializers.ModelSerializer):
+    faqs_category= FaqsCategoryRetrieveSerializers(many=True)
     class Meta:
         model = Faqs
         fields = '__all__'
