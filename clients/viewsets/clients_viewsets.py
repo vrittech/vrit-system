@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -23,12 +24,16 @@ class clientsViewsets(viewsets.ModelViewSet):
     # permission_classes = [clientsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Clients.objects.all().order_by('position')
-    lookup_field = "slug"
+    queryset = Clients.objects.all().order_by('-order')
+    def get_object(self):
+        lookup_value = self.kwargs.get(self.lookup_field)
+        if str(lookup_value).isdigit():
+            return get_object_or_404(Clients, pk=lookup_value)
+        return get_object_or_404(Clients, slug=lookup_value)
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','name', 'section', 'created_at', 'updated_at',]
-    ordering_fields = ['id','name', 'section', 'created_at', 'updated_at',]
+    search_fields = ['id','name']
+    ordering_fields = ['id','name']
     # ('SECTION_CHOICES', 'LOOP_TYPE_CHOICES', 'client', 'section', 'loop_type', 'delay_time', 'created_at', 'updated_at', )
 # ('name', 'section', )
     filterset_fields = {
@@ -89,59 +94,4 @@ class clientsViewsets(viewsets.ModelViewSet):
 
         return Response(response_data, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['get'], name="draggableClient", url_path="drag-client")
-    def Draggable(self, request, *args, **kwargs):
-        target_position = request.GET.get('target')  # Position of the target object
-        goal_position = request.GET.get('goal')  # Position of the goal object
-
-        from rest_framework.response import Response
-
-        if not target_position or not goal_position:
-            return Response({"error": "Target or Goal position not provided"}, status=400)
-
-        # Convert to integers
-        try:
-            target_position = int(target_position)
-            goal_position = int(goal_position)
-        except ValueError:
-            return Response({"error": "Invalid target or goal position"}, status=400)
-
-        # Fetch the target and goal objects based on position
-        try:
-            target_obj = Clients.objects.get(position=target_position)
-            goal_obj = Clients.objects.get(position=goal_position)
-        except Clients.DoesNotExist:
-            return Response({"error": "Target or Goal object not found"}, status=400)
-
-        if target_position < goal_position:
-            # Moving target down (target goes after goal)
-            affected_objs = Clients.objects.filter(
-                position__gt=target_position, position__lte=goal_position
-            ).order_by('position')
-            
-            # Decrement position of all affected objects
-            for obj in affected_objs:
-                obj.position -= 1
-                obj.save()
-
-            # Set target object's new position
-            target_obj.position = goal_position
-            target_obj.save()
-
-        else:
-            # Moving target up (target goes before goal)
-            affected_objs = Clients.objects.filter(
-                position__lt=target_position, position__gte=goal_position
-            ).order_by('-position')
-
-            # Increment position of all affected objects by 1
-            for obj in affected_objs:
-                obj.position += 1
-                obj.save()
-
-            # Set target object's new position (exact position of the goal)
-            target_obj.position = goal_position
-            target_obj.save()
-
-        return Response({"status": "success"})
-
+    

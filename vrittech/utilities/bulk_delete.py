@@ -8,31 +8,40 @@ from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
 from projects.models import Project, ProjectService, ProjectGroup
-from career.models import Career
+from career.models import Career, CareerCategory, ExperienceLevel
 from careergallery.models import CareerGallery, Album
 from clients.models import Clients
-from faqs.models import Faqs
+from faqs.models import Faqs, FaqsCategory
+from services.models import Services, ServicesCategory
 from testimonial.models import Testimonial
 from casestudy.models import CaseStudy
 from newslettersubscription.models import NewsLetterSubscription
 from inquires.models import Inquires
 from plan.models import Plan
+from forms.models import Forms, Category as FormsCategory
 
 VALID_TYPES = {
     "blog": Blog,
     "projects": Project,
     "project-group": ProjectGroup,
     "project-service": ProjectService,
+    "services": Services,
+    "services-category": ServicesCategory,
     "career": Career,
+    "career-category": CareerCategory,
+    "experience-level": ExperienceLevel,
     "careergallery": CareerGallery,
     "album": Album,
     "clients": Clients,
     "faqs": Faqs,
+    "faqs-category": FaqsCategory,
     "testimonial": Testimonial,
     "casestudy": CaseStudy,
     "newsletter-subscription": NewsLetterSubscription,
     "inquiries": Inquires,
     "plan": Plan,
+    "forms": Forms,
+    "forms-category": FormsCategory
 }
 
 class BulkDelete(APIView):
@@ -94,8 +103,9 @@ class BulkDelete(APIView):
             )
 
         # Perform the bulk deletion
-        deleted_count, _ = queryset.delete()
-
+        # deleted_count, _ = queryset.delete()
+        deleted_count = queryset.count()
+        queryset.delete()
         return Response(
             {"message": f"Successfully deleted {deleted_count} items of type '{delete_type}'."},
             status=status.HTTP_200_OK

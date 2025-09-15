@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+
+from projects.utilities.filter import ProjectFilter
 from ..models import Project,ProjectService
 from ..serializers.project_serializers import ProjectListSerializers, ProjectRetrieveSerializers, ProjectWriteSerializers
 from ..utilities.importbase import *
@@ -15,23 +17,24 @@ class projectViewsets(viewsets.ModelViewSet):
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Project.objects.all().order_by("position")
+    queryset = Project.objects.all().order_by("-order").distinct()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ('id','name', 'position', 'description', 'group__name', 'project_service__name', 'project_link__label', 'case_study__title', 'created_at', 'updated_at', )
     ordering_fields = ('id','name','created_at','position' )
     # ('name', 'position', 'description', 'group', 'project_service', 'project_link', 'case_study', 'media', 'created_at', 'updated_at', )
 
-    filterset_fields = {
-        'id': ['exact'],
-        'group': ['exact'],
-        'project_service': ['exact'],
-        'created_at':['exact','gte','lte']
-    }
+    # filterset_fields = {
+    #     'id': ['exact'],
+    #     'group': ['exact','in'],
+    #     'project_service': ['exact'],
+    #     'created_at':['exact','gte','lte']
+    # }
+    filterset_class = ProjectFilter 
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        queryset = super().get_queryset().order_by('-order')
+        return queryset.distinct()
         #return queryset.filter(user_id=self.request.user.id)
 
     def get_serializer_class(self):

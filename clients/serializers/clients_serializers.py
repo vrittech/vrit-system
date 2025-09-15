@@ -22,6 +22,15 @@ class ClientsWriteSerializers(serializers.ModelSerializer):
         if position and Clients.objects.filter(position=position).exists():
             raise serializers.ValidationError({"position": "A client with this position already exists."})
         return data
+    def validate_slug(self, value):
+        if value:  # Only check if provided
+            # Case-insensitive match (if needed)
+            qs = Clients.objects.filter(slug=value)
+            if self.instance:  # When updating, exclude the current record
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise serializers.ValidationError("The given slug already exists.")
+        return value
     
     def create(self, validated_data):
         print("this is line 27")

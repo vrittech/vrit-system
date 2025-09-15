@@ -10,11 +10,11 @@ class categoryViewsets(viewsets.ModelViewSet):
     # permission_classes = [formsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Category.objects.all().order_by('-id')
+    queryset = Category.objects.all().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','name']
-    ordering_fields = ['id']
+    ordering_fields = ['id','order']
 
     # filterset_fields = {
     #     'id': ['exact'],

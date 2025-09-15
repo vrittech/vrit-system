@@ -252,7 +252,8 @@ def sendMail(email, reset_url,subject,reset_verification):
             </style>
         </head>""" + body
     
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
+    email_from = settings.DEFAULT_FROM_EMAIL 
     recipient_list = [email]
     plain_message = ""
     send_mail(subject, plain_message, email_from, recipient_list,html_message=html_contents)
@@ -379,7 +380,7 @@ class PasswordResetView(generics.GenericAPIView):
 
                     email_type = "reset_password"
                     
-                    subject = 'Everest Thrill Password Reset OTP'
+                    subject = 'VRIT TECH Password Reset OTP'
                     if '@' in email:
                         email = user.email
                         sendPasswordResetMail(email, otp,subject,email_type,user)
@@ -413,7 +414,8 @@ def sendPasswordResetMail(email, otp, subject, email_type, user):
                 
                 password_html_contents = render_to_string('reset_password_otp.html', context)
             
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
+    email_from = settings.DEFAULT_FROM_EMAIL
     recipient_list = [email]
     plain_message = ""
     send_mail(subject, plain_message, email_from, recipient_list, html_message=password_html_contents)

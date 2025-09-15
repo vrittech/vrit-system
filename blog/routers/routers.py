@@ -7,6 +7,6 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('blog-tags', blogtagsViewsets, basename="blogtagsViewsets")
-router.register('blog-category', blogcategoryViewsets, basename="blogcategoryViewsets")
-router.register('blog', blogViewsets, basename="blogViewsets")
+# router.register('blog-tags', blogtagsViewsets, basename="blogtagsViewsets")
+# router.register('blog-category', blogcategoryViewsets, basename="blogcategoryViewsets")
+# router.register('blog', blogViewsets, basename="blogViewsets")

@@ -11,11 +11,11 @@ class inquiresViewsets(viewsets.ModelViewSet):
     # permission_classes = [inquiresPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Inquires.objects.all().order_by('created_at')
+    queryset = Inquires.objects.all().order_by('created_at').distinct()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','project_service__name', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'project_detail', 'created_at', 'updated_at',]
-    ordering_fields = ['id', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'created_at', 'updated_at',]
+    search_fields = ['id','full_name']
+    ordering_fields = ['id','full_name']
     # ('project_service', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'project_detail', 'created_at', 'updated_at', )
     filterset_class = InquiresFilter
 

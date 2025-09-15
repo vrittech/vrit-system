@@ -1,8 +1,8 @@
 from django.db import models
 from casestudy.models import CaseStudy
+from ordered_model.models import OrderedModel
 
-
-class ProjectGroup(models.Model):
+class ProjectGroup(OrderedModel):
     name = models.CharField(max_length = 155)
     position = models.PositiveIntegerField(default=9999)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -11,10 +11,7 @@ class ProjectGroup(models.Model):
     def __str__(self) -> str:
         return self.name
     
-    class Meta:
-        permissions = [
-            ('manage_project_group', 'Manage Project Group'),
-        ]
+
 
 
 class ProjectService(models.Model):
@@ -45,12 +42,12 @@ class ProjectLink(models.Model):
 
 
 # Create your models here.
-class Project(models.Model):
+class Project(OrderedModel):
     # image = models.ImageField(upload_to='project',null=True,blank=True)
     name = models.CharField(max_length = 600)
     position = models.PositiveIntegerField(default=9999)
     description = models.TextField(blank=True,null=True)
-    group = models.ForeignKey(ProjectGroup,on_delete = models.SET_NULL ,null = True,related_name="projects")
+    group = models.ManyToManyField(ProjectGroup,null = True,related_name="projects")
     project_service = models.ManyToManyField(ProjectService,related_name="project_services",blank=True)
     project_link = models.ManyToManyField(ProjectLink,related_name="project_link",blank=True)
     case_study = models.ForeignKey(CaseStudy,on_delete = models.SET_NULL ,related_name="project_case",blank=True,null=True)
@@ -61,12 +58,7 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __self__(self):
-        return self.name
-    
-    class Meta:
-        permissions = [
-            ('manage_project', 'Manage Project'),
-        ]
+        return self.name  
 
 
     

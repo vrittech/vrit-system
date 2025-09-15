@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+
+from forms.utilities.filter import FormsFilter
 from ..models import Forms
 from ..serializers.forms_serializers import FormsListSerializers, FormsRetrieveSerializers, FormsWriteSerializers
 from ..utilities.importbase import *
@@ -18,12 +20,11 @@ class formsViewsets(viewsets.ModelViewSet):
     # permission_classes = [formsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Forms.objects.all().order_by('-position')
+    queryset = Forms.objects.all().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]
-    ordering_fields = ['id','title', 'category', 'description', 'header_code', 'embedded_code','excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position',]
-    # ('title', 'category', 'description', 'header_code', 'embedded_code', 'image', 'excerpt', 'auto_expiration', 'is_expired', 'auto_expiration_date', 'position', )
+    search_fields = ['id','title']
+    ordering_fields = ['id','title']
 
     filterset_fields = {
         'id': ['exact'],
@@ -33,6 +34,7 @@ class formsViewsets(viewsets.ModelViewSet):
         'is_expired': ['exact'],
         'created_at': ['exact','gte','lte'],
     }
+    filterset_class = FormsFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -16,25 +16,19 @@ class TestimonialWriteSerializers(serializers.ModelSerializer):
         model = Testimonial
         fields = '__all__'
         
-    def validate(self, data):
-        # Check if the position already exists in another collection
-        position = data.get('position')
-        if Testimonial.objects.filter(position=position).exists():
-            raise serializers.ValidationError({"A Testimonial with this position already exists."})
-        return data
     
     def update(self, instance, validated_data):
         # Handle the media field separately
-        media = validated_data.pop('media', None)
+        profile_image = validated_data.pop('profile_image', None)
 
-        if media is not None:
-            if media == "null":
+        if profile_image is not None:
+            if profile_image == "null":
                 # If media is set to 'null', delete the current media
-                instance.media.delete(save=False)
-                instance.media = None
+                instance.profile_image.delete(save=False)
+                instance.profile_image = None
             else:
                 # If media data is sent, update it
-                instance.media = media
+                instance.profile_image = profile_image
 
         # Update other fields
         for attr, value in validated_data.items():

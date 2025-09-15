@@ -12,7 +12,7 @@ class projectgroupViewsets(viewsets.ModelViewSet):
     # permission_classes = [projectsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = ProjectGroup.objects.all().order_by('position')
+    queryset = ProjectGroup.objects.all().order_by('-order')
 
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]

@@ -1,22 +1,19 @@
 from django.db import models
 from datetime import date
+from ordered_model.models import OrderedModel
 
-class Category(models.Model):
+class Category(OrderedModel):
     name = models.CharField(max_length=255)
+    color= models.CharField(max_length=255, blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    position = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.name
     
-    class Meta:
-        permissions = [
-            ('manage_formscategory', 'Manage Forms Category'),
-        ]
 
 
-class Forms(models.Model):
+class Forms(OrderedModel):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='forms')
     description = models.TextField()
@@ -28,7 +25,7 @@ class Forms(models.Model):
     is_expired = models.BooleanField(default=False)
     is_show = models.BooleanField(default=False)
     auto_expiration_date = models.DateField(blank=True, null=True)
-    position = models.PositiveIntegerField(default=0)
+    apply_link=models.CharField(blank=True,null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -44,7 +41,7 @@ class Forms(models.Model):
                 self.is_show = False  # Optionally hide the form
         super().save(*args, **kwargs)
         
-    class Meta:
-        permissions = [
-            ('manage_forms', 'Manage Forms'),
-        ]
+    # class Meta:
+    #     permissions = [
+    #         ('manage_forms', 'Manage Forms'),
+    #     ]

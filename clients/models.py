@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
 import uuid
+from ordered_model.models import OrderedModel
 
-class Clients(models.Model):
+class Clients(OrderedModel):
     SECTION_CHOICES = [
         ('first', 'First'),
         ('second', 'Second'),
@@ -13,12 +14,11 @@ class Clients(models.Model):
     name = models.CharField(max_length=100)
     section = models.CharField(choices=SECTION_CHOICES, max_length=20, default='first')
     media = models.ImageField(upload_to="clients",null=True,blank=True)
-    position= models.PositiveIntegerField(default = 9999)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=255, blank=True)
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -27,10 +27,7 @@ class Clients(models.Model):
 
     def __str__(self):
         return self.name
-    class Meta:
-        permissions = [
-            ('manage_clients', 'Manage Clients'),
-        ]
+
     
 
 class ClientSettings(models.Model):

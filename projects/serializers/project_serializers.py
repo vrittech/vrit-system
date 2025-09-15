@@ -43,7 +43,7 @@ class ProjectLinkSerializer(serializers.ModelSerializer):
 
 # List serializer for Project model
 class ProjectListSerializers(serializers.ModelSerializer):
-    group = ProjectGroupSerializers(read_only=True)
+    group = ProjectGroupSerializers(read_only=True, many=True)
     project_service = ServicesSerializers_Project(many=True, read_only=True)
     project_link = ProjectLinkSerializer(many=True, read_only=True)
 
@@ -53,7 +53,7 @@ class ProjectListSerializers(serializers.ModelSerializer):
 
 # Retrieve serializer for Project model
 class ProjectRetrieveSerializers(serializers.ModelSerializer):
-    group = ProjectGroupSerializers(read_only=True)
+    group = ProjectGroupSerializers(read_only=True, many=True)
     project_service = ServicesSerializers_Project(many=True, read_only=True)
     project_link = ProjectLinkSerializer(many=True, read_only=True)
 
@@ -105,6 +105,7 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         project_service_data = validated_data.pop('project_service', [])
         project_link_data = validated_data.pop('project_link', [])
         media_data = validated_data.pop('media', None)
+        group_data = validated_data.pop('group', []) 
 
         # Create Project instance
         project = Project.objects.create(**validated_data)
@@ -112,6 +113,9 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         # Add related ProjectService instances
         if project_service_data:
             project.project_service.set(project_service_data)
+
+        if group_data:
+            project.group.set(group_data)
 
         # Add related ProjectLink instances
         for link_data in project_link_data:
@@ -136,6 +140,7 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         project_service_data = validated_data.pop('project_service', None)
         project_link_data = validated_data.pop('project_link', None)
         media_data = validated_data.pop('media', None)
+        group_data = validated_data.pop('group', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -144,6 +149,9 @@ class ProjectWriteSerializers(serializers.ModelSerializer):
         # Update project_service only if provided in the request data
         if project_service_data is not None:
             instance.project_service.set(project_service_data)
+
+        if group_data is not None:
+            instance.group.set(group_data)
 
         # Update project_link only if provided in the request data
         if project_link_data is not None:

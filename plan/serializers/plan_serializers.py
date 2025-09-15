@@ -23,7 +23,7 @@ class PlanListSerializers(serializers.ModelSerializer):
         model = Plan
         fields = [
             'id', 'title', 'pricing', 'duration', 'description',
-            'features', 'is_show', 'position', 'created_at', 'updated_at'
+            'features', 'is_show', 'created_at', 'updated_at'
         ]
 
     def get_features(self, obj):
@@ -38,7 +38,7 @@ class PlanRetrieveSerializers(serializers.ModelSerializer):
         model = Plan
         fields = [
             'id', 'title', 'pricing', 'duration', 'description',
-            'features', 'is_show', 'position', 'created_at', 'updated_at'
+            'features', 'is_show', 'created_at', 'updated_at'
         ]
 
 # Serializer for Plan (Create & Update)

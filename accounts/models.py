@@ -15,7 +15,13 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=15,null=True , default = '')
 
     avatar = models.ImageField(upload_to='profile',null=True,blank=True)
-    professional_image = models.ImageField(upload_to='profile',null=True,blank=True)
+    professional_image = models.CharField(null=True,blank=True)
+    groups = models.ManyToManyField(
+        Group,
+        related_name="customuser_groups",  # Custom related name
+        blank=True
+    )
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

@@ -15,7 +15,7 @@ class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
     ViewSet to list permissions and provide an additional grouped-by-apps view.
     """
     serializer_class = PermissionSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['codename', 'id', 'name']
@@ -42,6 +42,8 @@ class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
             'drf_yasg',
             'django_celery_beat',
             'django_filters',
+
+            'customuser',
         ]
 
         # Dynamically identify custom app labels
@@ -59,18 +61,33 @@ class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
     def grouped_by_model(self, request):
         """
         Group permissions by models only.
+        Includes 'action' field derived from codename.
         """
-        # Fetch permissions and group by model
         permissions = self.get_queryset()
         grouped_permissions = defaultdict(list)
 
+        ACTION_MAP = {
+            'add_': 'Add',
+            'change_': 'Edit',
+            'delete_': 'Delete',
+            'view_': 'View',
+            'manage_': 'Manage',
+        }
+
         for permission in permissions:
+            codename = permission.codename
             model_name = permission.content_type.model
+
+            action = next(
+                (label for prefix, label in ACTION_MAP.items() if codename.startswith(prefix)),
+                "Other"
+            )
+
             grouped_permissions[model_name].append({
                 'id': permission.id,
                 'name': permission.name,
-                'codename': permission.codename,
+                'codename': codename,
+                'action': action,
             })
 
-        # Convert grouped data to a serializable dict
         return Response(dict(grouped_permissions))

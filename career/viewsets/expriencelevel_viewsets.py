@@ -4,13 +4,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import ExperienceLevel
 from ..serializers.expriencelevel_serializers import ExperienceLevelListSerializers, ExperienceLevelRetrieveSerializers, ExperienceLevelWriteSerializers
 from ..utilities.importbase import *
+from rest_framework.response import Response
+from rest_framework import status
 
 class expriencelevelViewsets(viewsets.ModelViewSet):
     serializer_class = ExperienceLevelListSerializers
     # permission_classes = [careerPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = ExperienceLevel.objects.all().order_by('created_at')
+    queryset = ExperienceLevel.objects.all().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id']

@@ -5,4 +5,4 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('inquires', inquiresViewsets, basename="inquiresViewsets")
+router.register('inquiries', inquiresViewsets, basename="inquiresViewsets")

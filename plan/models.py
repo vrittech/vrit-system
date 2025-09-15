@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from ordered_model.models import OrderedModel
 
 class Features(models.Model):
     title = models.CharField(max_length = 250)
@@ -17,7 +18,7 @@ class Features(models.Model):
     
 
 # Create your models here.
-class Plan(models.Model):
+class Plan(OrderedModel):
     title = models.CharField(max_length = 250)
     pricing = models.PositiveIntegerField()
     duration = models.CharField()
@@ -25,7 +26,6 @@ class Plan(models.Model):
     features = models.ManyToManyField(Features,through='PlanHaveFeatures', related_name='plans') #many to many relationship with Features model
     is_show = models.BooleanField(default = True)
     is_popular = models.BooleanField(default = True)
-    position = models.PositiveIntegerField(default = 9999)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -57,10 +57,7 @@ class Plan(models.Model):
         self.clean()  # Call clean to validate before saving
         super().save(*args, **kwargs)
         
-    class Meta:
-        permissions = [
-            ('manage_plan', 'Manage Plan'),
-        ]
+
 
 
 class PlanHaveFeatures(models.Model):
@@ -73,7 +70,3 @@ class PlanHaveFeatures(models.Model):
         return self.status
     
     
-    class Meta:
-        permissions = [
-            ('manage_plan_have_features', 'Manage Plan Have Features'),
-        ]

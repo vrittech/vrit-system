@@ -20,25 +20,28 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.routers import DefaultRouter
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+import services
 router = DefaultRouter()
 
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
+# from drf_yasg.views import get_schema_view
+# from drf_yasg import openapi
 
 
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Vrit Technologies",
-      default_version='v1',
-      description="Vrit Tech",
-      terms_of_service="https://vrittechnologies.com/",
-      contact=openapi.Contact(email="info@vrittechnologies.com"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
+# schema_view = get_schema_view(
+#    openapi.Info(
+#       title="Vrit Technologies",
+#       default_version='v1',
+#       description="Vrit Tech",
+#       terms_of_service="https://vrittechnologies.com/",
+#       contact=openapi.Contact(email="info@vrittechnologies.com"),
+#       license=openapi.License(name="BSD License"),
+#    ),
+#    public=True,
+#    permission_classes=(permissions.AllowAny,),
+# )
 
 from accounts.routers.routers import router as accounts_router
 from blog.routers.routers import router as blog_router
@@ -59,7 +62,11 @@ from testimonial.routers.routers import router as testimonial_router
 from sitesetting.routers.routers import router as sitesetting_router
 from careergallery.routers.routers import router as careergallery_router
 from forms.routers.routers import router as form_router
-from notifications.routers.routers import router as notifications_router
+from notification.routers.routers import router as notification_router
+from services.routers.routers import router as services_router
+from customgallery.routers.routers import router as customgallery_router
+from teammember.routers.routers import router as teammember_router
+from blogs.routers.routers import router as blogs_router
 
 from vrittech.utilities.bulk_delete import BulkDelete
 from vrittech.utilities.position_management import PositionManagementViewSet
@@ -85,7 +92,14 @@ router.registry.extend(testimonial_router.registry)
 router.registry.extend(sitesetting_router.registry)
 router.registry.extend(careergallery_router.registry)
 router.registry.extend(form_router.registry)
-router.registry.extend(notifications_router.registry)
+router.registry.extend(notification_router.registry)
+router.registry.extend(services_router.registry)
+router.registry.extend(services_router.registry)
+router.registry.extend(customgallery_router.registry)
+router.registry.extend(teammember_router.registry)
+router.registry.extend(blogs_router.registry)
+
+
 # router.registry.extend(management_router.registry)
 
 position_management_viewset = PositionManagementViewSet.as_view({
@@ -102,9 +116,14 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/bulk-delete/', BulkDelete.as_view(), name="bulk_delete"),
     path('api/drag-item/', position_management_viewset, name='position_management_drag_item'),
+    path('api/',include('termsconditionsprivacypolicy.urls')),
+
     # path('api/',include(forms_router.urls)),
 
-    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

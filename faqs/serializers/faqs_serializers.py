@@ -1,7 +1,25 @@
 from rest_framework import serializers
-from ..models import Faqs
+from ..models import Faqs, FaqsCategory
+
+
+class FaqsCategoryListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = FaqsCategory
+        fields = '__all__'
+
+class FaqsCategoryRetrieveSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = FaqsCategory
+        fields = '__all__'
+
+class FaqsCategoryWriteSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = FaqsCategory
+        fields = '__all__'
+
 
 class FaqsListSerializers(serializers.ModelSerializer):
+    faqs_category= FaqsCategoryRetrieveSerializers()
     class Meta:
         model = Faqs
         fields = '__all__'
@@ -15,10 +33,6 @@ class FaqsWriteSerializers(serializers.ModelSerializer):
     class Meta:
         model = Faqs
         fields = '__all__'
+
+
     
-    def validate(self, data):
-        # Check if the position already exists in another collection
-        position = data.get('position')
-        if Faqs.objects.filter(position=position).exists():
-            raise serializers.ValidationError({"A collection with this position already exists."})
-        return data

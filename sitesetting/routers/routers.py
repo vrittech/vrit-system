@@ -7,6 +7,6 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('sitesetting', sitesettingViewsets, basename="sitesettingViewsets")
-router.register('termandcondition', termandconditionViewsets, basename="termandconditionViewsets")
-router.register('privacypolicy', privacypolicyViewsets, basename="privacypolicyViewsets")
+# router.register('sitesetting', sitesettingViewsets, basename="sitesettingViewsets")
+# router.register('termandcondition', termandconditionViewsets, basename="termandconditionViewsets")
+# router.register('privacypolicy', privacypolicyViewsets, basename="privacypolicyViewsets")

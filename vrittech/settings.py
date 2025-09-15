@@ -81,7 +81,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "corsheaders",
     'rest_framework',
-    'drf_yasg',
+    # 'drf_yasg',
+    'ordered_model',
     'django_celery_beat',
     'django_filters',
     'accounts',
@@ -98,6 +99,7 @@ INSTALLED_APPS = [
     'newslettersubscription',
     'plan',
     'projects',
+    'services',
     'socialmedia',
     'testimonial',
     'sitesetting',
@@ -105,6 +107,11 @@ INSTALLED_APPS = [
     'management',
     'forms',
     'notifications',
+    'termsconditionsprivacypolicy',
+    'customgallery',
+    'notification',
+    'teammember',
+    'blogs',
     # 'drfapigenerator',
     
 ]
@@ -129,10 +136,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'vrittech.urls'
 AUTH_USER_MODEL = "accounts.CustomUser"
 
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ os.path.join(BASE_DIR, "templates"),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -233,13 +243,16 @@ from datetime import timedelta
 # }
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",  # For session-based authentication
-        "rest_framework.authentication.TokenAuthentication",    # Optional fallback
-        "rest_framework.authentication.BasicAuthentication",    # Optional fallback
+        # "rest_framework.authentication.SessionAuthentication",  # For session-based authentication
+        # "rest_framework.authentication.TokenAuthentication",    # Optional fallback
+        # "rest_framework.authentication.BasicAuthentication",    # Optional fallback
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
-    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 20,
+    # "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    # "PAGE_SIZE": 20,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 # REST_FRAMEWORK = {
@@ -272,8 +285,13 @@ SIMPLE_JWT = {
 # EMAIL_HOST_USER = 'manojdas.py@gmail.com'
 # EMAIL_HOST_PASSWORD = 'qizi zhwj urhp vmvv'
 
-EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'
-
+# EMAIL_BACKEND = 'setupemail.utilities.custom_email_setup_backend.CustomEmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'AKIAQITMQCX6BWDTVZOP'
+EMAIL_HOST_PASSWORD = 'BGVhKRPSCy6Mk/SEVnfZ1GX55baGjBFjyftf4L/9bt+a'
+DEFAULT_FROM_EMAIL = "manoj@vrittechnologies.com"
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -316,43 +334,57 @@ DATABASES = {
 # }
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as the broker
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as the broker
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
 
-# Optional: Result backend (if you want to track task results)
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_RESULT_EXTENDED = True
+# # Optional: Result backend (if you want to track task results)
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_RESULT_EXTENDED = True
 
-# Celery Timezone
-CELERY_TIMEZONE = 'Asia/Kathmandu'
-CELERY_ENABLE_UTC = True
+# # Celery Timezone
+# CELERY_TIMEZONE = 'Asia/Kathmandu'
+# CELERY_ENABLE_UTC = True
 
-TIME_ZONE = 'Asia/Kathmandu'
-USE_TZ = False
+# TIME_ZONE = 'Asia/Kathmandu'
+# USE_TZ = False
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'celery': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'INFO',
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         'celery': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#     },
+# }
+
+
+
+
+ASGI_APPLICATION = "vrittech.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6380)],
         },
     },
 }
