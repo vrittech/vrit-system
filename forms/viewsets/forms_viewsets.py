@@ -20,7 +20,7 @@ class formsViewsets(viewsets.ModelViewSet):
     # permission_classes = [formsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = Forms.objects.all().order_by('-order')
+    queryset = Forms.objects.all().distinct().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['id','title']
