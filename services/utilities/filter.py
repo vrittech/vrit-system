@@ -15,7 +15,7 @@ class ServicesFilter(django_filters.FilterSet):
     def filter_category(self, queryset, name, value):
         print(value)
         """
-        If -1 is passed, return FAQs with no category.
+        If -1 is passed, return Services with no category.
         Otherwise, filter by the given list of category IDs.
         """
         if value and "-1" in [str(v) for v in value]:

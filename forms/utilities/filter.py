@@ -15,7 +15,7 @@ class FormsFilter(django_filters.FilterSet):
 
     def filter_category(self, queryset, name, value):
         """
-        If -1 is passed, return FAQs with no category.
+        If -1 is passed, return Forms with no category.
         Otherwise, filter by the given list of category IDs.
         """
         if value and "-1" in [str(v) for v in value]:

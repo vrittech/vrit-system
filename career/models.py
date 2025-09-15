@@ -33,7 +33,7 @@ class Career(OrderedModel):
     apply_link = models.URLField(max_length=500)
     media = models.ImageField(upload_to='career',blank=True,null=True)
     is_show = models.BooleanField(default=True)
-    enable_auto_expiration = models.BooleanField(default=True)
+    enable_auto_expiration = models.BooleanField(default=False)
     expiration_date = models.DateTimeField(blank=True, null=True)
     is_expired = models.BooleanField(default=False)
 
