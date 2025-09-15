@@ -16,7 +16,7 @@ class testimonialViewsets(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','full_name', 'position', ]
+    search_fields = ['full_name', 'position', ]
     ordering_fields = ['id','full_name','created_at','description']
 
     # filterset_fields = {

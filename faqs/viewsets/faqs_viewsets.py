@@ -18,7 +18,7 @@ class faqsViewsets(viewsets.ModelViewSet):
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['question']
-    ordering_fields = ['question']
+    ordering_fields = ['question','order']
     # ('title', 'description', 'position', 'created_at', 'updated_at', )
     filterset_class = FaqsFilter
 
