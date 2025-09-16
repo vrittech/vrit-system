@@ -1,14 +1,26 @@
 import django_filters
 from ..models import Blog
+from django.db.models import Q
 
+class NumberInFilter(django_filters.BaseInFilter, django_filters.NumberFilter):
+    pass
 
-# class NumberInFilter(django_filters.BaseInFilter, django_filters.NumberFilter):
-#     pass
+class BlogFilter(django_filters.FilterSet):
+    category = NumberInFilter(field_name="category", lookup_expr="in", method="filter_category")
+    status = django_filters.CharFilter(
+        field_name="status",
+        lookup_expr="exact"
+    )
 
-# class FaqsFilter(django_filters.FilterSet):
-#     faqs_category = NumberInFilter(field_name="faqs_category", lookup_expr="in")
-#     id = NumberInFilter(field_name="id", lookup_expr="in")
+    class Meta:
+        model = Blog
+        fields = ['id', 'category']
 
-#     class Meta:
-#         model = Faqs
-#         fields = ['id', 'faqs_category']
+    def filter_category(self, queryset, name, value):
+        """
+        If -1 is passed, return FAQs with no category.
+        Otherwise, filter by the given list of category IDs.
+        """
+        if value and "-1" in [str(v) for v in value]:
+            return queryset.filter(Q(category__isnull=True))
+        return queryset.filter(**{f"{name}__in": value})

@@ -56,6 +56,7 @@ def notify_users(action, instance, module_name, model_name):
             models.Q(team_member__isnull=False)
         )
     else:
+        print("fuckkkkkk")
         # Superusers always included, team members only if they have the permission
 #         users_with_permission = CustomUser.objects.filter(
 #             models.Q(is_superuser=True) |
@@ -66,6 +67,7 @@ def notify_users(action, instance, module_name, model_name):
 #     )
 # ))
 # Superusers always included, team members only if they have the permission
+
         users_with_permission = CustomUser.objects.filter(
             models.Q(is_superuser=True) |
             (models.Q(team_member__isnull=False) & (

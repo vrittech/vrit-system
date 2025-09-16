@@ -268,8 +268,8 @@ REST_FRAMEWORK = {
 # }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
@@ -385,6 +385,58 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [("127.0.0.1", 6380)],
+        },
+    },
+}
+
+
+# ==========================
+# Celery Configuration
+# ==========================
+
+# Redis as the broker (use DB 1 so it won’t clash with Channels that may use DB 0)
+CELERY_BROKER_URL = 'redis://127.0.0.1:6380/1'
+
+# Accepted content types
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+# Result backend (optional but useful for debugging + tracking results)
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6380/2'
+CELERY_RESULT_EXTENDED = True
+
+# Timezone Settings
+USE_TZ = True
+TIME_ZONE = 'Asia/Kathmandu'
+
+CELERY_ENABLE_UTC = False
+CELERY_TIMEZONE = 'Asia/Kathmandu'
+
+# ==========================
+# Logging (Celery + Django)
+# ==========================
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'celery': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
         },
     },
 }

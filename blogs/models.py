@@ -45,7 +45,7 @@ class Blog(OrderedModel):
     category = models.ManyToManyField(BlogCategory, blank= True,)
     cover_image = models.CharField(max_length=255, blank=True, null=True)
     
-    is_deleted = models.BooleanField(default= False,blank=True)
+    # is_deleted = models.BooleanField(default= False,blank=True)
 
     created_at = models.DateField(auto_now_add=True)
     created_date_time=models.DateTimeField(auto_now_add=True)
