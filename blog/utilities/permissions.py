@@ -74,7 +74,7 @@ def modelpermission(model_name):
     permission.objecst.filter(model_name)
 
 mapping_api = {
-    "list":['Blog']
+    "list":['Blog'],
     "create":['Contact','User']
 }
 
