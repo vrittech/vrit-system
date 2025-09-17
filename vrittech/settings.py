@@ -30,16 +30,16 @@ else:
 load_dotenv(dotenv_path)
 
 # Security settings
-SESSION_COOKIE_SECURE = not DEBUG  # Secure cookies in production
-CSRF_COOKIE_SECURE = not DEBUG     # CSRF cookies over HTTPS in production
-SECURE_SSL_REDIRECT = not DEBUG    # Redirect HTTP to HTTPS in production
-SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # HSTS for 1 year in production
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
+# SESSION_COOKIE_SECURE = not DEBUG  # Secure cookies in production
+# CSRF_COOKIE_SECURE = not DEBUG     # CSRF cookies over HTTPS in production
+# SECURE_SSL_REDIRECT = not DEBUG    # Redirect HTTP to HTTPS in production
+# SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # HSTS for 1 year in production
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+# SECURE_HSTS_PRELOAD = not DEBUG
 
-# Session settings
-SESSION_COOKIE_AGE = 86400 if not DEBUG else 3600  # 1 day for production, 1 hour for development
-SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG  # Expire session on browser close in development
+# # Session settings
+# SESSION_COOKIE_AGE = 86400 if not DEBUG else 3600  # 1 day for production, 1 hour for development
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = DEBUG  # Expire session on browser close in development
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
