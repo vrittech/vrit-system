@@ -4,7 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from ..models import BlogCategory
 from ..serializers.blogcategory_serializers import BlogCategoryListSerializers, BlogCategoryRetrieveSerializers, BlogCategoryWriteSerializers
 from ..utilities.importbase import *
-from blog.utilities.permissions import blogPermission
+# from blog.utilities.permissions import blogPermission
 
 class blogcategoryViewsets(viewsets.ModelViewSet):
     serializer_class = BlogCategoryListSerializers
