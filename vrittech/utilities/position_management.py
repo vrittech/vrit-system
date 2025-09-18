@@ -35,6 +35,10 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'gallery': ('gallery', 'Gallery'),
         'social-media': ('socialmedia', 'SocialMedia'),
         'role': ('accounts', 'Group'),
+
+        'custom-gallery': ('customgallery','CustomGallery'),
+        'custom-gallery-position': ('customgallery','Position'),
+        'custom-gallery-category': ('customgallery','CustomGalleryCategory'),
         # Add or modify mappings as necessary
     }
 

@@ -1,6 +1,19 @@
 from django.db import models
+from ordered_model.models import OrderedModel
 
 # Create your models here.
+class CustomGalleryCategory(OrderedModel):
+    name = models.CharField(max_length = 155)
+    color= models.CharField(max_length=255, blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+
+    def __str__(self) -> str:
+        return self.name
+
+
+
 types = (
         ('homepage', 'Homepage'),
         ('services', 'Services'),
@@ -24,6 +37,11 @@ class CustomGallery(models.Model):
     # static_type = models.CharField(max_length=10, choices=types, blank=True,null=True)
     image = models.FileField(max_length = 500,upload_to = 'gallery/images')
     position = models.ForeignKey(Position,blank=True,null=True, on_delete=models.SET_NULL)
+    category = models.ManyToManyField(
+        CustomGalleryCategory,
+        related_name="CustomGallery",
+        blank=True
+    )
     created_date = models.DateField(auto_now_add=True, null = True,blank = True)
     created_date_time = models.DateTimeField(auto_now_add=True, null = True,blank = True)
     updated_date_time = models.DateTimeField(auto_now=True, null = True,blank = True)

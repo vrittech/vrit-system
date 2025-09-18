@@ -1,5 +1,13 @@
 from rest_framework import serializers
+
+from accounts.models import CustomUser
 from ..models import Blog, BlogCategory
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id','full_name','professional_image']
+
 
 
 class BlogCategoryListSerializers(serializers.ModelSerializer):
@@ -8,6 +16,7 @@ class BlogCategoryListSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class BlogCategoryRetrieveSerializers(serializers.ModelSerializer):
+    
     class Meta:
         model = BlogCategory
         fields = '__all__'
@@ -19,12 +28,14 @@ class BlogCategoryWriteSerializers(serializers.ModelSerializer):
 
 
 class BlogsListSerializers(serializers.ModelSerializer):
+    user=UserSerializer()
     category= BlogCategoryRetrieveSerializers(many=True)
     class Meta:
         model = Blog
         fields = '__all__'
 
 class BlogsRetrieveSerializers(serializers.ModelSerializer):
+    user=UserSerializer()
     category= BlogCategoryRetrieveSerializers(many=True)
     class Meta:
         model = Blog

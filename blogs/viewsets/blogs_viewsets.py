@@ -47,118 +47,62 @@ class blogViewsets(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    # def list(self, request, *args, **kwargs):
-    #     # Always get filtered queryset for the results
-    #     queryset = self.filter_queryset(self.get_queryset())
-
-    #     # Pagination logic
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(page, many=True)
-    #         data = serializer.data
-    #     else:
-    #         serializer = self.get_serializer(queryset, many=True)
-    #         data = serializer.data
-
-    #     # ✅ Decide which queryset to use for sections
-    #     if "search" or "category" in request.query_params:
-    #         # If ?search is present → sections based on filtered queryset
-    #         section_queryset = queryset
-    #     else:
-    #         # Otherwise → sections based on global queryset (ignore filters)
-    #         section_queryset = self.get_queryset()
-
-    #     # Build sections counts
-    #     sections = section_queryset.values('status').annotate(count=Count('id'))
-
-    #     # Ensure all statuses are present (with 0 if missing)
-    #     all_statuses = dict(Blog._meta.get_field('status').choices)
-    #     sections_dict = {status: 0 for status in all_statuses.keys()}
-    #     for item in sections:
-    #         sections_dict[item['status']] = item['count']
-
-    #     response_data = {
-    #         "sections": sections_dict,
-    #         "results": data
-    #     }
-    #     return self.get_paginated_response(response_data) if page is not None else Response(response_data)
-
-    def get_section_queryset(self, request):
+  
+    # ------------------------
+    # Helpers
+    # ------------------------
+    def _get_section_queryset(self, request):
         """
-        Build queryset for sections:
-        - Always respect filters like category, search
-        - Ignore status filter
+        Return queryset for section counts,
+        ignoring 'status' filter but applying all others.
         """
-        base_queryset = self.get_queryset()
         params = request.query_params.copy()
-
-        # Remove status filter if present
         params.pop("status", None)
 
-        # Temporarily override request.GET for filtering
-        original_params = request.query_params
+        # Temporarily patch request.GET
+        original_get = request._request.GET
         request._request.GET = params
-        filtered_queryset = self.filter_queryset(base_queryset)
-        request._request.GET = original_params  # restore
+        try:
+            return self.filter_queryset(self.get_queryset())
+        finally:
+            request._request.GET = original_get
 
-        return filtered_queryset
-
-    def get_sections(self):
+    def _get_status_counts(self, queryset):
         """
-        Return sections counts:
-        - Apply all filters except 'status'
-        - Always global (ignore pagination)
+        Return dictionary with counts for each status,
+        ensuring all statuses exist with at least 0.
         """
-        base_queryset = self.get_queryset()
+        status_counts = (
+            queryset.values("status")
+            .annotate(count=Count("status"))
+            .order_by()
+        )
 
-        # Apply filters except 'status'
-        filters = self.request.query_params.copy()
-        filters.pop("status", None)
+        counts = {item["status"]: item["count"] for item in status_counts}
+        for s in ["draft", "published", "scheduled", "deleted"]:
+            counts.setdefault(s, 0)
+        return counts
 
-        # Use your FilterSet manually
-        filterset = self.filterset_class(filters, queryset=base_queryset)
-        filtered_qs = filterset.qs
-
-        # Aggregate counts
-        sections = filtered_qs.values("status").annotate(count=Count("id"))
-        all_statuses = dict(Blog._meta.get_field("status").choices)
-        sections_dict = {status: 0 for status in all_statuses.keys()}
-        for item in sections:
-            sections_dict[item["status"]] = item["count"]
-        return sections_dict
-
-    # --------------------------
-    # List override
-    # --------------------------
-
+    # ------------------------
+    # Main List Method
+    # ------------------------
     def list(self, request, *args, **kwargs):
-        # Full filtered queryset (all filters applied)
-        queryset = self.filter_queryset(self.get_queryset())
+        # Get paginated response (normal filtering, includes status)
+        response = super().list(request, *args, **kwargs)
 
-        # Paginate results
-        page = self.paginate_queryset(queryset)
-        serializer = self.get_serializer(page if page is not None else queryset, many=True)
-        results = serializer.data
+        # Build section queryset (ignoring status filter)
+        section_queryset = self._get_section_queryset(request)
 
-        # Build global section counts
-        sections_dict = self.get_sections()
+        # Build counts
+        sections = self._get_status_counts(section_queryset)
 
-        # Build response
-        if page is not None:
-            paginated_response = self.get_paginated_response(results)
-            response_data = paginated_response.data
-        else:
-            response_data = {
-                "count": len(results),
-                "next": None,
-                "previous": None,
-                "results": results,
-            }
+        # Inject into response
+        response.data["sections"] = sections
+        return response
 
-        # Inject sections at the top level
-        response_data["sections"] = sections_dict
 
-        return Response(response_data)
+
+   
 
     @action(detail=False, methods=['post'], url_path='bulk-delete')
     def bulk_delete(self, request):

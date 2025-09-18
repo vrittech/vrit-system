@@ -10,7 +10,7 @@ class ExperienceLevelSerializers_Career(serializers.ModelSerializer):
 class CareerCategorySerializers_Career(serializers.ModelSerializer):
     class Meta:
         model = CareerCategory
-        fields = ['id','name']
+        fields = ['id','name','color']
 
 class CareerListSerializers(serializers.ModelSerializer):
     experience_level = ExperienceLevelSerializers_Career()

@@ -24,7 +24,7 @@ class TeamMemberListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TeamMember
-        fields = ["id", "email", "is_superuser","full_name","professional_image", "joined_at", "category","groups"]
+        fields = ["id", "email", "is_superuser","full_name","professional_image", "joined_at", "category","position","groups"]
 
 
 class TeamMemberRetrieveSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class TeamMemberRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TeamMember
-        fields = ["id", "email", "is_superuser","full_name","professional_image", "joined_at","category","groups"]
+        fields = ["id", "email", "is_superuser","full_name","professional_image", "joined_at","category","position","groups"]
 
 
 class TeamMemberWriteSerializer(serializers.ModelSerializer):
@@ -81,6 +81,10 @@ class TeamMemberWriteSerializer(serializers.ModelSerializer):
         category = validated_data.get("category")
         if category is not None:
             instance.category = category
+
+        position = validated_data.get("position")
+        if position is not None:
+            instance.position = position
 
         instance.save()
         return instance

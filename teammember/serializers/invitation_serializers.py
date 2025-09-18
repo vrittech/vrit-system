@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 import random
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
-
+from urllib.parse import urlencode
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +23,7 @@ class InvitationListSerializer(serializers.ModelSerializer):
     category= CategorySerializer()
     class Meta:
         model = TeamMemberInvitation
-        fields = ["id", "email", "status","category","groups", "created_at", "updated_at"]
+        fields = ["id","sent_by","token","email","full_name", "status","category","position","groups", "created_at", "updated_at"]
 
 
 class InvitationRetrieveSerializer(serializers.ModelSerializer):
@@ -32,8 +32,12 @@ class InvitationRetrieveSerializer(serializers.ModelSerializer):
         model = TeamMemberInvitation
         fields = [
             "id",
+            "sent_by",
             "email",
+            "full_name",
             "status",
+            "category",
+            "position",
             "otp_created_at",
             "otp_expires_at",
             "created_at",
@@ -48,17 +52,33 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TeamMemberInvitation
-        fields = ["id", "email","is_superuser","category", "groups"]
+        fields = ["email","full_name","is_superuser","category","position", "groups"]
 
     def send_invitation_email(self, invitation):
         frontend_base_url = getattr(settings, "FRONTEND_URL", "https://frontend-app.com")
-        invite_url = f"{frontend_base_url}/accept-invite/?token={invitation.token}&email={invitation.email}"
+
+        # get sender info safely
+        sender_email = invitation.sent_by.email if invitation.sent_by else "System"
+        sender_name = ""
+        if invitation.sent_by:
+            sender_name = invitation.sent_by.full_name or invitation.sent_by.get_full_name()
+        if invitation.full_name:
+            sender_name = invitation.sent_by.full_name or invitation.sent_by.get_full_name()
+
+        # encode all params safely
+        params = {
+            "token": str(invitation.token),
+            "email": invitation.email,
+            "sent_by_email": sender_email,
+            "sent_by_full_name": sender_name,
+        }
+        invite_url = f"{frontend_base_url}/accept-invite/?{urlencode(params)}"
 
         subject = "You're Invited to Join Our Team"
         body = f"""
         Hello,
 
-        You have been invited to join our team.
+        You have been invited to join our team by {sender_name} ({sender_email}).
         Please click the link below to accept the invitation:
 
         {invite_url}
@@ -78,11 +98,14 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
             print("❌ Failed to send invitation email:", str(e))
 
     def create(self, validated_data):
+        # Inject currently logged-in user
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            validated_data["sent_by"] = request.user
+
         invitation = super().create(validated_data)
-        # send email using helper
         self.send_invitation_email(invitation)
         return invitation
-    
 
 
 class InvitationAcceptSerializer(serializers.Serializer):
@@ -224,6 +247,10 @@ class InvitationVerifyOtpSerializer(serializers.Serializer):
         if invitation.category:
             team_member.category = invitation.category
             team_member.save(update_fields=["category"])
+
+        if invitation.position:
+            team_member.position = invitation.position
+            team_member.save(update_fields=["position"])
 
 
         # delete pending user

@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from blog.models import Blog
+from customgallery.models import CustomGallery, CustomGalleryCategory, Position
 from projects.models import Project, ProjectService, ProjectGroup
 from career.models import Career, CareerCategory, ExperienceLevel
 from careergallery.models import CareerGallery, Album
@@ -41,7 +42,11 @@ VALID_TYPES = {
     "inquiries": Inquires,
     "plan": Plan,
     "forms": Forms,
-    "forms-category": FormsCategory
+    "forms-category": FormsCategory,
+    "custom-gallery": CustomGallery,
+    "custom-gallery-position": Position,
+    "custom-gallery-category": CustomGalleryCategory
+
 }
 
 class BulkDelete(APIView):

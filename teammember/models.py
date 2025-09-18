@@ -14,11 +14,14 @@ class TeamMemberCategory(models.Model):
 
 
 class TeamMemberInvitation(models.Model):
+    sent_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True,null=True, related_name="team_member_invitation")
     email = models.EmailField(unique=True)  # invited person's email
+    full_name = models.CharField(max_length=250)
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     category = models.ForeignKey(
         "TeamMemberCategory", null=True, blank=True, on_delete=models.SET_NULL
     )
+    position = models.CharField(blank=True, null=True)
     groups = models.ManyToManyField(Group, blank=True)
 
     STATUS_CHOICES = [
@@ -80,6 +83,8 @@ class TeamMember(models.Model):
     category = models.ForeignKey(
         TeamMemberCategory, null=True, blank=True, on_delete=models.SET_NULL
     )
+    position = models.CharField(blank=True, null=True)
+    
     joined_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

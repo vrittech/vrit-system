@@ -49,5 +49,18 @@ class FaqsWriteSerializers(serializers.ModelSerializer):
         model = Faqs
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        # For all optional fields, if they are missing, set to None
+        optional_fields = ['faqs_category']  # list all optional fields here
+        for field in optional_fields:
+            if field not in validated_data:
+                if isinstance(self.fields[field], serializers.ManyRelatedField):
+                    getattr(instance, field).clear()  # clear M2M
+                else:
+                    setattr(instance, field, None)
+
+        # Now update other fields normally
+        return super().update(instance, validated_data)
+
 
     
