@@ -16,7 +16,7 @@ class TeamMemberCategory(models.Model):
 class TeamMemberInvitation(models.Model):
     sent_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True,null=True, related_name="team_member_invitation")
     email = models.EmailField(unique=True)  # invited person's email
-    full_name = models.CharField(max_length=250)
+    full_name = models.CharField(max_length=250, blank=True,null=True)
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     category = models.ForeignKey(
         "TeamMemberCategory", null=True, blank=True, on_delete=models.SET_NULL

@@ -20,12 +20,14 @@ FORCED_MODELS = {
     # "level","blogcateogry","blogtags","contact","batch",
     # "category","enrollment","forms","requestform","custompage"
 
+    "faqs"
+
 }
 
 # Map of model names to actual models (for convenience)
 VALID_TYPES = {
   
-    # "faqs": Faqs,
+    "faqs": Faqs,
    
 }
 
@@ -48,15 +50,17 @@ def notify_users(action, instance, module_name, model_name):
     # Get the 'view' permission for this model
     permission_codename = f'view_{model_name.lower()}'
     view_permission = Permission.objects.filter(codename=permission_codename)
+    print("hell\ooooooooo")
 
     if model_name.lower() in FORCED_MODELS:
+        print("forced vitra gayo")
         # Superusers + all team members (permission check skipped)
         users_with_permission = CustomUser.objects.filter(
             models.Q(is_superuser=True) |
             models.Q(team_member__isnull=False)
         )
     else:
-        print("fuckkkkkk")
+        print("dfhgjh\g")
         # Superusers always included, team members only if they have the permission
 #         users_with_permission = CustomUser.objects.filter(
 #             models.Q(is_superuser=True) |

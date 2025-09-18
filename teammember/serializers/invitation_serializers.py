@@ -63,12 +63,13 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
         if invitation.sent_by:
             sender_name = invitation.sent_by.full_name or invitation.sent_by.get_full_name()
         if invitation.full_name:
-            sender_name = invitation.sent_by.full_name or invitation.sent_by.get_full_name()
+            full_name = invitation.full_name
 
         # encode all params safely
         params = {
             "token": str(invitation.token),
             "email": invitation.email,
+            "full_name":full_name,
             "sent_by_email": sender_email,
             "sent_by_full_name": sender_name,
         }
@@ -76,7 +77,7 @@ class InvitationWriteSerializer(serializers.ModelSerializer):
 
         subject = "You're Invited to Join Our Team"
         body = f"""
-        Hello,
+        Hello {full_name},
 
         You have been invited to join our team by {sender_name} ({sender_email}).
         Please click the link below to accept the invitation:
