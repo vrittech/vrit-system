@@ -41,7 +41,7 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SERVER_IP: "172.188.217.99"
         PORT: "8001"
-        USER: "nirbhay"
+        USER: "azure"
         PROJECT_FOLDER: "/home/nirbhay/nirbhay_vrit/vrit-system/"
 
       run: |
