@@ -21,6 +21,7 @@ from newslettersubscription.models import NewsLetterSubscription
 from inquires.models import Inquires
 from plan.models import Plan
 from forms.models import Forms, Category as FormsCategory
+from web_branding.models import Position, WebBranding, WebBrandingCategory
 
 VALID_TYPES = {
     "services": Services,
@@ -45,6 +46,9 @@ VALID_TYPES = {
     "project-category": ProjectCategory,
     "blog": Blog,
     "blog-category": BlogCategory,
+    "web-branding": WebBranding,
+    "web-branding-category": WebBrandingCategory,
+    "web-branding-position": Position
 
 }
 
