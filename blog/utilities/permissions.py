@@ -69,41 +69,28 @@ def isOwner(request):
 #             return request.user.has_perm('blog.change_blogcategory') and allAdminLevel(request)
 #         elif view.action == 'destroy':
 #             return request.user.has_perm('blog.delete_blogcategory')
-class blogPermission(BasePermission):
+
+def modelpermission(model_name):
+    permission.objecst.filter(model_name)
+
+mapping_api = {
+    "list":['Blog'],
+    "create":['Contact','User']
+}
+
+
+class AllPermission(BasePermission):
     def has_permission(self, request, view):
         # Allow list action for all users
         if view.action == "list":
             return True
 
-        # Define static permissions for each action and each model
-        permissions = {
-            "retrieve": [
-                "blog.view_blog",
-                "blog.view_blogtags",
-                "blog.view_blogcategory",
-            ],
-            "create": [
-                "blog.add_blog",
-                "blog.add_blogtags",
-                "blog.add_blogcategory",
-            ],
-            "update": [
-                "blog.change_blog",
-                "blog.change_blogtags",
-                "blog.change_blogcategory",
-            ],
-            "partial_update": [
-                "blog.change_blog",
-                "blog.change_blogtags",
-                "blog.change_blogcategory",
-            ],
-            "destroy": [
-                "blog.delete_blog",
-                "blog.delete_blogtags",
-                "blog.delete_blogcategory",
-            ],
-        }
+        model_class = Mymodel
+        permissions = modelpermission(model_class)
 
+        if model_class in mapping_api[view.action]:
+            return True
+       
         # Check if the action has a corresponding permission defined
         if view.action in permissions:
             # User must have at least one of the permissions for the action

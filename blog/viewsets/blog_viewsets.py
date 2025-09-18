@@ -5,7 +5,7 @@ from ..models import Blog, BlogTags
 from ..serializers.blog_serializers import BlogListSerializers, BlogRetrieveSerializers, BlogWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.response import Response
-from blog.utilities.permissions import blogPermission
+# from blog.utilities.permissions import blogPermission
 from rest_framework.decorators import action
 from ..utilities.filter import BlogFilter
 from django.db.models import Count
