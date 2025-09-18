@@ -42,7 +42,7 @@ jobs:
         SERVER_IP: "172.188.217.99"
         PORT: "8001"
         USER: "nirbhay"
-        PROJECT_FOLDER: "/home/vrit_tech_system"
+        PROJECT_FOLDER: "/home/nirbhay/nirbhay_vrit/vrit-system/"
 
       run: |
         mkdir -p ~/.ssh
