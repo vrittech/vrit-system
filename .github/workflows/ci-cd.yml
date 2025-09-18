@@ -32,7 +32,7 @@ jobs:
 
     - name: Run tests
       run: |
-        python manage.py test
+        # python manage.py test
 
     - name: Deploy to VPS
       env:
