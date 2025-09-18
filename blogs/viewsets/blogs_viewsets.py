@@ -22,7 +22,7 @@ class blogViewsets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().distinct().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
+    search_fields = ['title','user__first_name']
     # ordering_fields = ['question']
     def get_object(self):
         lookup_value = self.kwargs.get(self.lookup_field)

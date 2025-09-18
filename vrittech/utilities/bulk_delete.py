@@ -6,13 +6,14 @@ from rest_framework import status
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from blog.models import Blog
-from customgallery.models import CustomGallery, CustomGalleryCategory, Position
-from projects.models import Project, ProjectService, ProjectGroup
+# from blog.models import Blog
+from blogs.models import Blog, BlogCategory
+from customgallery.models import CustomGallery
 from career.models import Career, CareerCategory, ExperienceLevel
 from careergallery.models import CareerGallery, Album
 from clients.models import Clients
 from faqs.models import Faqs, FaqsCategory
+from project.models import Project, ProjectCategory
 from services.models import Services, ServicesCategory
 from testimonial.models import Testimonial
 from casestudy.models import CaseStudy
@@ -22,10 +23,6 @@ from plan.models import Plan
 from forms.models import Forms, Category as FormsCategory
 
 VALID_TYPES = {
-    "blog": Blog,
-    "projects": Project,
-    "project-group": ProjectGroup,
-    "project-service": ProjectService,
     "services": Services,
     "services-category": ServicesCategory,
     "career": Career,
@@ -44,8 +41,10 @@ VALID_TYPES = {
     "forms": Forms,
     "forms-category": FormsCategory,
     "custom-gallery": CustomGallery,
-    "custom-gallery-position": Position,
-    "custom-gallery-category": CustomGalleryCategory
+    "project": Project,
+    "project-category": ProjectCategory,
+    "blog": Blog,
+    "blog-category": BlogCategory,
 
 }
 

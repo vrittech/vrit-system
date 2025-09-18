@@ -7,6 +7,6 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('casestudy-tags', casestudytagsViewsets, basename="casestudytagsViewsets")
-router.register('casestudy-category', casestudycategoryViewsets, basename="casestudycategoryViewsets")
-router.register('casestudy', casestudyViewsets, basename="casestudyViewsets")
+# router.register('casestudy-tags', casestudytagsViewsets, basename="casestudytagsViewsets")
+# router.register('casestudy-category', casestudycategoryViewsets, basename="casestudycategoryViewsets")
+# router.register('casestudy', casestudyViewsets, basename="casestudyViewsets")

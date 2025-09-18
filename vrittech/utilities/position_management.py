@@ -13,12 +13,12 @@ class PositionManagementViewSet(viewsets.ViewSet):
     MODEL_MAP = {
         'user': ('accounts', 'CustomUser'),
         'group': ('accounts', 'GroupExtension'),
-        'project': ('projects', 'Project'),
-        'project-service': ('projects', 'ProjectService'),
+        # 'project': ('projects', 'Project'),
+        # 'project-service': ('projects', 'ProjectService'),
         'services':("services",'Services'),
         'services-category':("services",'ServicesCategory'),
-        'project-category': ('projects', 'ProjectGroup'),
-        'blog': ('blog', 'Blog'),
+        # 'project-category': ('projects', 'ProjectGroup'),
+        
         'career': ('career', 'Career'),
         'career-category': ('career', 'CareerCategory'),
         'experience-level':('career', 'ExperienceLevel'),
@@ -39,6 +39,12 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'custom-gallery': ('customgallery','CustomGallery'),
         'custom-gallery-position': ('customgallery','Position'),
         'custom-gallery-category': ('customgallery','CustomGalleryCategory'),
+
+        'project':('project','Project'),
+        'project-category':('project','ProjectCategory'),
+
+        'blog': ('blogs', 'Blog'),
+        'blog-category': ('blogs','BlogCategory')
         # Add or modify mappings as necessary
     }
 

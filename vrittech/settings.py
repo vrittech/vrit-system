@@ -113,6 +113,8 @@ INSTALLED_APPS = [
     'notification',
     'teammember',
     'blogs',
+    'project',
+    'web_branding',
     # 'drfapigenerator',
     
 ]

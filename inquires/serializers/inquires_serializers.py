@@ -25,7 +25,7 @@ class InquiresListSerializers(serializers.ModelSerializer):
         model = Inquires
         fields = [
             'id', 'full_name', 'email_address', 
-            'phone_number', 'company_name', 'created_at', 'updated_at', 'created_date',
+            'phone_number', 'company_name',"project_detail", 'created_at', 'updated_at', 'created_date',
             'services', 'project_plan'
         ]
 

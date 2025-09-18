@@ -67,6 +67,8 @@ from services.routers.routers import router as services_router
 from customgallery.routers.routers import router as customgallery_router
 from teammember.routers.routers import router as teammember_router
 from blogs.routers.routers import router as blogs_router
+from project.routers.routers import router as project_router
+from web_branding.routers.routers import router as web_branding_router
 
 from vrittech.utilities.bulk_delete import BulkDelete
 from vrittech.utilities.position_management import PositionManagementViewSet
@@ -98,6 +100,8 @@ router.registry.extend(services_router.registry)
 router.registry.extend(customgallery_router.registry)
 router.registry.extend(teammember_router.registry)
 router.registry.extend(blogs_router.registry)
+router.registry.extend(project_router.registry)
+router.registry.extend(web_branding_router.registry)
 
 
 # router.registry.extend(management_router.registry)

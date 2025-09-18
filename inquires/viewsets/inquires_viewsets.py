@@ -14,8 +14,8 @@ class inquiresViewsets(viewsets.ModelViewSet):
     queryset = Inquires.objects.all().order_by('created_at').distinct()
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['id','full_name']
-    ordering_fields = ['id','full_name']
+    search_fields = ['full_name','phone_number','company_name']
+    ordering_fields = ['id','full_name','company_name','created_at']
     # ('project_service', 'project_plan', 'first_name', 'last_name', 'email_address', 'phone_number', 'company_name', 'project_detail', 'created_at', 'updated_at', )
     filterset_class = InquiresFilter
 

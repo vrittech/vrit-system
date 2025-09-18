@@ -8,7 +8,7 @@ router = DefaultRouter()
 auto_api_routers = router
 
 
-router.register('project-category', projectgroupViewsets, basename="projectgroupViewsets")
-router.register('project-service', projectserviceViewsets, basename="projectserviceViewsets")
-router.register('project', projectViewsets, basename="projectViewsets")
-router.register('project-link', projectlinkViewsets, basename="projectlinkViewsets")
+# router.register('project-category', projectgroupViewsets, basename="projectgroupViewsets")
+# router.register('project-service', projectserviceViewsets, basename="projectserviceViewsets")
+# router.register('project', projectViewsets, basename="projectViewsets")
+# router.register('project-link', projectlinkViewsets, basename="projectlinkViewsets")

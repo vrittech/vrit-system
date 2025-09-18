@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+
+from project.serializers.project_serializers import CaseStudyRetrieveSerializers, CaseStudyWriteSerializers
 from ..models import CaseStudyCategory
 from ..serializers.casestudycategory_serializers import CaseStudyCategoryListSerializers, CaseStudyCategoryRetrieveSerializers, CaseStudyCategoryWriteSerializers
 from ..utilities.importbase import *
@@ -27,9 +29,9 @@ class casestudycategoryViewsets(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
-            return CaseStudyCategoryWriteSerializers
+            return CaseStudyWriteSerializers
         elif self.action == 'retrieve':
-            return CaseStudyCategoryRetrieveSerializers
+            return CaseStudyRetrieveSerializers
         return super().get_serializer_class()
 
     # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
