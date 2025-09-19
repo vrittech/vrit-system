@@ -14,7 +14,7 @@ class webBrandingViewsets(viewsets.ModelViewSet):
     # permission_classes = [galleryPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = WebBranding.objects.all().distinct().order_by('-id')
+    queryset = WebBranding.objects.all().distinct().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name']

@@ -44,7 +44,10 @@ class PositionManagementViewSet(viewsets.ViewSet):
         'project-category':('project','ProjectCategory'),
 
         'blog': ('blogs', 'Blog'),
-        'blog-category': ('blogs','BlogCategory')
+        'blog-category': ('blogs','BlogCategory'),
+
+        'web-branding': ('web_branding', 'WebBranding'),
+        'web-branding-category': ('web_branding','WebBrandingCategory')
         # Add or modify mappings as necessary
     }
 

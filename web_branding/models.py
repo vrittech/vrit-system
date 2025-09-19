@@ -31,7 +31,7 @@ class Position(models.Model):
 
 
 
-class WebBranding(models.Model):
+class WebBranding(OrderedModel):
     name = models.CharField(max_length = 500 , null = True,blank = True)
     # is_static=models.BooleanField(default=False, blank=True)
     type = models.CharField(max_length=10, choices=types, blank=True,null=True)
