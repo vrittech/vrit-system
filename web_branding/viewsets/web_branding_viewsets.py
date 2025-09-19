@@ -17,8 +17,8 @@ class webBrandingViewsets(viewsets.ModelViewSet):
     queryset = WebBranding.objects.all().distinct().order_by('-id')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['image']
-    ordering_fields = ['id']
+    search_fields = ['name']
+    ordering_fields = ['id','name']
 
     filterset_class = WebBrandingFilter  
 

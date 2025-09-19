@@ -7,7 +7,11 @@ class NumberInFilter(django_filters.BaseInFilter, django_filters.NumberFilter):
 
 class BlogFilter(django_filters.FilterSet):
     category = NumberInFilter(field_name="category", lookup_expr="in", method="filter_category")
-    author = NumberInFilter(field_name="user", lookup_expr="in", method="filter_author")
+    author = NumberInFilter(
+        field_name="author",
+        lookup_expr="in",
+        method="filter_author"
+    )
     status = django_filters.CharFilter(
         field_name="status",
         lookup_expr="exact"
@@ -28,7 +32,7 @@ class BlogFilter(django_filters.FilterSet):
     
     def filter_author(self, queryset, name, value):
         """
-        Filter blogs by author (user) IDs.
+        Filter blogs by author IDs (TeamMember IDs).
         Example: ?author=1,2,3
         """
-        return queryset.filter(user__in=value)
+        return queryset.filter(author__in=value)

@@ -2,10 +2,10 @@ from django.db import models
 from django.utils.text import slugify
 from ordered_model.models import OrderedModel
 
-from accounts.models import CustomUser
+from teammember.models import TeamMember
 
 # Create your models here.
-class BlogCategory(models.Model):
+class BlogCategory(OrderedModel):
     name = models.CharField(max_length = 155)
     color= models.CharField(max_length=155,blank=True,null=True)
     # is_show = models.BooleanField(default = True)
@@ -20,11 +20,12 @@ class BlogCategory(models.Model):
     
 
 class Blog(OrderedModel):
-    user = models.ForeignKey(CustomUser,related_name = 'blog',on_delete=models.CASCADE)
+    author = models.ForeignKey(TeamMember,related_name = 'blog',on_delete=models.CASCADE)
     # author =models.CharField(max_length=150, blank=True,null=True)
     # read_time =models.CharField(max_length=150, blank=True)
     title = models.CharField(max_length = 300,unique= True)
     description = models.TextField(blank=True,null=True)
+    content= models.TextField(blank=True,null=True)
     # site_title = models.CharField(max_length = 300, blank=True,null=True)
     # excerpt = models.CharField(max_length = 300, blank=True,null=True)
     status = models.CharField(choices = (('draft','Draft'),('published','Published'),('scheduled','Scheduled'),('deleted','Deleted')),max_length = 20,default = 'draft')
@@ -62,3 +63,13 @@ class Blog(OrderedModel):
 
     def __str__(self):
         return self.title
+    
+
+class BlogSEOSettings(OrderedModel):
+    blog= models.OneToOneField(Blog,blank=True, null=True, on_delete=models.CASCADE, related_name="blogSEOSettings")
+    meta_title = models.CharField(max_length = 300, blank=True,null=True)
+    meta_description = models.CharField(max_length = 300, blank=True,null=True)
+    meta_keywords = models.CharField(max_length = 300, blank=True,null=True)
+    meta_author = models.CharField(max_length = 300, blank=True,null=True)
+    header_code =  models.TextField(default = "", blank=True,null=True)
+    embedded_code =  models.TextField(default = "", blank=True,null=True)

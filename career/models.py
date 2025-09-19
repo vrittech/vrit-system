@@ -32,7 +32,7 @@ class Career(OrderedModel):
     description = models.TextField()
     num_of_vacancy = models.PositiveIntegerField(default=0)
     apply_link = models.URLField(max_length=500)
-    media = models.ImageField(upload_to='career',blank=True,null=True)
+    media = models.CharField(null=True,blank=True)
     is_show = models.BooleanField(default=True)
     enable_auto_expiration = models.BooleanField(default=False)
     expiration_date = models.DateTimeField(blank=True, null=True)

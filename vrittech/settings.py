@@ -26,8 +26,8 @@ current_os = platform.system()
 if current_os == "Linux" and server_type == "AWS":
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
 else:
-    dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
-    # dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
+    # dotenv_path = os.path.join(os.path.dirname(__file__), 'env_local') #this is local env
+    dotenv_path = os.path.join(os.path.dirname(__file__), '.env') #server env
 load_dotenv(dotenv_path)
 
 # Security settings

@@ -4,10 +4,11 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from blogs.utilities.filter import BlogFilter
-
+from teammember.models import TeamMember
+from rest_framework.exceptions import ValidationError
 # 
-from ..models import Blog, BlogCategory
-from ..serializers.blogs_serializers import BlogCategoryListSerializers, BlogCategoryRetrieveSerializers, BlogCategoryWriteSerializers, BlogsListSerializers, BlogsRetrieveSerializers, BlogsWriteSerializers
+from ..models import Blog, BlogCategory, BlogSEOSettings
+from ..serializers.blogs_serializers import BlogCategoryListSerializers, BlogCategoryRetrieveSerializers, BlogCategoryWriteSerializers, BlogSEOSettingsListSerializers, BlogSEOSettingsRetrieveSerializers, BlogSEOSettingsWriteSerializers, BlogsListSerializers, BlogsRetrieveSerializers, BlogsWriteSerializers
 from ..utilities.importbase import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -22,7 +23,7 @@ class blogViewsets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().distinct().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title','user__first_name']
+    search_fields = ['title']
     # ordering_fields = ['question']
     def get_object(self):
         lookup_value = self.kwargs.get(self.lookup_field)
@@ -45,7 +46,13 @@ class blogViewsets(viewsets.ModelViewSet):
         return super().get_serializer_class()
     
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        try:
+            serializer.save(author=self.request.user.team_member)
+        except TeamMember.DoesNotExist:
+            raise ValidationError(
+                {"error": "This user is not a team member."},
+                code=status.HTTP_400_BAD_REQUEST
+            )
 
   
     # ------------------------
@@ -87,6 +94,7 @@ class blogViewsets(viewsets.ModelViewSet):
     # Main List Method
     # ------------------------
     def list(self, request, *args, **kwargs):
+        print("wlwkjlkewj")
         # Get paginated response (normal filtering, includes status)
         response = super().list(request, *args, **kwargs)
 
@@ -148,7 +156,7 @@ class blogsCategoryViewsets(viewsets.ModelViewSet):
     # permission_classes = [faqsPermission]
     # authentication_classes = [JWTAuthentication]
     pagination_class = MyPageNumberPagination
-    queryset = BlogCategory.objects.all().order_by('-id')
+    queryset = BlogCategory.objects.all().distinct().order_by('-order')
 
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
     search_fields = ['name']
@@ -168,8 +176,31 @@ class blogsCategoryViewsets(viewsets.ModelViewSet):
             return BlogCategoryRetrieveSerializers
         return super().get_serializer_class()
 
-    # @action(detail=False, methods=['get'], name="action_name", url_path="url_path")
-    # def action_name(self, request, *args, **kwargs):
-    #     return super().list(request, *args, **kwargs)
+
+class blogSEOSettingsViewsets(viewsets.ModelViewSet):
+    serializer_class = BlogSEOSettingsListSerializers
+    # permission_classes = [faqsPermission]
+    # authentication_classes = [JWTAuthentication]
+    pagination_class = MyPageNumberPagination
+    # queryset = CaseStudy.objects.all().order_by('-order').distinct()
+    queryset = BlogSEOSettings.objects.all().order_by('-order')
+    lookup_field = "blog__slug"
+
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    # search_fields = ['question']
+    # ordering_fields = ['question','order']
+    # filterset_class = ProjectFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+        #return queryset.filter(user_id=self.request.user.id)
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return BlogSEOSettingsWriteSerializers
+        elif self.action == 'retrieve':
+            return BlogSEOSettingsRetrieveSerializers
+        return super().get_serializer_class()
     
    

@@ -63,20 +63,15 @@ class CareerWriteSerializers(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Handle the media field separately
-        media = validated_data.pop('media', None)
+        career_categories = validated_data.pop("career_category", None)
 
-        if media is not None:
-            if media == "null":
-                # If media is set to 'null', delete the current media
-                instance.media.delete(save=False)
-                instance.media = None
-            else:
-                # If media data is sent, update it
-                instance.media = media
-
+        
         # Update other fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         instance.save()
+        # Handle ManyToMany field properly
+        if career_categories is not None:
+            instance.career_category.set(career_categories)  # ✅ Use set()
         return instance

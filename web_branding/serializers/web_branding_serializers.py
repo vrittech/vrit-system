@@ -71,11 +71,13 @@ class PositionWriteSerializers(serializers.ModelSerializer):
 
 
 class WebBrandingListSerializers(serializers.ModelSerializer):
+    position = PositionListSerializers()
     class Meta:
         model = WebBranding
         fields = '__all__'
 
 class WebBrandingRetrieveSerializers(serializers.ModelSerializer):
+    position = PositionListSerializers()
     class Meta:
         model = WebBranding
         fields = '__all__'

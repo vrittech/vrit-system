@@ -43,7 +43,7 @@ class WebBranding(models.Model):
     #     blank=True,
     #     null=True
     # )
-    position = models.ForeignKey(Position,blank=True,null=True, on_delete=models.SET_NULL)
+    position = models.ForeignKey(Position,blank=True,null=True, on_delete=models.CASCADE)
     category = models.ManyToManyField(
         WebBrandingCategory,
         related_name="CustomGallery",
